@@ -15,7 +15,7 @@ class AdminController {
     public function index() {
         // Verifica permissão
         if (!isset($_SESSION['usuario_id']) || !in_array($_SESSION['usuario_nivel'], ['desenvolvedor', 'admin', 'admin_premium'])) {
-            header('Location: index');
+            header('Location: ./');
             exit;
         }
 
@@ -76,7 +76,7 @@ class AdminController {
     public function gerencial() {
         // Verifica permissão
         if (!isset($_SESSION['usuario_id']) || !in_array($_SESSION['usuario_nivel'], ['desenvolvedor', 'admin', 'admin_premium'])) {
-            header('Location: index');
+            header('Location: ./');
             exit;
         }
 

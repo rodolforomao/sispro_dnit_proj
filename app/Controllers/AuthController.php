@@ -14,7 +14,7 @@ class AuthController {
 
     public function login() {
         if (isset($_SESSION['usuario_id'])) {
-            header('Location: index');
+            header('Location: ./');
             exit;
         }
 

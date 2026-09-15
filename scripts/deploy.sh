@@ -73,6 +73,7 @@ EXCLUDE=(
   --exclude '.env.deploy'
   --exclude '.env.deploy.example'
   --exclude 'scripts/'
+  --exclude 'secrets/'
   --exclude 'DEPLOY.md'
   --exclude 'README.md'
   --exclude '.vs/'
