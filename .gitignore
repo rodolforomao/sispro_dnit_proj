@@ -1,0 +1,60 @@
+# --- Secrets / ambiente ---
+.env
+.env.*
+!.env.example
+!.env.deploy.example
+**/config.local.php
+**/config.local.*.php
+.env.deploy
+/secrets/
+
+# --- Dumps com dados (PII / produção) ---
+*.sql
+!**/schema.sql
+!**/migrations/*.sql
+
+# --- IDE / editor ---
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# --- SQLite / caches locais do VS ---
+*.sqlite
+*.sqlite3
+
+# --- Debug / info PHP (não publicar) ---
+**/phpinfo.php
+**/info.php
+info.php.txt
+
+# --- Duplicatas acidentais ---
+* (2).*
+* (3).*
+* copy.*
+* Copy.*
+
+# --- Runtime / logs / uploads ---
+*.log
+logs/
+tmp/
+temp/
+upload/
+uploads/
+vendor/
+node_modules/
+composer.lock
+
+# --- Empacotamento / artefatos de deploy local ---
+*.tgz
+*.tar.gz
+*.zip
+/sispro_app.*
+/dist/

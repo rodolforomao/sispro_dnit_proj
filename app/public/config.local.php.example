@@ -1,0 +1,12 @@
+<?php
+/**
+ * Exemplo de config de produção.
+ * No servidor: copie para app/public/config.local.php (não versionado).
+ * O script de deploy NÃO sobrescreve config.local.php existente.
+ */
+return [
+    'host' => '172.17.0.1',
+    'dbname' => 'controle_processos',
+    'user' => 'sispro',
+    'pass' => 'ALTERE_AQUI',
+];
