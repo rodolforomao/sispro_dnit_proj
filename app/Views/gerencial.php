@@ -16,11 +16,11 @@ if (!function_exists('obterIniciais')) {
     }
 }
 
-$usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
+$usuario_nome  = $_SESSION['usuario_nome']  ?? 'Usuário';
 $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
-$usuario_id = $_SESSION['usuario_id'] ?? 0;
-$setor_slug = $_SESSION['setor_slug'] ?? 'assessoria-projetos';
-$setor_nome = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
+$usuario_id    = $_SESSION['usuario_id']    ?? 0;
+$setor_slug    = $_SESSION['setor_slug']    ?? 'assessoria-projetos';
+$setor_nome    = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
 
 $isAdmin = in_array($usuario_nivel, ['desenvolvedor', 'admin']);
 
@@ -73,22 +73,22 @@ if ($usuario_id) {
 // ============================================================
 // DADOS PARA O PAINEL (VALORES PADRÃO PARA EVITAR ERROS)
 // ============================================================
-$recebidosSemana = $recebidosSemana ?? 0;
-$emAberto = $emAberto ?? 0;
-$concluidosSemana = $concluidosSemana ?? 0;
-$vencerHojeAmanha = $vencerHojeAmanha ?? 0;
+$recebidosSemana    = $recebidosSemana    ?? 0;
+$emAberto           = $emAberto           ?? 0;
+$concluidosSemana   = $concluidosSemana   ?? 0;
+$vencerHojeAmanha   = $vencerHojeAmanha   ?? 0;
 
 $pizzaLabels = $pizzaLabels ?? ['Sem dados'];
-$pizzaData = $pizzaData ?? [0];
-$barLabels = $barLabels ?? ['Sem dados'];
-$barData = $barData ?? [0];
+$pizzaData   = $pizzaData   ?? [0];
+$barLabels   = $barLabels   ?? ['Sem dados'];
+$barData     = $barData     ?? [0];
 $suggestedMax = $suggestedMax ?? 5;
 
-$prazoProjetos = $prazoProjetos ?? '-';
-$prazoAssessoriaCOAC = $prazoAssessoriaCOAC ?? '-';
-$prazoAssessoriaCGCONT = $prazoAssessoriaCGCONT ?? '-';
-$tempoAssinatura = $tempoAssinatura ?? '-';
-$tempoConclusao = $tempoConclusao ?? '-';
+$prazoProjetos          = $prazoProjetos          ?? '-';
+$prazoAssessoriaCOAC    = $prazoAssessoriaCOAC    ?? '-';
+$prazoAssessoriaCGCONT  = $prazoAssessoriaCGCONT  ?? '-';
+$tempoAssinatura        = $tempoAssinatura        ?? '-';
+$tempoConclusao         = $tempoConclusao         ?? '-';
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -97,40 +97,109 @@ $tempoConclusao = $tempoConclusao ?? '-';
     <title>Painel Gerencial - SISPRO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Carregar Chart.js com fallback -->
+    <!-- Chart.js + datalabels -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <style>
-        /* ======= ESTILOS GERAIS (MANTIDOS) ======= */
-        body { background: #f8f9fc; padding-top: 70px; }
-        .container-fluid { max-width: 98%; padding: 0 15px; }
-        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); background: #fff; padding: 16px 20px; margin-bottom: 16px; }
-        .card-kpi { border-left: 4px solid #4a90e2; padding: 12px 20px; margin-bottom: 0; }
-        .kpi-numero { font-size: 1.8rem; font-weight: 700; color: #2c3e50; line-height: 1.2; }
-        .kpi-label { font-size: 0.8rem; color: #6c757d; }
-        .card-kpi.verde { border-left-color: #28a745; }
-        .card-kpi.azul { border-left-color: #0d6efd; }
+        /* ======= ESTILOS GERAIS ======= */
+        body { background: #f8f9fc; padding-top: 80px; }
+        .container-fluid { max-width: 98%; padding: 0 18px; }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            background: #fff;
+            padding: 18px 22px;
+            margin-bottom: 16px;
+        }
+
+        /* KPI */
+        .card-kpi { border-left: 5px solid #4a90e2; padding: 14px 22px; margin-bottom: 0; }
+        .kpi-numero { font-size: 2.1rem; font-weight: 700; color: #2c3e50; line-height: 1.1; }
+        .kpi-label  { font-size: 0.92rem; color: #6c757d; margin-top: 2px; }
+        .card-kpi.verde   { border-left-color: #28a745; }
+        .card-kpi.azul    { border-left-color: #0d6efd; }
         .card-kpi.amarelo { border-left-color: #ffc107; }
-        .card-kpi.roxo { border-left-color: #6f42c1; }
-        .chart-container { height: 180px; }
-        .logo-dnit { max-height: 40px; }
-        .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .prazo-item { padding: 4px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+        .card-kpi.roxo    { border-left-color: #6f42c1; }
+        .card-kpi i { font-size: 2.1rem !important; }
+
+        /* Título compacto */
+        .titulo-painel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #004a8f;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+        .titulo-painel i { font-size: 1.6rem; }
+
+        /* Gráficos */
+        .chart-container { height: 260px; }
+
+        /* Títulos dos cards */
+        .graf-titulo {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+
+        /* Prazos */
+        .prazo-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1rem;
+        }
         .prazo-item:last-child { border-bottom: none; }
         .prazo-valor { font-weight: 700; color: #2c3e50; }
-        .graf-titulo { font-size: 0.95rem; font-weight: 600; color: #2c3e50; margin-bottom: 8px; }
+
+        /* ============================================================
+           GARANTIA DE QUE O HEADER DO header.php PERMANEÇA CLICÁVEL
+           ============================================================ */
+        /* Alguns elementos (chat widget, backdrops de modal, etc.) podem
+           ficar invisíveis em cima do header e bloquear cliques. As regras
+           abaixo dão prioridade visual e de eventos ao topbar do header. */
+        .topbar,
+        .topbar *,
+        header.navbar,
+        header.navbar * {
+            pointer-events: auto !important;
+        }
+        .topbar {
+            z-index: 1050 !important;
+        }
+
+        /* Responsivo */
+        @media (max-width: 992px) {
+            .kpi-numero { font-size: 1.7rem; }
+            .kpi-label  { font-size: 0.85rem; }
+            .card-kpi i { font-size: 1.7rem !important; }
+            .chart-container { height: 220px; }
+            .titulo-painel { font-size: 1.15rem; }
+            .titulo-painel i { font-size: 1.35rem; }
+        }
         @media (max-width: 768px) {
-            .container-fluid { padding: 10px; }
-            .card { padding: 12px; }
+            body { padding-top: 75px; }
+            .container-fluid { padding: 0 10px; }
+            .card { padding: 14px; }
             .kpi-numero { font-size: 1.4rem; }
-            .chart-container { height: 150px; }
+            .kpi-label  { font-size: 0.78rem; }
+            .card-kpi i { font-size: 1.4rem !important; }
+            .chart-container { height: 200px; }
+            .graf-titulo { font-size: 0.95rem; }
+            .prazo-item { font-size: 0.9rem; }
         }
 
         /* ============================================================
            BARRA SUPERIOR FIXA (IGUAL À HOME)
            ============================================================ */
         .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
+            position: fixed; top: 0; left: 0; right: 0;
             background: #ffffff; border-bottom: 1px solid #dce1e8;
             padding: 8px 20px; display: flex; align-items: center;
             justify-content: space-between; flex-wrap: wrap;
@@ -159,21 +228,19 @@ $tempoConclusao = $tempoConclusao ?? '-';
 <?php include APP_PATH . '/Views/header.php'; ?>
 
 <!-- ============================================================
-     CONTEÚDO PRINCIPAL (com valores de fallback)
+     CONTEÚDO PRINCIPAL
      ============================================================ -->
 <div class="container-fluid mt-3">
-    <!-- Cabeçalho do conteúdo -->
-    <div class="card">
-        <div class="d-flex align-items-center justify-content-between flex-wrap">
-            <div class="d-flex align-items-center">
-                <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit me-3">
-                <span class="sistema-titulo"><i class="bi bi-diagram-3"></i> SISPRO - Painel Gerencial</span>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-                <span class="small"><i class="bi bi-person-circle"></i> Olá, <strong><?= htmlspecialchars($usuario_nome) ?></strong></span>
-                <a href="index.php" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-left"></i> Voltar</a>
-            </div>
-        </div>
+
+    <!-- Título compacto + botão voltar -->
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+        <h1 class="titulo-painel">
+            <i class="bi bi-diagram-3"></i>
+            Painel Gerencial
+        </h1>
+        <a href="index.php" class="btn btn-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
     </div>
 
     <!-- Cards KPI -->
@@ -185,7 +252,7 @@ $tempoConclusao = $tempoConclusao ?? '-';
                         <div class="kpi-numero"><?= $recebidosSemana ?></div>
                         <div class="kpi-label"><i class="bi bi-calendar-check"></i> Recebidos essa semana</div>
                     </div>
-                    <i class="bi bi-calendar-check" style="font-size:1.8rem; color:#0d6efd; opacity:0.4;"></i>
+                    <i class="bi bi-calendar-check" style="color:#0d6efd; opacity:0.35;"></i>
                 </div>
             </div>
         </div>
@@ -196,7 +263,7 @@ $tempoConclusao = $tempoConclusao ?? '-';
                         <div class="kpi-numero"><?= $emAberto ?></div>
                         <div class="kpi-label"><i class="bi bi-folder2-open"></i> Em aberto</div>
                     </div>
-                    <i class="bi bi-folder2-open" style="font-size:1.8rem; color:#ffc107; opacity:0.4;"></i>
+                    <i class="bi bi-folder2-open" style="color:#ffc107; opacity:0.35;"></i>
                 </div>
             </div>
         </div>
@@ -207,7 +274,7 @@ $tempoConclusao = $tempoConclusao ?? '-';
                         <div class="kpi-numero"><?= $concluidosSemana ?></div>
                         <div class="kpi-label"><i class="bi bi-check-circle"></i> Concluídos essa semana</div>
                     </div>
-                    <i class="bi bi-check-circle" style="font-size:1.8rem; color:#28a745; opacity:0.4;"></i>
+                    <i class="bi bi-check-circle" style="color:#28a745; opacity:0.35;"></i>
                 </div>
             </div>
         </div>
@@ -218,7 +285,7 @@ $tempoConclusao = $tempoConclusao ?? '-';
                         <div class="kpi-numero"><?= $vencerHojeAmanha ?></div>
                         <div class="kpi-label"><i class="bi bi-clock"></i> A vencer hoje/amanhã</div>
                     </div>
-                    <i class="bi bi-clock" style="font-size:1.8rem; color:#6f42c1; opacity:0.4;"></i>
+                    <i class="bi bi-clock" style="color:#6f42c1; opacity:0.35;"></i>
                 </div>
             </div>
         </div>
@@ -263,13 +330,28 @@ $tempoConclusao = $tempoConclusao ?? '-';
         </div>
     </div>
 
-    <div class="text-muted small text-center mt-3">
+    <div class="text-muted text-center mt-3 mb-3" style="font-size:0.9rem;">
         Painel Gerencial - SISPRO - <?= date('d/m/Y H:i') ?>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Registrar o plugin de datalabels
+// ============================================================
+// LIMPEZA: remove possíveis backdrops órfãos de modais do Bootstrap
+// que podem ficar invisíveis em cima do header e bloquear cliques.
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop').forEach(function(el) {
+        el.parentNode && el.parentNode.removeChild(el);
+    });
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+});
+
+// ============================================================
+// CHARTS
+// ============================================================
 Chart.register(ChartDataLabels);
 
 // Gráfico de Pizza
@@ -288,10 +370,10 @@ new Chart(ctxPizza, {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { position: 'right', labels: { boxWidth: 10, padding: 8, font: { size: 10 } } },
+            legend: { position: 'right', labels: { boxWidth: 12, padding: 10, font: { size: 12 } } },
             datalabels: {
                 color: '#fff',
-                font: { weight: 'bold', size: 12 },
+                font: { weight: 'bold', size: 13 },
                 formatter: (value) => value,
                 anchor: 'center',
                 align: 'center'
@@ -313,7 +395,7 @@ new Chart(ctxBar, {
             backgroundColor: '#0d6efd',
             borderColor: '#0a58ca',
             borderWidth: 1,
-            borderRadius: 4,
+            borderRadius: 6,
         }]
     },
     options: {
@@ -323,10 +405,10 @@ new Chart(ctxBar, {
             legend: { display: false },
             datalabels: {
                 color: '#2c3e50',
-                font: { weight: 'bold', size: 11 },
+                font: { weight: 'bold', size: 12 },
                 anchor: 'end',
                 align: 'end',
-                offset: 2
+                offset: 4
             }
         },
         scales: {
@@ -336,7 +418,9 @@ new Chart(ctxBar, {
                 ticks: { display: false },
                 grid: { display: false }
             },
-            x: { ticks: { font: { size: 9 } } }
+            x: {
+                ticks: { font: { size: 11 } }
+            }
         }
     },
     plugins: [ChartDataLabels]

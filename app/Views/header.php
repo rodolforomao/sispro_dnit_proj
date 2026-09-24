@@ -110,14 +110,17 @@ if (empty($setores_usuario)) {
             <button class="btn-icon" id="dropdownApps" data-bs-toggle="dropdown" aria-expanded="false" title="Ferramentas">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 190px;">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 230px;">
+                <li><a class="dropdown-item" href="dashboard_projetos"><i class="bi bi-clipboard-data"></i> Dashboard de Projetos</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="notificacoes_rdci"><i class="bi bi-bell"></i> Notificações RDCI</a></li>
+                <li><a class="dropdown-item" href="atualizacoes_rdci"><i class="bi bi-arrow-repeat"></i> Atualização de Contratos</a></li>
+                <li><a class="dropdown-item" href="comparativo_bases"><i class="bi bi-columns-gap"></i> Comparativo Bases RDCI</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="links"><i class="bi bi-link-45deg"></i> Links</a></li>
-                <li><a class="dropdown-item" href="rdci"><i class="bi bi-table"></i> RDCI</a></li>
                 <li><a class="dropdown-item" href="modelos"><i class="bi bi-files"></i> Modelos</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" id="btnExportarCSV"><i class="bi bi-download"></i> Exportar CSV</a></li>
-                <!-- Admin removido daqui (está no menu avatar) -->
             </ul>
         </div>
 
@@ -234,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // TEMPERATURA E UMIDADE DE BRASÍLIA (via Open-Meteo)
     // ============================================================
     function buscarClima() {
-        // Verifica cache (válido por 10 minutos)
         const cache = localStorage.getItem('climaBrasilia');
         const cacheTime = localStorage.getItem('climaBrasiliaTime');
         const agora = Date.now();
@@ -246,7 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // URL com temperatura e umidade (usando o novo endpoint 'current')
         const url = 'https://api.open-meteo.com/v1/forecast?latitude=-15.7939&longitude=-47.8828&current=temperature_2m,relative_humidity_2m';
 
         fetch(url)
@@ -257,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const umid = Math.round(data.current.relative_humidity_2m);
                     document.getElementById('tempDisplay').textContent = temp + '°C';
                     document.getElementById('umidDisplay').textContent = umid + '%';
-                    // Salva em cache
                     const cacheObj = { temp: temp, umid: umid };
                     localStorage.setItem('climaBrasilia', JSON.stringify(cacheObj));
                     localStorage.setItem('climaBrasiliaTime', String(agora));
@@ -273,7 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     buscarClima();
-    // Atualiza a cada 10 minutos
     setInterval(buscarClima, 600000);
 });
 </script>

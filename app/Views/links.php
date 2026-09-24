@@ -15,11 +15,11 @@ if (!function_exists('obterIniciais')) {
     }
 }
 
-$usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
+$usuario_nome  = $_SESSION['usuario_nome']  ?? 'Usuário';
 $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
-$usuario_id = $_SESSION['usuario_id'] ?? 0;
-$setor_slug = $_SESSION['setor_slug'] ?? 'assessoria-projetos';
-$setor_nome = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
+$usuario_id    = $_SESSION['usuario_id']    ?? 0;
+$setor_slug    = $_SESSION['setor_slug']    ?? 'assessoria-projetos';
+$setor_nome    = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
 
 $isAdmin = in_array($usuario_nivel, ['desenvolvedor', 'admin']);
 
@@ -87,7 +87,6 @@ if ($usuario_id) {
         .btn-link-externo:hover { background: #0b5ed7; color: #fff; }
         .iframe-container { width: 100%; height: 700px; border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; }
         .iframe-container iframe { width: 100%; height: 100%; border: none; }
-        .logo-dnit { max-height: 50px; }
         .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.4rem; letter-spacing: 1px; }
         .btn-group-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
         .btn-group-links .btn { flex: 0 1 auto; }
@@ -115,7 +114,6 @@ if ($usuario_id) {
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 60px;
         }
         .topbar-left { display: flex; align-items: center; gap: 10px; }
-        .topbar-left .logo-dnit { max-height: 40px; width: auto; }
         .topbar-left .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.2rem; letter-spacing: 1px; }
         .topbar-center { flex: 1; text-align: center; }
         .topbar-center .badge-setor { background: #17a2b8; color: #fff; font-size: 0.9rem; padding: 6px 14px; }
@@ -137,14 +135,13 @@ if ($usuario_id) {
 
 <?php include APP_PATH . '/Views/header.php'; ?>
 <!-- ============================================================
-     CONTEÚDO PRINCIPAL (mantido igual ao original)
+     CONTEÚDO PRINCIPAL
      ============================================================ -->
 <div class="container mt-4">
     <div class="card">
         <!-- Cabeçalho -->
         <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap">
             <div class="d-flex align-items-center">
-                <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit me-3">
                 <span class="sistema-titulo"><i class="bi bi-link-45deg"></i> Links Úteis - SISPRO</span>
             </div>
             <div>
@@ -166,8 +163,8 @@ if ($usuario_id) {
                 <a href="https://supra.dnit.gov.br/index_cgcont_common.php/cgcont/atlasCgcontInterno" target="_blank" class="btn btn-link-externo">
                     <i class="bi bi-map"></i> SUPRA - Atlas Interno
                 </a>
-                <a href="https://dnitgov.sharepoint.com/:x:/s/COAC-contratos/IQBTU_dXm9akT5aVULitBUOwAfutn9yWpyTdDPwqhK_6fC0?e=pKlUiY" target="_blank" class="btn btn-link-externo">
-                    <i class="bi bi-table"></i> Planilha Atlas
+                <a href="https://supra.dnit.gov.br/index_cgcont_common.php/cgcont/cib/dataList?dataset_id=36" target="_blank" class="btn btn-link-externo">
+                    <i class="bi bi-hdd-stack"></i> Banco de dados Atlas
                 </a>
             </div>
         </div>

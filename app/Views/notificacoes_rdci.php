@@ -5,7 +5,6 @@
 // $contratos, $ufs, $brs, $statusCronogramaList, $usuario_nome
 // ============================================================
 
-// --- BLOCO DE DEFINIÇÃO DE VARIÁVEIS (IGUAL À HOME) ---
 if (!function_exists('obterIniciais')) {
     function obterIniciais($nome) {
         $partes = explode(' ', trim($nome));
@@ -74,12 +73,11 @@ $filtroIsento = $_GET['isento'] ?? '';
 $filtroBusca = $_GET['busca'] ?? '';
 $filtroContrato = $_GET['contrato'] ?? '';
 $filtroStatusNotif = $_GET['status_notificacao'] ?? '';
-$filtroAcao = $_GET['acao'] ?? ''; // Filtro por ação
+$filtroAcao = $_GET['acao'] ?? '';
 
 // ============================================================
 // FUNÇÕES DE CÁLCULO
 // ============================================================
-
 function calcularStatusCronograma($dataCron) {
     if (empty($dataCron)) {
         return ['texto' => 'Sem data', 'categoria' => 'sem_data', 'class' => 'cron-semdata'];
@@ -130,7 +128,6 @@ function calcularStatusNotificacao($c) {
         }
     }
 
-    // Vencido
     if (empty($dataUltimaNotif)) {
         return ['status' => 'Falta data de notificação', 'class' => 'notif-faltadata'];
     }
@@ -218,7 +215,6 @@ $contratosFiltrados = array_filter($contratos, function($c) use (
 $contratos = $contratosFiltrados;
 $totalLinhas = count($contratos);
 
-// Estatísticas
 $contratosUnicos = [];
 foreach ($contratos as $c) {
     $contratosUnicos[$c['instrumento']] = true;
@@ -241,12 +237,13 @@ $statusCronOptions = [
     'vencido'  => 'Vencido'
 ];
 
-// Lista de ações para filtro
+// ✅ Lista de ações atualizada
 $acoesList = [
-    'notificar' => 'Notificar',
-    'notificado' => 'Notificado',
-    'isento' => 'Isento',
-    'nao_notificar' => 'Não Notificar'
+    'notificar'             => 'Notificar',
+    'notificado'            => 'Notificado',
+    'aguardando_assinatura' => 'Aguardando assinatura',
+    'isento'                => 'Isento',
+    'nao_notificar'         => 'Não Notificar'
 ];
 
 // ============================================================
@@ -349,7 +346,6 @@ if (!empty($filtroAcao)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        /* ======= ESTILOS GERAIS ======= */
         body { background: #f8f9fc; padding-top: 70px; }
         .container-fluid { max-width: 98%; }
         .card { border: none; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); background: #fff; padding: 20px 25px; }
@@ -374,7 +370,7 @@ if (!empty($filtroAcao)) {
         .notif-faltadata { background: #fd7e14; color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: 500; white-space: nowrap; font-size: 0.75rem; }
         .notif-semnecessidade { background: #6c757d; color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: 500; white-space: nowrap; font-size: 0.75rem; }
 
-        /* Badge de ação (Notificar, Notificado, Isento, Não Notificar) */
+        /* Badge de ação */
         .badge-acao {
             padding: 4px 10px;
             border-radius: 20px;
@@ -384,10 +380,22 @@ if (!empty($filtroAcao)) {
         }
         .badge-acao.notificar { background: #0d6efd; color: #fff; }
         .badge-acao.notificado { background: #198754; color: #fff; }
+        .badge-acao.aguardando_assinatura { background: #6f42c1; color: #fff; } /* ✅ NOVO */
         .badge-acao.isento { background: #6c757d; color: #fff; }
         .badge-acao.nao_notificar { background: #ffc107; color: #000; }
 
-        /* Badge Isento na coluna "Isento" - CORRIGIDO */
+        /* ✅ Botão outline roxo para o dropdown */
+        .btn-outline-purple {
+            color: #6f42c1;
+            border-color: #6f42c1;
+        }
+        .btn-outline-purple:hover,
+        .btn-outline-purple:focus {
+            background: #6f42c1;
+            color: #fff;
+            border-color: #6f42c1;
+        }
+
         .isento-badge {
             background: #6c757d;
             color: #fff;
@@ -417,9 +425,6 @@ if (!empty($filtroAcao)) {
         #toastCopiado.show { opacity: 1; visibility: visible; }
         #toastCopiado i { margin-right: 8px; }
 
-        .detalhe-item { padding: 4px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .detalhe-item:last-child { border-bottom: none; }
-        .modal-body { max-height: 70vh; overflow-y: auto; }
         .btn-acoes { padding: 0.2rem 0.4rem; font-size: 0.7rem; }
         .info-count { font-size: 0.9rem; color: #6c757d; margin-top: 0.5rem; }
         .info-count strong { color: #2c3e50; }
@@ -459,22 +464,12 @@ if (!empty($filtroAcao)) {
         .modal-confirm-export .modal-title-confirm { text-align: center; font-weight: 600; }
         .modal-confirm-export .modal-body { text-align: center; padding: 25px 30px; }
 
-        /* ===== BARRA SUPERIOR FIXA ===== */
         .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            background: #ffffff;
-            border-bottom: 1px solid #dce1e8;
-            padding: 8px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            min-height: 60px;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
+            background: #ffffff; border-bottom: 1px solid #dce1e8;
+            padding: 8px 20px; display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 60px;
         }
         .topbar-left { display: flex; align-items: center; gap: 10px; }
         .topbar-left .logo-dnit { max-height: 40px; width: auto; }
@@ -493,7 +488,6 @@ if (!empty($filtroAcao)) {
         .dropdown-menu-avatar .dropdown-header { padding: 10px 20px; font-weight: 600; color: #2c3e50; border-bottom: 1px solid #dce1e8; margin-bottom: 4px; }
         .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: #6c757d; margin-top: 2px; }
 
-        /* Comentários */
         .comentario-badge { position: relative; cursor: pointer; font-size: 1.3rem; }
         .comentario-badge .badge-dot { position: absolute; top: -6px; right: -6px; width: 12px; height: 12px; background-color: #ffc107; border-radius: 50%; border: 2px solid white; display: none; }
         .comentario-badge.has-comentario .badge-dot { display: block; }
@@ -508,7 +502,6 @@ if (!empty($filtroAcao)) {
         .comentario-bolha .comentario-edit-area { width: 100%; }
         .comentario-bolha .comentario-actions { margin-top: 6px; display: flex; gap: 6px; }
 
-        /* Scroll fixo */
         .table-wrapper { position: relative; max-height: 600px; overflow: auto; }
         .table-wrapper table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .table-wrapper table thead th { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 2px solid #dee2e6; }
@@ -519,26 +512,11 @@ if (!empty($filtroAcao)) {
         .table-wrapper table tbody tr.linha-marcada td { background-color: #d4edda !important; }
         .table-wrapper table tbody td:first-child { min-width: 40px; max-width: 40px; }
 
-        /* Botão de notificação com dropdown 4 opções */
-        .btn-notificacao-dropdown .dropdown-toggle {
-            padding: 0.2rem 0.4rem;
-            font-size: 0.7rem;
-        }
-        .btn-notificacao-dropdown .dropdown-menu {
-            min-width: 160px;
-            padding: 0.2rem 0;
-        }
-        .btn-notificacao-dropdown .dropdown-item {
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        .btn-notificacao-dropdown .dropdown-item:hover {
-            background: #e9ecef;
-        }
-        .btn-notificacao-dropdown .dropdown-item i {
-            margin-right: 6px;
-        }
+        .btn-notificacao-dropdown .dropdown-toggle { padding: 0.2rem 0.4rem; font-size: 0.7rem; }
+        .btn-notificacao-dropdown .dropdown-menu { min-width: 200px; padding: 0.2rem 0; }
+        .btn-notificacao-dropdown .dropdown-item { padding: 0.25rem 0.75rem; font-size: 0.75rem; cursor: pointer; }
+        .btn-notificacao-dropdown .dropdown-item:hover { background: #e9ecef; }
+        .btn-notificacao-dropdown .dropdown-item i { margin-right: 6px; }
     </style>
 </head>
 <?php include APP_PATH . '/public/chat_widget.php'; ?>
@@ -547,7 +525,6 @@ if (!empty($filtroAcao)) {
 
 <div class="container-fluid mt-4">
     <div class="card">
-        <!-- Cabeçalho -->
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
             <div>
                 <h2 class="sistema-titulo"><i class="bi bi-bell"></i> Notificações RDCI - Cronogramas</h2>
@@ -558,7 +535,6 @@ if (!empty($filtroAcao)) {
             </div>
         </div>
 
-        <!-- Badges de filtros -->
         <?php if (!empty($filtrosAplicados)): ?>
         <div class="mb-3 p-2 bg-light rounded-3 d-flex flex-wrap align-items-center">
             <span class="fw-bold me-2"><i class="bi bi-funnel"></i> Filtros aplicados:</span>
@@ -628,7 +604,7 @@ if (!empty($filtroAcao)) {
                     <option value="nao" <?= ($_GET['isento'] ?? '') == 'nao' ? 'selected' : '' ?>>Não isentos</option>
                 </select>
             </div>
-            <div class="col-lg-1 col-md-2 col-sm-6 col-12 filtro-col">
+            <div class="col-lg-2 col-md-2 col-sm-6 col-12 filtro-col">
                 <label class="form-label" style="font-size:0.75rem;">Ação</label>
                 <select name="acao" class="form-select filtro-select2">
                     <option value="">Selecione...</option>
@@ -637,7 +613,7 @@ if (!empty($filtroAcao)) {
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="col-lg-2 col-md-3 col-sm-6 col-12 filtro-col">
+            <div class="col-lg-1 col-md-3 col-sm-6 col-12 filtro-col">
                 <label class="form-label" style="font-size:0.75rem;">Contrato</label>
                 <select name="contrato" class="form-select filtro-select2">
                     <option value="">Selecione...</option>
@@ -655,14 +631,13 @@ if (!empty($filtroAcao)) {
             </div>
         </form>
 
-        <!-- Botão Gerar Relatório -->
         <div class="export-row d-flex justify-content-end">
             <button type="button" class="btn btn-success" id="btnExportar">
                 <i class="bi bi-file-excel"></i> Gerar Relatório
             </button>
         </div>
 
-        <!-- Modal de Confirmação Exportar -->
+        <!-- Modal Exportar -->
         <div class="modal fade modal-confirm-export" id="modalConfirmExport" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -679,7 +654,6 @@ if (!empty($filtroAcao)) {
             </div>
         </div>
 
-        <!-- Contagem -->
         <div class="info-count">
             <i class="bi bi-list-ul"></i> <strong>Contratos:</strong> <?= $totalContratos ?> &nbsp;|&nbsp; <strong>Linhas:</strong> <?= $totalLinhas ?>
             <span class="obs"><i class="bi bi-info-circle"></i> Contratos concluídos ou com projetos aprovados em sua totalidade estão ocultos.</span>
@@ -729,18 +703,16 @@ if (!empty($filtroAcao)) {
                             $cronStatus = calcularStatusCronograma($c['data_termino_projeto_cronog'] ?? null);
                             $notifStatus = calcularStatusNotificacao($c);
 
-                            // Ação armazenada
                             $acao = $c['status_acao'] ?? 'nao_notificar';
                             $labelAcao = $acoesList[$acao] ?? $acao;
-                            // Classe CSS para o badge de ação
                             $classAcao = 'badge-acao ' . $acao;
 
-                            // Definir cor do botão dropdown com base no status da ação
                             switch ($acao) {
-                                case 'notificar': $btnColor = 'primary'; $btnIcon = 'bi-pencil-square'; break;
-                                case 'notificado': $btnColor = 'success'; $btnIcon = 'bi-check-circle'; break;
-                                case 'isento': $btnColor = 'secondary'; $btnIcon = 'bi-slash-circle'; break;
-                                default: $btnColor = 'warning'; $btnIcon = 'bi-clock'; break;
+                                case 'notificar':             $btnColor = 'primary';   $btnIcon = 'bi-pencil-square';   break;
+                                case 'notificado':            $btnColor = 'success';   $btnIcon = 'bi-check-circle';    break;
+                                case 'aguardando_assinatura': $btnColor = 'purple';    $btnIcon = 'bi-hourglass-split'; break;
+                                case 'isento':                $btnColor = 'secondary'; $btnIcon = 'bi-slash-circle';    break;
+                                default:                      $btnColor = 'warning';   $btnIcon = 'bi-clock';           break;
                             }
                         ?>
                         <tr data-contrato-id="<?= $c['id'] ?>" data-notificado="<?= $notificado ?>" data-isento="<?= $isento ?>" data-acao="<?= $acao ?>">
@@ -796,7 +768,6 @@ if (!empty($filtroAcao)) {
                                 <button class="btn btn-outline-info btn-sm btn-acoes" onclick="verDetalhes(<?= $c['id'] ?>)" title="Visualizar detalhes">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <!-- Dropdown com 4 opções -->
                                 <div class="btn-group btn-notificacao-dropdown">
                                     <button type="button" class="btn btn-sm btn-outline-<?= $btnColor ?> dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi <?= $btnIcon ?>"></i>
@@ -810,6 +781,12 @@ if (!empty($filtroAcao)) {
                                         <li>
                                             <a class="dropdown-item" href="#" onclick="alterarStatusNotificacao(<?= $c['id'] ?>, 'notificado', this); return false;">
                                                 <i class="bi bi-check-circle text-success"></i> Notificado
+                                            </a>
+                                        </li>
+                                        <!-- ✅ NOVO -->
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="alterarStatusNotificacao(<?= $c['id'] ?>, 'aguardando_assinatura', this); return false;">
+                                                <i class="bi bi-hourglass-split" style="color:#6f42c1;"></i> Aguardando assinatura
                                             </a>
                                         </li>
                                         <li>
@@ -859,23 +836,7 @@ if (!empty($filtroAcao)) {
     </div>
 </div>
 
-<!-- Toast -->
 <div id="toastCopiado"><i class="bi bi-check-circle-fill text-success"></i> SEI copiado!</div>
-
-<!-- Modal Detalhes -->
-<div class="modal fade" id="modalDetalhes" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detalhes do Cronograma</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="detalhesConteudo">
-                <p class="text-muted">Carregando...</p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -885,38 +846,28 @@ $(document).ready(function() {
     // ============================================================
     // SELECT2
     // ============================================================
-    $('.filtro-select2').select2({
-        placeholder: 'Selecione...',
-        allowClear: false,
-        width: '100%'
-    });
-    $('.filtro-select2').on('change', function() {
-        $(this).closest('form').submit();
-    });
+    $('.filtro-select2').select2({ placeholder: 'Selecione...', allowClear: false, width: '100%' });
+    $('.filtro-select2').on('change', function() { $(this).closest('form').submit(); });
     $('.filtro-select2').on('select2:open', function(e) {
         setTimeout(function() {
-            var searchField = document.querySelector('.select2-search__field');
-            if (searchField) searchField.focus();
+            var f = document.querySelector('.select2-search__field');
+            if (f) f.focus();
         }, 100);
     });
-    $('.filtro-select2').on('focus', function() {
-        $(this).select2('open');
-    });
+    $('.filtro-select2').on('focus', function() { $(this).select2('open'); });
 
     // ============================================================
     // EXPORTAR
     // ============================================================
     $('#btnExportar').on('click', function(e) {
         e.preventDefault();
-        var modalConfirm = new bootstrap.Modal(document.getElementById('modalConfirmExport'));
-        modalConfirm.show();
+        new bootstrap.Modal(document.getElementById('modalConfirmExport')).show();
     });
     $('#btnConfirmarExportar').on('click', function() {
         var form = $('#filtrosForm');
         form.find('input[name="export"]').remove();
         $('<input>').attr({ type: 'hidden', name: 'export', value: 'excel' }).appendTo(form);
-        var modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirmExport'));
-        modal.hide();
+        bootstrap.Modal.getInstance(document.getElementById('modalConfirmExport')).hide();
         form.submit();
     });
 
@@ -931,10 +882,7 @@ $(document).ready(function() {
         $.ajax({
             url: 'importar_rdci_api.php',
             method: 'GET',
-            success: function(data) {
-                alert('Dados atualizados!');
-                location.reload();
-            },
+            success: function(data) { alert('Dados atualizados!'); location.reload(); },
             error: function() {
                 alert('Erro ao atualizar.');
                 btn.disabled = false;
@@ -953,9 +901,7 @@ $(document).ready(function() {
         toast.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> ' + mensagem;
         toast.classList.add('show');
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() {
-            toast.classList.remove('show');
-        }, 2000);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
     }
     window.copiarTexto = function(texto) {
         if (!texto || texto === '—') return;
@@ -968,60 +914,65 @@ $(document).ready(function() {
         }
     };
     function fallbackCopiar(texto) {
-        var textarea = document.createElement('textarea');
-        textarea.value = texto;
-        textarea.style.position = 'fixed';
-        textarea.style.top = '-9999px';
-        textarea.style.left = '-9999px';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.top = '-9999px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
         try {
-            var sucesso = document.execCommand('copy');
-            if (sucesso) { mostrarToast('Copiado: ' + texto); }
-            else { mostrarToast('Erro ao copiar'); }
+            var ok = document.execCommand('copy');
+            if (ok) mostrarToast('Copiado: ' + texto);
+            else mostrarToast('Erro ao copiar');
         } catch (e) { mostrarToast('Erro ao copiar'); }
-        document.body.removeChild(textarea);
+        document.body.removeChild(ta);
     }
 
     // ============================================================
-    // CHECKBOXES
+    // CHECKBOXES persistentes
     // ============================================================
     var STORAGE_KEY = 'rdci_contratos_marcados';
+    var marcadosSet = new Set();
+    try {
+        var salvos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        salvos.forEach(function(id) { marcadosSet.add(String(id)); });
+    } catch (e) { marcadosSet = new Set(); }
+
     function salvarMarcados() {
-        var ids = [];
-        $('.checkbox-selecionar:checked').each(function() {
-            ids.push($(this).data('contrato-id'));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(marcadosSet)));
+    }
+
+    function aplicarMarcadosVisiveis() {
+        $('.checkbox-selecionar').each(function() {
+            var id = String($(this).data('contrato-id'));
+            if (marcadosSet.has(id)) {
+                $(this).prop('checked', true);
+                $(this).closest('tr').addClass('linha-marcada');
+            }
         });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
     }
-    function restaurarMarcados() {
-        var dados = localStorage.getItem(STORAGE_KEY);
-        if (!dados) return;
-        try {
-            var ids = JSON.parse(dados);
-            $('.checkbox-selecionar').each(function() {
-                var id = $(this).data('contrato-id');
-                if (ids.indexOf(id) !== -1) {
-                    $(this).prop('checked', true).trigger('change');
-                }
-            });
-        } catch (e) {}
-    }
+    aplicarMarcadosVisiveis();
+
     $(document).on('change', '.checkbox-selecionar', function() {
+        var id = String($(this).data('contrato-id'));
         var $row = $(this).closest('tr');
-        if (this.checked) $row.addClass('linha-marcada');
-        else $row.removeClass('linha-marcada');
+        if (this.checked) { marcadosSet.add(id); $row.addClass('linha-marcada'); }
+        else { marcadosSet.delete(id); $row.removeClass('linha-marcada'); }
         salvarMarcados();
     });
     $('#selecionarTodos').on('change', function() {
         var isChecked = this.checked;
-        $('.checkbox-selecionar').prop('checked', isChecked).trigger('change');
+        $('.checkbox-selecionar').each(function() {
+            var id = String($(this).data('contrato-id'));
+            if (isChecked) { marcadosSet.add(id); $(this).prop('checked', true); $(this).closest('tr').addClass('linha-marcada'); }
+            else { marcadosSet.delete(id); $(this).prop('checked', false); $(this).closest('tr').removeClass('linha-marcada'); }
+        });
+        salvarMarcados();
     });
-    restaurarMarcados();
 
     // ============================================================
-    // ALTERAR STATUS DE NOTIFICAÇÃO (4 AÇÕES)
+    // ALTERAR STATUS DE NOTIFICAÇÃO (5 AÇÕES)
     // ============================================================
     window.alterarStatusNotificacao = function(id, acao, element) {
         var notificado = 0;
@@ -1033,36 +984,29 @@ $(document).ready(function() {
 
         switch(acao) {
             case 'notificar':
-                notificado = 0;
-                isento = 0;
-                labelAcao = 'Notificar';
-                classAcao = 'notificar';
-                icon = 'bi-pencil-square';
-                btnClass = 'btn-outline-primary';
+                notificado = 0; isento = 0;
+                labelAcao = 'Notificar'; classAcao = 'notificar';
+                icon = 'bi-pencil-square'; btnClass = 'btn-outline-primary';
                 break;
             case 'notificado':
-                notificado = 1;
-                isento = 0;
-                labelAcao = 'Notificado';
-                classAcao = 'notificado';
-                icon = 'bi-check-circle';
-                btnClass = 'btn-outline-success';
+                notificado = 1; isento = 0;
+                labelAcao = 'Notificado'; classAcao = 'notificado';
+                icon = 'bi-check-circle'; btnClass = 'btn-outline-success';
+                break;
+            case 'aguardando_assinatura':
+                notificado = 1; isento = 0;
+                labelAcao = 'Aguardando assinatura'; classAcao = 'aguardando_assinatura';
+                icon = 'bi-hourglass-split'; btnClass = 'btn-outline-purple';
                 break;
             case 'isento':
-                notificado = 0;
-                isento = 1;
-                labelAcao = 'Isento';
-                classAcao = 'isento';
-                icon = 'bi-slash-circle';
-                btnClass = 'btn-outline-secondary';
+                notificado = 0; isento = 1;
+                labelAcao = 'Isento'; classAcao = 'isento';
+                icon = 'bi-slash-circle'; btnClass = 'btn-outline-secondary';
                 break;
             case 'nao_notificar':
-                notificado = 0;
-                isento = 0;
-                labelAcao = 'Não Notificar';
-                classAcao = 'nao_notificar';
-                icon = 'bi-clock';
-                btnClass = 'btn-outline-warning';
+                notificado = 0; isento = 0;
+                labelAcao = 'Não Notificar'; classAcao = 'nao_notificar';
+                icon = 'bi-clock'; btnClass = 'btn-outline-warning';
                 break;
             default:
                 return;
@@ -1076,27 +1020,23 @@ $(document).ready(function() {
                 id: id, 
                 notificado: notificado, 
                 isento: isento,
-                status_acao: acao  // Novo campo
+                status_acao: acao
             },
             dataType: 'json',
             success: function(res) {
                 if (res.success) {
                     var $row = $('tr[data-contrato-id="' + id + '"]');
-                    // Atualiza a coluna "Ação" (td:eq(13))
                     var $tdAcao = $row.find('td:eq(13)');
                     $tdAcao.html('<span class="badge-acao ' + classAcao + '">' + labelAcao + '</span>');
-                    // Atualiza a coluna "Isento" (td:eq(14))
                     var $tdIsento = $row.find('td:eq(14) .badge');
                     if (isento) {
                         $tdIsento.removeClass('bg-secondary').addClass('isento-badge').text('Isento');
                     } else {
                         $tdIsento.removeClass('isento-badge').addClass('bg-secondary').text('Ativo');
                     }
-                    // Atualiza o botão dropdown
                     var $btn = $row.find('.btn-notificacao-dropdown .dropdown-toggle');
-                    $btn.removeClass('btn-outline-primary btn-outline-success btn-outline-secondary btn-outline-warning').addClass(btnClass);
+                    $btn.removeClass('btn-outline-primary btn-outline-success btn-outline-purple btn-outline-secondary btn-outline-warning').addClass(btnClass);
                     $btn.html('<i class="bi ' + icon + '"></i>');
-                    // Atualiza data attributes
                     $row.attr('data-notificado', notificado);
                     $row.attr('data-isento', isento);
                     $row.attr('data-acao', acao);
@@ -1177,8 +1117,8 @@ $(document).ready(function() {
                             dataType: 'json',
                             success: function(res) {
                                 if (res.success) {
-                                    var contratoId = $('#comentario-contrato-id').val();
-                                    carregarComentarios(contratoId);
+                                    var cid = $('#comentario-contrato-id').val();
+                                    carregarComentarios(cid);
                                 } else {
                                     alert('Erro ao editar: ' + (res.error || 'Desconhecido'));
                                 }
@@ -1187,8 +1127,8 @@ $(document).ready(function() {
                         });
                     });
                     botoes.find('.cancelar-edicao').on('click', function() {
-                        var contratoId = $('#comentario-contrato-id').val();
-                        carregarComentarios(contratoId);
+                        var cid = $('#comentario-contrato-id').val();
+                        carregarComentarios(cid);
                     });
                 });
 
@@ -1202,9 +1142,9 @@ $(document).ready(function() {
                             dataType: 'json',
                             success: function(res) {
                                 if (res.success) {
-                                    var contratoId = $('#comentario-contrato-id').val();
-                                    carregarComentarios(contratoId);
-                                    atualizarBadge(contratoId);
+                                    var cid = $('#comentario-contrato-id').val();
+                                    carregarComentarios(cid);
+                                    atualizarBadge(cid);
                                 } else {
                                     alert('Erro: ' + (res.error || 'Desconhecido'));
                                 }
@@ -1267,119 +1207,9 @@ $(document).ready(function() {
     function escaparHtml(texto) {
         return $('<div>').text(texto).html();
     }
-
-    // ============================================================
-    // VISUALIZAR DETALHES
-    // ============================================================
-    window.verDetalhes = function(id) {
-        $.ajax({
-            url: 'ajax_rdci.php',
-            method: 'GET',
-            data: { action: 'detalhes', id: id },
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    document.getElementById('detalhesConteudo').innerHTML = '<p class="text-danger">' + data.error + '</p>';
-                    return;
-                }
-                const campos = [
-                    { label: 'Contrato', key: 'instrumento' },
-                    { label: 'BR', key: 'br' },
-                    { label: 'UF', key: 'uf' },
-                    { label: 'Lote', key: 'lote' },
-                    { label: 'Nome Usual', key: 'nome_usual' },
-                    { label: 'Subtrecho', key: 'subtrecho' },
-                    { label: 'Situação do Cronograma', key: 'situacao_cronograma' },
-                    { label: 'Data do Cronograma', key: 'data_termino_projeto_cronog' },
-                    { label: 'Cronograma SEI', key: 'cronograma_sei' },
-                    { label: 'Justificativa do Cronograma', key: 'justificativa_cronograma' },
-                    { label: 'Ofício de Notificação', key: 'n_sei_oficio_cobranca_cronograma' },
-                    { label: 'Data da Última Notificação', key: 'data_ultima_notificacao' },
-                    { label: 'Isento de Notificação', key: 'isento_notificacao' },
-                    { label: 'Status Ação', key: 'status_acao' },
-                    { label: 'Processo de Notificação SR/UF', key: 'processo_notificacao_sr_uf' },
-                    { label: 'PAAR', key: 'paar' },
-                    { label: 'Processo Base', key: 'processo_base' },
-                    { label: 'Processo de Projetos', key: 'processo_projeto' }
-                ];
-
-                function formatarData(valor) {
-                    if (!valor || valor === '—') return '—';
-                    if (/^\d{2}\/\d{2}\/\d{4}$/.test(valor)) return valor;
-                    if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
-                        var partes = valor.split('-');
-                        return partes[2] + '/' + partes[1] + '/' + partes[0];
-                    }
-                    return valor;
-                }
-
-                function formatarAcao(valor) {
-                    var mapa = {
-                        'notificar': 'Notificar',
-                        'notificado': 'Notificado',
-                        'isento': 'Isento',
-                        'nao_notificar': 'Não Notificar'
-                    };
-                    return mapa[valor] || valor;
-                }
-
-                let html = '<div class="row">';
-                const metade = Math.ceil(campos.length / 2);
-                const col1 = campos.slice(0, metade);
-                const col2 = campos.slice(metade);
-
-                html += '<div class="col-md-6">';
-                col1.forEach(campo => {
-                    let valor = data[campo.key] !== undefined && data[campo.key] !== null ? data[campo.key] : '—';
-                    if (campo.key === 'data_termino_projeto_cronog' || campo.key === 'data_ultima_notificacao') {
-                        valor = formatarData(valor);
-                    }
-                    if (campo.key === 'isento_notificacao') {
-                        valor = valor ? 'Sim' : 'Não';
-                    }
-                    if (campo.key === 'status_acao') {
-                        valor = formatarAcao(valor);
-                    }
-                    html += `<div class="detalhe-item"><strong>${campo.label}:</strong> ${valor}</div>`;
-                });
-                html += '</div>';
-
-                html += '<div class="col-md-6">';
-                col2.forEach(campo => {
-                    let valor = data[campo.key] !== undefined && data[campo.key] !== null ? data[campo.key] : '—';
-                    if (campo.key === 'data_termino_projeto_cronog' || campo.key === 'data_ultima_notificacao') {
-                        valor = formatarData(valor);
-                    }
-                    if (campo.key === 'isento_notificacao') {
-                        valor = valor ? 'Sim' : 'Não';
-                    }
-                    if (campo.key === 'status_acao') {
-                        valor = formatarAcao(valor);
-                    }
-                    html += `<div class="detalhe-item"><strong>${campo.label}:</strong> ${valor}</div>`;
-                });
-                html += '</div>';
-                html += '</div>';
-
-                if (data.objeto_contrato) {
-                    html += '<hr><h6>Objeto do Contrato</h6><p class="text-muted small">' + (data.objeto_contrato || '-') + '</p>';
-                }
-                if (data.analise) {
-                    html += '<hr><h6>Análise</h6><p class="text-muted small">' + (data.analise || '-') + '</p>';
-                }
-                if (data.observacoes) {
-                    html += '<hr><h6>Observações</h6><p class="text-muted small">' + (data.observacoes || '-') + '</p>';
-                }
-
-                document.getElementById('detalhesConteudo').innerHTML = html;
-                new bootstrap.Modal(document.getElementById('modalDetalhes')).show();
-            },
-            error: function() {
-                document.getElementById('detalhesConteudo').innerHTML = '<p class="text-danger">Erro ao carregar detalhes.</p>';
-            }
-        });
-    };
 });
 </script>
+
+<?php include APP_PATH . '/Views/partials/modal_detalhes_notificacao.php'; ?>
 </body>
 </html>

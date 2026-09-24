@@ -146,6 +146,7 @@ $mostrar_sima = false;
         .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: #6c757d; margin-top: 2px; }
     </style>
 </head>
+<?php include APP_PATH . '/public/chat_widget.php'; ?>
 <body>
 <?php include APP_PATH . '/Views/header.php'; ?>
 
@@ -175,7 +176,6 @@ $mostrar_sima = false;
 
             <div class="row">
                 <div class="col-md-6">
-                    <!-- Equipe -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-people"></i> Equipe</label>
                         <select name="equipe_id" class="form-select select2">
@@ -188,7 +188,6 @@ $mostrar_sima = false;
                         </select>
                     </div>
 
-                    <!-- Responsável -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-person"></i> Responsável</label>
                         <select name="responsavel_id" class="form-select select2">
@@ -201,13 +200,11 @@ $mostrar_sima = false;
                         </select>
                     </div>
 
-                    <!-- Data Entrada -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-calendar-event"></i> Data Entrada</label>
                         <input type="date" name="data_entrada" id="data_entrada" class="form-control" value="<?= date('Y-m-d') ?>">
                     </div>
 
-                    <!-- Tipo -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-tags"></i> Tipo</label>
                         <select name="tipo_id" id="tipo_id" class="form-select select2">
@@ -218,14 +215,12 @@ $mostrar_sima = false;
                         </select>
                     </div>
 
-                    <!-- Prazo -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-calendar-check"></i> Prazo</label>
                         <input type="date" name="prazo" id="prazo" class="form-control" placeholder="Calculado automaticamente">
                         <div class="help-text">Calculado automaticamente com base no Tipo e Data Entrada.</div>
                     </div>
 
-                    <!-- Número do Processo -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-file-earmark-text"></i> Número do Processo</label>
                         <div class="input-group">
@@ -236,13 +231,11 @@ $mostrar_sima = false;
                         </div>
                     </div>
 
-                    <!-- SEI Recebido -->
                     <div class="mb-3">
                         <label class="form-label"><i class="bi bi-hash"></i> SEI Recebido (8 números)</label>
                         <input type="text" name="sei_recebido" class="form-control sei-input" maxlength="8" placeholder="Apenas números">
                     </div>
 
-                    <!-- SEIs Criados -->
                     <div id="div-sei-criado">
                         <div class="mb-3 sei-criado-item" data-index="1">
                             <label class="form-label"><i class="bi bi-hash"></i> SEI Criado 1 (8 números)</label>
@@ -259,7 +252,6 @@ $mostrar_sima = false;
                 </div>
 
                 <div class="col-md-6">
-                    <!-- UF -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-geo-alt"></i> UF</label>
                         <select name="uf_manual" id="uf_manual" class="form-select select2">
@@ -271,7 +263,6 @@ $mostrar_sima = false;
                         <div class="help-text">Selecione a UF para filtrar contratos. Selecione "-" para nenhum contrato.</div>
                     </div>
 
-                    <!-- Contrato -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-file-pdf"></i> Contrato</label>
                         <div class="d-flex gap-2 align-items-center">
@@ -297,7 +288,6 @@ $mostrar_sima = false;
                         </div>
                     </div>
 
-                    <!-- BR -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-diagram-2"></i> BR</label>
                         <select name="br_manual" id="br_manual" class="form-select select2">
@@ -310,7 +300,6 @@ $mostrar_sima = false;
                     <input type="hidden" name="uf" id="uf_hidden" value="">
                     <input type="hidden" name="br" id="br_hidden" value="">
 
-                    <!-- Status -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-check2-square"></i> Status</label>
                         <select name="status_id" id="status_id" class="form-select select2">
@@ -336,19 +325,16 @@ $mostrar_sima = false;
                         </div>
                     </div>
 
-                    <!-- Assunto -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-chat"></i> Assunto</label>
                         <textarea name="assunto" class="form-control" rows="2" maxlength="200"></textarea>
                     </div>
 
-                    <!-- Providência -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-lightbulb"></i> Providência</label>
                         <textarea name="providencia" class="form-control" rows="2" maxlength="200"></textarea>
                     </div>
 
-                    <!-- Observações -->
                     <div class="mb-3">
                         <label class="form-label"><i class="bi bi-sticky"></i> Observações</label>
                         <textarea name="observacoes" class="form-control" rows="2" maxlength="500"></textarea>
@@ -370,29 +356,13 @@ $mostrar_sima = false;
     </div>
 </div>
 
-<!-- Modal Info Contrato -->
-<div class="modal fade" id="modalInfoContrato" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-file-earmark-text"></i> Informações do Contrato</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="infoContratoBody">
-                <p class="text-muted">Selecione um contrato para ver as informações.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
+    var HOJE = '<?= date("Y-m-d") ?>';
+
     $('.select2').select2({
         width: '100%',
         allowClear: true,
@@ -412,12 +382,12 @@ $(document).ready(function() {
     });
 
     // ============================
-    // FUNÇÃO PARA PREENCHER DATAS CONDICIONAIS
+    // PREENCHER DATAS CONDICIONAIS (default sempre = hoje)
     // ============================
-    function preencherDataCondicional(campoId, dataEntrada) {
+    function preencherDataCondicional(campoId) {
         var campo = $('#' + campoId);
         if (!campo.val()) {
-            campo.val(dataEntrada || '<?= date("Y-m-d") ?>');
+            campo.val(HOJE);
         }
     }
 
@@ -425,18 +395,17 @@ $(document).ready(function() {
         var statusNome = $('#status_id option:selected').text().trim();
         var isRevisado = statusNome.toUpperCase() === 'REVISADO';
         var isAssinado = statusNome.toUpperCase() === 'ASSINADO';
-        var dataEntrada = $('#data_entrada').val() || '<?= date("Y-m-d") ?>';
 
         if (isRevisado) {
             $('#div_revisao').show();
             $('#div_assinatura').hide();
             $('#div_cadastrado_sima').show();
-            preencherDataCondicional('data_revisao', dataEntrada);
+            preencherDataCondicional('data_revisao');
         } else if (isAssinado) {
             $('#div_revisao').hide();
             $('#div_assinatura').show();
             $('#div_cadastrado_sima').show();
-            preencherDataCondicional('data_assinatura', dataEntrada);
+            preencherDataCondicional('data_assinatura');
         } else {
             $('#div_revisao').hide();
             $('#div_assinatura').hide();
@@ -445,15 +414,6 @@ $(document).ready(function() {
     }
 
     $('#status_id').on('change', toggleCamposStatus);
-    $('#data_entrada').on('change', function() {
-        // Se os campos estiverem visíveis, atualizar a data de referência
-        if ($('#div_revisao').is(':visible')) {
-            preencherDataCondicional('data_revisao', $(this).val());
-        }
-        if ($('#div_assinatura').is(':visible')) {
-            preencherDataCondicional('data_assinatura', $(this).val());
-        }
-    });
     toggleCamposStatus();
 
     // ============================
@@ -588,50 +548,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#btnInfoContrato').on('click', function() {
-        var contratoId = $(this).data('contrato-id');
-        if (!contratoId) {
-            $('#infoContratoBody').html('<p class="text-muted">Nenhum contrato selecionado.</p>');
-            return;
-        }
-        $('#infoContratoBody').html('<p class="text-muted">Carregando...</p>');
-        $.ajax({
-            url: 'index.php?url=get_contrato_info&contrato_id=' + contratoId,
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    $('#infoContratoBody').html('<p class="text-danger">' + data.error + '</p>');
-                    return;
-                }
-                var campos = [
-                    { label: 'Empresa', key: 'empresa' },
-                    { label: 'Endereço empresa', key: 'endereco_empresa' },
-                    { label: 'Objeto', key: 'objeto_contrato' },
-                    { label: 'Processo base', key: 'processo_base' },
-                    { label: 'Processo Projetos', key: 'processo_projeto' },
-                    { label: 'Edital', key: 'edital' },
-                    { label: 'Análise', key: 'analise' },
-                    { label: 'SEI Delegação', key: 'sei_delegacao' },
-                    { label: 'Status Cronograma', key: 'situacao_cronograma' },
-                    { label: 'SEI Notificação', key: 'n_sei_oficio_cobranca_cronograma' },
-                    { label: 'Data Última Notificação', key: 'data_ultima_notificacao' },
-                    { label: 'Data Término do Cronograma', key: 'data_termino_projeto_cronog' }
-                ];
-                var html = '<div class="row">';
-                campos.forEach(function(campo) {
-                    var valor = data[campo.key] || '-';
-                    html += '<div class="col-md-6"><strong>' + campo.label + ':</strong> ' + valor + '</div>';
-                });
-                html += '</div>';
-                $('#infoContratoBody').html(html);
-            },
-            error: function() {
-                $('#infoContratoBody').html('<p class="text-danger">Erro ao carregar informações.</p>');
-            }
-        });
-    });
-
     carregarContratosBR('');
 
     // ============================
@@ -679,7 +595,7 @@ $(document).ready(function() {
         if (!texto) { mostrarToast('Nenhum número para copiar'); return; }
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(texto).then(function() {
-                mostrarToast('Número copiado: ' + texto);
+                mostrarToast('Copiado: ' + texto);
             }).catch(function() {
                 fallbackCopiar(texto);
             });
@@ -739,5 +655,8 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<!-- ✅ Modal Info Contrato (partial reutilizável) -->
+<?php include APP_PATH . '/Views/partials/modal_info_contrato.php'; ?>
 </body>
 </html>

@@ -38,27 +38,37 @@ class ProcessoController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->model->salvarProcesso($_POST);
+            try {
+                $this->model->salvarProcesso($_POST);
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'success',
+                    'titulo'   => 'Salvo com sucesso!',
+                    'mensagem' => 'O processo foi cadastrado com sucesso.'
+                ];
+            } catch (Exception $e) {
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'danger',
+                    'titulo'   => 'Erro ao salvar',
+                    'mensagem' => 'Não foi possível cadastrar o processo: ' . $e->getMessage()
+                ];
+            }
             header('Location: index.php');
             exit;
         }
 
-        // ------------------------------------------------------------
         // RECUPERA DADOS DO USUÁRIO LOGADO
         $usuario_id = $_SESSION['usuario_id'];
         $usuario_equipe_id = $_SESSION['usuario_equipe_id'] ?? null;
         $usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
         $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
 
-        // 🔥 BUSCA O RESPONSÁVEL CORRESPONDENTE AO NOME DO USUÁRIO
+        // BUSCA O RESPONSÁVEL CORRESPONDENTE AO NOME DO USUÁRIO
         $usuario_responsavel_id = null;
         if (!empty($usuario_nome)) {
-            // 1. Tenta busca exata (case-insensitive) com UPPER
             $stmt = $this->pdo->prepare("SELECT id FROM responsaveis WHERE UPPER(nome) = UPPER(?)");
             $stmt->execute([$usuario_nome]);
             $usuario_responsavel_id = $stmt->fetchColumn();
 
-            // 2. Se não encontrou, tenta com LIKE usando o primeiro nome
             if (!$usuario_responsavel_id) {
                 $partes = explode(' ', $usuario_nome);
                 $primeiro_nome = $partes[0] ?? '';
@@ -69,14 +79,12 @@ class ProcessoController {
                 }
             }
 
-            // 3. Se ainda não encontrou, tenta com LIKE usando o nome completo
             if (!$usuario_responsavel_id) {
                 $stmt = $this->pdo->prepare("SELECT id FROM responsaveis WHERE UPPER(nome) LIKE UPPER(?)");
                 $stmt->execute(['%' . $usuario_nome . '%']);
                 $usuario_responsavel_id = $stmt->fetchColumn();
             }
 
-            // 4. Se ainda não encontrou, tenta normalizar removendo acentos
             if (!$usuario_responsavel_id) {
                 $nome_normalizado = $this->normalizarNome($usuario_nome);
                 $stmt = $this->pdo->prepare("SELECT id FROM responsaveis WHERE UPPER(nome) LIKE UPPER(?)");
@@ -84,9 +92,6 @@ class ProcessoController {
                 $usuario_responsavel_id = $stmt->fetchColumn();
             }
         }
-
-        // Se não encontrou, deixa como null (select ficará em "Selecione")
-        // ------------------------------------------------------------
 
         $contratos = $this->model->getTodosContratos();
         $dados = $this->model->getDadosFormulario();
@@ -103,7 +108,6 @@ class ProcessoController {
 
     /**
      * Remove acentos e caracteres especiais, converte para minúsculas
-     * (compatível com qualquer ambiente PHP, sem mbstring)
      */
     private function normalizarNome($nome) {
         $nome = strtolower($nome);
@@ -119,9 +123,8 @@ class ProcessoController {
     }
 
     // ============================
-    // DEMAIS MÉTODOS (edit, view, delete, getContratoInfo)
+    // EDIT
     // ============================
-
     public function edit() {
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: login.php');
@@ -129,7 +132,7 @@ class ProcessoController {
         }
 
         $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
-        $usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
+        $usuario_nome  = $_SESSION['usuario_nome']  ?? 'Usuário';
 
         if ($usuario_nivel === 'leitor') {
             header('Location: index.php');
@@ -143,7 +146,20 @@ class ProcessoController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->model->atualizarProcesso($id, $_POST);
+            try {
+                $this->model->atualizarProcesso($id, $_POST);
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'success',
+                    'titulo'   => 'Atualizado com sucesso!',
+                    'mensagem' => 'As alterações do processo foram salvas com sucesso.'
+                ];
+            } catch (Exception $e) {
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'danger',
+                    'titulo'   => 'Erro ao atualizar',
+                    'mensagem' => 'Não foi possível atualizar o processo: ' . $e->getMessage()
+                ];
+            }
             header('Location: index.php');
             exit;
         }
@@ -166,6 +182,9 @@ class ProcessoController {
         require_once APP_PATH . '/Views/edit.php';
     }
 
+    // ============================
+    // VIEW
+    // ============================
     public function view() {
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: login.php');
@@ -186,34 +205,68 @@ class ProcessoController {
         require_once APP_PATH . '/Views/view.php';
     }
 
+    // ============================
+    // DELETE
+    // ============================
     public function delete() {
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: login.php');
             exit;
         }
 
+        $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
+        if ($usuario_nivel === 'leitor') {
+            header('Location: index.php');
+            exit;
+        }
+
         $id = $_GET['id'] ?? 0;
         if ($id) {
-            $this->model->excluirProcesso($id);
+            try {
+                $this->model->excluirProcesso($id);
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'success',
+                    'titulo'   => 'Excluído com sucesso!',
+                    'mensagem' => 'O processo foi removido do sistema.'
+                ];
+            } catch (Exception $e) {
+                $_SESSION['flash_processo'] = [
+                    'tipo'     => 'danger',
+                    'titulo'   => 'Erro ao excluir',
+                    'mensagem' => 'Não foi possível excluir o processo: ' . $e->getMessage()
+                ];
+            }
         }
         header('Location: index.php');
         exit;
     }
 
+    // ============================
+    // ✅ GET CONTRATO INFO (AJAX - Modal Info Contrato)
+    // ✅ FONTE AGORA É contratos_rdci DIRETO
+    // ============================
     public function getContratoInfo() {
+        header('Content-Type: application/json; charset=utf-8');
+
         if (!isset($_SESSION['usuario_id'])) {
             echo json_encode(['error' => 'Não autenticado']);
             exit;
         }
 
-        $contrato_id = $_GET['contrato_id'] ?? 0;
+        $contrato_id = (int)($_GET['contrato_id'] ?? 0);
         if (!$contrato_id) {
             echo json_encode(['error' => 'ID do contrato inválido']);
             exit;
         }
 
-        $rdci = $this->model->getContratoInfo($contrato_id);
-        if ($rdci) {
+        try {
+            $rdci = $this->model->getContratoInfo($contrato_id);
+            if (!$rdci) {
+                echo json_encode(['error' => 'Contrato não encontrado na base RDCI']);
+                exit;
+            }
+
+            // Formata datas para dd/mm/aaaa
             $camposData = [
                 'data_ordem_inicio_projeto',
                 'data_ordem_inicio_obra',
@@ -221,16 +274,21 @@ class ProcessoController {
                 'data_termino_vigencia',
                 'data_termino_projeto_edital',
                 'data_termino_projeto_cronog',
+                'data_ultima_notificacao',
                 'data_atualizacao'
             ];
             foreach ($camposData as $campo) {
                 if (!empty($rdci[$campo])) {
-                    $rdci[$campo] = date('d/m/Y', strtotime($rdci[$campo]));
+                    $ts = strtotime($rdci[$campo]);
+                    if ($ts !== false) {
+                        $rdci[$campo] = date('d/m/Y', $ts);
+                    }
                 }
             }
+
             echo json_encode($rdci);
-        } else {
-            echo json_encode(['error' => 'Dados RDCI não encontrados para este contrato']);
+        } catch (Exception $e) {
+            echo json_encode(['error' => 'Erro ao buscar contrato: ' . $e->getMessage()]);
         }
         exit;
     }

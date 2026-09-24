@@ -18,10 +18,36 @@ $podeEditar = $podeEditar ?? false;
     <style>
         body { background: #f8f9fc; padding-top: 80px; }
         .card-principal { border: none; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); background: #fff; padding: 20px; }
-        .btn-diagrama { background: #198754; color: #fff; }
-        .btn-diagrama:hover { background: #157347; color: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(25,135,84,0.3); }
         .card-ferramentas { transition: transform 0.2s; max-width: 500px; margin: 0 auto; }
         .card-ferramentas:hover { transform: translateY(-5px); }
+
+        /* ✅ Card em desenvolvimento */
+        .card-desenvolvimento {
+            background: #fff8e1;
+            border: 2px dashed #ffc107;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .card-desenvolvimento .icone-dev {
+            font-size: 3.5rem;
+            color: #ffc107;
+            display: inline-block;
+            animation: girar 3s linear infinite;
+        }
+        @keyframes girar {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .card-desenvolvimento h4 {
+            color: #b8860b;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        .card-desenvolvimento p {
+            color: #8a6d3b;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -36,22 +62,22 @@ $podeEditar = $podeEditar ?? false;
         </div>
 
         <div class="row justify-content-center g-4 mt-2">
-            <!-- Diagrama Unifilar - centralizado -->
-            <div class="col-md-6 col-lg-5">
-                <div class="card card-ferramentas h-100 text-center p-4 border-0 shadow-sm" style="background: #f0fff4; border-radius: 16px;">
-                    <div class="card-body">
-                        <i class="bi bi-diagram-3" style="font-size: 3rem; color: #198754;"></i>
-                        <h4 class="card-title mt-3">Diagrama Unifilar</h4>
-                        <p class="card-text text-muted">Gere diagramas rodoviários com OAEs e acompanhamento de obras.</p>
-                        <a href="diagrama_unifilar" class="btn btn-diagrama btn-lg">Acessar <i class="bi bi-arrow-right"></i></a>
-                    </div>
+            <!-- Área em desenvolvimento -->
+            <div class="col-md-8 col-lg-6">
+                <div class="card-desenvolvimento">
+                    <i class="bi bi-tools icone-dev"></i>
+                    <h4>Em desenvolvimento</h4>
+                    <p>
+                        Esta área está em atualização.<br>
+                        Novas ferramentas serão disponibilizadas em breve.
+                    </p>
                 </div>
             </div>
         </div>
-
-        <!-- Botão "Voltar ao início" removido conforme solicitado -->
     </div>
 </div>
 
+<!-- ✅ ADICIONADO: Bootstrap JS (necessário para dropdowns do header) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

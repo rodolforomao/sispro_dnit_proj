@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario_id'])) {
 $action = $_REQUEST['action'] ?? '';
 
 // ============================================================
-// DETALHES DO CONTRATO
+// DETALHES DO CONTRATO (modal notificações)
 // ============================================================
 if ($action === 'detalhes' && isset($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -27,7 +27,55 @@ if ($action === 'detalhes' && isset($_GET['id'])) {
 }
 
 // ============================================================
-// TOGGLE NOTIFICADO (legado - mantido para compatibilidade)
+// DETALHES SUPRA (modal atualização de contratos)
+// ============================================================
+if ($action === 'detalhes_supra' && isset($_GET['id'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    $id = (int)$_GET['id'];
+
+    try {
+        $stmt = $pdo->prepare("SELECT instrumento FROM contratos_rdci WHERE id = ?");
+        $stmt->execute([$id]);
+        $instrumento = $stmt->fetchColumn();
+
+        if (!$instrumento) {
+            echo json_encode(['error' => 'Contrato não encontrado']);
+            exit;
+        }
+
+        // Resumos (dataset 40) — usa SELECT * para ser resiliente a nomes de coluna
+        $resumo = [];
+        try {
+            $stmtR = $pdo->prepare("SELECT * FROM supra_dataset_40_resumos WHERE instrumento = ? LIMIT 1");
+            $stmtR->execute([$instrumento]);
+            $resumo = $stmtR->fetch(PDO::FETCH_ASSOC) ?: [];
+        } catch (Exception $e) {
+            $resumo = ['_erro' => 'Tabela supra_dataset_40_resumos: ' . $e->getMessage()];
+        }
+
+        // Meio Ambiente (dataset 39)
+        $meio = [];
+        try {
+            $stmtM = $pdo->prepare("SELECT * FROM supra_dataset_39_meio WHERE instrumento = ? LIMIT 1");
+            $stmtM->execute([$instrumento]);
+            $meio = $stmtM->fetch(PDO::FETCH_ASSOC) ?: [];
+        } catch (Exception $e) {
+            $meio = ['_erro' => 'Tabela supra_dataset_39_meio: ' . $e->getMessage()];
+        }
+
+        echo json_encode([
+            'instrumento' => $instrumento,
+            'resumo'      => $resumo,
+            'meio'        => $meio,
+        ]);
+    } catch (Exception $e) {
+        echo json_encode(['error' => 'Erro: ' . $e->getMessage()]);
+    }
+    exit;
+}
+
+// ============================================================
+// TOGGLE NOTIFICADO (legado)
 // ============================================================
 if ($action === 'toggle_notificado' && isset($_POST['id']) && isset($_POST['status'])) {
     $id = (int)$_POST['id'];
@@ -39,7 +87,7 @@ if ($action === 'toggle_notificado' && isset($_POST['id']) && isset($_POST['stat
 }
 
 // ============================================================
-// TOGGLE ISENTO (legado - mantido para compatibilidade)
+// TOGGLE ISENTO (legado)
 // ============================================================
 if ($action === 'toggle_isento' && isset($_POST['id']) && isset($_POST['status'])) {
     $id = (int)$_POST['id'];
@@ -51,7 +99,7 @@ if ($action === 'toggle_isento' && isset($_POST['id']) && isset($_POST['status']
 }
 
 // ============================================================
-// ALTERAR STATUS DE NOTIFICAÇÃO (4 AÇÕES) — CORRIGIDO
+// ALTERAR STATUS DE NOTIFICAÇÃO (5 AÇÕES)
 // ============================================================
 if ($action === 'alterar_status_notificacao' && isset($_POST['id'])) {
     $id         = (int)$_POST['id'];
@@ -59,29 +107,31 @@ if ($action === 'alterar_status_notificacao' && isset($_POST['id'])) {
     $isento     = isset($_POST['isento'])     ? (int)$_POST['isento']     : 0;
     $statusAcao = trim($_POST['status_acao'] ?? '');
 
-    // Valida a ação
-    $acoesPermitidas = ['notificar', 'notificado', 'isento', 'nao_notificar'];
+    $acoesPermitidas = ['notificar', 'notificado', 'aguardando_assinatura', 'isento', 'nao_notificar'];
     if (!in_array($statusAcao, $acoesPermitidas, true)) {
         echo json_encode(['success' => false, 'error' => 'Ação inválida: ' . $statusAcao]);
         exit;
     }
 
-    // Normaliza coerência entre os campos
     if ($isento === 1) {
         $notificado = 0;
         $statusAcao = 'isento';
-    } elseif ($notificado === 1) {
+    } elseif ($statusAcao === 'notificado') {
         $isento     = 0;
-        $statusAcao = 'notificado';
+        $notificado = 1;
+    } elseif ($statusAcao === 'aguardando_assinatura') {
+        $isento     = 0;
+        $notificado = 1;
+    } else {
+        $isento     = 0;
+        $notificado = 0;
     }
 
-    // Se marcou como "notificado", atualiza a data da última notificação
     $dataUltimaNotif = null;
-    if ($statusAcao === 'notificado') {
+    if (in_array($statusAcao, ['notificado', 'aguardando_assinatura'], true)) {
         $dataUltimaNotif = date('Y-m-d');
     }
 
-    // Verifica o contrato e a data atual de notificação existente
     $stmtCheck = $pdo->prepare("SELECT id, data_ultima_notificacao FROM contratos_rdci WHERE id = ?");
     $stmtCheck->execute([$id]);
     $contratoAtual = $stmtCheck->fetch(PDO::FETCH_ASSOC);
@@ -91,13 +141,10 @@ if ($action === 'alterar_status_notificacao' && isset($_POST['id'])) {
         exit;
     }
 
-    // Preserva a data anterior se não for "notificado"
     if ($dataUltimaNotif === null && !empty($contratoAtual['data_ultima_notificacao'])) {
         $dataUltimaNotif = $contratoAtual['data_ultima_notificacao'];
     }
-
-    // Se estava em "notificado" e o usuário mudou para outra ação, limpa a data
-    if ($statusAcao !== 'notificado' && !empty($contratoAtual['data_ultima_notificacao'])) {
+    if (in_array($statusAcao, ['notificar', 'isento', 'nao_notificar'], true)) {
         $dataUltimaNotif = null;
     }
 
@@ -145,5 +192,5 @@ if ($action === 'salvar_observacao' && isset($_POST['id']) && isset($_POST['obse
 // ============================================================
 // AÇÃO INVÁLIDA
 // ============================================================
-echo json_encode(['error' => 'Ação inválida']);
+echo json_encode(['error' => 'Ação inválida: ' . $action]);
 exit;

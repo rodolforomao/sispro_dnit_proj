@@ -93,16 +93,16 @@ if (empty($setores_usuario)) {
             </span>
         </div>
 
-        <!-- Ferramentas (apenas Diagrama Unifilar) -->
+        <!-- Ferramentas -->
         <div class="dropdown">
             <button class="btn-icon" id="dropdownApps" data-bs-toggle="dropdown" aria-expanded="false" title="Ferramentas">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 190px;">
-                <li><a class="dropdown-item" href="diagrama_unifilar"><i class="bi bi-diagram-3"></i> Diagrama Unifilar</a></li>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 250px;">
+                <li><a class="dropdown-item" href="comparativo_bancos"><i class="bi bi-columns-gap"></i> Comparativo entre Bancos</a></li>
+                <li><a class="dropdown-item" href="avanco_fisico"><i class="bi bi-bar-chart-line"></i> Avanço Físico por Serviço</a></li>
             </ul>
         </div>
-
         <!-- Avatar -->
         <div class="dropdown">
             <button class="btn-avatar" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
