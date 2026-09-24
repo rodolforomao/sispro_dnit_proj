@@ -281,7 +281,7 @@ $camposInsert = array_unique($camposInsert);
 // Monta SQL com ON DUPLICATE KEY UPDATE
 $sql = "INSERT INTO contratos_rdci (" . implode(',', $camposInsert) . ")
         VALUES (" . implode(',', array_fill(0, count($camposInsert), '?')) . ")
-        ON DUPLICATE KEY UPDATE " . implode(',', array_map(function ($c) { return "$c = VALUES($c)"; }, $camposInsert));
+        ON DUPLICATE KEY UPDATE " . implode(',', array_map(function($c) { return "$c = VALUES($c)"; }, $camposInsert));
 
 $stmtInsert = $pdo->prepare($sql);
 

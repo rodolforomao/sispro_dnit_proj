@@ -35,7 +35,7 @@ class SetorController {
             $setor = $setores[0];
             $_SESSION['setor_id'] = $setor['id'];
             $_SESSION['setor_slug'] = $setor['slug'];
-            header('Location: ./');
+            header('Location: index');
             exit;
         }
 
@@ -58,7 +58,7 @@ class SetorController {
                 $slug = $stmt->fetchColumn();
                 $_SESSION['setor_id'] = $setor_id;
                 $_SESSION['setor_slug'] = $slug;
-                header('Location: ./');
+                header('Location: index');
                 exit;
             }
         }

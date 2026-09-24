@@ -340,7 +340,7 @@ if (!empty($filtros['br'])) {
         }
 
         /* ============================================================
-           DEMAIS ESTILOS (tabela, paginação, badges, etc.)
+           DEMAIS ESTILOS
            ============================================================ */
         .table-responsive { overflow-x: auto; }
         .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 500; }
@@ -399,6 +399,25 @@ if (!empty($filtros['br'])) {
         .text-entregue { color: #000 !important; font-weight: bold; }
         .text-no-prazo { color: #000 !important; font-weight: bold; }
         .icone-alerta { color: #FFC107; font-size: 1.1rem; margin-left: 5px; cursor: help; }
+
+        /* ✅ Prazo amarelo em negrito quando tem_prazo estiver marcado */
+        .prazo-amarelo {
+            color: #FFC107 !important;
+            font-weight: bold !important;
+        }
+
+        /* ✅ Badge de Tipo */
+        .tipo-badge {
+            background: #eef2ff;
+            color: #3730a3;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
         .comentario-bolha {
             background: #f1f3f5;
             border-radius: 12px;
@@ -460,10 +479,26 @@ if (!empty($filtros['br'])) {
 <?php include APP_PATH . '/public/chat_widget.php'; ?>
 <body>
 <?php include APP_PATH . '/Views/header.php'; ?>
+
 <!-- ============================================================
-     CONTEÚDO PRINCIPAL (mantido igual)
+     CONTEÚDO PRINCIPAL
      ============================================================ -->
 <div class="container-fluid mt-4">
+
+    <!-- ✅ FLASH MESSAGE -->
+    <?php if (!empty($_SESSION['flash_processo'])): 
+        $flash = $_SESSION['flash_processo'];
+        unset($_SESSION['flash_processo']);
+        $icon = $flash['tipo'] === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill';
+    ?>
+    <div class="alert alert-<?= htmlspecialchars($flash['tipo']) ?> alert-dismissible fade show shadow-sm" role="alert" style="border-radius:12px;">
+        <i class="bi bi-<?= $icon ?>"></i>
+        <strong><?= htmlspecialchars($flash['titulo'] ?? '') ?></strong>
+        <?= htmlspecialchars($flash['mensagem'] ?? '') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    <?php endif; ?>
+
     <div class="card">
         <!-- Título, contadores e botões -->
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
@@ -653,6 +688,7 @@ if (!empty($filtros['br'])) {
                     <col class="col-min-width-sm">
                     <col class="col-min-width-lg">
                     <col style="min-width: 100px;">
+                    <col style="min-width: 100px;">
                     <col style="min-width: 200px;">
                     <col class="col-min-width">
                     <col style="min-width: 60px;">
@@ -670,6 +706,7 @@ if (!empty($filtros['br'])) {
                         <th>Status</th>
                         <th>Nº Processo</th>
                         <th>SEI Criado 1</th>
+                        <th>Tipo</th>
                         <th>Assunto</th>
                         <th>Contrato</th>
                         <th>UF</th>
@@ -720,6 +757,8 @@ if (!empty($filtros['br'])) {
                         $tem_comentario = ($p['total_comentarios'] > 0);
                         $seiCriado1 = !empty($p['sei_criado_1']) ? $p['sei_criado_1'] : '-';
                         $numeroProcesso = $p['numero_processo'] ?? '';
+                        // ✅ Define classe do prazo conforme tem_prazo
+                        $classePrazo = !empty($p['tem_prazo']) ? 'prazo-amarelo' : '';
                     ?>
                     <tr>
                         <td class="text-nowrap"><?= htmlspecialchars($p['equipe_nome'] ?? '') ?></td>
@@ -744,12 +783,21 @@ if (!empty($filtros['br'])) {
                                 -
                             <?php endif; ?>
                         </td>
+                        <td class="text-nowrap">
+                            <?php if (!empty($p['tipo_nome'])): ?>
+                                <span class="tipo-badge"><?= htmlspecialchars($p['tipo_nome']) ?></span>
+                            <?php else: ?>
+                                —
+                            <?php endif; ?>
+                        </td>
                         <td><?= htmlspecialchars($p['assunto'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['contrato_num'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['uf'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['br'] ?? '') ?></td>
                         <td class="text-nowrap"><?= isset($p['data_entrada']) ? date('d/m/Y', strtotime($p['data_entrada'])) : '-' ?></td>
-                        <td class="text-nowrap"><?= isset($p['prazo']) && $p['prazo'] ? date('d/m/Y', strtotime($p['prazo'])) : '-' ?></td>
+                        <td class="text-nowrap <?= $classePrazo ?>">
+                            <?= isset($p['prazo']) && $p['prazo'] ? date('d/m/Y', strtotime($p['prazo'])) : '-' ?>
+                        </td>
                         <td class="text-nowrap <?= $classe_situacao ?>"><?= $situacao ?></td>
                         <td class="text-center">
                             <span class="comentario-badge <?= $tem_comentario ? 'has-comentario' : '' ?>" 
@@ -772,7 +820,7 @@ if (!empty($filtros['br'])) {
                     </tr>
                     <?php endforeach; ?>
                     <?php if (empty($processos)): ?>
-                    <tr><td colspan="14" class="text-center text-muted py-4">Nenhum processo encontrado.</td></tr>
+                    <tr><td colspan="15" class="text-center text-muted py-4">Nenhum processo encontrado.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -825,12 +873,12 @@ if (!empty($filtros['br'])) {
         <?php endif; ?>
 
         <div class="footer-text text-center mt-4">
-            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão 1.0 - <?= date('Y') ?>
+            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?> - <?= date('Y') ?>
         </div>
     </div>
 </div>
 
-<!-- Toast e Modal de Comentários (mantidos) -->
+<!-- Toast e Modal de Comentários -->
 <div id="toastCopiado"><i class="bi bi-check-circle-fill text-success"></i> Copiado!</div>
 
 <div class="modal fade modal-comentario" id="modalComentario" tabindex="-1" aria-hidden="true">
@@ -1085,6 +1133,20 @@ $(document).ready(function() {
     function escaparHtml(texto) {
         return $('<div>').text(texto).html();
     }
+});
+</script>
+
+<!-- ✅ AUTO-DISMISS DA FLASH MESSAGE (5 segundos) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var alertas = document.querySelectorAll('.alert-dismissible');
+    alertas.forEach(function(el) {
+        setTimeout(function() {
+            el.style.transition = 'opacity 0.4s ease';
+            el.style.opacity = '0';
+            setTimeout(function() { el.style.display = 'none'; }, 400);
+        }, 5000);
+    });
 });
 </script>
 </body>

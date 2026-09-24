@@ -35,8 +35,15 @@ return [
 
     // RDCI
     'contratos_rdci' => ['controller' => 'RdciController', 'method' => 'contratos'],
-    'rdci' => ['controller' => 'RdciController', 'method' => 'index'],
+    'rdci' => ['controller' => 'RdciController', 'method' => 'atualizacoes'],
     'notificacoes_rdci' => ['controller' => 'RdciController', 'method' => 'notificacoes'],
+    'atualizacoes_rdci' => ['controller' => 'RdciController', 'method' => 'atualizacoes'],
+    'comparativo_bases' => ['controller' => 'RdciController', 'method' => 'comparativo'],
+    'dashboard_projetos' => ['controller' => 'RdciController', 'method' => 'dashboardProjetos'],
+
+    // ATLAS — Comparativo entre Bancos
+    'comparativo_bancos' => ['controller' => 'ComparacaoAtlasController', 'method' => 'comparativoBancos'],
+    'avanco_fisico' => ['controller' => 'AvancoFisicoController', 'method' => 'index'],
 
     // Modelos
     'modelos' => ['controller' => 'ModeloController', 'method' => 'index'],
@@ -48,4 +55,5 @@ return [
     'home_atlas' => ['controller' => 'HomeController', 'method' => 'index'], // já existe via setor_slug
     'diagrama_unifilar' => ['controller' => 'HomeController', 'method' => 'diagramaUnifilar'],
     'gestao_obras' => ['controller' => 'HomeController', 'method' => 'gestaoObras'], // NOVA ROTA
+
 ];

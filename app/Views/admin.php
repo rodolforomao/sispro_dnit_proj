@@ -18,11 +18,11 @@ if (!function_exists('obterIniciais')) {
     }
 }
 
-$usuario_nome = $usuario_nome ?? $_SESSION['usuario_nome'] ?? 'Usuário';
+$usuario_nome  = $usuario_nome  ?? $_SESSION['usuario_nome']  ?? 'Usuário';
 $usuario_nivel = $usuario_nivel ?? $_SESSION['usuario_nivel'] ?? 'usuario';
-$usuario_id = $usuario_id ?? $_SESSION['usuario_id'] ?? 0;
-$setor_slug = $_SESSION['setor_slug'] ?? 'assessoria-projetos';
-$setor_nome = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
+$usuario_id    = $usuario_id    ?? $_SESSION['usuario_id']    ?? 0;
+$setor_slug    = $_SESSION['setor_slug'] ?? 'assessoria-projetos';
+$setor_nome    = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
 
 $isAdmin = in_array($usuario_nivel, ['desenvolvedor', 'admin']);
 
@@ -70,13 +70,14 @@ if ($usuario_id) {
 
 $niveis_map = [
     'desenvolvedor' => 'Desenvolvedor',
-    'admin' => 'Administrador',
-    'usuario' => 'Usuário',
-    'leitor' => 'Leitor'
+    'admin'         => 'Administrador',
+    'admin_premium' => 'Admin Premium',
+    'usuario'       => 'Usuário',
+    'leitor'        => 'Leitor'
 ];
 $status_map = [
-    'ativo' => 'Ativo',
-    'inativo' => 'Inativo',
+    'ativo'    => 'Ativo',
+    'inativo'  => 'Inativo',
     'pendente' => 'Pendente'
 ];
 
@@ -84,12 +85,8 @@ if (!isset($setores)) $setores = [];
 if (!isset($equipes)) $equipes = [];
 
 // --- PROTEÇÃO DEFENSIVA + ISOLAMENTO DE ESCOPO ---
-// Copiamos para nomes EXCLUSIVOS antes dos includes de chat_widget.php e
-// header.php, porque include() compartilha escopo de variáveis: se algum
-// desses arquivos também usar $pendentes ou $todos internamente (ex.: para
-// notificações de chat), eles sobrescreveriam os dados desta tela.
 $pendentesAdmin = (isset($pendentes) && is_array($pendentes)) ? $pendentes : [];
-$todosAdmin = (isset($todos) && is_array($todos)) ? $todos : [];
+$todosAdmin     = (isset($todos)     && is_array($todos))     ? $todos     : [];
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -106,7 +103,6 @@ $todosAdmin = (isset($todos) && is_array($todos)) ? $todos : [];
         .table td { vertical-align: middle; }
         .acoes { display: flex; gap: 4px; flex-wrap: nowrap; justify-content: center; align-items: center; }
         .acoes form { display: inline; margin: 0; }
-        .logo-dnit { max-height: 50px; }
         .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.4rem; letter-spacing: 1px; }
         .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
         .checkbox-group .form-check { margin-right: 15px; }
@@ -147,16 +143,14 @@ $todosAdmin = (isset($todos) && is_array($todos)) ? $todos : [];
 
 <?php include APP_PATH . '/Views/header.php'; ?>
 <!-- ============================================================
-     CONTEÚDO PRINCIPAL (mantido igual ao original)
+     CONTEÚDO PRINCIPAL
      ============================================================ -->
 <div class="container-fluid mt-4">
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div class="d-flex align-items-center">
-            <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit me-3">
             <span class="sistema-titulo"><i class="bi bi-people"></i> Administração de Usuários</span>
         </div>
         <div>
-            <span class="badge bg-info me-2">Olá, <?= htmlspecialchars($usuario_nome ?? 'Usuário') ?></span>
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCriar">
                 <i class="bi bi-plus-circle"></i> Novo Usuário
             </button>
@@ -264,7 +258,7 @@ $todosAdmin = (isset($todos) && is_array($todos)) ? $todos : [];
                                         data-email="<?= htmlspecialchars($u['email']) ?>"
                                         data-nivel="<?= $u['nivel'] ?>"
                                         data-status="<?= $u['status'] ?>"
-                                        data-setores="<?= htmlspecialchars(json_encode($u['setores'] ?? [])) ?>"
+                                        data-setores="<?= htmlspecialchars(json_encode(array_values(array_map('strval', $u['setores'] ?? [])))) ?>"
                                         data-equipe="<?= $u['equipe_id'] ?? '' ?>">
                                     <i class="bi bi-pencil"></i> Editar
                                 </button>
@@ -405,18 +399,27 @@ $todosAdmin = (isset($todos) && is_array($todos)) ? $todos : [];
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalEditar"]').forEach(button => {
+document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalEditar"]').forEach(function(button) {
     button.addEventListener('click', function() {
-        document.getElementById('edit-id').value = this.dataset.id;
-        document.getElementById('edit-nome').value = this.dataset.nome;
+        document.getElementById('edit-id').value    = this.dataset.id;
+        document.getElementById('edit-nome').value  = this.dataset.nome;
         document.getElementById('edit-email').value = this.dataset.email;
         document.getElementById('edit-nivel').value = this.dataset.nivel;
         document.getElementById('edit-status').value = this.dataset.status;
         document.getElementById('edit-equipe').value = this.dataset.equipe || '';
 
-        var setores = JSON.parse(this.dataset.setores || '[]');
-        document.querySelectorAll('.edit-setor').forEach(cb => {
-            cb.checked = setores.includes(parseInt(cb.value));
+        // ✅ Correção: normaliza tudo para string antes de comparar
+        var setoresSelecionados = [];
+        try {
+            setoresSelecionados = JSON.parse(this.dataset.setores || '[]');
+        } catch (e) {
+            setoresSelecionados = [];
+        }
+        // Converte todos os IDs para string, evitando conflito number vs string
+        setoresSelecionados = setoresSelecionados.map(function(v) { return String(v); });
+
+        document.querySelectorAll('.edit-setor').forEach(function(cb) {
+            cb.checked = setoresSelecionados.indexOf(String(cb.value)) !== -1;
         });
     });
 });

@@ -58,3 +58,5 @@ composer.lock
 *.zip
 /sispro_app.*
 /dist/
+
+new_changes/

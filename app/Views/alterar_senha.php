@@ -32,7 +32,6 @@ $isAdmin = in_array($usuario_nivel, ['desenvolvedor', 'admin']);
 $pendentes = 0;
 if ($isAdmin) {
     try {
-        // Tenta usar o PDO global (se não existir, define 0)
         global $pdo;
         if (isset($pdo)) {
             $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE status = 'pendente'");
@@ -136,7 +135,6 @@ $erro = $erro ?? null;
 <div class="container mt-5">
     <div class="card">
         <h3 class="mb-4"><i class="bi bi-key"></i> Alterar Senha</h3>
-        <p>Olá, <strong><?= htmlspecialchars($usuario_nome) ?></strong></p>
         <?php if (!empty($sucesso)): ?>
             <div class="alert alert-success"><?= htmlspecialchars($sucesso) ?></div>
         <?php endif; ?>

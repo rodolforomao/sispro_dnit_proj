@@ -39,6 +39,51 @@ class ProcessoModel {
     }
 
     /**
+     * ✅ Retorna o nome do status (em MAIÚSCULO, sem espaços extras) ou '' se não achar
+     */
+    private function getNomeStatus($status_id) {
+        if (empty($status_id)) return '';
+        $stmt = $this->pdo->prepare("SELECT nome FROM status_processo WHERE id = ?");
+        $stmt->execute([$status_id]);
+        $nome = $stmt->fetchColumn();
+        return $nome ? strtoupper(trim($nome)) : '';
+    }
+
+    /**
+     * ✅ Limpa data_revisao / data_assinatura de acordo com o status
+     */
+    private function normalizarDatasCondicionais(&$dados) {
+        $statusNome = $this->getNomeStatus($dados['status_id'] ?? null);
+
+        if ($statusNome !== 'REVISADO') {
+            $dados['data_revisao'] = null;
+        }
+        if ($statusNome !== 'ASSINADO') {
+            $dados['data_assinatura'] = null;
+        }
+    }
+
+    /**
+     * ✅ Retorna a data de hoje com hora zerada (00:00:00).
+     *    Usado em comparações de prazo para não contar como atrasado
+     *    um processo que vence hoje.
+     */
+    private function hojeZerado() {
+        $d = new DateTime();
+        $d->setTime(0, 0, 0);
+        return $d;
+    }
+
+    /**
+     * ✅ Converte uma data (Y-m-d) em DateTime com hora zerada.
+     */
+    private function dataZerada($data) {
+        $d = new DateTime($data);
+        $d->setTime(0, 0, 0);
+        return $d;
+    }
+
+    /**
      * Busca processos com paginação e filtros
      */
     public function getDadosHome($filtros, $pagina = 1, $porPagina = 20) {
@@ -52,11 +97,11 @@ class ProcessoModel {
             $params[] = $filtros['equipe'];
         }
         if (!empty($filtros['responsavel'])) {
-            $where .= " AND r.id = ?";
+            $where .= " AND rp.id = ?";
             $params[] = $filtros['responsavel'];
         }
         if (!empty($filtros['contrato'])) {
-            $where .= " AND c.id = ?";
+            $where .= " AND r.id = ?";
             $params[] = $filtros['contrato'];
         }
         if (!empty($filtros['tipo'])) {
@@ -104,17 +149,18 @@ class ProcessoModel {
         }
         $ordem = "CASE WHEN p.prazo IS NULL THEN 1 ELSE 0 END, " . $ordem;
 
+        // ✅ JOIN com contratos_rdci (fonte é a base RDCI)
         $sql = "SELECT p.*, 
-                       c.numero AS contrato_num,
+                       r.instrumento AS contrato_num,
                        e.nome AS equipe_nome,
-                       r.nome AS responsavel_nome,
+                       rp.nome AS responsavel_nome,
                        s.nome AS status_nome,
                        t.nome AS tipo_nome,
                        p.sei_criado_1
                 FROM processos p
-                LEFT JOIN contratos c ON p.contrato_id = c.id
+                LEFT JOIN contratos_rdci r ON p.contrato_id = r.id
                 LEFT JOIN equipes e ON p.equipe_id = e.id
-                LEFT JOIN responsaveis r ON p.responsavel_id = r.id
+                LEFT JOIN responsaveis rp ON p.responsavel_id = rp.id
                 LEFT JOIN status_processo s ON p.status_id = s.id
                 LEFT JOIN tipos t ON p.tipo_id = t.id
                 $where
@@ -127,9 +173,9 @@ class ProcessoModel {
 
         $sqlCount = "SELECT COUNT(*) 
                      FROM processos p
-                     LEFT JOIN contratos c ON p.contrato_id = c.id
+                     LEFT JOIN contratos_rdci r ON p.contrato_id = r.id
                      LEFT JOIN equipes e ON p.equipe_id = e.id
-                     LEFT JOIN responsaveis r ON p.responsavel_id = r.id
+                     LEFT JOIN responsaveis rp ON p.responsavel_id = rp.id
                      LEFT JOIN status_processo s ON p.status_id = s.id
                      LEFT JOIN tipos t ON p.tipo_id = t.id
                      $where";
@@ -144,17 +190,25 @@ class ProcessoModel {
         }
         unset($p);
 
-        $totalProcessos = count($processos);
-        $contarFazer = 0;
+        // ============================================================
+        // ✅ CONTADORES — corrigidos para não marcar "vence hoje" como atrasado
+        // ============================================================
+        $totalProcessos  = count($processos);
+        $contarFazer     = 0;
         $contarAtrasados = 0;
-        $hoje = new DateTime();
+
+        $hoje = $this->hojeZerado();   // ✅ 00:00:00
+
         foreach ($processos as $p) {
+            // ---- A fazer ----
             if (($p['status_nome'] ?? '') == 'Em elaboração') {
                 $contarFazer++;
             }
+
+            // ---- Atrasados ----
             if (!empty($p['prazo']) && ($p['status_nome'] ?? '') != 'Assinado') {
-                $prazo = new DateTime($p['prazo']);
-                if ($prazo < $hoje) {
+                $prazo = $this->dataZerada($p['prazo']);   // ✅ 00:00:00
+                if ($prazo < $hoje) {                      // só conta se for ANTES de hoje
                     $contarAtrasados++;
                 }
             }
@@ -163,34 +217,53 @@ class ProcessoModel {
         $equipes = $this->pdo->query("SELECT id, nome FROM equipes ORDER BY nome")->fetchAll();
         $responsaveis = $this->pdo->query("SELECT id, nome FROM responsaveis ORDER BY nome")->fetchAll();
         $statuses = $this->pdo->query("SELECT id, nome FROM status_processo ORDER BY nome")->fetchAll();
-        $contratos = $this->pdo->query("SELECT id, numero FROM contratos ORDER BY numero")->fetchAll();
+
+        // ✅ Contratos para filtro — DISTINCT por instrumento
+        $contratos = $this->pdo->query("
+            SELECT MIN(id) AS id, instrumento AS numero 
+            FROM contratos_rdci 
+            WHERE instrumento IS NOT NULL AND instrumento != '' 
+            GROUP BY instrumento 
+            ORDER BY instrumento
+        ")->fetchAll();
+
         $tipos = $this->pdo->query("SELECT id, nome FROM tipos ORDER BY nome")->fetchAll();
         $ufs = $this->pdo->query("SELECT DISTINCT uf FROM processos ORDER BY uf")->fetchAll(PDO::FETCH_COLUMN);
         $brs = $this->pdo->query("SELECT DISTINCT br FROM processos ORDER BY br")->fetchAll(PDO::FETCH_COLUMN);
 
         return [
-            'processos' => $processos,
-            'equipes' => $equipes,
-            'responsaveis' => $responsaveis,
-            'statuses' => $statuses,
-            'contratos' => $contratos,
-            'tipos' => $tipos,
-            'ufs' => $ufs,
-            'brs' => $brs,
-            'totalProcessos' => $totalRegistros,
-            'contarFazer' => $contarFazer,
+            'processos'       => $processos,
+            'equipes'         => $equipes,
+            'responsaveis'    => $responsaveis,
+            'statuses'        => $statuses,
+            'contratos'       => $contratos,
+            'tipos'           => $tipos,
+            'ufs'             => $ufs,
+            'brs'             => $brs,
+            'totalProcessos'  => $totalRegistros,
+            'contarFazer'     => $contarFazer,
             'contarAtrasados' => $contarAtrasados,
-            'pagina' => $pagina,
-            'porPagina' => $porPagina,
-            'totalRegistros' => $totalRegistros
+            'pagina'          => $pagina,
+            'porPagina'       => $porPagina,
+            'totalRegistros'  => $totalRegistros
         ];
     }
 
+    /**
+     * ✅ FONTE: contratos_rdci (dataset 26)
+     *    DISTINCT por instrumento (agrupa múltiplos subtrechos em uma linha só)
+     */
     public function getTodosContratos() {
-        $sql = "SELECT DISTINCT c.id, c.numero, r.uf, r.br, r.nome_usual 
-                FROM contratos c
-                LEFT JOIN contratos_rdci r ON r.instrumento = c.numero
-                ORDER BY c.numero";
+        $sql = "SELECT MIN(id)              AS id,
+                       instrumento          AS numero,
+                       MAX(uf)              AS uf,
+                       MAX(br)              AS br,
+                       MAX(nome_usual)      AS nome_usual
+                FROM contratos_rdci
+                WHERE instrumento IS NOT NULL
+                  AND instrumento != ''
+                GROUP BY instrumento
+                ORDER BY instrumento";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -223,23 +296,32 @@ class ProcessoModel {
         ];
     }
 
+    /**
+     * ✅ FONTE: contratos_rdci com DISTINCT por instrumento
+     */
     public function getContratosPorUF($uf) {
         $where = '';
         $params = [];
         if (!empty($uf) && $uf !== '-') {
             if ($uf === 'GO/DF') {
-                $where = "AND r.uf IN ('GO','DF')";
+                $where = "AND uf IN ('GO','DF')";
             } else {
-                $where = "AND r.uf = ?";
+                $where = "AND uf = ?";
                 $params[] = $uf;
             }
         }
 
-        $sql = "SELECT DISTINCT c.id, c.numero, r.uf, r.br, r.nome_usual 
-                FROM contratos c
-                LEFT JOIN contratos_rdci r ON r.instrumento = c.numero
-                WHERE 1=1 $where
-                ORDER BY c.numero";
+        $sql = "SELECT MIN(id)              AS id,
+                       instrumento          AS numero,
+                       MAX(uf)              AS uf,
+                       MAX(br)              AS br,
+                       MAX(nome_usual)      AS nome_usual
+                FROM contratos_rdci
+                WHERE instrumento IS NOT NULL
+                  AND instrumento != ''
+                  $where
+                GROUP BY instrumento
+                ORDER BY instrumento";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $contratos = $stmt->fetchAll();
@@ -319,6 +401,8 @@ class ProcessoModel {
             throw new Exception("Número do processo é obrigatório.");
         }
 
+        $this->normalizarDatasCondicionais($dados);
+
         $prazo = !empty($dados['prazo']) ? $dados['prazo'] : $this->calcularPrazo($dados['tipo_id'] ?? null, $dados['data_entrada'] ?? null);
 
         $contrato_id = $dados['contrato_id'] ?? '';
@@ -326,8 +410,9 @@ class ProcessoModel {
         $br = $dados['br'] ?? '';
         $contrato_id_db = ($contrato_id === '-' || $contrato_id === '') ? null : $contrato_id;
 
+        // ✅ Busca UF e BR na contratos_rdci
         if (!empty($contrato_id_db)) {
-            $stmt = $this->pdo->prepare("SELECT r.uf, r.br FROM contratos c LEFT JOIN contratos_rdci r ON r.instrumento = c.numero WHERE c.id = ?");
+            $stmt = $this->pdo->prepare("SELECT uf, br FROM contratos_rdci WHERE id = ?");
             $stmt->execute([$contrato_id_db]);
             $contrato = $stmt->fetch();
             if ($contrato) {
@@ -362,6 +447,8 @@ class ProcessoModel {
                 'sei_criado_2' => $dados['sei_criado_2'] ?? '',
                 'sei_criado_3' => $dados['sei_criado_3'] ?? '',
                 'tem_prazo' => isset($dados['tem_prazo']) ? 1 : 0,
+                'data_revisao' => $dados['data_revisao'] ?? null,
+                'data_assinatura' => $dados['data_assinatura'] ?? null,
             ];
             $this->logModel->registrar(
                 $usuario_id,
@@ -417,6 +504,8 @@ class ProcessoModel {
             throw new Exception("Processo não encontrado.");
         }
 
+        $this->normalizarDatasCondicionais($dados);
+
         $prazo = !empty($dados['prazo']) ? $dados['prazo'] : $this->calcularPrazo($dados['tipo_id'] ?? null, $dados['data_entrada'] ?? null);
 
         $contrato_id = $dados['contrato_id'] ?? '';
@@ -424,8 +513,9 @@ class ProcessoModel {
         $br = $dados['br'] ?? '';
         $contrato_id_db = ($contrato_id === '-' || $contrato_id === '') ? null : $contrato_id;
 
+        // ✅ Busca UF e BR na contratos_rdci
         if (!empty($contrato_id_db)) {
-            $stmt = $this->pdo->prepare("SELECT r.uf, r.br FROM contratos c LEFT JOIN contratos_rdci r ON r.instrumento = c.numero WHERE c.id = ?");
+            $stmt = $this->pdo->prepare("SELECT uf, br FROM contratos_rdci WHERE id = ?");
             $stmt->execute([$contrato_id_db]);
             $contrato = $stmt->fetch();
             if ($contrato) {
@@ -504,7 +594,20 @@ class ProcessoModel {
     }
 
     public function getProcessoCompleto($id) {
-        $sql = "SELECT p.*, c.numero AS contrato_num, e.nome AS equipe_nome, r.nome AS responsavel_nome, s.nome AS status_nome, t.nome AS tipo_nome FROM processos p LEFT JOIN contratos c ON p.contrato_id = c.id LEFT JOIN equipes e ON p.equipe_id = e.id LEFT JOIN responsaveis r ON p.responsavel_id = r.id LEFT JOIN status_processo s ON p.status_id = s.id LEFT JOIN tipos t ON p.tipo_id = t.id WHERE p.id = ?";
+        // ✅ JOIN com contratos_rdci
+        $sql = "SELECT p.*, 
+                       r.instrumento AS contrato_num, 
+                       e.nome AS equipe_nome, 
+                       rp.nome AS responsavel_nome, 
+                       s.nome AS status_nome, 
+                       t.nome AS tipo_nome 
+                FROM processos p 
+                LEFT JOIN contratos_rdci r ON p.contrato_id = r.id 
+                LEFT JOIN equipes e ON p.equipe_id = e.id 
+                LEFT JOIN responsaveis rp ON p.responsavel_id = rp.id 
+                LEFT JOIN status_processo s ON p.status_id = s.id 
+                LEFT JOIN tipos t ON p.tipo_id = t.id 
+                WHERE p.id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch();
@@ -526,7 +629,6 @@ class ProcessoModel {
         $check = $this->pdo->prepare("SELECT id FROM processos WHERE id = ?");
         $check->execute([$id]);
         if ($check->fetch()) {
-            // 🔥 LOG: excluir
             $usuario_id = $_SESSION['usuario_id'] ?? null;
             $usuario_nome = $_SESSION['usuario_nome'] ?? 'Sistema';
             if ($usuario_id) {
@@ -546,9 +648,11 @@ class ProcessoModel {
         }
     }
 
+    /**
+     * ✅ Retorna dados do contrato RDCI pelo ID (usado no modal Info Contrato)
+     */
     public function getContratoInfo($contrato_id) {
-        $sql = "SELECT r.* FROM contratos c LEFT JOIN contratos_rdci r ON r.instrumento = c.numero WHERE c.id = ?";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare("SELECT * FROM contratos_rdci WHERE id = ?");
         $stmt->execute([$contrato_id]);
         return $stmt->fetch();
     }

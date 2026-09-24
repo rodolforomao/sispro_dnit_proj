@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+require_once __DIR__ . '/../Config/version.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: login.php');
@@ -554,7 +555,7 @@ unset($p);
         </div>
 
         <div class="footer-text text-center mt-4">
-            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão 1.0 - <?= date('Y') ?>
+            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?> - <?= date('Y') ?>
         </div>
     </div>
 </div>

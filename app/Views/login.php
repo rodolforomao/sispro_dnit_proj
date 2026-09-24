@@ -89,7 +89,7 @@
     <p class="text-center mt-3"><a href="solicitar_acesso">Solicitar acesso</a></p>
 
     <div class="footer-text">
-        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - v1.0</p>
+        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?></p>
     </div>
 </div>
 </body>

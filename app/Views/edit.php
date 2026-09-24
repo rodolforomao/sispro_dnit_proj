@@ -82,10 +82,31 @@ $mostrar_revisao = (strcasecmp(trim($status_nome_atual), 'Revisado') === 0);
 $mostrar_assinatura = (strcasecmp(trim($status_nome_atual), 'Assinado') === 0);
 $mostrar_sima = $mostrar_revisao || $mostrar_assinatura;
 
-// Data atual para preencher campos vazios
+// ✅ Datas: se já tiver valor salvo usa, senão usa HOJE (podendo alterar)
 $dataAtual = date('Y-m-d');
-$dataRevisao = !empty($processo['data_revisao']) ? $processo['data_revisao'] : ($mostrar_revisao ? $dataAtual : '');
-$dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinatura'] : ($mostrar_assinatura ? $dataAtual : '');
+$dataRevisao    = !empty($processo['data_revisao'])    ? $processo['data_revisao']    : $dataAtual;
+$dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinatura'] : $dataAtual;
+
+// ✅ CORREÇÃO: descobrir o instrumento do contrato vinculado ao processo
+// (o contrato_id pode apontar para um subtrecho que não é o MIN(id) retornado pelo select)
+$contratoInstrumentoAtual = '';
+$contratoNomeUsualAtual = '';
+if (!empty($processo['contrato_id'])) {
+    try {
+        global $pdo;
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("SELECT instrumento, nome_usual FROM contratos_rdci WHERE id = ?");
+            $stmt->execute([$processo['contrato_id']]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                $contratoInstrumentoAtual = $row['instrumento'];
+                $contratoNomeUsualAtual = $row['nome_usual'];
+            }
+        }
+    } catch (Exception $e) {
+        // silencioso
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -126,9 +147,6 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
         .spinner-border-sm { width: 1rem; height: 1rem; border-width: 0.15em; }
         .btn-loading { opacity: 0.7; pointer-events: none; }
 
-        /* ============================================================
-           BARRA SUPERIOR FIXA
-           ============================================================ */
         .topbar {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
             background: #ffffff; border-bottom: 1px solid #dce1e8;
@@ -154,6 +172,7 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
         .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: #6c757d; margin-top: 2px; }
     </style>
 </head>
+<?php include APP_PATH . '/public/chat_widget.php'; ?>
 <body>
 <?php include APP_PATH . '/Views/header.php'; ?>
 
@@ -230,7 +249,6 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
                         <div class="help-text">Calculado automaticamente com base no Tipo e Data Entrada.</div>
                     </div>
 
-                    <!-- Número do Processo com botão Copiar -->
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-file-earmark-text"></i> Número do Processo</label>
                         <div class="input-group">
@@ -241,13 +259,11 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
                         </div>
                     </div>
 
-                    <!-- SEI Recebido -->
                     <div class="mb-3">
                         <label class="form-label"><i class="bi bi-hash"></i> SEI Recebido (8 números)</label>
                         <input type="text" name="sei_recebido" class="form-control sei-input" maxlength="8" value="<?= htmlspecialchars($processo['sei_recebido'] ?? '') ?>" placeholder="Apenas números">
                     </div>
 
-                    <!-- SEIs Criados (dinâmico) -->
                     <div id="div-sei-criado">
                         <div class="mb-3 sei-criado-item" data-index="1">
                             <label class="form-label"><i class="bi bi-hash"></i> SEI Criado 1 (8 números)</label>
@@ -284,10 +300,10 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
                                 <option value="-">-</option>
                                 <?php foreach ($contratos as $c): ?>
                                     <option value="<?= $c['id'] ?>" 
-                                            data-uf="<?= $c['uf'] ?>" 
-                                            data-br="<?= $c['br'] ?>" 
+                                            data-uf="<?= htmlspecialchars($c['uf'] ?? '') ?>" 
+                                            data-br="<?= htmlspecialchars($c['br'] ?? '') ?>" 
                                             data-nome-usual="<?= htmlspecialchars($c['nome_usual'] ?? '') ?>"
-                                            <?= ($c['id'] == ($processo['contrato_id'] ?? '')) ? 'selected' : '' ?>>
+                                            <?= ($c['numero'] == $contratoInstrumentoAtual) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($c['numero']) ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -297,22 +313,9 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
                             </button>
                         </div>
                         <div class="help-text">Selecione o Contrato. Use "-" para nenhum contrato.</div>
-                        <div id="divNomeUsual" style="<?= (!empty($processo['contrato_id']) && !empty($processo['contrato_nome_usual'])) ? 'display:block;' : 'display:none;' ?>; margin-top: 6px;">
+                        <div id="divNomeUsual" style="<?= (!empty($contratoInstrumentoAtual) && !empty($contratoNomeUsualAtual)) ? 'display:block;' : 'display:none;' ?>; margin-top: 6px;">
                             <i class="bi bi-building"></i> <strong>Nome usual:</strong> 
-                            <span id="nomeUsual">
-                                <?php 
-                                $nomeUsualAtual = '';
-                                if (!empty($processo['contrato_id']) && isset($contratos)) {
-                                    foreach ($contratos as $c) {
-                                        if ($c['id'] == $processo['contrato_id']) {
-                                            $nomeUsualAtual = $c['nome_usual'] ?? '';
-                                            break;
-                                        }
-                                    }
-                                }
-                                echo htmlspecialchars($nomeUsualAtual);
-                                ?>
-                            </span>
+                            <span id="nomeUsual"><?= htmlspecialchars($contratoNomeUsualAtual) ?></span>
                         </div>
                     </div>
 
@@ -382,24 +385,6 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
     </div>
 </div>
 
-<!-- Modal Info Contrato -->
-<div class="modal fade" id="modalInfoContrato" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-file-earmark-text"></i> Informações do Contrato</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="infoContratoBody">
-                <p class="text-muted">Selecione um contrato para ver as informações.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Toast de notificação -->
 <div id="toastCopiado"><i class="bi bi-check-circle-fill text-success"></i> Copiado!</div>
 
@@ -408,6 +393,8 @@ $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinat
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
+    var HOJE = '<?= date("Y-m-d") ?>';
+
     $('.select2').select2({
         width: '100%',
         allowClear: true,
@@ -427,31 +414,30 @@ $(document).ready(function() {
     });
 
     // ============================
-    // FUNÇÃO PARA PREENCHER DATAS CONDICIONAIS
+    // PREENCHER DATAS CONDICIONAIS
     // ============================
-    function preencherDataCondicional(campoId, dataEntrada) {
+    function preencherDataCondicional(campoId, forcarHoje) {
         var campo = $('#' + campoId);
-        if (!campo.val()) {
-            campo.val(dataEntrada || '<?= date("Y-m-d") ?>');
+        if (forcarHoje || !campo.val()) {
+            campo.val(HOJE);
         }
     }
 
-    function toggleCamposStatus() {
+    function toggleCamposStatus(forcarHoje) {
         var statusNome = $('#status_id option:selected').text().trim();
         var isRevisado = statusNome.toUpperCase() === 'REVISADO';
         var isAssinado = statusNome.toUpperCase() === 'ASSINADO';
-        var dataEntrada = $('#data_entrada').val() || '<?= date("Y-m-d") ?>';
 
         if (isRevisado) {
             $('#div_revisao').show();
             $('#div_assinatura').hide();
             $('#div_cadastrado_sima').show();
-            preencherDataCondicional('data_revisao', dataEntrada);
+            preencherDataCondicional('data_revisao', forcarHoje);
         } else if (isAssinado) {
             $('#div_revisao').hide();
             $('#div_assinatura').show();
             $('#div_cadastrado_sima').show();
-            preencherDataCondicional('data_assinatura', dataEntrada);
+            preencherDataCondicional('data_assinatura', forcarHoje);
         } else {
             $('#div_revisao').hide();
             $('#div_assinatura').hide();
@@ -459,19 +445,14 @@ $(document).ready(function() {
         }
     }
 
-    $('#status_id').on('change', toggleCamposStatus);
-    $('#data_entrada').on('change', function() {
-        if ($('#div_revisao').is(':visible')) {
-            preencherDataCondicional('data_revisao', $(this).val());
-        }
-        if ($('#div_assinatura').is(':visible')) {
-            preencherDataCondicional('data_assinatura', $(this).val());
-        }
+    $('#status_id').on('change', function() {
+        toggleCamposStatus(true);
     });
-    toggleCamposStatus();
+
+    toggleCamposStatus(false);
 
     // ============================
-    // SEI DINÂMICO (com carregamento de valores existentes)
+    // SEI DINÂMICO
     // ============================
     var maxSeis = 3;
     var contadorSeis = 1;
@@ -560,7 +541,7 @@ $(document).ready(function() {
     // ============================
     // AJAX CONTRATOS POR UF
     // ============================
-    function carregarContratosBR(uf, callback) {
+    function carregarContratosBR(uf, callback, instrumentoSelecionado) {
         if (uf === '-') {
             $('#contrato_id').val('-').trigger('change');
             $('#br_manual').val('-').trigger('change');
@@ -591,11 +572,11 @@ $(document).ready(function() {
                     return;
                 }
                 var contratoSelect = $('#contrato_id');
-                var currentVal = contratoSelect.val();
                 contratoSelect.empty().append('<option value="">Selecione</option><option value="-">-</option>');
                 $.each(data.contratos, function(i, c) {
-                    var selected = (c.id == currentVal) ? 'selected' : '';
-                    contratoSelect.append('<option value="' + c.id + '" data-uf="' + c.uf + '" data-br="' + c.br + '" data-nome-usual="' + (c.nome_usual || '') + '" ' + selected + '>' + c.numero + '</option>');
+                    // ✅ CORREÇÃO: compara pelo instrumento, não pelo ID
+                    var selected = (instrumentoSelecionado && c.numero == instrumentoSelecionado) ? 'selected' : '';
+                    contratoSelect.append('<option value="' + c.id + '" data-uf="' + (c.uf || '') + '" data-br="' + (c.br || '') + '" data-nome-usual="' + (c.nome_usual || '') + '" ' + selected + '>' + c.numero + '</option>');
                 });
                 contratoSelect.trigger('change');
 
@@ -665,54 +646,10 @@ $(document).ready(function() {
         }
     });
 
-    $('#btnInfoContrato').on('click', function() {
-        var contratoId = $(this).data('contrato-id');
-        if (!contratoId) {
-            $('#infoContratoBody').html('<p class="text-muted">Nenhum contrato selecionado.</p>');
-            return;
-        }
-        $('#infoContratoBody').html('<p class="text-muted">Carregando...</p>');
-        $.ajax({
-            url: 'index.php?url=get_contrato_info&contrato_id=' + contratoId,
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    $('#infoContratoBody').html('<p class="text-danger">' + data.error + '</p>');
-                    return;
-                }
-                var campos = [
-                    { label: 'Empresa', key: 'empresa' },
-                    { label: 'Endereço empresa', key: 'endereco_empresa' },
-                    { label: 'Objeto', key: 'objeto_contrato' },
-                    { label: 'Processo base', key: 'processo_base' },
-                    { label: 'Processo Projetos', key: 'processo_projeto' },
-                    { label: 'Edital', key: 'edital' },
-                    { label: 'Análise', key: 'analise' },
-                    { label: 'SEI Delegação', key: 'sei_delegacao' },
-                    { label: 'Status Cronograma', key: 'situacao_cronograma' },
-                    { label: 'SEI Notificação', key: 'n_sei_oficio_cobranca_cronograma' },
-                    { label: 'Data Última Notificação', key: 'data_ultima_notificacao' },
-                    { label: 'Data Término do Cronograma', key: 'data_termino_projeto_cronog' }
-                ];
-                var html = '<div class="row">';
-                campos.forEach(function(campo) {
-                    var valor = data[campo.key] || '-';
-                    html += '<div class="col-md-6"><strong>' + campo.label + ':</strong> ' + valor + '</div>';
-                });
-                html += '</div>';
-                $('#infoContratoBody').html(html);
-            },
-            error: function() {
-                $('#infoContratoBody').html('<p class="text-danger">Erro ao carregar informações.</p>');
-            }
-        });
-    });
-
-    // Inicialização: carregar contratos com base na UF atual
+    // ✅ Inicialização: carrega contratos da UF atual e pré-seleciona pelo INSTRUMENTO
     var ufInicial = $('#uf_hidden').val();
-    var contratoIdInicial = $('#contrato_id').val();
     var brInicial = $('#br_hidden').val();
+    var instrumentoSelecionado = '<?= htmlspecialchars($contratoInstrumentoAtual) ?>';
 
     if (ufInicial === '-') {
         $('#contrato_id').val('-').prop('disabled', true).trigger('change');
@@ -724,23 +661,25 @@ $(document).ready(function() {
     } else {
         carregarContratosBR(ufInicial, function(success) {
             if (success) {
-                if (contratoIdInicial && contratoIdInicial !== '') {
-                    $('#contrato_id').val(contratoIdInicial).trigger('change');
+                // Seleciona pelo instrumento (já marcado como selected no HTML)
+                var $option = $('#contrato_id option:selected');
+                if ($option.length && $option.val() !== '' && $option.val() !== '-') {
+                    $('#contrato_id').trigger('change');
                 }
                 if (brInicial && brInicial !== '') {
                     $('#br_manual').val(brInicial).trigger('change');
                     $('#br_hidden').val(brInicial);
                 }
             }
-        });
+        }, instrumentoSelecionado);
     }
 
     if (!ufInicial || ufInicial === '') {
         carregarContratosBR('', function(success) {
-            if (success && contratoIdInicial) {
-                $('#contrato_id').val(contratoIdInicial).trigger('change');
+            if (success && instrumentoSelecionado) {
+                $('#contrato_id').trigger('change');
             }
-        });
+        }, instrumentoSelecionado);
     }
 
     // ============================
@@ -764,7 +703,7 @@ $(document).ready(function() {
         if (!texto) { mostrarToast('Nenhum número para copiar'); return; }
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(texto)
-                .then(function() { mostrarToast('Número copiado: ' + texto); })
+                .then(function() { mostrarToast('Copiado: ' + texto); })
                 .catch(function() { fallbackCopiar(texto); });
         } else {
             fallbackCopiar(texto);
@@ -822,6 +761,7 @@ $(document).ready(function() {
     });
 });
 </script>
-<?php include APP_PATH . '/public/chat_widget.php'; ?>
+
+<?php include APP_PATH . '/Views/partials/modal_info_contrato.php'; ?>
 </body>
 </html>

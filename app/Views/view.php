@@ -134,7 +134,7 @@ if ($usuario_id) {
 <?php include APP_PATH . '/Views/header.php'; ?>
 
 <!-- ============================================================
-     CONTEÚDO PRINCIPAL (mantido igual ao original)
+     CONTEÚDO PRINCIPAL
      ============================================================ -->
 <div class="container mt-4">
     <div class="card">
@@ -150,7 +150,7 @@ if ($usuario_id) {
                     <a href="edit?id=<?= $processo['id'] ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
                 <?php endif; ?>
                 <?php if (!empty($processo['contrato_id'])): ?>
-                    <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalInfoContrato" data-contrato-id="<?= $processo['contrato_id'] ?>">
+                    <button type="button" class="btn btn-outline-info btn-sm" id="btnInfoContrato" data-bs-toggle="modal" data-bs-target="#modalInfoContrato" data-contrato-id="<?= $processo['contrato_id'] ?>">
                         <i class="bi bi-info-circle"></i> Info Contrato
                     </button>
                 <?php endif; ?>
@@ -282,74 +282,12 @@ if ($usuario_id) {
     </div>
 </div>
 
-<!-- Modal Info Contrato -->
-<div class="modal fade" id="modalInfoContrato" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-file-earmark-text"></i> Informações do Contrato</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="infoContratoBody">
-                <p class="text-muted">Carregando informações...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#modalInfoContrato').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var contratoId = button.data('contrato-id');
-        if (!contratoId) {
-            $('#infoContratoBody').html('<p class="text-muted">Selecione um contrato.</p>');
-            return;
-        }
-        $('#infoContratoBody').html('<p class="text-muted">Carregando...</p>');
-        $.ajax({
-            url: 'index.php?url=get_contrato_info&contrato_id=' + contratoId,
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    $('#infoContratoBody').html('<p class="text-danger">' + data.error + '</p>');
-                    return;
-                }
-                var campos = [
-                    { label: 'Empresa', key: 'empresa' },
-                    { label: 'Endereço empresa', key: 'endereco_empresa' },
-                    { label: 'Objeto', key: 'objeto_contrato' },
-                    { label: 'Processo base', key: 'processo_base' },
-                    { label: 'Processo Projetos', key: 'processo_projeto' },
-                    { label: 'Edital', key: 'edital' },
-                    { label: 'Análise', key: 'analise' },
-                    { label: 'SEI Delegação', key: 'sei_delegacao' },
-                    { label: 'Status Cronograma', key: 'situacao_cronograma' },
-                    { label: 'SEI Notificação', key: 'n_sei_oficio_cobranca_cronograma' },
-                    { label: 'Data Última Notificação', key: 'data_ultima_notificacao' },
-                    { label: 'Data Término do Cronograma', key: 'data_termino_projeto_cronog' }
-                ];
-                var html = '<div class="row">';
-                campos.forEach(function(campo) {
-                    var valor = data[campo.key] || '-';
-                    html += '<div class="col-md-6"><strong>' + campo.label + ':</strong> ' + valor + '</div>';
-                });
-                html += '</div>';
-                $('#infoContratoBody').html(html);
-            },
-            error: function() {
-                $('#infoContratoBody').html('<p class="text-danger">Erro ao carregar informações.</p>');
-            }
-        });
-    });
-});
-</script>
+
+<!-- ✅ Modal Info Contrato (partial reutilizável) -->
+<?php include APP_PATH . '/Views/partials/modal_info_contrato.php'; ?>
+
 <?php include APP_PATH . '/public/chat_widget.php'; ?>
 </body>
 </html>

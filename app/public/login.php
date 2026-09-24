@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+require_once __DIR__ . '/../Config/version.php';
 
 // Se já estiver logado, redireciona para o index
 if (isset($_SESSION['usuario_id'])) {
@@ -159,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="text-center mt-3"><a href="solicitar_acesso.php">Solicitar acesso</a></p>
 
     <div class="footer-text">
-        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - v1.0</p>
+        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?></p>
     </div>
 </div>
 </body>

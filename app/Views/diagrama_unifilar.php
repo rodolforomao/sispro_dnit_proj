@@ -586,7 +586,7 @@ $setor_nome = 'Atlas/Monitoramento';
         <div style="font-size:18px; font-weight:bold;">Bruno Pimenta Resende</div>
         <div style="font-size:14px; opacity:0.9;">Engenheiro de Projetos</div>
         <div style="font-size:12px; opacity:0.85; margin-top:4px;">DNIT / DIR / CGCONT / COAC / Projetos</div>
-        <div class="version">Versão 1.0 - Atlas - Data 30/06/2026</div>
+        <div class="version">Versão <?= SISPRO_VERSION ?> - Atlas - Data 30/06/2026</div>
     </div>
 
     <!-- ===== SCRIPTS ===== -->
