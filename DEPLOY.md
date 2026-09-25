@@ -257,14 +257,14 @@ Se houver novo dump SQL, importar com as mesmas adaptações MySQL 5.5 (ou gerar
 
 ## Publicação vigente — 25/09/2026
 
-O que está no ar é a tag **`0.00.003`**. A tag `0.00.002` ficou na publicação de 24/09. A tag `0.00.001` continua no commit `6baadf2`, antes de qualquer atualização do desenvolvedor.
+O que esta publicação coloca no ar é a tag **`0.00.004`**. A carga de dados e a correção do dashboard entraram na tag `0.00.003` (branch `2026092501`). A tag `0.00.002` ficou na publicação de 24/09. A tag `0.00.001` continua no commit `6baadf2`.
 
 | Item | Valor vigente |
 |------|----------------|
 | URL | http://10.100.11.235/sispro/ |
-| Tag vigente | **`0.00.003`** |
-| Branch da atualização | `2026092501` |
-| Rodapé em produção | `Versão 0.00.003` (`app/Config/version.php`) |
+| Tag vigente | **`0.00.004`** |
+| Branch da atualização | `2026092502` |
+| Rodapé em produção | `Versão 0.00.004` (`app/Config/version.php`) |
 | Repositório | https://github.com/rodolforomao/sispro_dnit_proj |
 
 Origem do pacote (pasta `new_changes/`, no `.gitignore`):
@@ -409,7 +409,7 @@ O zip do XAMPP vem com raiz `/controle_processos/`, `config.php` em `root` sem s
 | `app/Controllers/AuthController.php` | link `http://HOST/sispro/redefinir_senha?token=` |
 | `app/public/config.php` | continua carregando `config.local.php` se existir |
 | `app/public/config.local.php` | **só no servidor** (e cópia em `secrets/config.local.php`). O rsync exclui esse arquivo. Não substituir pelo `config.php` do XAMPP |
-| `app/Config/version.php` | `SISPRO_VERSION` = tag vigente `0.00.003`. Rodapé de login, home e diagrama unifilar usa essa constante |
+| `app/Config/version.php` | `SISPRO_VERSION` = tag vigente `0.00.004`. Rodapé de login, home e diagrama unifilar usa essa constante |
 | `index.php` | dá `require` em `app/Config/version.php` |
 | `app/Views/diagrama_unifilar.php` e `app/Views/rdci.php` | existem em produção; um pacote novo pode não trazê-los. Não apagar no rsync (`deploy.sh` usa `--delete`) |
 | Credenciais MySQL | ver `secrets/DB_REMOTE.md`. Host a partir do container: `172.17.0.1`. Não abrir `bind-address=0.0.0.0` |
@@ -447,10 +447,7 @@ Arquivos (o mesmo valor nos dois):
 - `api_exportar_processos.php` — constante `SYNC_TOKEN`
 - `app/public/sincronizar_processos.php` — `$SYNC_TOKEN` e `$SYNC_URL`
 
-```
-SYNC_TOKEN = kzseb1XXFRO1CWL5FAPQ3mJi5KBI5viG5OsPWwv2xTI
-SYNC_URL   = http://10.100.11.235/sispro/api_exportar_processos.php
-```
+O valor de `SYNC_TOKEN` e a `SYNC_URL` estão em `secrets/API_SYNC.md` (fora do git). Não versionar.
 
 Header: `X-Sync-Token`. Query alternativa: `?token=`. Sem o token a API responde 401. Cópia também em `secrets/API_SYNC.md`.
 
@@ -467,9 +464,7 @@ O mesmo JWT vai no header HTTP `token:` nestes arquivos:
 - `app/public/importar_supra_dataset_meio_ambiente.php`
 - `app/public/importar_supra_dataset_resumo.php`
 
-```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3VwcmFfY2liX2FwaUBkbml0Lmdvdi5iciIsInBhc3MiOiJTdXByYUBDaWIxMjM0NUAifQ.GyejoRFofL3mMnN7jD64RBrr2JSB9hVpR_BWrfAtd3U
-```
+O JWT de produção está em `secrets/API_SYNC.md` (fora do git). Não versionar.
 
 URL base: `https://supra.dnit.gov.br/index_cgcont_common.php/cgcont/cib/exportBi/{dataset}`.
 
@@ -478,3 +473,14 @@ Se o próximo zip vier com outro JWT, não substituir o de produção sem confir
 ### Próximo dump SQL
 
 Não rodar o `.sql` do phpMyAdmin direto no MySQL 5.5 (ele faz `CREATE TABLE` sem `IF NOT EXISTS` e duplicaria ou falharia). Repetir o procedimento de 24/09: backup, alterar só coluna nova, `ON DUPLICATE KEY UPDATE` nas tabelas de negócio, `INSERT IGNORE` em `logs_auditoria`, sem `DELETE` e sem `DROP` das tabelas com dados.
+
+### O que a tag `0.00.004` acrescenta
+
+A carga de 25/09 e a consulta `MAX(id)` já estão na tag `0.00.003` (branch `2026092501`). Esta tag alinha o rodapé com `0.00.004` (branch `2026092502`) e completa o `scripts/deploy.sh`:
+
+- recusa `ROW_NUMBER()` e `OVER (` (no MySQL 5.5.49 a função de janela responde erro 1064; a consulta vigente devolve 25 `CONCLUÍDO`, 41 `EM ANDAMENTO` e 4 PAAR abertos)
+- exige `app/Views/diagrama_unifilar.php` e `app/Views/rdci.php`
+- exclui `dashboard/`, `xampp/` e `webalizer/`
+- roda `php -l` em todos os `.php` no container `supra-hom`
+
+O id `3851` do dump é o contrato `00 00798/2025`, que em produção permanece no id `3507`. Não inserir o 3851. Os ids `3507` e `3517` existem só no servidor. `processos.created_at` do dump está +3 horas (fuso) e não deve ser aplicado. `logs_auditoria` de produção (259) não recebe o dump (177).

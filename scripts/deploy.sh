@@ -73,6 +73,8 @@ grep -q "define('SISPRO_VERSION'" "$ROOT/app/Config/version.php" \
   || fail "Falta app/Config/version.php com SISPRO_VERSION."
 grep -q 'Config/version.php' "$ROOT/index.php" \
   || fail "index.php precisa carregar app/Config/version.php."
+[[ -f "$ROOT/app/Views/diagrama_unifilar.php" && -f "$ROOT/app/Views/rdci.php" ]] \
+  || fail "Faltam app/Views/diagrama_unifilar.php ou app/Views/rdci.php. O --delete apagaria essas telas no servidor."
 
 VERSION="$(sed -n "s/.*define('SISPRO_VERSION', '\\([^']*\\)').*/\\1/p" "$ROOT/app/Config/version.php")"
 [[ -n "$VERSION" ]] || fail "Não li SISPRO_VERSION em app/Config/version.php."
@@ -85,6 +87,13 @@ PHP8_HITS="$(grep -R -n -E 'str_contains\(|[^[:alnum:]_]fn[[:space:]]*\(|foreach
 if [[ -n "$PHP8_HITS" ]]; then
   echo "$PHP8_HITS" >&2
   fail "Sintaxe incompatível com PHP 7.0 (str_contains, fn() ou list no foreach). Produção é PHP 7.0.32."
+fi
+
+WIN_HITS="$(grep -R -n -E 'ROW_NUMBER[[:space:]]*\(|[[:space:]]OVER[[:space:]]*\(' \
+  --include='*.php' "$ROOT/app" "$ROOT/index.php" "$ROOT/api_exportar_processos.php" 2>/dev/null || true)"
+if [[ -n "$WIN_HITS" ]]; then
+  echo "$WIN_HITS" >&2
+  fail "Consulta com ROW_NUMBER/OVER. O MySQL 5.5.49 de produção não executa função de janela."
 fi
 
 if [[ ! -f "$ROOT/api_exportar_processos.php" ]] || ! grep -q "define('SYNC_TOKEN'" "$ROOT/api_exportar_processos.php"; then
@@ -137,6 +146,9 @@ EXCLUDE=(
   --exclude 'app/public/backups/'
   --exclude 'app/public/debug_supra_json.php'
   --exclude 'app/public/diag_import.php'
+  --exclude 'dashboard/'
+  --exclude 'xampp/'
+  --exclude 'webalizer/'
   --exclude '* (2).*'
   --exclude '* (3).*'
   --exclude '.DS_Store'
@@ -187,7 +199,7 @@ if [[ "$USE_SUDO" == "1" ]]; then
     printf '%s\n' $(printf '%q' "$SSH_PASSWORD") | sudo -S -p '' chmod -R g+rwX "$REMOTE_PATH"
     printf '%s\n' $(printf '%q' "$SSH_PASSWORD") | sudo -S -p '' find "$REMOTE_PATH" -type d -exec chmod g+s {} +
     echo "==> PHP 7.0 no container supra-hom..."
-    printf '%s\n' $(printf '%q' "$SSH_PASSWORD") | sudo -S -p '' docker exec supra-hom php -l /var/www/sispro/app/Controllers/RdciController.php
+    printf '%s\n' $(printf '%q' "$SSH_PASSWORD") | sudo -S -p '' docker exec supra-hom bash -c 'find /var/www/sispro -name "*.php" -print0 | xargs -0 -n1 php -l' > /tmp/sispro_deploy_lint.txt 2>&1 || true
   else
     sudo chown -R "$REMOTE_OWNER:$REMOTE_GROUP" "$REMOTE_PATH"
     sudo chmod -R g+rwX "$REMOTE_PATH"
@@ -197,9 +209,15 @@ else
   chown -R "$REMOTE_OWNER:$REMOTE_GROUP" "$REMOTE_PATH" 2>/dev/null || true
   chmod -R g+rwX "$REMOTE_PATH"
 fi
-if [[ -f /tmp/sispro_deploy_lint.txt ]] && grep -q 'Parse error' /tmp/sispro_deploy_lint.txt; then
-  grep 'Parse error' /tmp/sispro_deploy_lint.txt
-  exit 1
+if [[ -f /tmp/sispro_deploy_lint.txt ]]; then
+  if grep -q 'Parse error' /tmp/sispro_deploy_lint.txt; then
+    grep 'Parse error' /tmp/sispro_deploy_lint.txt
+    exit 1
+  fi
+  if ! grep -q 'No syntax errors' /tmp/sispro_deploy_lint.txt; then
+    echo "ERRO: php -l no container supra-hom não confirmou sintaxe."
+    exit 1
+  fi
 fi
 test -f "$REMOTE_PATH/index.php"
 test -f "$REMOTE_PATH/.htaccess"
