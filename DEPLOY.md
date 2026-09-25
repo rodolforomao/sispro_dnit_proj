@@ -162,6 +162,29 @@ Arquivo no servidor:
 Documentação **local, fora do git** (senha e contagens): pasta `secrets/` — ver `secrets/DB_REMOTE.md`.  
 Essa pasta está no `.gitignore`; não versionar.
 
+### Correção de schema — `processos_ibfk_1` (25/09/2026)
+
+O dump original de 15/09 (`controle_processos.sql` / `controle_processosv1.1.sql`, locais, fora do git) criou a FK:
+
+```sql
+CONSTRAINT `processos_ibfk_1` FOREIGN KEY (`contrato_id`) REFERENCES `contratos` (`id`) ON DELETE CASCADE
+```
+
+Mas `app/Models/ProcessoModel.php` sempre tratou `processos.contrato_id` como id de **`contratos_rdci`** (joins e `getContratoInfo()`). As duas tabelas têm numerações diferentes, então qualquer cadastro de processo com um id válido de `contratos_rdci` (ex.: 44, 68) que não existisse em `contratos` (ids 160–241) falhava com:
+
+```
+SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails
+(`controle_processos`.`processos`, CONSTRAINT `processos_ibfk_1` FOREIGN KEY (`contrato_id`) REFERENCES `contratos` (`id`) ON DELETE CASCADE)
+```
+
+Ocorreu em produção em 25/09/2026 11:04. O SQL do dev de 25/09 (`new_changes/20260925/controle_processos 25-09-2026.sql`, linha 6274) já vinha com a FK certa:
+
+```sql
+ADD CONSTRAINT `processos_ibfk_1` FOREIGN KEY (`contrato_id`) REFERENCES `contratos_rdci` (`id`) ON DELETE SET NULL,
+```
+
+Aplicada em produção com `scripts/migrations/20260925_fix_processos_ibfk_1.sql`. Confirmado sem linha órfã antes de aplicar (0 de 511 processos com `contrato_id` fora de `contratos_rdci`) e validado com cadastro de processo novo depois da correção.
+
 ---
 
 ## Estrutura do repositório (local)
@@ -257,14 +280,14 @@ Se houver novo dump SQL, importar com as mesmas adaptações MySQL 5.5 (ou gerar
 
 ## Publicação vigente — 25/09/2026
 
-O que esta publicação coloca no ar é a tag **`0.00.004`**. A carga de dados e a correção do dashboard entraram na tag `0.00.003` (branch `2026092501`). A tag `0.00.002` ficou na publicação de 24/09. A tag `0.00.001` continua no commit `6baadf2`.
+O que esta publicação coloca no ar é a tag **`0.00.005`**. A correção da FK `processos_ibfk_1` (erro 1452 no cadastro de processo) entrou na tag `0.00.005` (branch `2026092503`). A carga de dados e a correção do dashboard entraram na tag `0.00.003` (branch `2026092501`); as travas de deploy para MySQL 5.5/PHP 7.0, na tag `0.00.004` (branch `2026092502`). A tag `0.00.002` ficou na publicação de 24/09. A tag `0.00.001` continua no commit `6baadf2`.
 
 | Item | Valor vigente |
 |------|----------------|
 | URL | http://10.100.11.235/sispro/ |
-| Tag vigente | **`0.00.004`** |
-| Branch da atualização | `2026092502` |
-| Rodapé em produção | `Versão 0.00.004` (`app/Config/version.php`) |
+| Tag vigente | **`0.00.005`** |
+| Branch da atualização | `2026092503` |
+| Rodapé em produção | `Versão 0.00.005` (`app/Config/version.php`) |
 | Repositório | https://github.com/rodolforomao/sispro_dnit_proj |
 
 Origem do pacote (pasta `new_changes/`, no `.gitignore`):
