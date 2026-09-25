@@ -476,52 +476,44 @@ class RdciController {
         $whereBase  = $this->dashBuildWhere($filtros, $paramsBase);
         $whereSql   = $whereBase ? ($whereBase . ' AND 1=1') : 'WHERE 1=1';
 
-        $sql = "SELECT rotulo, COUNT(*) AS qtd FROM (
-                    SELECT instrumento, situacao_projeto AS rotulo,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1 AND rotulo IS NOT NULL AND TRIM(rotulo) <> ''
-                GROUP BY rotulo";
+        // MySQL 5.5 não tem ROW_NUMBER/PARTITION BY. O último trecho do contrato é o maior id.
+        $ultimo = "SELECT instrumento, MAX(id) AS max_id
+                   FROM contratos_rdci
+                   $whereSql
+                   GROUP BY instrumento";
+
+        $sql = "SELECT c.situacao_projeto AS rotulo, COUNT(*) AS qtd
+                FROM contratos_rdci c
+                INNER JOIN ($ultimo) ult ON c.id = ult.max_id
+                WHERE c.situacao_projeto IS NOT NULL AND TRIM(c.situacao_projeto) <> ''
+                GROUP BY c.situacao_projeto";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($paramsBase);
         $situacao = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $sql2 = "SELECT rotulo, COUNT(*) AS qtd FROM (
-                    SELECT instrumento, situacao_cronograma AS rotulo,
-                           situacao_projeto,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1
-                  AND rotulo IS NOT NULL AND TRIM(rotulo) <> ''
-                  AND (situacao_projeto IS NULL OR UPPER(situacao_projeto) <> 'CONCLUÍDO')
-                GROUP BY rotulo";
+        $sql2 = "SELECT c.situacao_cronograma AS rotulo, COUNT(*) AS qtd
+                 FROM contratos_rdci c
+                 INNER JOIN ($ultimo) ult ON c.id = ult.max_id
+                 WHERE c.situacao_cronograma IS NOT NULL AND TRIM(c.situacao_cronograma) <> ''
+                   AND (c.situacao_projeto IS NULL OR UPPER(c.situacao_projeto) <> 'CONCLUÍDO')
+                 GROUP BY c.situacao_cronograma";
         $stmt = $this->pdo->prepare($sql2);
         $stmt->execute($paramsBase);
         $cronograma = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $sql3 = "SELECT COUNT(*) FROM (
-                    SELECT instrumento,
-                           SUBSTRING_INDEX(GROUP_CONCAT(situacao_paar ORDER BY id DESC), ',', 1) AS sit
-                    FROM contratos_rdci
-                    $whereSql
-                    GROUP BY instrumento
-                ) t WHERE sit = 'Aberto'";
+        $sql3 = "SELECT COUNT(*)
+                 FROM contratos_rdci c
+                 INNER JOIN ($ultimo) ult ON c.id = ult.max_id
+                 WHERE c.situacao_paar = 'Aberto'";
         $stmt = $this->pdo->prepare($sql3);
         $stmt->execute($paramsBase);
         $paarTotal = (int)$stmt->fetchColumn();
 
-        $sql4 = "SELECT instrumento, uf, br, nome_usual, situacao_paar FROM (
-                    SELECT id, instrumento, uf, br, nome_usual, situacao_paar,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1 AND situacao_paar = 'Aberto'
-                ORDER BY uf, br";
+        $sql4 = "SELECT c.instrumento, c.uf, c.br, c.nome_usual, c.situacao_paar
+                 FROM contratos_rdci c
+                 INNER JOIN ($ultimo) ult ON c.id = ult.max_id
+                 WHERE c.situacao_paar = 'Aberto'
+                 ORDER BY c.uf, c.br";
         $stmt = $this->pdo->prepare($sql4);
         $stmt->execute($paramsBase);
         $paarLista = $stmt->fetchAll(PDO::FETCH_ASSOC);
