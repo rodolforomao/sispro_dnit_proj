@@ -60,3 +60,6 @@ composer.lock
 /dist/
 
 new_changes/
+
+# --- Ferramentas locais ---
+.claude/

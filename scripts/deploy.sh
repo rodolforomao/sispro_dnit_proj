@@ -131,6 +131,7 @@ EXCLUDE=(
   --exclude '.vs/'
   --exclude '.vscode/'
   --exclude '.idea/'
+  --exclude '.claude/'
   --exclude '*.sql'
   --exclude '*.tgz'
   --exclude '*.tar.gz'
