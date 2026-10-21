@@ -555,7 +555,7 @@ unset($p);
         </div>
 
         <div class="footer-text text-center mt-4">
-            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão 1.0 - <?= date('Y') ?>
+            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= htmlspecialchars(SISPRO_VERSION, ENT_QUOTES, 'UTF-8') ?> - <?= date('Y') ?>
         </div>
     </div>
 </div>
