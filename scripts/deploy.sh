@@ -127,6 +127,7 @@ EXCLUDE=(
   --exclude 'secrets/'
   --exclude 'new_changes/'
   --exclude 'DEPLOY.md'
+  --exclude 'FLUXO_BRANCH.md'
   --exclude 'README.md'
   --exclude '.vs/'
   --exclude '.vscode/'

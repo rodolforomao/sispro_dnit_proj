@@ -44,6 +44,7 @@ info.php.txt
 # --- Runtime / logs / uploads ---
 *.log
 logs/
+app/public/backups/
 tmp/
 temp/
 upload/
