@@ -10,6 +10,25 @@ $dbname = 'controle_processos';
 $user = 'root';
 $pass = '';
 
+$localConfig = __DIR__ . '/config.local.php';
+if (is_readable($localConfig)) {
+    $local = require $localConfig;
+    if (is_array($local)) {
+        if (isset($local['host'])) {
+            $host = $local['host'];
+        }
+        if (isset($local['dbname'])) {
+            $dbname = $local['dbname'];
+        }
+        if (isset($local['user'])) {
+            $user = $local['user'];
+        }
+        if (isset($local['pass'])) {
+            $pass = $local['pass'];
+        }
+    }
+}
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

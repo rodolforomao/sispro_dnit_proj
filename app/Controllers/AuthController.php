@@ -133,7 +133,7 @@ class AuthController {
                 $erro = 'E-mail não cadastrado.';
             } else {
                 $token = $this->model->gerarTokenRecuperacao($email);
-                $link = "http://".$_SERVER['HTTP_HOST']."/controle_processos/redefinir_senha?token=".$token;
+                $link = "http://".$_SERVER['HTTP_HOST']."/sispro/redefinir_senha?token=".$token;
                 $mensagem = "Um link de redefinição foi gerado. <a href='$link'>Clique aqui para redefinir sua senha</a> (este link expira em 1 hora).";
             }
         }
