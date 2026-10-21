@@ -96,8 +96,8 @@ $mapa = [
 
 // Colunas únicas para o INSERT
 $colunasInsert = [];
-foreach ($mapa as $mapaItem) {
-    list($apiKey, $dbField, $tipo) = $mapaItem;
+foreach ($mapa as $item) {
+        list($apiKey, $dbField, $tipo) = $item;
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -163,8 +163,8 @@ try {
         $valores = [];
         $porColuna = [];
 
-        foreach ($mapa as $mapaItem) {
-            list($apiKey, $dbField, $tipo) = $mapaItem;
+        foreach ($mapa as $item) {
+        list($apiKey, $dbField, $tipo) = $item;
             if ($tipo === 'fallback' && !empty($porColuna[$dbField])) continue;
 
             $v = $itemNorm[normalizarChave($apiKey)] ?? null;

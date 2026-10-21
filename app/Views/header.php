@@ -111,6 +111,8 @@ if (empty($setores_usuario)) {
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 230px;">
+                <li><a class="dropdown-item" href="index"><i class="bi bi-list-ul"></i> Processos</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="dashboard_projetos"><i class="bi bi-clipboard-data"></i> Dashboard de Projetos</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="notificacoes_rdci"><i class="bi bi-bell"></i> Notificações RDCI</a></li>

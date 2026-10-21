@@ -4,7 +4,6 @@
 // Define os caminhos
 define('BASE_PATH', __DIR__);
 define('APP_PATH', BASE_PATH . '/app');
-require_once APP_PATH . '/Config/version.php';
 
 // Inicia a sessão se não estiver ativa
 if (session_status() === PHP_SESSION_NONE) {
@@ -17,6 +16,12 @@ if (!file_exists($configFile)) {
     die("Arquivo de configuração não encontrado: $configFile");
 }
 require_once $configFile;
+
+// ============================================================
+// 🔥 AUTO-SYNC — dispara importação no primeiro acesso do dia
+//    (roda em background, não atrasa o carregamento da página)
+// ============================================================
+require_once APP_PATH . '/public/_auto_sync.php';
 
 // Pega a URL
 $url = isset($_GET['url']) ? $_GET['url'] : '';
@@ -34,8 +39,8 @@ $routes = require_once $routesFile;
 // Verifica se a URL existe no mapa de rotas
 if (isset($routes[$url])) {
     $controllerName = $routes[$url]['controller'];
-    $methodName = $routes[$url]['method'];
-    
+    $methodName     = $routes[$url]['method'];
+
     $controllerFile = APP_PATH . "/Controllers/{$controllerName}.php";
     if (file_exists($controllerFile)) {
         require_once $controllerFile;

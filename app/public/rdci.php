@@ -178,9 +178,9 @@ $situacoesCronograma = $pdo->query("SELECT DISTINCT situacao_cronograma FROM con
                                 <?php
                                 $status = $c['status_geral'] ?? '—';
                                 $badgeClass = 'secondary';
-                                if ((strpos($status, 'Verde') !== false)) $badgeClass = 'success';
-                                elseif ((strpos($status, 'Amarelo') !== false)) $badgeClass = 'warning';
-                                elseif ((strpos($status, 'Vermelho') !== false)) $badgeClass = 'danger';
+                                if (strpos($status, 'Verde') !== false) $badgeClass = 'success';
+                                elseif (strpos($status, 'Amarelo') !== false) $badgeClass = 'warning';
+                                elseif (strpos($status, 'Vermelho') !== false) $badgeClass = 'danger';
                                 ?>
                                 <span class="badge bg-<?= $badgeClass ?>"><?= htmlspecialchars($status) ?></span>
                             </td>

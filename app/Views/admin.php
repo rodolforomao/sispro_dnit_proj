@@ -150,10 +150,15 @@ $todosAdmin     = (isset($todos)     && is_array($todos))     ? $todos     : [];
         <div class="d-flex align-items-center">
             <span class="sistema-titulo"><i class="bi bi-people"></i> Administração de Usuários</span>
         </div>
-        <div>
+        <div class="d-flex gap-2">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCriar">
                 <i class="bi bi-plus-circle"></i> Novo Usuário
             </button>
+
+            <a href="debug_supra_json.php" class="btn btn-warning" title="Inspecionar JSON da API do DataSet 36">
+                <i class="bi bi-bug-fill"></i> Debug API
+            </a>
+
             <a href="index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
         </div>
     </div>

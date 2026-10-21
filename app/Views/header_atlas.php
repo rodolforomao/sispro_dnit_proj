@@ -98,11 +98,18 @@ if (empty($setores_usuario)) {
             <button class="btn-icon" id="dropdownApps" data-bs-toggle="dropdown" aria-expanded="false" title="Ferramentas">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 250px;">
-                <li><a class="dropdown-item" href="comparativo_bancos"><i class="bi bi-columns-gap"></i> Comparativo entre Bancos</a></li>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownApps" style="min-width: 290px;">
+                <li><a class="dropdown-item" href="notificacoes_obras"><i class="bi bi-clipboard-check"></i> Notificações Obras</a></li>
+                <li><a class="dropdown-item" href="comparativo_bancos_1x36x38"><i class="bi bi-columns-gap"></i> Comparativo entre Bancos 1x36x38</a></li>
+                <li>
+                    <a class="dropdown-item" href="comparativo_bancos_16x40">
+                        <i class="bi bi-diagram-2"></i> Comparativo Bancos 16×40
+                    </a>
+                </li>
                 <li><a class="dropdown-item" href="avanco_fisico"><i class="bi bi-bar-chart-line"></i> Avanço Físico por Serviço</a></li>
             </ul>
         </div>
+        
         <!-- Avatar -->
         <div class="dropdown">
             <button class="btn-avatar" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">

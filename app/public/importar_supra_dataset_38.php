@@ -91,8 +91,8 @@ $campos = [
 ];
 
 $colunasInsert = [];
-foreach ($campos as $campoItem) {
-    list($apiKey, $dbField, $tipo) = $campoItem;
+foreach ($campos as $item) {
+        list($apiKey, $dbField, $tipo) = $item;
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -129,8 +129,8 @@ try {
         }
 
         $valoresPorColuna = [];
-        foreach ($campos as $campoItem) {
-            list($apiKey, $dbField, $tipo) = $campoItem;
+        foreach ($campos as $item) {
+        list($apiKey, $dbField, $tipo) = $item;
             if (isset($valoresPorColuna[$dbField]) && $valoresPorColuna[$dbField] !== null && $valoresPorColuna[$dbField] !== '') {
                 continue;
             }

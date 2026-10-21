@@ -193,6 +193,6 @@ class ComparacaoAtlasController {
 
         // ---- Variáveis disponíveis na view ----
         // (mantém os mesmos nomes que a view comparativo_bancos.php espera)
-        require_once APP_PATH . '/Views/comparativo_bancos.php';
+        require_once APP_PATH . '/Views/comparativo_bancos_1x36x38.php';
     }
 }

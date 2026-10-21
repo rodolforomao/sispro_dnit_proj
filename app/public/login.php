@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="text-center mt-3"><a href="solicitar_acesso.php">Solicitar acesso</a></p>
 
     <div class="footer-text">
-        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?></p>
+        <p>Desenvolvido por <strong>Bruno Pimenta</strong> - v1.0</p>
     </div>
 </div>
 </body>

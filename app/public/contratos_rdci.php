@@ -78,9 +78,9 @@ $situacoesCronograma = $pdo->query("SELECT DISTINCT situacao_cronograma FROM con
 // Função para formatar status com cores
 function getStatusBadge($status) {
     $status = strtoupper($status);
-    if ((strpos($status, 'VERDE') !== false)) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
-    if ((strpos($status, 'AMARELO') !== false) || (strpos($status, 'AMAREL') !== false)) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
-    if ((strpos($status, 'VERMELHO') !== false) || (strpos($status, 'VERMEL') !== false)) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'VERDE') !== false) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'AMARELO') !== false || strpos($status, 'AMAREL') !== false) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'VERMELHO') !== false || strpos($status, 'VERMEL') !== false) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
     return '<span class="badge bg-secondary">' . htmlspecialchars($status) . '</span>';
 }
 
