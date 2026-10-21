@@ -873,7 +873,7 @@ if (!empty($filtros['br'])) {
         <?php endif; ?>
 
         <div class="footer-text text-center mt-4">
-            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão <?= SISPRO_VERSION ?> - <?= date('Y') ?>
+            Desenvolvido por <strong>Bruno Pimenta</strong> - Versão 1.0 - <?= date('Y') ?>
         </div>
     </div>
 </div>
