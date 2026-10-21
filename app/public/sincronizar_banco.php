@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Config/version.php';
 // ============================================================
 // Tela de merge do banco — puxa a produção e mescla no DEV
 // ⚠️ Rodar APENAS no XAMPP (dev)
@@ -584,8 +585,8 @@ if ($action === 'preview' && isset($_POST['tables'])) {
 <head>
     <meta charset="UTF-8">
     <title>Mesclar banco - DEV</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body { background: #f8f9fc; padding: 40px 20px; }
         .container { max-width: 1100px; }

@@ -93,8 +93,8 @@ $todosAdmin     = (isset($todos)     && is_array($todos))     ? $todos     : [];
 <head>
     <meta charset="UTF-8">
     <title>Administração - Usuários</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body { background: #f8f9fc; padding-top: 70px; }
         .container-fluid { max-width: 1400px; }
@@ -397,7 +397,7 @@ $todosAdmin     = (isset($todos)     && is_array($todos))     ? $todos     : [];
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script>
 document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalEditar"]').forEach(function(button) {
     button.addEventListener('click', function() {

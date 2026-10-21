@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Config/version.php';
 require_once 'config.php';
 
 // Proteger - apenas admin_premium e admin
@@ -159,10 +160,10 @@ $suggestedMax = $maxBar > 0 ? ceil($maxBar * 1.25) : 5; // 25% a mais de espaço
 <head>
     <meta charset="UTF-8">
     <title>Painel Gerencial - SISPROC</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chart.js') ?>"></script>
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js') ?>"></script>
     <style>
         body { background: #f8f9fc; }
         .container-fluid { max-width: 98%; padding: 0 15px; }
@@ -195,7 +196,7 @@ $suggestedMax = $maxBar > 0 ? ceil($maxBar * 1.25) : 5; // 25% a mais de espaço
     <div class="card">
         <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div class="d-flex align-items-center">
-                <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit me-3">
+                <img src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png') ?>" alt="DNIT" class="logo-dnit me-3">
                 <span class="sistema-titulo"><i class="bi bi-diagram-3"></i> SISPROC - Painel Gerencial</span>
             </div>
             <div class="d-flex align-items-center gap-2">

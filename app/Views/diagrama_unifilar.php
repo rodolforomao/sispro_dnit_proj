@@ -12,8 +12,8 @@ $setor_nome = 'Atlas/Monitoramento';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diagrama Unifilar - SISPRO</title>
     <!-- Bootstrap (necessário para o header) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <!-- Estilos originais do diagrama (com .container-diagrama) -->
     <style>
         /* ===== ESTILOS GERAIS ===== */
@@ -440,7 +440,7 @@ $setor_nome = 'Atlas/Monitoramento';
         <!-- LOGO -->
         <div style="margin-bottom:20px; text-align:center;">
             <img 
-                src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png"
+                src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png') ?>"
                 alt="Logo DNIT"
                 style="max-width:250px; height:auto;">
         </div>
@@ -579,7 +579,7 @@ $setor_nome = 'Atlas/Monitoramento';
     <!-- ===== RODAPÉ ===== -->
     <div class="footer">
         <img 
-            src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png"
+            src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png') ?>"
             alt="Logo DNIT"
             style="max-width:100px;">
         <div style="font-size:14px; opacity:0.9;">Desenvolvido por:</div>
@@ -591,9 +591,9 @@ $setor_nome = 'Atlas/Monitoramento';
 
     <!-- ===== SCRIPTS ===== -->
     <!-- Bootstrap JS (para o header) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
     <!-- jspdf -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="<?= sispro_asset('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js') ?>"></script>
     <!-- Código JavaScript do diagrama (original) - AGORA COM CONSOLE LOG PARA DEPURAÇÃO -->
     <script>
         // ============================
