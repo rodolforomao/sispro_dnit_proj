@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Controle de Processos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body {
             background: linear-gradient(135deg, #e8f0fe 0%, #f8f9fc 100%);
@@ -56,7 +56,7 @@
 </head>
 <body>
 <div class="login-card">
-    <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png" alt="DNIT" class="logo-dnit">
+    <img src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png') ?>" alt="DNIT" class="logo-dnit">
     <h4 class="text-center mb-4" style="color: #004a8f; font-weight: 1500;">SISPRO - Sistema de Processos - COAC</h4>
 
     <?php if ($erro): ?>

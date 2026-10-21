@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Config/version.php';
 require_once 'config.php';
 
 if (!isset($_SESSION['usuario_id'])) {
@@ -92,8 +93,8 @@ function getStatusVencimento($dataCronograma) {
 <head>
     <meta charset="UTF-8">
     <title>Notificações RDCI - SISPROC</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body { background: #f8f9fc; }
         .container-fluid { max-width: 98%; }
@@ -161,7 +162,7 @@ function getStatusVencimento($dataCronograma) {
         <!-- Cabeçalho -->
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
             <div class="d-flex align-items-center">
-                <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit me-3">
+                <img src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png') ?>" alt="DNIT" class="logo-dnit me-3">
                 <span class="sistema-titulo"><i class="bi bi-bell"></i> Notificações RDCI - Cronogramas</span>
             </div>
             <div class="d-flex gap-2">
@@ -308,8 +309,8 @@ function getStatusVencimento($dataCronograma) {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= sispro_asset('https://code.jquery.com/jquery-3.6.0.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script>
 // ============================================================
 // ATUALIZAR DADOS

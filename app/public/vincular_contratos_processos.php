@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Config/version.php';
 // ============================================================
 // Vincula processos aos contratos — 4 camadas com LIKE
 // Camada 1: processo_base
@@ -149,8 +150,8 @@ $semContrato = $total - $comContrato;
 <head>
     <meta charset="UTF-8">
     <title>Vincular Contratos - DEV</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body { background: #f8f9fc; padding: 40px 20px; }
         .container { max-width: 1100px; }

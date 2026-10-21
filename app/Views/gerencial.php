@@ -95,11 +95,11 @@ $tempoConclusao         = $tempoConclusao         ?? '-';
 <head>
     <meta charset="UTF-8">
     <title>Painel Gerencial - SISPRO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <!-- Chart.js + datalabels -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chart.js') ?>"></script>
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js') ?>"></script>
     <style>
         /* ======= ESTILOS GERAIS ======= */
         body { background: #f8f9fc; padding-top: 80px; }
@@ -334,7 +334,7 @@ $tempoConclusao         = $tempoConclusao         ?? '-';
         Painel Gerencial - SISPRO - <?= date('d/m/Y H:i') ?>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script>
 // ============================================================
 // LIMPEZA: remove possíveis backdrops órfãos de modais do Bootstrap

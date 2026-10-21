@@ -85,7 +85,7 @@ if (empty($setores_usuario)) {
      ============================================================ -->
 <header class="topbar">
     <div class="topbar-left">
-        <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png" alt="DNIT" class="logo-dnit">
+        <img src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-simples.png') ?>" alt="DNIT" class="logo-dnit">
         <span class="sistema-titulo"><i class="bi bi-diagram-3"></i> SISPRO</span>
     </div>
     <div class="topbar-center">

@@ -200,10 +200,10 @@ if (!empty($filtros['subtrecho'])) $filtrosAplicados[] = ['param' => 'subtrecho'
 <head>
     <meta charset="UTF-8">
     <title>Dashboard de Projetos - SISPRO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css') ?>" rel="stylesheet" />
+    <link rel="stylesheet" href="<?= sispro_asset('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css') ?>">
     <style>
         :root {
             --dp-azul:        #004a8f;
@@ -761,12 +761,12 @@ if (!empty($filtros['subtrecho'])) $filtrosAplicados[] = ['param' => 'subtrecho'
     <?php endif; ?>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="<?= sispro_asset('https://code.jquery.com/jquery-3.6.0.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js') ?>"></script>
+<script src="<?= sispro_asset('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js') ?>"></script>
 <script>
 if (window.Chart && window.ChartDataLabels) {
     Chart.register(ChartDataLabels);

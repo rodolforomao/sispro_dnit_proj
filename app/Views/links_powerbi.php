@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Power BI - SISPRO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
         body { background: #f8f9fc; margin: 0; padding: 0; }
         .header-bar {
@@ -56,7 +56,7 @@
     <!-- Header -->
     <div class="header-bar">
         <div class="d-flex align-items-center gap-3">
-            <img src="https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png" alt="DNIT" class="logo-dnit">
+            <img src="<?= sispro_asset('https://www.gov.br/dnit/pt-br/central-de-conteudos/publicacoes/manual-de-gestao-da-marca/marcas-dnit/assinaturas-e-marcas/monocromatica-dnit-extenso.png') ?>" alt="DNIT" class="logo-dnit">
             <span class="sistema-titulo"><i class="bi bi-bar-chart-fill"></i> Power BI - SISPRO</span>
         </div>
         <a href="index" class="btn-voltar"><i class="bi bi-arrow-left"></i> Voltar</a>
@@ -67,6 +67,6 @@
         <iframe src="https://app.powerbi.com/view?r=eyJrIjoiNmY0YTdkM2QtYTQxNi00NTRhLTk3OTUtNmVmYzk3ZTU0NGU3IiwidCI6IjEwNTk1NzEyLWE3YTEtNDQ0YS1iM2E4LWU1MzFjYTMxN2M4MCJ9" allowfullscreen></iframe>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>
