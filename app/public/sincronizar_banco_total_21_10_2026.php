@@ -194,7 +194,7 @@ if ($acao === 'import') {
         $backupDir = null;
         $backupInfo = [];
         if ($fazerBackup) {
-            [$backupDir, $backupInfo] = backupTabelas($pdo, $BACKUP_DIR, $ordem);
+            list($backupDir, $backupInfo) = backupTabelas($pdo, $BACKUP_DIR, $ordem);
         }
 
         // 2) Desabilita FKs (vale para a sessão inteira via PDO)
