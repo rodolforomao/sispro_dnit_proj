@@ -13,7 +13,6 @@ $usuario_nome  = $_SESSION['usuario_nome']  ?? 'Usuário';
 $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
 $usuario_id    = $_SESSION['usuario_id']    ?? 0;
 
-// Limiar configurado no controller
 $limiteAlerta = (int)NotificacoesObrasController::PERCENTUAL_ALERTA;
 
 $ultimaAtualizacao = '—';
@@ -61,32 +60,71 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         body { background: #f8f9fc; padding-top: 70px; }
         .container-fluid { max-width: 98%; }
         .card { border: none; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); background: #fff; padding: 20px 25px; }
-        .table th { font-weight: 600; color: #2c3e50; white-space: nowrap; font-size: 0.85rem; }
-        .table td { vertical-align: middle; font-size: 0.85rem; }
-        .table .badge { font-size: 0.75rem; }
+
+        /* ============================================================
+           TABELA — compacta, sem rolagem horizontal
+           ============================================================ */
+        .table-wrapper { position:relative; max-height:600px; overflow-y:auto; overflow-x:auto; }
+        .table-wrapper table { width:100%; border-collapse:separate; border-spacing:0; table-layout:fixed; }
+        .table-wrapper table thead th { position:sticky; top:0; z-index:10; background:#fff; border-bottom:2px solid #dee2e6; }
+        .table-wrapper table thead th:first-child { position:sticky; left:0; z-index:11; background:#fff; }
+        .table-wrapper table tbody td:first-child { position:sticky; left:0; z-index:5; background:#fff; }
+        .table-wrapper table tbody tr.linha-marcada td:first-child { background:#d4edda; }
+        .table-wrapper table tbody tr.linha-marcada { background-color:#d4edda !important; }
+        .table-wrapper table tbody tr.linha-marcada td { background-color:#d4edda !important; }
+
+        .table th { font-weight:600; color:#2c3e50; font-size:0.70rem; padding:8px 4px; white-space:normal; line-height:1.15; }
+        .table td { vertical-align:middle; font-size:0.74rem; padding:6px 4px; line-height:1.2; word-break:break-word; }
+
+        /* Larguras fixas — soma ~1180px */
+        .col-checkbox   { width:30px; min-width:30px; max-width:30px; }
+        .col-contrato   { width:105px; }
+        .col-tipo       { width:78px; }
+        .col-br-uf      { width:52px; white-space:nowrap; }
+        .col-lote       { width:40px; }
+        .col-obra       { width:140px; }
+        .col-termino    { width:74px; white-space:nowrap; }
+        .col-cron       { width:98px; }
+        .col-sei        { width:74px; }
+        .col-ultnotif   { width:74px; white-space:nowrap; }
+        .col-notif      { width:100px; }
+        .col-oficio     { width:74px; }
+        .col-acao       { width:88px; }
+        .col-isento     { width:30px; text-align:center; }
+        .col-comentario { width:30px; text-align:center; }
+        .col-acoes      { width:70px; white-space:nowrap; }
+
         .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.4rem; letter-spacing: 1px; }
         .btn-sm { padding: 0.2rem 0.5rem; font-size: 0.75rem; }
-        .table-responsive { overflow-x: auto; }
 
         .ultima-atualizacao { font-size: 0.78rem; color: #6c757d; background: #f1f5f9; border: 1px solid #e2e8f0; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
         .ultima-atualizacao strong { color: #0d6efd; }
 
-        .cron-vencido { background:#dc3545; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .cron-atencao { background:#ffc107; color:#000; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .cron-prazo   { background:#198754; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .cron-semdata { background:#fd7e14; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
+        .cron-vencido, .cron-atencao, .cron-prazo, .cron-semdata,
+        .notif-vencido, .notif-atencao, .notif-tranquilo, .notif-isento,
+        .notif-faltadata, .notif-semdata, .notif-semnecessidade {
+            padding:3px 8px; border-radius:12px; font-weight:500; font-size:0.68rem;
+            line-height:1.15; display:inline-block; max-width:100%; word-break:break-word;
+        }
+        .cron-vencido   { background:#dc3545; color:#fff; }
+        .cron-atencao   { background:#ffc107; color:#000; }
+        .cron-prazo     { background:#198754; color:#fff; }
+        .cron-semdata   { background:#fd7e14; color:#fff; }
+        .notif-vencido        { background:#dc3545; color:#fff; }
+        .notif-atencao        { background:#ffc107; color:#000; }
+        .notif-tranquilo      { background:#198754; color:#fff; }
+        .notif-isento         { background:#0d6efd; color:#fff; }
+        .notif-faltadata      { background:#fd7e14; color:#fff; }
+        .notif-semdata        { background:#fd7e14; color:#fff; }
+        .notif-semnecessidade { background:#6c757d; color:#fff; }
 
-        .notif-vencido        { background:#dc3545; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-atencao        { background:#ffc107; color:#000; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-tranquilo      { background:#198754; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-isento         { background:#0d6efd; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-faltadata      { background:#fd7e14; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-semdata        { background:#fd7e14; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
-        .notif-semnecessidade { background:#6c757d; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; white-space:nowrap; font-size:0.75rem; }
+        .badge-tipo { background:#212529; color:#fff; padding:3px 8px; border-radius:12px; font-weight:500; font-size:0.66rem; display:inline-block; max-width:100%; word-break:break-word; }
 
-        .badge-tipo { background:#212529; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; font-size:0.72rem; white-space:nowrap; }
-
-        .badge-acao { padding:4px 10px; border-radius:20px; font-weight:500; font-size:0.75rem; white-space:nowrap; }
+        .badge-acao {
+            padding:3px 8px; border-radius:12px; font-weight:500; font-size:0.68rem;
+            line-height:1.15; text-align:center; display:inline-block; max-width:100%;
+            word-break:break-word;
+        }
         .badge-acao.notificar             { background:#0d6efd; color:#fff; }
         .badge-acao.notificado            { background:#198754; color:#fff; }
         .badge-acao.aguardando_assinatura { background:#6f42c1; color:#fff; }
@@ -96,23 +134,14 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .btn-outline-purple { color:#6f42c1; border-color:#6f42c1; }
         .btn-outline-purple:hover, .btn-outline-purple:focus { background:#6f42c1; color:#fff; }
 
-        .isento-badge { background:#6c757d; color:#fff; padding:4px 10px; border-radius:20px; font-weight:500; font-size:0.75rem; white-space:nowrap; }
-
-        .col-checkbox { width:40px; min-width:40px; max-width:40px; }
-        .col-contrato { min-width:150px; word-break:break-word; }
-        .col-tipo     { min-width:150px; }
-        .col-br       { min-width:70px; white-space:nowrap; }
-        .col-vencimento { min-width:120px; }
-        .col-comentario { min-width:60px; text-align:center; }
-
-        .sei-link { cursor:pointer; color:#0d6efd; text-decoration:underline; font-size:0.85rem; }
+        .sei-link { cursor:pointer; color:#0d6efd; text-decoration:underline; font-size:0.74rem; word-break:break-all; }
         .sei-link:hover { color:#0a58ca; }
 
         #toastCopiado { position: fixed; bottom:30px; left:50%; transform:translateX(-50%); background: rgba(0,0,0,0.85); color:#fff; padding:10px 24px; border-radius:30px; font-weight:500; font-size:0.95rem; opacity:0; visibility:hidden; transition: opacity .3s ease, visibility .3s ease; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.3); pointer-events:none; }
         #toastCopiado.show { opacity:1; visibility:visible; }
         #toastCopiado i { margin-right:8px; }
 
-        .btn-acoes { padding:0.2rem 0.4rem; font-size:0.7rem; }
+        .btn-acoes { padding:0.2rem 0.35rem; font-size:0.7rem; }
         .info-count { font-size:0.9rem; color:#6c757d; margin-top:0.5rem; }
         .info-count strong { color:#2c3e50; }
         .info-count .obs { color:#6c757d; font-style:italic; margin-left:0.5rem; }
@@ -130,24 +159,14 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         @media (max-width: 767px)  { .filtro-col { flex:0 0 50%;     max-width:50%; } }
         @media (max-width: 575px)  { .filtro-col { flex:0 0 100%; max-width:100%; } }
 
-        .table-wrapper { position:relative; max-height:600px; overflow:auto; }
-        .table-wrapper table { width:100%; border-collapse:separate; border-spacing:0; }
-        .table-wrapper table thead th { position:sticky; top:0; z-index:10; background:#fff; border-bottom:2px solid #dee2e6; }
-        .table-wrapper table thead th:first-child { position:sticky; left:0; z-index:11; background:#fff; }
-        .table-wrapper table tbody td:first-child { position:sticky; left:0; z-index:5; background:#fff; }
-        .table-wrapper table tbody tr.linha-marcada td:first-child { background:#d4edda; }
-        .table-wrapper table tbody tr.linha-marcada { background-color:#d4edda !important; }
-        .table-wrapper table tbody tr.linha-marcada td { background-color:#d4edda !important; }
-        .table-wrapper table tbody td:first-child { min-width:40px; max-width:40px; }
-
-        .btn-notificacao-dropdown .dropdown-toggle { padding:0.2rem 0.4rem; font-size:0.7rem; }
+        .btn-notificacao-dropdown .dropdown-toggle { padding:0.2rem 0.35rem; font-size:0.7rem; }
         .btn-notificacao-dropdown .dropdown-menu { min-width:200px; padding:0.2rem 0; }
         .btn-notificacao-dropdown .dropdown-item { padding:0.25rem 0.75rem; font-size:0.75rem; cursor:pointer; }
         .btn-notificacao-dropdown .dropdown-item:hover { background:#e9ecef; }
         .btn-notificacao-dropdown .dropdown-item i { margin-right:6px; }
 
-        .comentario-badge { position:relative; cursor:pointer; font-size:1.3rem; }
-        .comentario-badge .badge-dot { position:absolute; top:-6px; right:-6px; width:12px; height:12px; background:#ffc107; border-radius:50%; border:2px solid white; display:none; }
+        .comentario-badge { position:relative; cursor:pointer; font-size:1.15rem; }
+        .comentario-badge .badge-dot { position:absolute; top:-5px; right:-5px; width:10px; height:10px; background:#ffc107; border-radius:50%; border:2px solid white; display:none; }
         .comentario-badge.has-comentario .badge-dot { display:block; }
         .comentario-bolha { background:#f1f3f5; border-radius:12px; padding:12px 16px; margin-bottom:12px; border-left:4px solid #0d6efd; position:relative; }
         .comentario-bolha .comentario-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:4px; }
@@ -161,7 +180,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .comentario-bolha .comentario-actions { margin-top:6px; display:flex; gap:6px; }
 
         /* ============================================================
-           ANÁLISE DE PERFORMANCE (dentro do modal de detalhes)
+           ANÁLISE DE PERFORMANCE
            ============================================================ */
         .analise-wrap { margin-top:20px; }
         .analise-card { border-radius:14px; padding:18px 22px; border-left:6px solid #6c757d; background:#f8f9fc; }
@@ -173,21 +192,11 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .analise-card h6 { font-weight:700; font-size:.95rem; color:#0b1a4a; margin-bottom:14px; }
         .analise-kpi { display:flex; flex-direction:column; gap:2px; }
         .analise-kpi small { font-size:.72rem; color:#7a859b; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
-        .analise-kpi strong {
-            font-size:1.15rem; font-weight:700; color:#1c2430;
-            white-space:nowrap;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:block;
-            max-width:100%;
-        }
+        .analise-kpi strong { font-size:1.15rem; font-weight:700; color:#1c2430; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; max-width:100%; }
         .analise-kpi.positivo strong { color:#198754; }
         .analise-kpi.negativo strong { color:#dc3545; }
         .analise-kpi.neutro   strong { color:#495057; }
-
-        @media (max-width: 991px) {
-            .analise-kpi strong { font-size:1.05rem; }
-        }
+        @media (max-width: 991px) { .analise-kpi strong { font-size:1.05rem; } }
 
         .analise-progresso { height:12px; border-radius:6px; background:#e6eaf1; overflow:hidden; margin-top:6px; }
         .analise-progresso .barra { height:100%; background:#0d6efd; transition:width .4s ease; }
@@ -205,9 +214,6 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .analise-sugestao strong { color:#0b1a4a; }
         .analise-acoes { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
 
-        /* ============================================================
-           CRITÉRIOS DE NOTIFICAÇÃO
-           ============================================================ */
         .criterios { margin-top:16px; padding:14px 16px; background:#fff; border:1px solid #e3e8f0; border-radius:10px; }
         .criterios h6 { font-size:.8rem; font-weight:700; color:#0b1a4a; text-transform:uppercase; letter-spacing:.04em; margin:0 0 10px; }
         .criterios ul { list-style:none; padding:0; margin:0; }
@@ -221,7 +227,6 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .criterios .desc strong { color:#0b1a4a; }
         .criterios .obs { margin-top:10px; padding-top:10px; border-top:1px solid #eef1f6; font-size:.78rem; color:#6c757d; font-style:italic; }
 
-        /* Botão de ajuda no header */
         .btn-ajuda-criterios {
             background:#fff; border:1px solid #d7dfea; color:#0b1a4a;
             border-radius:50%; width:34px; height:34px; padding:0;
@@ -233,6 +238,15 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .popover-criterios .popover-body { font-size:.83rem; }
         .popover-criterios .popover-body ul { padding-left:18px; margin:8px 0 0; }
         .popover-criterios .popover-body li { margin-bottom:4px; }
+
+        /* ============================================================
+           GRÁFICOS
+           ============================================================ */
+        .grafico-card { border-radius:14px; padding:16px 18px; border-left:6px solid #0d6efd; background:#f8f9fc; }
+        .grafico-card h6 { font-weight:700; font-size:.92rem; color:#0b1a4a; margin-bottom:12px; }
+        .grafico-canvas-wrap { position:relative; height:220px; }
+        .grafico-nota { margin-top:12px; padding:10px 14px; border-radius:10px; background:#fff; border:1px dashed #c6d0dd; font-size:.8rem; color:#495057; }
+        .grafico-nota i { color:#0d6efd; }
     </style>
 </head>
 <body>
@@ -256,7 +270,6 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
             <div class="d-flex align-items-center gap-3 flex-wrap">
                 <h2 class="sistema-titulo mb-0"><i class="bi bi-clipboard-check"></i> Notificações de Obras - Cronogramas</h2>
 
-                <!-- ✅ Botão de ajuda com critérios -->
                 <button type="button" class="btn-ajuda-criterios"
                         data-bs-toggle="popover"
                         data-bs-trigger="focus"
@@ -396,27 +409,25 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                     <tr>
                         <th class="col-checkbox text-center"><input type="checkbox" id="selecionarTodos" title="Selecionar todos"></th>
                         <th class="col-contrato">Contrato</th>
-                        <th class="col-tipo">Tipo de execução</th>
-                        <th class="col-br">BR</th>
-                        <th>UF</th>
-                        <th>Lote</th>
-                        <th>Nome Usual</th>
-                        <th>Empresa</th>
-                        <th>Data Término Cronog.</th>
-                        <th class="col-vencimento">Status Cronograma</th>
-                        <th>SEI Cronog.</th>
-                        <th>Data Últ. Notif.</th>
-                        <th class="col-vencimento">Status Notificação</th>
-                        <th>Ofício Notif.</th>
-                        <th>Ação</th>
-                        <th>Isento</th>
-                        <th class="col-comentario">Coment.</th>
-                        <th>Ações</th>
+                        <th class="col-tipo">Tipo</th>
+                        <th class="col-br-uf">BR/UF</th>
+                        <th class="col-lote">Lote</th>
+                        <th class="col-obra">Obra / Empresa</th>
+                        <th class="col-termino">Término</th>
+                        <th class="col-cron">Cronograma</th>
+                        <th class="col-sei">SEI</th>
+                        <th class="col-ultnotif">Últ. Notif</th>
+                        <th class="col-notif">Notificação</th>
+                        <th class="col-oficio">Ofício</th>
+                        <th class="col-acao">Ação</th>
+                        <th class="col-isento text-center" title="Isento">Is.</th>
+                        <th class="col-comentario"><i class="bi bi-chat-dots"></i></th>
+                        <th class="col-acoes">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php if (empty($contratos)): ?>
-                    <tr><td colspan="18" class="text-center text-muted py-4">Nenhum contrato encontrado.</td></tr>
+                    <tr><td colspan="16" class="text-center text-muted py-4">Nenhum contrato encontrado.</td></tr>
                 <?php else: foreach ($contratos as $c):
                     $sc = $c['_status_crono'];
                     $sn = $c['_status_notif'];
@@ -439,27 +450,36 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                         case 'isento':                $btnColor='secondary'; $btnIcon='bi-slash-circle';    break;
                         default:                      $btnColor='warning';   $btnIcon='bi-clock';           break;
                     }
-                    $dataTermFmt = $dataTerm ? date('d/m/Y', strtotime($dataTerm)) : '-';
-                    $dataUltFmt  = $dataUlt  ? date('d/m/Y', strtotime($dataUlt))  : '-';
+                    $dataTermFmt = $dataTerm ? date('d/m/Y', strtotime($dataTerm)) : '—';
+                    $dataUltFmt  = $dataUlt  ? date('d/m/Y', strtotime($dataUlt))  : '—';
                 ?>
                     <tr data-contrato-id="<?= (int)$c['id'] ?>" data-isento="<?= $isento ?>" data-acao="<?= htmlspecialchars($acao) ?>">
                         <td class="text-center"><input type="checkbox" class="checkbox-selecionar" data-contrato-id="<?= (int)$c['id'] ?>"></td>
                         <td class="col-contrato"><strong><?= htmlspecialchars($c['instrumento'] ?? '') ?></strong></td>
-                        <td class="col-tipo"><span class="badge-tipo"><?= htmlspecialchars($tipo !== '' ? $tipo : '—') ?></span></td>
-                        <td class="col-br"><?= htmlspecialchars($c['br'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['uf'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['lote'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['nome_usual'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($c['empresa'] ?? '') ?></td>
-                        <td class="text-nowrap"><?= $dataTermFmt ?></td>
-                        <td><span class="badge <?= $classeCron ?>"><?= htmlspecialchars($sc['texto']) ?></span></td>
-                        <td><?php if ($seiCron !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($seiCron) ?>"><?= htmlspecialchars($seiCron) ?></span><?php else: ?>—<?php endif; ?></td>
-                        <td><?= $dataUltFmt ?></td>
-                        <td><span class="badge <?= $classeNotif ?>"><?= htmlspecialchars($sn['texto']) ?></span></td>
-                        <td><?php if ($oficio !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($oficio) ?>"><?= htmlspecialchars($oficio) ?></span><?php else: ?>—<?php endif; ?></td>
-                        <td><span class="badge-acao <?= htmlspecialchars($acao) ?>"><?= htmlspecialchars($labelAcao) ?></span></td>
-                        <td><span class="badge <?= $isento ? 'isento-badge' : 'bg-secondary' ?>"><?= $isento ? 'Isento' : 'Ativo' ?></span></td>
-                        <td class="text-center">
+                        <td class="col-tipo"><?php if ($tipo !== ''): ?><span class="badge-tipo"><?= htmlspecialchars($tipo) ?></span><?php else: ?>—<?php endif; ?></td>
+                        <td class="col-br-uf"><?= htmlspecialchars($c['br'] ?? '—') ?>/<?= htmlspecialchars($c['uf'] ?? '—') ?></td>
+                        <td class="col-lote"><?= htmlspecialchars($c['lote'] ?? '—') ?></td>
+                        <td class="col-obra">
+                            <div style="line-height:1.15;">
+                                <div><?= htmlspecialchars($c['nome_usual'] ?? '—') ?></div>
+                                <small class="text-muted" style="font-size:0.68rem;"><?= htmlspecialchars($c['empresa'] ?? '') ?></small>
+                            </div>
+                        </td>
+                        <td class="col-termino text-nowrap"><?= $dataTermFmt ?></td>
+                        <td class="col-cron"><span class="badge <?= $classeCron ?>"><?= htmlspecialchars($sc['texto']) ?></span></td>
+                        <td class="col-sei"><?php if ($seiCron !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($seiCron) ?>"><?= htmlspecialchars($seiCron) ?></span><?php else: ?>—<?php endif; ?></td>
+                        <td class="col-ultnotif"><?= $dataUltFmt ?></td>
+                        <td class="col-notif"><span class="badge <?= $classeNotif ?>"><?= htmlspecialchars($sn['texto']) ?></span></td>
+                        <td class="col-oficio"><?php if ($oficio !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($oficio) ?>"><?= htmlspecialchars($oficio) ?></span><?php else: ?>—<?php endif; ?></td>
+                        <td class="col-acao"><span class="badge-acao <?= htmlspecialchars($acao) ?>"><?= htmlspecialchars($labelAcao) ?></span></td>
+                        <td class="col-isento text-center">
+                            <?php if ($isento): ?>
+                                <i class="bi bi-slash-circle text-secondary" title="Isento"></i>
+                            <?php else: ?>
+                                <i class="bi bi-circle text-muted" title="Ativo"></i>
+                            <?php endif; ?>
+                        </td>
+                        <td class="col-comentario text-center">
                             <span class="comentario-badge <?= $temCom ? 'has-comentario' : '' ?>"
                                   data-bs-toggle="modal" data-bs-target="#modalComentario"
                                   data-contrato-id="<?= (int)$c['id'] ?>"
@@ -467,7 +487,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                                 <i class="bi bi-chat-dots"></i><span class="badge-dot"></span>
                             </span>
                         </td>
-                        <td class="text-nowrap">
+                        <td class="col-acoes text-nowrap">
                             <button class="btn btn-outline-info btn-sm btn-acoes btn-detalhes" data-id="<?= (int)$c['id'] ?>" title="Visualizar detalhes"><i class="bi bi-eye"></i></button>
                             <div class="btn-group btn-notificacao-dropdown">
                                 <button type="button" class="btn btn-sm btn-outline-<?= $btnColor ?> dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi <?= $btnIcon ?>"></i></button>
@@ -526,6 +546,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 const CSRF_TOKEN    = <?= json_encode($csrf ?? '') ?>;
 const USUARIO_ID    = <?= (int)$usuario_id ?>;
@@ -544,14 +565,13 @@ const URLS = {
 };
 const STORAGE_KEY = 'obras_contratos_marcados';
 
+var chartComparativoInstance = null;
+var chartProgressoInstance   = null;
+
 $(document).ready(function() {
 
-    // ✅ Inicializa popovers (botão de ajuda dos critérios)
     document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
-        new bootstrap.Popover(el, {
-            container: 'body',
-            sanitize: false
-        });
+        new bootstrap.Popover(el, { container: 'body', sanitize: false });
     });
 
     var toastTimer = null;
@@ -565,9 +585,7 @@ $(document).ready(function() {
         toastTimer = setTimeout(function() { t.classList.remove('show'); }, 4000);
     }
 
-    /* ============================================================
-       FILTROS + SELECT2
-       ============================================================ */
+    /* FILTROS */
     $('.filtro-select2').select2({ placeholder:'Selecione...', allowClear:false, width:'100%' });
     $('.filtro-select2').on('change', function() { $(this).closest('form').submit(); });
     $('.filtro-select2').on('select2:open', function() {
@@ -584,9 +602,7 @@ $(document).ready(function() {
         window.location = 'notificacoes_obras/exportar?' + form.serialize();
     });
 
-    /* ============================================================
-       BOTÃO ATUALIZAR (AJAX + spinner + toast + reload)
-       ============================================================ */
+    /* ATUALIZAR */
     $('#btnAtualizar').on('click', function() {
         if (!confirm('Deseja sincronizar os dados com o Dataset 36 (ATLAS — Informações Gerais de Obras) agora? A base atual será substituída.')) return;
         var btn = this;
@@ -594,26 +610,18 @@ $(document).ready(function() {
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sincronizando...';
 
-        $.ajax({
-            url: URLS.importar36,
-            method: 'GET',
-            data: { ajax: 1 },
-            dataType: 'json',
-            timeout: 300000
-        })
+        $.ajax({ url: URLS.importar36, method: 'GET', data: { ajax: 1 }, dataType: 'json', timeout: 300000 })
         .done(function(r) {
             if (r && r.success) {
                 mostrarToast('Dataset 36 atualizado! ' + r.inseridos + ' registros sincronizados.');
                 setTimeout(function() { location.reload(); }, 1800);
             } else {
-                btn.disabled = false;
-                btn.innerHTML = original;
+                btn.disabled = false; btn.innerHTML = original;
                 mostrarToast('Erro ao sincronizar: ' + ((r && r.error) || 'Resposta inválida'), 'erro');
             }
         })
         .fail(function(xhr, status) {
-            btn.disabled = false;
-            btn.innerHTML = original;
+            btn.disabled = false; btn.innerHTML = original;
             var msg = 'Falha na requisição';
             if (xhr && xhr.status) msg += ' (HTTP ' + xhr.status + ')';
             if (status) msg += ' — ' + status;
@@ -621,9 +629,7 @@ $(document).ready(function() {
         });
     });
 
-    /* ============================================================
-       COPIAR SEI
-       ============================================================ */
+    /* COPIAR SEI */
     window.copiarTexto = function(texto) {
         if (!texto || texto === '—') return;
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -639,9 +645,7 @@ $(document).ready(function() {
     }
     $(document).on('click', '.sei-link', function() { copiarTexto($(this).data('copiar')); });
 
-    /* ============================================================
-       MARCAÇÕES (localStorage)
-       ============================================================ */
+    /* MARCAÇÕES */
     var marcadosSet = new Set();
     try { JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]').forEach(function(id){ marcadosSet.add(String(id)); }); } catch(e){}
     function salvar() { localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(marcadosSet))); }
@@ -669,9 +673,7 @@ $(document).ready(function() {
         salvar();
     });
 
-    /* ============================================================
-       DROPDOWN DE AÇÃO
-       ============================================================ */
+    /* DROPDOWN DE AÇÃO — índices de coluna atualizados (12 = Ação, 13 = Isento) */
     $(document).on('click', '.btn-notificacao-dropdown .dropdown-item', function(e) {
         e.preventDefault();
         var $item = $(this); var acao = $item.data('acao');
@@ -687,21 +689,27 @@ $(document).ready(function() {
                     nao_notificar:         {label:'Não Notificar',         cls:'nao_notificar',         color:'warning',   icon:'bi-clock'}
                 }[acao];
                 if (!config) return;
-                $row.find('td').eq(14).html('<span class="badge-acao ' + config.cls + '">' + config.label + '</span>');
+
+                // coluna 12 = Ação
+                $row.find('td').eq(12).html('<span class="badge-acao ' + config.cls + '">' + config.label + '</span>');
+
                 var isento = (acao === 'isento') ? 1 : 0;
                 $row.attr('data-isento', isento).attr('data-acao', acao);
-                var $tdIsento = $row.find('td').eq(15).find('.badge');
-                if (isento) $tdIsento.removeClass('bg-secondary').addClass('isento-badge').text('Isento');
-                else        $tdIsento.removeClass('isento-badge').addClass('bg-secondary').text('Ativo');
+
+                // coluna 13 = Isento (agora ícone)
+                var $tdIsento = $row.find('td').eq(13);
+                if (isento) $tdIsento.html('<i class="bi bi-slash-circle text-secondary" title="Isento"></i>');
+                else        $tdIsento.html('<i class="bi bi-circle text-muted" title="Ativo"></i>');
+
                 var $btn = $row.find('.btn-notificacao-dropdown .dropdown-toggle');
-                $btn.removeClass('btn-outline-primary btn-outline-success btn-outline-purple btn-outline-secondary btn-outline-warning').addClass('btn-outline-' + config.color).html('<i class="bi ' + config.icon + '"></i>');
+                $btn.removeClass('btn-outline-primary btn-outline-success btn-outline-purple btn-outline-secondary btn-outline-warning')
+                    .addClass('btn-outline-' + config.color)
+                    .html('<i class="bi ' + config.icon + '"></i>');
             })
             .fail(function() { mostrarToast('Falha na requisição.', 'erro'); });
     });
 
-    /* ============================================================
-       COMENTÁRIOS
-       ============================================================ */
+    /* COMENTÁRIOS */
     $('#modalComentario').on('show.bs.modal', function(event) {
         var $t = $(event.relatedTarget);
         $('#modal-contrato-num').text($t.data('contrato-num'));
@@ -769,9 +777,7 @@ $(document).ready(function() {
             }).fail(function() { alert('Erro de comunicação.'); });
     });
 
-    /* ============================================================
-       DETALHES + ANÁLISE DE PERFORMANCE
-       ============================================================ */
+    /* DETALHES + ANÁLISE + GRÁFICOS */
     function formatarMoeda(v) {
         if (v === null || v === undefined || isNaN(v)) return '—';
         return Number(v).toLocaleString('pt-BR', { style:'currency', currency:'BRL', minimumFractionDigits:2 });
@@ -839,7 +845,6 @@ $(document).ready(function() {
         html += '  <div class="' + classeCard + '">';
         html += '    <h6><i class="bi bi-graph-up-arrow"></i> Análise de Performance (Previsto x Executado)</h6>';
 
-        // ✅ Colunas responsivas: 4 em XL, 2×2 em LG/MD, 1 em telas pequenas
         html += '    <div class="row g-3 mb-3">';
         html += '      <div class="col-xl-3 col-lg-6 col-md-6 col-12"><div class="analise-kpi neutro"><small>Valor Previsto</small><strong title="' + formatarMoeda(c.valor_previsto) + '">' + formatarMoeda(c.valor_previsto) + '</strong></div></div>';
         html += '      <div class="col-xl-3 col-lg-6 col-md-6 col-12"><div class="analise-kpi ' + (a.status === 'alerta' ? 'negativo' : 'positivo') + '"><small>Valor Executado</small><strong title="' + formatarMoeda(c.valor_executado) + '">' + formatarMoeda(c.valor_executado) + '</strong></div></div>';
@@ -855,32 +860,175 @@ $(document).ready(function() {
 
         html += '    <div class="analise-sugestao"><i class="bi bi-info-circle"></i> ' + a.texto + '</div>';
 
-        // ✅ Legenda dos critérios
         html += '    <div class="criterios">';
         html += '      <h6><i class="bi bi-list-check"></i> Critérios utilizados</h6>';
         html += '      <ul>';
-        html += '        <li>';
-        html += '          <span class="faixa ok">Diferença &lt; ' + LIMITE_ATENCAO + '%</span>';
-        html += '          <span class="desc"><strong>Empresa performando.</strong> Execução compatível com o previsto. Ação: <strong>não notificar</strong>.</span>';
-        html += '        </li>';
-        html += '        <li>';
-        html += '          <span class="faixa meio">' + LIMITE_ATENCAO + '% ≤ dif. &lt; ' + PERCENTUAL_ALERTA + '%</span>';
-        html += '          <span class="desc"><strong>Atenção.</strong> Diferença moderada. Ação: <strong>monitorar</strong>, mas não notificar.</span>';
-        html += '        </li>';
-        html += '        <li>';
-        html += '          <span class="faixa alerta">Diferença ≥ ' + PERCENTUAL_ALERTA + '%</span>';
-        html += '          <span class="desc"><strong>Baixa performance.</strong> Ação recomendada: <strong>notificar</strong> a empresa.</span>';
-        html += '        </li>';
+        html += '        <li><span class="faixa ok">Diferença &lt; ' + LIMITE_ATENCAO + '%</span><span class="desc"><strong>Empresa performando.</strong> Execução compatível com o previsto. Ação: <strong>não notificar</strong>.</span></li>';
+        html += '        <li><span class="faixa meio">' + LIMITE_ATENCAO + '% ≤ dif. &lt; ' + PERCENTUAL_ALERTA + '%</span><span class="desc"><strong>Atenção.</strong> Diferença moderada. Ação: <strong>monitorar</strong>, mas não notificar.</span></li>';
+        html += '        <li><span class="faixa alerta">Diferença ≥ ' + PERCENTUAL_ALERTA + '%</span><span class="desc"><strong>Baixa performance.</strong> Ação recomendada: <strong>notificar</strong> a empresa.</span></li>';
         html += '      </ul>';
-        html += '      <div class="obs">';
-        html += '        <i class="bi bi-calculator"></i> Fórmula: <strong>(Valor Previsto − Valor Executado) ÷ Valor Previsto × 100</strong>. ';
-        html += '        O limiar de notificação está configurado em <strong>' + PERCENTUAL_ALERTA + '%</strong> (constante <code>PERCENTUAL_ALERTA</code> no controller).';
-        html += '      </div>';
+        html += '      <div class="obs"><i class="bi bi-calculator"></i> Fórmula: <strong>(Valor Previsto − Valor Executado) ÷ Valor Previsto × 100</strong>. O limiar de notificação está configurado em <strong>' + PERCENTUAL_ALERTA + '%</strong>.</div>';
         html += '    </div>';
-
         html += '  </div>';
         html += '</div>';
         return html;
+    }
+
+    /* ============================================================
+       GRÁFICOS — inseridos DEPOIS da análise de performance
+       ============================================================ */
+    function renderizarGraficos(c) {
+        var vp = parseFloat(c.valor_previsto);
+        var ve = parseFloat(c.valor_executado);
+        var temDados = !isNaN(vp) && !isNaN(ve) && vp > 0;
+
+        var html = '';
+        html += '<div class="analise-wrap mt-3">';
+        html += '  <div class="grafico-card">';
+        html += '    <h6><i class="bi bi-bar-chart-line"></i> Comparativo Visual — Previsto × Executado</h6>';
+
+        if (!temDados) {
+            html += '<p class="text-muted mb-0"><i class="bi bi-exclamation-circle"></i> Não há valores previsto/executado suficientes para gerar o gráfico.</p>';
+            html += '  </div></div>';
+            return html;
+        }
+
+        html += '    <div class="row g-3">';
+        html += '      <div class="col-lg-7">';
+        html += '        <div class="grafico-canvas-wrap"><canvas id="chartComparativo"></canvas></div>';
+        html += '      </div>';
+        html += '      <div class="col-lg-5">';
+        html += '        <div class="grafico-canvas-wrap"><canvas id="chartProgresso"></canvas></div>';
+        html += '      </div>';
+        html += '    </div>';
+
+        html += '    <div class="grafico-nota">';
+        html += '      <i class="bi bi-lightbulb"></i> ';
+        html += '      <strong>Por que não é uma curva S?</strong> Os dados disponíveis são <strong>acumulados</strong> (previsto total × executado total). ';
+        html += '      Para reproduzir a curva S mensal (como no relatório original), seria necessário armazenar as medições mês a mês. ';
+        html += '      Abaixo mostramos a comparação direta do <em>momento atual</em>, que é o que se pode extrair com fidelidade desta base.';
+        html += '    </div>';
+        html += '  </div>';
+        html += '</div>';
+        return html;
+    }
+
+    function inicializarGraficos(c) {
+        if (chartComparativoInstance) { chartComparativoInstance.destroy(); chartComparativoInstance = null; }
+        if (chartProgressoInstance)   { chartProgressoInstance.destroy();   chartProgressoInstance   = null; }
+
+        var vp = parseFloat(c.valor_previsto);
+        var ve = parseFloat(c.valor_executado);
+        if (isNaN(vp) || isNaN(ve) || vp <= 0) return;
+
+        var gap = vp - ve;
+        if (gap < 0) gap = 0;
+
+        // --- Gráfico 1: barras horizontais ---
+        var ctx1 = document.getElementById('chartComparativo');
+        if (ctx1) {
+            chartComparativoInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Valor Previsto', 'Valor Executado', 'Diferença (gap)'],
+                    datasets: [{
+                        data: [vp, ve, gap],
+                        backgroundColor: ['#0d6efd', '#fd7e14', '#dc3545'],
+                        borderRadius: 8,
+                        barThickness: 32
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) { return formatarMoeda(ctx.parsed.x); }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (v) {
+                                    if (v >= 1e6) return 'R$ ' + (v / 1e6).toFixed(1).replace('.', ',') + ' mi';
+                                    if (v >= 1e3) return 'R$ ' + (v / 1e3).toFixed(0) + ' mil';
+                                    return 'R$ ' + v;
+                                },
+                                font: { size: 10 }
+                            },
+                            grid: { color: '#eef1f6' }
+                        },
+                        y: {
+                            ticks: { font: { size: 11 }, color: '#0b1a4a' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Gráfico 2: rosca de progresso ---
+        var ctx2 = document.getElementById('chartProgresso');
+        if (ctx2) {
+            var pct = Math.min(100, (ve / vp) * 100);
+            var sobra = Math.max(0, 100 - pct);
+            var cor;
+            if (pct >= (100 - LIMITE_ATENCAO)) cor = '#198754';
+            else if (pct >= (100 - PERCENTUAL_ALERTA)) cor = '#ffc107';
+            else cor = '#dc3545';
+
+            var pluginCenter = {
+                id: 'centerText',
+                afterDraw: function (chart) {
+                    var ctx = chart.ctx;
+                    var meta = chart.getDatasetMeta(0);
+                    if (!meta.data || !meta.data.length) return;
+                    var cx = meta.data[0].x;
+                    var cy = meta.data[0].y;
+                    ctx.save();
+                    ctx.font = 'bold 20px system-ui, sans-serif';
+                    ctx.fillStyle = '#0b1a4a';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(pct.toFixed(1).replace('.', ',') + '%', cx, cy - 6);
+                    ctx.font = '11px system-ui, sans-serif';
+                    ctx.fillStyle = '#7a859b';
+                    ctx.fillText('executado', cx, cy + 14);
+                    ctx.restore();
+                }
+            };
+
+            chartProgressoInstance = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Executado', 'A executar'],
+                    datasets: [{
+                        data: [pct, sobra],
+                        backgroundColor: [cor, '#e6eaf1'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '72%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) { return ctx.label + ': ' + ctx.parsed.toFixed(2).replace('.', ',') + '%'; }
+                            }
+                        }
+                    }
+                },
+                plugins: [pluginCenter]
+            });
+        }
     }
 
     $(document).on('click', '.btn-detalhes', function() {
@@ -913,10 +1061,16 @@ $(document).ready(function() {
             });
             html += '</div>';
 
-            // ✅ Card de análise de performance + critérios
+            // 1) Análise de performance
             html += renderizarAnalise(c);
 
+            // 2) Gráficos (depois da análise, como solicitado)
+            html += renderizarGraficos(c);
+
             $('#detalhesBody').html(html);
+
+            // Inicializa Chart.js após o HTML estar no DOM
+            inicializarGraficos(c);
         });
     });
 });
