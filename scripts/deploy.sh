@@ -7,7 +7,7 @@
 #   ./scripts/deploy.sh --delete         # também apaga no servidor o que não está na cópia local
 #
 # Não sobrescreve config.local.php. Recusa pacote cru do XAMPP
-# (RewriteBase /controle_processos/, PHP 8, config.php sem config.local.php).
+# (RewriteBase /sispro_dnit_proj/, PHP 8, config.php sem config.local.php).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -64,7 +64,7 @@ fi
 
 echo "==> Checagens locais (não publica se o pacote for o XAMPP cru)..."
 grep -q 'RewriteBase /sispro/' "$ROOT/.htaccess" \
-  || fail ".htaccess precisa de RewriteBase /sispro/ (o zip do dev usa /controle_processos/)."
+  || fail ".htaccess precisa de RewriteBase /sispro/ (o zip do dev usa /sispro_dnit_proj/)."
 grep -q 'config.local.php' "$ROOT/app/public/config.php" \
   || fail "app/public/config.php precisa carregar config.local.php."
 grep -q '/sispro/redefinir_senha' "$ROOT/app/Controllers/AuthController.php" \
