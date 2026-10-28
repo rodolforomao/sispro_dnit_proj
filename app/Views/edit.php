@@ -88,16 +88,27 @@ $dataRevisao    = !empty($processo['data_revisao'])    ? $processo['data_revisao
 $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinatura'] : $dataAtual;
 
 // ✅ CORREÇÃO: descobrir o instrumento do contrato vinculado ao processo
-// (o contrato_id pode apontar para um subtrecho que não é o MIN(id) retornado pelo select)
+//    (o contrato_id pode apontar para um subtrecho que não é o MIN(id) retornado pelo select)
+//    Também trata contratos EXTRA (offset 99.000.000) da tabela supra_dataset_36_todos
 $contratoInstrumentoAtual = '';
 $contratoNomeUsualAtual = '';
 if (!empty($processo['contrato_id'])) {
     try {
         global $pdo;
         if (isset($pdo)) {
+            // 1ª tentativa: rdci
             $stmt = $pdo->prepare("SELECT instrumento, nome_usual FROM contratos_rdci WHERE id = ?");
             $stmt->execute([$processo['contrato_id']]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // 2ª tentativa: contrato EXTRA (desfazendo o offset de 99.000.000)
+            if (!$row && (int)$processo['contrato_id'] >= 99000000) {
+                $idReal = (int)$processo['contrato_id'] - 99000000;
+                $stmt = $pdo->prepare("SELECT instrumento, nome_usual FROM supra_dataset_36_todos WHERE id = ?");
+                $stmt->execute([$idReal]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+
             if ($row) {
                 $contratoInstrumentoAtual = $row['instrumento'];
                 $contratoNomeUsualAtual = $row['nome_usual'];
@@ -170,6 +181,42 @@ if (!empty($processo['contrato_id'])) {
         .dropdown-menu-avatar .dropdown-item i { font-size: 1.2rem; width: 24px; text-align: center; }
         .dropdown-menu-avatar .dropdown-header { padding: 10px 20px; font-weight: 600; color: #2c3e50; border-bottom: 1px solid #dce1e8; margin-bottom: 4px; }
         .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: #6c757d; margin-top: 2px; }
+
+        /* ============================================================
+           CORREÇÃO: contrato com nome longo + botão Info Contrato
+           ============================================================ */
+        .contrato-flex {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: nowrap;
+            min-width: 0;
+            max-width: 100%;
+        }
+        .contrato-flex > .select2-container {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            max-width: 100%;
+        }
+        .contrato-flex > .select2-container .select2-selection--single .select2-selection__rendered {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+            padding-right: 22px;
+        }
+        .contrato-flex #btnInfoContrato {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        #divNomeUsual,
+        #divNomeUsual #nomeUsual {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            max-width: 100%;
+            display: block;
+        }
     </style>
 </head>
 <?php include APP_PATH . '/public/chat_widget.php'; ?>
@@ -294,8 +341,8 @@ if (!empty($processo['contrato_id'])) {
 
                     <div class="mb-3">
                         <label class="form-label required"><i class="bi bi-file-pdf"></i> Contrato</label>
-                        <div class="d-flex gap-2 align-items-center">
-                            <select name="contrato_id" id="contrato_id" class="form-select select2" style="flex:1;">
+                        <div class="d-flex gap-2 align-items-center contrato-flex">
+                            <select name="contrato_id" id="contrato_id" class="form-select select2">
                                 <option value="">Selecione</option>
                                 <option value="-">-</option>
                                 <?php foreach ($contratos as $c): ?>

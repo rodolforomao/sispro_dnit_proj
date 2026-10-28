@@ -81,6 +81,12 @@ function tratarArray($valor) {
     return $valor;
 }
 
+// Normaliza o SUBTRECHO para nunca ser NULL
+function normalizarSubtrecho($valor) {
+    if ($valor === null) return '';
+    return trim((string)$valor);
+}
+
 // ============================================================
 // MAPEAMENTO MANUAL COMPLETO
 // ============================================================
@@ -207,28 +213,38 @@ $mapa = [
 ];
 
 // ============================================================
-// VERIFICAR / CRIAR ÍNDICE ÚNICO NA TABELA
+// VERIFICAR / CRIAR ÍNDICE ÚNICO NA TABELA (CORRIGIDO)
 // ============================================================
 function garantirIndiceUnico($pdo) {
-    // Verifica se o índice já existe
+    // 1️⃣ PRIMEIRO: remove duplicatas tratando NULL e '' como o MESMO grupo.
+    //    Mantém a linha de MAIOR id (mais recente).
+    //    COALESCE(x, '') resolve o problema de NULL = NULL ser FALSE em SQL.
+    $deletados = $pdo->exec("
+        DELETE t1 FROM contratos_rdci t1
+        INNER JOIN contratos_rdci t2
+        WHERE t1.id < t2.id
+          AND t1.instrumento = t2.instrumento
+          AND COALESCE(t1.subtrecho, '') = COALESCE(t2.subtrecho, '')
+    ");
+    if ($deletados > 0) {
+        echo "🗑️ Removidas $deletados linha(s) duplicada(s) em (instrumento, subtrecho).\n";
+    }
+
+    // 2️⃣ Agora é seguro converter NULL → ''
+    $afetados = $pdo->exec("UPDATE contratos_rdci SET subtrecho = '' WHERE subtrecho IS NULL");
+    if ($afetados > 0) {
+        echo "🔧 Normalizados $afetados registro(s) com subtrecho NULL → ''.\n";
+    }
+
+    // 3️⃣ Garante que o índice nosso exista
     $stmt = $pdo->query("SHOW INDEX FROM contratos_rdci WHERE Key_name = 'unique_instrumento_subtrecho'");
     $existe = $stmt->fetch();
     if (!$existe) {
         echo "🔧 Criando índice UNIQUE em (instrumento, subtrecho)...\n";
-        // Remove possíveis duplicatas antes de criar o índice
-        $pdo->exec("
-            DELETE t1 FROM contratos_rdci t1
-            INNER JOIN contratos_rdci t2 
-            WHERE t1.id > t2.id 
-              AND t1.instrumento = t2.instrumento 
-              AND (t1.subtrecho = t2.subtrecho OR (t1.subtrecho IS NULL AND t2.subtrecho IS NULL))
-        ");
-        echo "   Duplicatas removidas.\n";
-        // Cria o índice
         $pdo->exec("ALTER TABLE contratos_rdci ADD UNIQUE INDEX unique_instrumento_subtrecho (instrumento, subtrecho)");
         echo "   Índice criado com sucesso.\n";
     } else {
-        echo "✅ Índice UNIQUE já existe.\n";
+        echo "✅ Índice UNIQUE unique_instrumento_subtrecho já existe.\n";
     }
 }
 
@@ -249,36 +265,32 @@ try {
     die("❌ Erro: " . $e->getMessage());
 }
 
-// Se reset=1, truncar a tabela
 if ($reset) {
     $pdo->exec("TRUNCATE TABLE contratos_rdci");
     echo "🔄 Tabela contratos_rdci foi esvaziada.\n";
 }
 
-// Garantir índice único (evita duplicatas)
 garantirIndiceUnico($pdo);
 
 // ============================================================
-// PREPARAR LISTA DE CHAVES (INSTRUMENTO + SUBTRECHO) DA API
+// CHAVES DA API (INSTRUMENTO + SUBTRECHO)
 // ============================================================
 $chavesApi = [];
 foreach ($dados as $item) {
     $instrumento = trim($item['INSTRUMENTO'] ?? '');
-    $subtrecho = trim($item['SUBTRECHO'] ?? '');
+    $subtrecho   = normalizarSubtrecho($item['SUBTRECHO'] ?? null);
     if (!empty($instrumento)) {
-        $chave = $instrumento . '|' . $subtrecho;
-        $chavesApi[] = $chave;
+        $chavesApi[] = $instrumento . '|' . $subtrecho;
     }
 }
 $chavesApi = array_unique($chavesApi);
 
 // ============================================================
-// INSERIR/ATUALIZAR DADOS (COM ON DUPLICATE KEY UPDATE)
+// INSERT / ON DUPLICATE KEY UPDATE
 // ============================================================
 $camposInsert = array_values($mapa);
 $camposInsert = array_unique($camposInsert);
 
-// Monta SQL com ON DUPLICATE KEY UPDATE
 $sql = "INSERT INTO contratos_rdci (" . implode(',', $camposInsert) . ")
         VALUES (" . implode(',', array_fill(0, count($camposInsert), '?')) . ")
         ON DUPLICATE KEY UPDATE " . implode(',', array_map(fn($c) => "$c = VALUES($c)", $camposInsert));
@@ -299,9 +311,13 @@ try {
             $apiKey = array_search($dbField, $mapa);
             $valor = $item[$apiKey] ?? null;
             $valor = tratarArray($valor);
-            if ($valor !== null) {
-                $valor = trim($valor);
+
+            if ($dbField === 'subtrecho') {
+                $valor = normalizarSubtrecho($valor);
+            } else {
+                if ($valor !== null) $valor = trim($valor);
             }
+
             if (strpos($dbField, 'data') === 0 || $dbField === 'data_ultima_notificacao') {
                 $valor = converterData($valor);
             } elseif (strpos($dbField, 'valor_') === 0 || $dbField === 'valor_pi_a_r' || $dbField === 'valor_projetos') {
@@ -334,31 +350,23 @@ try {
 }
 
 // ============================================================
-// REMOVER CONTRATOS QUE NÃO EXISTEM MAIS NA API
+// REMOVER CONTRATOS OBSOLETOS
 // ============================================================
 if (!empty($chavesApi)) {
-    // Buscar todas as combinações (instrumento, subtrecho) que estão no banco
-    $sqlSelect = "SELECT instrumento, subtrecho FROM contratos_rdci";
-    $stmtSelect = $pdo->prepare($sqlSelect);
-    $stmtSelect->execute();
-    $registrosBanco = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
-
+    $stmtSelect = $pdo->query("SELECT instrumento, subtrecho FROM contratos_rdci");
     $chavesBanco = [];
-    foreach ($registrosBanco as $row) {
-        $chave = $row['instrumento'] . '|' . ($row['subtrecho'] ?? '');
-        $chavesBanco[] = $chave;
+    foreach ($stmtSelect->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $chavesBanco[] = $row['instrumento'] . '|' . ($row['subtrecho'] ?? '');
     }
 
-    // Encontrar chaves que estão no banco mas não na API
     $chavesRemover = array_diff($chavesBanco, $chavesApi);
 
     if (!empty($chavesRemover)) {
         $deletados = 0;
         foreach ($chavesRemover as $chave) {
             list($instrumento, $subtrecho) = explode('|', $chave);
-            $sqlDelete = "DELETE FROM contratos_rdci WHERE instrumento = ? AND (subtrecho = ? OR (subtrecho IS NULL AND ? IS NULL))";
-            $stmtDelete = $pdo->prepare($sqlDelete);
-            $stmtDelete->execute([$instrumento, $subtrecho, $subtrecho]);
+            $stmtDelete = $pdo->prepare("DELETE FROM contratos_rdci WHERE instrumento = ? AND subtrecho = ?");
+            $stmtDelete->execute([$instrumento, $subtrecho]);
             $deletados += $stmtDelete->rowCount();
         }
         echo "🗑️ Removidos $deletados contratos que não existem mais na API.\n";
@@ -366,7 +374,29 @@ if (!empty($chavesApi)) {
         echo "✅ Nenhum contrato obsoleto para remover.\n";
     }
 } else {
-    echo "⚠️ Nenhuma chave válida encontrada na API. Nenhum contrato foi removido.\n";
+    echo "⚠️ Nenhuma chave válida na API. Nenhum contrato removido.\n";
+}
+
+// ============================================================
+// DIAGNÓSTICO FINAL
+// ============================================================
+$stmtDup = $pdo->query("
+    SELECT instrumento, subtrecho, COUNT(*) AS qtd
+    FROM contratos_rdci
+    GROUP BY instrumento, subtrecho
+    HAVING COUNT(*) > 1
+    LIMIT 20
+");
+$duplicatas = $stmtDup->fetchAll(PDO::FETCH_ASSOC);
+
+if (!empty($duplicatas)) {
+    echo "\n⚠️ ATENÇÃO: ainda existem duplicatas:\n";
+    foreach ($duplicatas as $d) {
+        echo "   - {$d['instrumento']} | '{$d['subtrecho']}' → {$d['qtd']} linhas\n";
+    }
+    echo "\n   Rode ?reset=1 ou o SQL de dedup manual.\n";
+} else {
+    echo "\n✅ Nenhuma duplicata encontrada (instrumento + subtrecho).\n";
 }
 
 echo "\n✅ Sincronização concluída!\n";

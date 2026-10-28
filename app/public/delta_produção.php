@@ -1,37 +1,22 @@
 -- =============================================================
--- delta_producao.sql
--- Delta aditivo e idempotente: Dev -> Produção
--- Gerado em 2026-10-21
+-- delta_producao_completo.sql
+-- Delta aditivo, idempotente e condicional: Dev (28/10) -> Produção
 -- =============================================================
---
--- ESCOPO:
---   * CREATE TABLE IF NOT EXISTS para 10 tabelas novas
---   * ZERO ALTER em tabelas existentes (estruturas idênticas)
---   * ZERO DROP / TRUNCATE / ALTER COLUMN / DELETE
---
--- OBSERVAÇÕES:
---   a) FKs de tabelas existentes -> usuarios/tipos foram OMITIDAS
---      (risco de integridade: produção tem dados, tabelas novas
---      serão criadas vazias).
---   b) UNIQUEs duplicadas em contratos_rdci no dev (bug) não
---      replicadas.
---   c) Recomenda-se rodar primeiro numa CÓPIA da produção.
+-- O QUE ESTE SCRIPT FAZ:
+-- 1. Cria as 10 tabelas novas se não existirem.
+-- 2. Altera a tabela contratos_rdci (ajusta a coluna subtrecho).
+-- 3. Adiciona a coluna instrumento_atlas na supra_dataset_16.
+-- 4. Cria as FKs nas tabelas antigas (se os dados permitirem).
 -- =============================================================
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
+SET NAMES utf8mb4;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- =============================================================
+-- PARTE 1: CRIAÇÃO DAS TABELAS NOVAS
+-- =============================================================
 
--- ------------------------------------------------------------
--- 1) TABELAS NOVAS (ordem respeita dependências de FK)
--- ------------------------------------------------------------
-
--- 1.1) tipos (sem FKs)
 CREATE TABLE IF NOT EXISTS `tipos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
@@ -39,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `tipos` (
   UNIQUE KEY `nome` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 1.2) usuarios (FK -> equipes, que já existe)
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
@@ -58,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`equipe_id`) REFERENCES `equipes` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 1.3) usuario_setor (FK -> usuarios + setores, ambas já existem após passo 1.2)
 CREATE TABLE IF NOT EXISTS `usuario_setor` (
   `usuario_id` int(11) NOT NULL,
   `setor_id` int(11) NOT NULL,
@@ -68,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `usuario_setor` (
   CONSTRAINT `usuario_setor_ibfk_2` FOREIGN KEY (`setor_id`) REFERENCES `setores` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 1.4) supra_dataset_16_base_controle_geo
 CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fid` varchar(50) DEFAULT NULL,
@@ -131,14 +113,15 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
   `marco_26` text DEFAULT NULL,
   `abril_2026` text DEFAULT NULL,
   `situacao_obra_mes` text DEFAULT NULL,
+  `instrumento_atlas` varchar(100) DEFAULT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `idx_id_pac` (`id_pac`),
   KEY `idx_fid` (`fid`),
-  KEY `idx_uf_br` (`uf`,`br`)
+  KEY `idx_uf_br` (`uf`,`br`),
+  KEY `idx_instrumento_atlas` (`instrumento_atlas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.5) supra_dataset_36_todos
 CREATE TABLE IF NOT EXISTS `supra_dataset_36_todos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) NOT NULL,
@@ -208,7 +191,6 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_36_todos` (
   KEY `idx_tipo_execucao` (`tipo_execucao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.6) supra_dataset_38_todos
 CREATE TABLE IF NOT EXISTS `supra_dataset_38_todos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(100) DEFAULT NULL,
@@ -238,7 +220,6 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_38_todos` (
   KEY `idx_br` (`br`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.7) supra_dataset_39_meio
 CREATE TABLE IF NOT EXISTS `supra_dataset_39_meio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) NOT NULL,
@@ -249,7 +230,6 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_39_meio` (
   KEY `idx_instrumento_prefix` (`instrumento`(80))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.8) supra_dataset_40_resumos
 CREATE TABLE IF NOT EXISTS `supra_dataset_40_resumos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) NOT NULL,
@@ -263,7 +243,6 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_40_resumos` (
   KEY `idx_instrumento_prefix` (`instrumento`(80))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.9) supra_dataset_40_slides_atlas
 CREATE TABLE IF NOT EXISTS `supra_dataset_40_slides_atlas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) DEFAULT NULL,
@@ -308,7 +287,6 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_40_slides_atlas` (
   KEY `idx_estado_br` (`estado`,`br`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 1.10) supra_log_importacao
 CREATE TABLE IF NOT EXISTS `supra_log_importacao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `data_execucao` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -318,8 +296,58 @@ CREATE TABLE IF NOT EXISTS `supra_log_importacao` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- =============================================================
+-- PARTE 2: ALTERAÇÕES EM TABELAS EXISTENTES
+-- =============================================================
+
+-- 2.1) Ajuste da coluna subtrecho na tabela contratos_rdci
+-- Primeiro, preenchemos com vazio onde estiver nulo para não dar erro no MODIFY
+UPDATE `contratos_rdci` SET `subtrecho` = '' WHERE `subtrecho` IS NULL;
+ALTER TABLE `contratos_rdci` MODIFY COLUMN `subtrecho` varchar(255) NOT NULL DEFAULT '';
+
+-- 2.2) Adicionar a nova coluna instrumento_atlas e seu índice
+ALTER TABLE `supra_dataset_16_base_controle_geo` 
+ADD COLUMN IF NOT EXISTS `instrumento_atlas` varchar(100) DEFAULT NULL AFTER `situacao_obra_mes`;
+
+ALTER TABLE `supra_dataset_16_base_controle_geo` 
+ADD INDEX IF NOT EXISTS `idx_instrumento_atlas` (`instrumento_atlas`);
+
+
+-- =============================================================
+-- PARTE 3: CRIAÇÃO DAS CHAVES ESTRANGEIRAS (FKs)
+-- (Só cria se não existirem. Se houver dados inconsistentes, dará erro e a FK não será criada)
+-- =============================================================
+
+-- 3.1) FKs na tabela comentarios
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'comentarios' AND CONSTRAINT_NAME = 'comentarios_ibfk_2');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE comentarios ADD CONSTRAINT comentarios_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 3.2) FKs na tabela mensagens
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_1');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE mensagens ADD CONSTRAINT mensagens_ibfk_1 FOREIGN KEY (remetente_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_2');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE mensagens ADD CONSTRAINT mensagens_ibfk_2 FOREIGN KEY (destinatario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 3.3) FKs na tabela processos
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'fk_processos_criado_por');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE processos ADD CONSTRAINT fk_processos_criado_por FOREIGN KEY (criado_por) REFERENCES usuarios (id) ON DELETE SET NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'processos_ibfk_5');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE processos ADD CONSTRAINT processos_ibfk_5 FOREIGN KEY (tipo_id) REFERENCES tipos (id)', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 3.4) FKs na tabela responsaveis
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'responsaveis' AND CONSTRAINT_NAME = 'fk_responsavel_usuario');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE responsaveis ADD CONSTRAINT fk_responsavel_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE SET NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 3.5) FKs na tabela rdci_notificacoes
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rdci_notificacoes' AND CONSTRAINT_NAME = 'rdci_notificacoes_ibfk_2');
+SET @sql = IF(@fk_exists = 0, 'ALTER TABLE rdci_notificacoes ADD CONSTRAINT rdci_notificacoes_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;

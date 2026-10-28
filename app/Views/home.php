@@ -418,6 +418,16 @@ if (!empty($filtros['br'])) {
             display: inline-block;
         }
 
+        /* ============================================================
+           ✅ CORREÇÃO: coluna Contrato — quebra nomes longos
+           ============================================================ */
+        .col-contrato {
+            max-width: 220px;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
         .comentario-bolha {
             background: #f1f3f5;
             border-radius: 12px;
@@ -791,7 +801,7 @@ if (!empty($filtros['br'])) {
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($p['assunto'] ?? '') ?></td>
-                        <td class="text-nowrap"><?= htmlspecialchars($p['contrato_num'] ?? '') ?></td>
+                        <td class="col-contrato"><?= htmlspecialchars($p['contrato_num'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['uf'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['br'] ?? '') ?></td>
                         <td class="text-nowrap"><?= isset($p['data_entrada']) ? date('d/m/Y', strtotime($p['data_entrada'])) : '-' ?></td>

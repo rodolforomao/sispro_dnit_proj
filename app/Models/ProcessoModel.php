@@ -33,10 +33,77 @@ class ProcessoModel {
     private $pdo;
     private $logModel;
 
+    // ✅ NOVO: constantes para contratos extras
+    private const OFFSET_EXTRA  = 99000000;
+    private const TABELA_EXTRAS = 'supra_dataset_36_todos';
+
     public function __construct($pdo) {
         $this->pdo = $pdo;
         $this->logModel = new LogModel($pdo);
     }
+
+    // ====================================================================
+    // ✅ NOVO: métodos auxiliares de contratos extras
+    // ====================================================================
+
+    private function isContratoExtra($id) {
+        return is_numeric($id) && (int)$id >= self::OFFSET_EXTRA;
+    }
+
+    private function getContratosExtras() {
+        static $cache = null;
+        if ($cache !== null) return $cache;
+        try {
+            $stmt = $this->pdo->query("
+                SELECT id, instrumento AS numero, uf, br, nome_usual
+                FROM " . self::TABELA_EXTRAS . "
+                WHERE instrumento IS NOT NULL AND instrumento != ''
+                ORDER BY instrumento
+            ");
+            $rows = $stmt->fetchAll() ?: [];
+
+            // ✅ NOVO: remove extras cujo instrumento já existe na rdci
+            $numerosRdci = $this->pdo->query("
+                SELECT DISTINCT instrumento
+                FROM contratos_rdci
+                WHERE instrumento IS NOT NULL AND instrumento != ''
+            ")->fetchAll(PDO::FETCH_COLUMN);
+
+            $lookupRdci = [];
+            foreach ($numerosRdci as $n) {
+                $lookupRdci[strtoupper(trim($n))] = true;
+            }
+
+            $rows = array_filter($rows, function($r) use ($lookupRdci) {
+                $key = strtoupper(trim($r['numero']));
+                return !isset($lookupRdci[$key]);
+            });
+            $rows = array_values($rows);
+
+            // aplica offset nos IDs (extras ficam 99.000.000+)
+            foreach ($rows as &$r) {
+                $r['id'] = (int)$r['id'] + self::OFFSET_EXTRA;
+            }
+            unset($r);
+
+            $cache = $rows;
+        } catch (Exception $e) {
+            $cache = [];
+        }
+        return $cache;
+    }
+
+    private function getNumeroContratoExtra($contrato_id) {
+        if (empty($contrato_id) || !$this->isContratoExtra($contrato_id)) return null;
+        foreach ($this->getContratosExtras() as $c) {
+            if ((int)$c['id'] === (int)$contrato_id) return $c['numero'];
+        }
+        return null;
+    }
+
+    // ====================================================================
+    // FIM dos métodos auxiliares
+    // ====================================================================
 
     /**
      * ✅ Retorna o nome do status (em MAIÚSCULO, sem espaços extras) ou '' se não achar
@@ -187,6 +254,12 @@ class ProcessoModel {
             $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM comentarios WHERE processo_id = ?");
             $stmt->execute([$p['id']]);
             $p['total_comentarios'] = (int) $stmt->fetchColumn();
+
+            // ✅ NOVO: preenche contrato_num quando for contrato extra
+            if (empty($p['contrato_num'])) {
+                $extra = $this->getNumeroContratoExtra($p['contrato_id']);
+                if ($extra) $p['contrato_num'] = $extra;
+            }
         }
         unset($p);
 
@@ -250,7 +323,7 @@ class ProcessoModel {
     }
 
     /**
-     * ✅ FONTE: contratos_rdci (dataset 26)
+     * ✅ FONTE: contratos_rdci (dataset 26) + supra_dataset_36_todos (extras)
      *    DISTINCT por instrumento (agrupa múltiplos subtrechos em uma linha só)
      */
     public function getTodosContratos() {
@@ -266,7 +339,10 @@ class ProcessoModel {
                 ORDER BY instrumento";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $contratos = $stmt->fetchAll();
+
+        // ✅ Mescla com contratos extras (IDs offsetados em 99.000.000)
+        return array_merge($contratos, $this->getContratosExtras());
     }
 
     private function getTodasBRs() {
@@ -297,7 +373,8 @@ class ProcessoModel {
     }
 
     /**
-     * ✅ FONTE: contratos_rdci com DISTINCT por instrumento
+     * ✅ FONTE: contratos_rdci + supra_dataset_36_todos (extras)
+     *    DISTINCT por instrumento
      */
     public function getContratosPorUF($uf) {
         $where = '';
@@ -325,6 +402,17 @@ class ProcessoModel {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $contratos = $stmt->fetchAll();
+
+        // ✅ Mescla com contratos extras (respeitando filtro de UF)
+        $extras = $this->getContratosExtras();
+        if (!empty($uf) && $uf !== '-') {
+            if ($uf === 'GO/DF') {
+                $extras = array_filter($extras, fn($c) => in_array($c['uf'], ['GO','DF']));
+            } else {
+                $extras = array_filter($extras, fn($c) => $c['uf'] === $uf);
+            }
+        }
+        $contratos = array_merge($contratos, array_values($extras));
 
         $brs = $this->getTodasBRs();
 
@@ -410,12 +498,22 @@ class ProcessoModel {
         $br = $dados['br'] ?? '';
         $contrato_id_db = ($contrato_id === '-' || $contrato_id === '') ? null : $contrato_id;
 
-        // ✅ Busca UF e BR na contratos_rdci
+        // ✅ Busca UF e BR — rdci primeiro, extra como fallback
         if (!empty($contrato_id_db)) {
+            $contrato = null;
+
             $stmt = $this->pdo->prepare("SELECT uf, br FROM contratos_rdci WHERE id = ?");
             $stmt->execute([$contrato_id_db]);
             $contrato = $stmt->fetch();
-            if ($contrato) {
+
+            if (!$contrato && $this->isContratoExtra($contrato_id_db)) {
+                $idReal = (int)$contrato_id_db - self::OFFSET_EXTRA;
+                $stmt = $this->pdo->prepare("SELECT uf, br FROM " . self::TABELA_EXTRAS . " WHERE id = ?");
+                $stmt->execute([$idReal]);
+                $contrato = $stmt->fetch();
+            }
+
+            if ($contrato && !empty($contrato['uf'])) {
                 $uf = $contrato['uf'];
                 $br = $contrato['br'];
             }
@@ -513,12 +611,22 @@ class ProcessoModel {
         $br = $dados['br'] ?? '';
         $contrato_id_db = ($contrato_id === '-' || $contrato_id === '') ? null : $contrato_id;
 
-        // ✅ Busca UF e BR na contratos_rdci
+        // ✅ Busca UF e BR — rdci primeiro, extra como fallback
         if (!empty($contrato_id_db)) {
+            $contrato = null;
+
             $stmt = $this->pdo->prepare("SELECT uf, br FROM contratos_rdci WHERE id = ?");
             $stmt->execute([$contrato_id_db]);
             $contrato = $stmt->fetch();
-            if ($contrato) {
+
+            if (!$contrato && $this->isContratoExtra($contrato_id_db)) {
+                $idReal = (int)$contrato_id_db - self::OFFSET_EXTRA;
+                $stmt = $this->pdo->prepare("SELECT uf, br FROM " . self::TABELA_EXTRAS . " WHERE id = ?");
+                $stmt->execute([$idReal]);
+                $contrato = $stmt->fetch();
+            }
+
+            if ($contrato && !empty($contrato['uf'])) {
                 $uf = $contrato['uf'];
                 $br = $contrato['br'];
             }
@@ -610,7 +718,14 @@ class ProcessoModel {
                 WHERE p.id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        $row = $stmt->fetch();
+
+        // ✅ NOVO: preenche contrato_num quando for contrato extra
+        if ($row && empty($row['contrato_num'])) {
+            $extra = $this->getNumeroContratoExtra($row['contrato_id']);
+            if ($extra) $row['contrato_num'] = $extra;
+        }
+        return $row;
     }
 
     public function getProcessoPorId($id) {
@@ -650,10 +765,30 @@ class ProcessoModel {
 
     /**
      * ✅ Retorna dados do contrato RDCI pelo ID (usado no modal Info Contrato)
+     *    Se não achar na RDCI, tenta na tabela de extras (desfazendo o offset)
      */
     public function getContratoInfo($contrato_id) {
+        // 1ª tentativa: rdci (query original, intacta)
         $stmt = $this->pdo->prepare("SELECT * FROM contratos_rdci WHERE id = ?");
         $stmt->execute([$contrato_id]);
-        return $stmt->fetch();
+        $row = $stmt->fetch();
+        if ($row) return $row;
+
+        // 2ª tentativa: extra (desfazendo o offset)
+        if ($this->isContratoExtra($contrato_id)) {
+            $idReal = (int)$contrato_id - self::OFFSET_EXTRA;
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM " . self::TABELA_EXTRAS . " WHERE id = ?");
+                $stmt->execute([$idReal]);
+                $res = $stmt->fetch();
+                if ($res) {
+                    $res['id'] = $contrato_id;
+                    return $res;
+                }
+            } catch (Exception $e) {
+                return null;
+            }
+        }
+        return null;
     }
 }

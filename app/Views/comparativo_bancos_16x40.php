@@ -1,6 +1,10 @@
 <?php
 // View comparativo_bancos_16x40.php — Slides Atlas (40) × Base GEO (16)
-// Match por FID
+// Match por INSTRUMENTO:
+//   - Base 40: campo `instrumento`
+//   - Base 16: campo `instrumento_atlas`
+//
+// Aba "Candidatos" = Slides do Atlas (base 40) que NÃO possuem correspondência na Base GEO (base 16).
 
 if (!function_exists('obterIniciais')) {
     function obterIniciais($nome) {
@@ -52,32 +56,37 @@ if ($usuario_id) {
 
 $ultimaAtualizacao = obterUltimaSincronizacao();
 
-$filtroUF    = $_GET['uf']    ?? '';
-$filtroBR    = $_GET['br']    ?? '';
-$filtroBusca = $_GET['busca'] ?? '';
+// ---------- Filtros ----------
+$filtroUF             = $_GET['uf']             ?? '';
+$filtroBR             = $_GET['br']             ?? '';
+$filtroBusca          = $_GET['busca']          ?? '';
+$filtroMapaGerencial  = $_GET['mapa_gerencial'] ?? '';
 
 $filtrosAplicados = [];
-if (!empty($filtroUF))    $filtrosAplicados[] = ['param' => 'uf',    'label' => 'UF',    'valor' => $filtroUF];
-if (!empty($filtroBR))    $filtrosAplicados[] = ['param' => 'br',    'label' => 'BR',    'valor' => $filtroBR];
-if (!empty($filtroBusca)) $filtrosAplicados[] = ['param' => 'busca', 'label' => 'Busca', 'valor' => $filtroBusca];
+if (!empty($filtroUF))            $filtrosAplicados[] = ['param' => 'uf',             'label' => 'UF',              'valor' => $filtroUF];
+if (!empty($filtroBR))            $filtrosAplicados[] = ['param' => 'br',             'label' => 'BR',              'valor' => $filtroBR];
+if (!empty($filtroMapaGerencial)) $filtrosAplicados[] = ['param' => 'mapa_gerencial', 'label' => 'Mapa Gerencial',  'valor' => $filtroMapaGerencial];
+if (!empty($filtroBusca))         $filtrosAplicados[] = ['param' => 'busca',          'label' => 'Busca',           'valor' => $filtroBusca];
 
-$normalizar = function($fid) {
-    $fid = trim((string)$fid);
-    if ($fid === '' || strtoupper($fid) === 'N/A') return '';
-    if (preg_match('/^\d+$/', $fid)) return (string)(int)$fid;
-    return strtoupper($fid);
+// ---------- Normalização da chave (INSTRUMENTO) ----------
+$normalizar = function($v) {
+    $v = trim((string)$v);
+    if ($v === '' || strtoupper($v) === 'N/A') return '';
+    $v = preg_replace('/\s+/', ' ', $v);
+    return function_exists('mb_strtoupper') ? mb_strtoupper($v, 'UTF-8') : strtoupper($v);
 };
 
 global $pdo;
 
+// ---------- Base 16 (GEO) ----------
 if (!isset($base16)) {
     $where = []; $params = [];
     if ($filtroUF !== '') { $where[] = "uf = ?"; $params[] = $filtroUF; }
     if ($filtroBR !== '') { $where[] = "br = ?"; $params[] = $filtroBR; }
     if ($filtroBusca !== '') {
-        $where[] = "(o_instrum LIKE ? OR o_obj_resu LIKE ? OR o_empresa LIKE ? OR trecho LIKE ? OR id_pac LIKE ? OR fid LIKE ?)";
+        $where[] = "(o_instrum LIKE ? OR o_obj_resu LIKE ? OR o_empresa LIKE ? OR trecho LIKE ? OR id_pac LIKE ? OR fid LIKE ? OR instrumento_atlas LIKE ?)";
         $like = '%' . $filtroBusca . '%';
-        array_push($params, $like, $like, $like, $like, $like, $like);
+        array_push($params, $like, $like, $like, $like, $like, $like, $like);
     }
     $sql = "SELECT * FROM supra_dataset_16_base_controle_geo";
     if ($where) $sql .= " WHERE " . implode(' AND ', $where);
@@ -86,7 +95,8 @@ if (!isset($base16)) {
     $base16 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-if (!isset($base40)) {
+// ---------- Base 40 (Atlas) ----------
+if (!isset($base40Full)) {
     $where = []; $params = [];
     if ($filtroUF !== '') { $where[] = "estado = ?"; $params[] = $filtroUF; }
     if ($filtroBR !== '') { $where[] = "br = ?"; $params[] = $filtroBR; }
@@ -99,33 +109,69 @@ if (!isset($base40)) {
     if ($where) $sql .= " WHERE " . implode(' AND ', $where);
     $sql .= " ORDER BY estado, br";
     $stmt = $pdo->prepare($sql); $stmt->execute($params);
-    $base40 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $base40Full = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$idx16 = []; foreach ($base16 as $r) { $k = $normalizar($r['fid'] ?? ''); if ($k !== '' && !isset($idx16[$k])) $idx16[$k] = $r; }
-$idx40 = []; foreach ($base40 as $r) { $k = $normalizar($r['fid_geo'] ?? ''); if ($k !== '' && !isset($idx40[$k])) $idx40[$k] = $r; }
+// ---------- Índices por INSTRUMENTO ----------
+$idx16 = [];
+foreach ($base16 as $r) {
+    $k = $normalizar($r['instrumento_atlas'] ?? '');
+    if ($k !== '' && !isset($idx16[$k])) $idx16[$k] = $r;
+}
 
-$total16 = count($base16);
-$total40 = count($base40);
+$idx40Full = [];
+foreach ($base40Full as $r) {
+    $k = $normalizar($r['instrumento'] ?? '');
+    if ($k !== '' && !isset($idx40Full[$k])) $idx40Full[$k] = $r;
+}
+
+// ---------- Aplica filtro Mapa Gerencial (só para exibição) ----------
+$base40 = $base40Full;
+if ($filtroMapaGerencial !== '') {
+    $base40 = array_values(array_filter($base40Full, function($r) use ($filtroMapaGerencial) {
+        return strcasecmp(trim($r['incluir_mapa_gerencial'] ?? ''), trim($filtroMapaGerencial)) === 0;
+    }));
+}
+
+$idx40 = [];
+foreach ($base40 as $r) {
+    $k = $normalizar($r['instrumento'] ?? '');
+    if ($k !== '' && !isset($idx40[$k])) $idx40[$k] = $r;
+}
+
+// ---------- KPIs ----------
+$total16   = count($base16);
+$total40   = count($base40);
 $presentes = 0;
 foreach ($idx40 as $k => $_) if (isset($idx16[$k])) $presentes++;
 $ausentesGEO = $total40 - $presentes;
 
+// ---------- Validação (todos os slides × GEO) ----------
 $validacao = [];
 foreach ($base40 as $r) {
-    $k = $normalizar($r['fid_geo'] ?? '');
+    $k = $normalizar($r['instrumento'] ?? '');
     $d16 = ($k !== '' && isset($idx16[$k])) ? $idx16[$k] : null;
     $validacao[] = ['atlas' => $r, 'geo' => $d16, 'presente' => $d16 !== null];
 }
 
+// ---------- Candidatos = Slides do Atlas SEM correspondência na Base GEO ----------
 $candidatos = [];
-foreach ($base16 as $r) {
-    $k = $normalizar($r['fid'] ?? '');
-    if ($k === '' || !isset($idx40[$k])) $candidatos[] = $r;
+foreach ($base40 as $r) {
+    $k = $normalizar($r['instrumento'] ?? '');
+    if ($k === '' || !isset($idx16[$k])) $candidatos[] = $r;
 }
+$totalCandidatos = count($candidatos); // == $ausentesGEO
 
+// ---------- Valores distintos para o filtro Mapa Gerencial ----------
+$mapaGerencialValores = [];
+try {
+    $stmt = $pdo->query("SELECT DISTINCT incluir_mapa_gerencial FROM supra_dataset_40_slides_atlas WHERE incluir_mapa_gerencial IS NOT NULL AND incluir_mapa_gerencial <> '' ORDER BY incluir_mapa_gerencial");
+    $mapaGerencialValores = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (Exception $e) { $mapaGerencialValores = []; }
+
+// ---------- UF/BR para selects ----------
 $ufsSet = []; $brsSet = [];
-foreach (array_merge($base16, $base40) as $r) {
+foreach (array_merge($base16, $base40Full) as $r) {
     $uf = $r['uf'] ?? $r['estado'] ?? '';
     $br = $r['br'] ?? '';
     if ($uf !== '') $ufsSet[$uf] = true;
@@ -133,7 +179,6 @@ foreach (array_merge($base16, $base40) as $r) {
 }
 $ufs = array_keys($ufsSet); sort($ufs);
 $brs = array_keys($brsSet); sort($brs);
-$totalCandidatos = count($candidatos);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -166,7 +211,6 @@ $totalCandidatos = count($candidatos);
         .card-kpi.roxo     { border-left-color: #6f42c1; }
         .card-kpi.verde    { border-left-color: #198754; }
         .card-kpi.vermelho { border-left-color: #dc3545; }
-        .card-kpi.amarelo  { border-left-color: #ffc107; }
         .kpi-numero { font-size: 1.8rem; font-weight: 700; color: #2c3e50; line-height: 1.1; }
         .kpi-label  { font-size: 0.85rem; color: #6c757d; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
 
@@ -178,7 +222,6 @@ $totalCandidatos = count($candidatos);
         .select2-container .select2-selection--single { height: 38px; }
         .select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 38px; }
         .select2-container--default .select2-selection--single .select2-selection__arrow { height: 36px; }
-        .select2-container .select2-selection--single .select2__clear { display: none; }
 
         .badge-filtro { background: #e9ecef; color: #2c3e50; font-weight: 500; padding: 6px 12px; border-radius: 20px; margin-right: 8px; margin-bottom: 4px; display: inline-flex; align-items: center; gap: 6px; }
         .badge-filtro .remover-filtro { cursor: pointer; opacity: 0.7; }
@@ -186,8 +229,10 @@ $totalCandidatos = count($candidatos);
 
         .status-ok    { color: #198754; font-weight: 600; }
         .status-falta { color: #dc3545; font-weight: 600; }
+
         .badge-tipo { background: #eef2ff; color: #3730a3; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
         .badge-fid  { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; font-family: 'Courier New', monospace; }
+
         .tabela-compacta td, .tabela-compacta th { padding: 8px 10px; }
         .linha-divergente { background: #fff5f5 !important; }
         .linha-divergente:hover { background: #ffe6e6 !important; }
@@ -211,7 +256,7 @@ $totalCandidatos = count($candidatos);
                 </h2>
                 <span class="ultima-atualizacao">
                     <i class="bi bi-clock-history"></i>
-                    Última sicronização dos bancos: <strong><?= htmlspecialchars($ultimaAtualizacao) ?></strong>
+                    Última sincronização dos bancos: <strong><?= htmlspecialchars($ultimaAtualizacao) ?></strong>
                 </span>
             </div>
             <div class="d-flex gap-2 flex-wrap">
@@ -222,14 +267,16 @@ $totalCandidatos = count($candidatos);
             </div>
         </div>
 
-        <p class="text-muted mb-3 small">Validação cruzada a partir dos Slides do Atlas (match por <code>FID</code>)</p>
+        <p class="text-muted mb-3 small">
+            Validação cruzada a partir dos Slides do Atlas
+            (match por <code>Instrumento</code> — Base 40: <code>Instrumento</code> | Base 16: <code>Instrumento ATLAS</code>)
+        </p>
 
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4">
+        <div class="row row-cols-2 row-cols-md-2 row-cols-lg-4 g-3 mb-4">
             <div class="col"><div class="card-kpi roxo"><div class="kpi-numero"><?= $total40 ?></div><div class="kpi-label"><i class="bi bi-easel"></i> Slides Atlas (40)</div></div></div>
             <div class="col"><div class="card-kpi azul"><div class="kpi-numero"><?= $total16 ?></div><div class="kpi-label"><i class="bi bi-geo-alt"></i> Base Controle GEO (16)</div></div></div>
-            <div class="col"><div class="card-kpi verde"><div class="kpi-numero"><?= $presentes ?></div><div class="kpi-label"><i class="bi bi-check-circle"></i> Slides com GEO (FID)</div></div></div>
+            <div class="col"><div class="card-kpi verde"><div class="kpi-numero"><?= $presentes ?></div><div class="kpi-label"><i class="bi bi-check-circle"></i> Slides com GEO (Instrumento)</div></div></div>
             <div class="col"><div class="card-kpi vermelho"><div class="kpi-numero"><?= $ausentesGEO ?></div><div class="kpi-label"><i class="bi bi-exclamation-triangle"></i> Slides sem GEO</div></div></div>
-            <div class="col"><div class="card-kpi amarelo"><div class="kpi-numero"><?= $totalCandidatos ?></div><div class="kpi-label"><i class="bi bi-search"></i> GEO sem Slides Atlas</div></div></div>
         </div>
 
         <?php if (!empty($filtrosAplicados)): ?>
@@ -267,7 +314,16 @@ $totalCandidatos = count($candidatos);
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="col-lg-5 col-md-4 col-sm-12 col-12">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-12">
+                <label class="form-label" style="font-size:0.75rem;">Incluir no Mapa Gerencial? (GEO)</label>
+                <select name="mapa_gerencial" class="form-select filtro-select2">
+                    <option value="">Todos</option>
+                    <?php foreach ($mapaGerencialValores as $v): ?>
+                        <option value="<?= htmlspecialchars($v) ?>" <?= $filtroMapaGerencial == $v ? 'selected' : '' ?>><?= htmlspecialchars($v) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                 <label class="form-label" style="font-size:0.75rem;">Buscar</label>
                 <input type="text" name="busca" class="form-control" value="<?= htmlspecialchars($filtroBusca) ?>" placeholder="Instrumento, empreendimento, empresa, FID...">
             </div>
@@ -288,13 +344,15 @@ $totalCandidatos = count($candidatos);
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tab-candidatos-tab" data-bs-toggle="tab" data-bs-target="#tab-candidatos" type="button" role="tab" aria-selected="false">
-                    <i class="bi bi-search"></i> Candidatos (GEO sem Slides)
-                    <span class="badge bg-warning text-dark"><?= $totalCandidatos ?></span>
+                    <i class="bi bi-exclamation-triangle"></i> Slides sem GEO
+                    <span class="badge bg-danger"><?= $totalCandidatos ?></span>
                 </button>
             </li>
         </ul>
 
         <div class="tab-content" id="tabsComparativoContent">
+
+            <!-- ABA VALIDAÇÃO -->
             <div class="tab-pane fade show active" id="tab-validacao" role="tabpanel">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle tabela-compacta">
@@ -307,7 +365,7 @@ $totalCandidatos = count($candidatos);
                                 <th>Nome do Empreendimento (Slides)</th>
                                 <th class="text-center">Na Base GEO?</th>
                                 <th class="text-center">FID (GEO)</th>
-                                <th>Instrumento (GEO)</th>
+                                <th>Instrumento ATLAS (GEO)</th>
                                 <th>Objeto (GEO)</th>
                             </tr>
                         </thead>
@@ -325,7 +383,7 @@ $totalCandidatos = count($candidatos);
                                     <td><small><?= htmlspecialchars($a['nome_empreendimento_slides'] ?? '') ?></small></td>
                                     <td class="text-center"><?php if ($presente): ?><span class="status-ok"><i class="bi bi-check-circle-fill"></i> Sim</span><?php else: ?><span class="status-falta"><i class="bi bi-x-circle-fill"></i> Não</span><?php endif; ?></td>
                                     <td class="text-center"><?php if ($g && !empty($g['fid'])): ?><span class="badge-fid"><?= htmlspecialchars($g['fid']) ?></span><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
-                                    <td><?php if ($g && !empty($g['o_instrum'])): ?><?= htmlspecialchars($g['o_instrum']) ?><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
+                                    <td><?php if ($g && !empty($g['instrumento_atlas'])): ?><strong><?= htmlspecialchars($g['instrumento_atlas']) ?></strong><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
                                     <td><?php if ($g && !empty($g['o_obj_resu'])): ?><small><?= htmlspecialchars($g['o_obj_resu']) ?></small><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
                                 </tr>
                             <?php endforeach; endif; ?>
@@ -333,48 +391,69 @@ $totalCandidatos = count($candidatos);
                     </table>
                 </div>
                 <p class="text-muted small mt-2">
-                    <i class="bi bi-info-circle"></i> Match feito por <strong>FID</strong>.
+                    <i class="bi bi-info-circle"></i> Match feito por <strong>Instrumento</strong>
+                    (Base 40: <code>Instrumento</code>; Base 16: <code>Instrumento ATLAS</code>).
                     Linhas em <span style="background:#fff5f5; padding:2px 6px; border-radius:4px; color:#dc3545;">vermelho</span>
                     indicam <strong>Slides do Atlas que NÃO possuem registro na Base GEO</strong>.
                 </p>
             </div>
 
+            <!-- ABA SLIDES SEM GEO -->
             <div class="tab-pane fade" id="tab-candidatos" role="tabpanel">
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> Registros da <strong>Base Controle GEO (16)</strong> que <strong>não têm Slides do Atlas</strong> correspondente (por FID).
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <strong>Slides do Atlas (base 40)</strong> que <strong>não possuem correspondência na Base GEO (base 16)</strong> pelo campo <code>Instrumento</code>.
+                    Esses são os registros que precisam ser criados ou ter o <code>Instrumento ATLAS</code> ajustado na base GEO.
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle tabela-compacta">
                         <thead>
                             <tr>
-                                <th class="text-center">FID (GEO)</th>
-                                <th>Instrumento (GEO)</th>
-                                <th>UF</th>
+                                <th>Instrumento (Slides)</th>
+                                <th>Estado</th>
                                 <th>BR</th>
-                                <th>Objeto (GEO)</th>
-                                <th>Empresa (GEO)</th>
-                                <th>Trecho (GEO)</th>
-                                <th class="text-center">RDCi</th>
+                                <th>Lote</th>
+                                <th>Nome do Empreendimento (Slides)</th>
+                                <th>Nome do Lote (Slides)</th>
+                                <th>Status Empreendimento</th>
+                                <th class="text-center">FID (GEO) declarado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($candidatos)): ?>
-                                <tr><td colspan="8" class="text-center text-muted py-4">Nenhum candidato encontrado.</td></tr>
-                            <?php else: foreach ($candidatos as $g): ?>
-                                <tr>
-                                    <td class="text-center"><?php if (!empty($g['fid'])): ?><span class="badge-fid"><?= htmlspecialchars($g['fid']) ?></span><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
-                                    <td><strong><?= htmlspecialchars($g['o_instrum'] ?? '') ?></strong></td>
-                                    <td><?= htmlspecialchars($g['uf'] ?? '') ?></td>
-                                    <td><?= htmlspecialchars($g['br'] ?? '') ?></td>
-                                    <td><small><?= htmlspecialchars($g['o_obj_resu'] ?? '') ?></small></td>
-                                    <td><small><?= htmlspecialchars($g['o_empresa'] ?? '—') ?></small></td>
-                                    <td><small><?= htmlspecialchars($g['trecho'] ?? '—') ?></small></td>
-                                    <td class="text-center"><?php if (!empty($g['rdci'])): ?><span class="badge-tipo"><?= htmlspecialchars($g['rdci']) ?></span><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
+                                <tr><td colspan="8" class="text-center text-muted py-4">Nenhum slide sem GEO encontrado.</td></tr>
+                            <?php else: foreach ($candidatos as $a): ?>
+                                <tr class="linha-divergente">
+                                    <td><strong><?= htmlspecialchars($a['instrumento'] ?? '') ?></strong></td>
+                                    <td><?= htmlspecialchars($a['estado'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($a['br'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($a['lote'] ?? '—') ?></td>
+                                    <td><small><?= htmlspecialchars($a['nome_empreendimento_slides'] ?? '') ?></small></td>
+                                    <td><small><?= htmlspecialchars($a['nome_lote_slide'] ?? '—') ?></small></td>
+                                    <td>
+                                        <?php if (!empty($a['status_empreendimento'])): ?>
+                                            <span class="badge-tipo"><?= htmlspecialchars($a['status_empreendimento']) ?></span>
+                                        <?php else: ?>
+                                            <span class="text-muted">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (!empty($a['fid_geo'])): ?>
+                                            <span class="badge-fid"><?= htmlspecialchars($a['fid_geo']) ?></span>
+                                        <?php else: ?>
+                                            <span class="text-muted">—</span>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; endif; ?>
                         </tbody>
                     </table>
                 </div>
+                <p class="text-muted small mt-2">
+                    <i class="bi bi-lightbulb"></i>
+                    <strong>Sugestão de correção:</strong> verifique se o instrumento existe na Base GEO com grafia diferente,
+                    ou crie o registro correspondente na base de controle GEO com o campo <code>Instrumento ATLAS</code> igual ao <code>Instrumento</code> do slide.
+                </p>
             </div>
         </div>
     </div>

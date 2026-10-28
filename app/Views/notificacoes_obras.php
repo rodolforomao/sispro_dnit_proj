@@ -52,7 +52,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Notificações de Obra - SISPRO</title>
+    <title>Notificações de Obras - SISPRO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -62,7 +62,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .card { border: none; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); background: #fff; padding: 20px 25px; }
 
         /* ============================================================
-           TABELA — compacta, sem rolagem horizontal
+           TABELA — compacta, sem rolagem horizontal (12 colunas)
            ============================================================ */
         .table-wrapper { position:relative; max-height:600px; overflow-y:auto; overflow-x:auto; }
         .table-wrapper table { width:100%; border-collapse:separate; border-spacing:0; table-layout:fixed; }
@@ -76,23 +76,19 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .table th { font-weight:600; color:#2c3e50; font-size:0.70rem; padding:8px 4px; white-space:normal; line-height:1.15; }
         .table td { vertical-align:middle; font-size:0.74rem; padding:6px 4px; line-height:1.2; word-break:break-word; }
 
-        /* Larguras fixas — soma ~1180px */
-        .col-checkbox   { width:30px; min-width:30px; max-width:30px; }
-        .col-contrato   { width:105px; }
-        .col-tipo       { width:78px; }
-        .col-br-uf      { width:52px; white-space:nowrap; }
-        .col-lote       { width:40px; }
-        .col-obra       { width:140px; }
-        .col-termino    { width:74px; white-space:nowrap; }
-        .col-cron       { width:98px; }
-        .col-sei        { width:74px; }
-        .col-ultnotif   { width:74px; white-space:nowrap; }
-        .col-notif      { width:100px; }
-        .col-oficio     { width:74px; }
-        .col-acao       { width:88px; }
-        .col-isento     { width:30px; text-align:center; }
-        .col-comentario { width:30px; text-align:center; }
-        .col-acoes      { width:70px; white-space:nowrap; }
+        /* Larguras fixas — soma ~1060px */
+        .col-checkbox    { width:30px; min-width:30px; max-width:30px; }
+        .col-contrato    { width:120px; }
+        .col-br-uf       { width:55px; white-space:nowrap; }
+        .col-nome-usual  { width:220px; }
+        .col-termino     { width:78px; white-space:nowrap; }
+        .col-cron        { width:100px; }
+        .col-sei         { width:78px; }
+        .col-ultnotif    { width:78px; white-space:nowrap; }
+        .col-notif       { width:105px; }
+        .col-oficio      { width:78px; }
+        .col-comentario  { width:35px; text-align:center; }
+        .col-acoes       { width:75px; white-space:nowrap; }
 
         .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.4rem; letter-spacing: 1px; }
         .btn-sm { padding: 0.2rem 0.5rem; font-size: 0.75rem; }
@@ -117,19 +113,6 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
         .notif-faltadata      { background:#fd7e14; color:#fff; }
         .notif-semdata        { background:#fd7e14; color:#fff; }
         .notif-semnecessidade { background:#6c757d; color:#fff; }
-
-        .badge-tipo { background:#212529; color:#fff; padding:3px 8px; border-radius:12px; font-weight:500; font-size:0.66rem; display:inline-block; max-width:100%; word-break:break-word; }
-
-        .badge-acao {
-            padding:3px 8px; border-radius:12px; font-weight:500; font-size:0.68rem;
-            line-height:1.15; text-align:center; display:inline-block; max-width:100%;
-            word-break:break-word;
-        }
-        .badge-acao.notificar             { background:#0d6efd; color:#fff; }
-        .badge-acao.notificado            { background:#198754; color:#fff; }
-        .badge-acao.aguardando_assinatura { background:#6f42c1; color:#fff; }
-        .badge-acao.isento                { background:#6c757d; color:#fff; }
-        .badge-acao.nao_notificar         { background:#ffc107; color:#000; }
 
         .btn-outline-purple { color:#6f42c1; border-color:#6f42c1; }
         .btn-outline-purple:hover, .btn-outline-purple:focus { background:#6f42c1; color:#fff; }
@@ -378,6 +361,10 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
             <div class="col-12 d-none"><input type="submit" class="btn btn-primary"></div>
         </form>
 
+        <!-- ============================================================
+             Botão "Gerar Relatório" DESATIVADO — não é utilizado
+             (HTML, modal e handler JS comentados)
+             ============================================================
         <div class="export-row d-flex justify-content-end mt-2">
             <button type="button" class="btn btn-success" id="btnExportar"><i class="bi bi-file-excel"></i> Gerar Relatório</button>
         </div>
@@ -397,6 +384,7 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                 </div>
             </div>
         </div>
+        -->
 
         <div class="info-count">
             <i class="bi bi-list-ul"></i> <strong>Contratos:</strong> <?= (int)$total ?>
@@ -409,25 +397,21 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                     <tr>
                         <th class="col-checkbox text-center"><input type="checkbox" id="selecionarTodos" title="Selecionar todos"></th>
                         <th class="col-contrato">Contrato</th>
-                        <th class="col-tipo">Tipo</th>
                         <th class="col-br-uf">BR/UF</th>
-                        <th class="col-lote">Lote</th>
-                        <th class="col-obra">Obra / Empresa</th>
+                        <th class="col-nome-usual">Nome Usual</th>
                         <th class="col-termino">Término</th>
                         <th class="col-cron">Cronograma</th>
                         <th class="col-sei">SEI</th>
                         <th class="col-ultnotif">Últ. Notif</th>
                         <th class="col-notif">Notificação</th>
                         <th class="col-oficio">Ofício</th>
-                        <th class="col-acao">Ação</th>
-                        <th class="col-isento text-center" title="Isento">Is.</th>
                         <th class="col-comentario"><i class="bi bi-chat-dots"></i></th>
                         <th class="col-acoes">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php if (empty($contratos)): ?>
-                    <tr><td colspan="16" class="text-center text-muted py-4">Nenhum contrato encontrado.</td></tr>
+                    <tr><td colspan="12" class="text-center text-muted py-4">Nenhum contrato encontrado.</td></tr>
                 <?php else: foreach ($contratos as $c):
                     $sc = $c['_status_crono'];
                     $sn = $c['_status_notif'];
@@ -439,8 +423,6 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                     $oficio    = $c['ultimo_oficio_notificacao_cronograma'] ?? '';
                     $isento    = (int)($c['isento'] ?? 0);
                     $acao      = $c['status_acao'] ?? 'nao_notificar';
-                    $labelAcao = $acoesList[$acao] ?? $acao;
-                    $tipo      = $c['tipo_contrato'] ?? '';
                     $totalCom  = (int)($c['total_comentarios'] ?? 0);
                     $temCom    = $totalCom > 0;
                     switch ($acao) {
@@ -456,29 +438,14 @@ if ($filtroBusca)    $filtrosAplicados[] = ['param'=>'busca',              'labe
                     <tr data-contrato-id="<?= (int)$c['id'] ?>" data-isento="<?= $isento ?>" data-acao="<?= htmlspecialchars($acao) ?>">
                         <td class="text-center"><input type="checkbox" class="checkbox-selecionar" data-contrato-id="<?= (int)$c['id'] ?>"></td>
                         <td class="col-contrato"><strong><?= htmlspecialchars($c['instrumento'] ?? '') ?></strong></td>
-                        <td class="col-tipo"><?php if ($tipo !== ''): ?><span class="badge-tipo"><?= htmlspecialchars($tipo) ?></span><?php else: ?>—<?php endif; ?></td>
                         <td class="col-br-uf"><?= htmlspecialchars($c['br'] ?? '—') ?>/<?= htmlspecialchars($c['uf'] ?? '—') ?></td>
-                        <td class="col-lote"><?= htmlspecialchars($c['lote'] ?? '—') ?></td>
-                        <td class="col-obra">
-                            <div style="line-height:1.15;">
-                                <div><?= htmlspecialchars($c['nome_usual'] ?? '—') ?></div>
-                                <small class="text-muted" style="font-size:0.68rem;"><?= htmlspecialchars($c['empresa'] ?? '') ?></small>
-                            </div>
-                        </td>
+                        <td class="col-nome-usual"><?= htmlspecialchars($c['nome_usual'] ?? '—') ?></td>
                         <td class="col-termino text-nowrap"><?= $dataTermFmt ?></td>
                         <td class="col-cron"><span class="badge <?= $classeCron ?>"><?= htmlspecialchars($sc['texto']) ?></span></td>
                         <td class="col-sei"><?php if ($seiCron !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($seiCron) ?>"><?= htmlspecialchars($seiCron) ?></span><?php else: ?>—<?php endif; ?></td>
                         <td class="col-ultnotif"><?= $dataUltFmt ?></td>
                         <td class="col-notif"><span class="badge <?= $classeNotif ?>"><?= htmlspecialchars($sn['texto']) ?></span></td>
                         <td class="col-oficio"><?php if ($oficio !== ''): ?><span class="sei-link" data-copiar="<?= htmlspecialchars($oficio) ?>"><?= htmlspecialchars($oficio) ?></span><?php else: ?>—<?php endif; ?></td>
-                        <td class="col-acao"><span class="badge-acao <?= htmlspecialchars($acao) ?>"><?= htmlspecialchars($labelAcao) ?></span></td>
-                        <td class="col-isento text-center">
-                            <?php if ($isento): ?>
-                                <i class="bi bi-slash-circle text-secondary" title="Isento"></i>
-                            <?php else: ?>
-                                <i class="bi bi-circle text-muted" title="Ativo"></i>
-                            <?php endif; ?>
-                        </td>
                         <td class="col-comentario text-center">
                             <span class="comentario-badge <?= $temCom ? 'has-comentario' : '' ?>"
                                   data-bs-toggle="modal" data-bs-target="#modalComentario"
@@ -593,6 +560,9 @@ $(document).ready(function() {
     });
     $('.filtro-select2').on('focus', function() { $(this).select2('open'); });
 
+    /* ============================================================
+       EXPORTAR — DESATIVADO (botão "Gerar Relatório" não é utilizado)
+       ============================================================
     $('#btnExportar').on('click', function(e) { e.preventDefault(); new bootstrap.Modal(document.getElementById('modalConfirmExport')).show(); });
     $('#btnConfirmarExportar').on('click', function() {
         var form = $('#filtrosForm');
@@ -601,6 +571,7 @@ $(document).ready(function() {
         bootstrap.Modal.getInstance(document.getElementById('modalConfirmExport')).hide();
         window.location = 'notificacoes_obras/exportar?' + form.serialize();
     });
+    */
 
     /* ATUALIZAR */
     $('#btnAtualizar').on('click', function() {
@@ -673,7 +644,7 @@ $(document).ready(function() {
         salvar();
     });
 
-    /* DROPDOWN DE AÇÃO — índices de coluna atualizados (12 = Ação, 13 = Isento) */
+    /* DROPDOWN DE AÇÃO — colunas Ação/Isento removidas; apenas atualiza o botão */
     $(document).on('click', '.btn-notificacao-dropdown .dropdown-item', function(e) {
         e.preventDefault();
         var $item = $(this); var acao = $item.data('acao');
@@ -690,17 +661,11 @@ $(document).ready(function() {
                 }[acao];
                 if (!config) return;
 
-                // coluna 12 = Ação
-                $row.find('td').eq(12).html('<span class="badge-acao ' + config.cls + '">' + config.label + '</span>');
-
+                // Mantém data-attrs na linha para referência futura (não há mais coluna visual)
                 var isento = (acao === 'isento') ? 1 : 0;
                 $row.attr('data-isento', isento).attr('data-acao', acao);
 
-                // coluna 13 = Isento (agora ícone)
-                var $tdIsento = $row.find('td').eq(13);
-                if (isento) $tdIsento.html('<i class="bi bi-slash-circle text-secondary" title="Isento"></i>');
-                else        $tdIsento.html('<i class="bi bi-circle text-muted" title="Ativo"></i>');
-
+                // Atualiza o botão do dropdown
                 var $btn = $row.find('.btn-notificacao-dropdown .dropdown-toggle');
                 $btn.removeClass('btn-outline-primary btn-outline-success btn-outline-purple btn-outline-secondary btn-outline-warning')
                     .addClass('btn-outline-' + config.color)
@@ -874,9 +839,6 @@ $(document).ready(function() {
         return html;
     }
 
-    /* ============================================================
-       GRÁFICOS — inseridos DEPOIS da análise de performance
-       ============================================================ */
     function renderizarGraficos(c) {
         var vp = parseFloat(c.valor_previsto);
         var ve = parseFloat(c.valor_executado);
@@ -924,7 +886,6 @@ $(document).ready(function() {
         var gap = vp - ve;
         if (gap < 0) gap = 0;
 
-        // --- Gráfico 1: barras horizontais ---
         var ctx1 = document.getElementById('chartComparativo');
         if (ctx1) {
             chartComparativoInstance = new Chart(ctx1, {
@@ -972,7 +933,6 @@ $(document).ready(function() {
             });
         }
 
-        // --- Gráfico 2: rosca de progresso ---
         var ctx2 = document.getElementById('chartProgresso');
         if (ctx2) {
             var pct = Math.min(100, (ve / vp) * 100);
@@ -1061,15 +1021,10 @@ $(document).ready(function() {
             });
             html += '</div>';
 
-            // 1) Análise de performance
             html += renderizarAnalise(c);
-
-            // 2) Gráficos (depois da análise, como solicitado)
             html += renderizarGraficos(c);
 
             $('#detalhesBody').html(html);
-
-            // Inicializa Chart.js após o HTML estar no DOM
             inicializarGraficos(c);
         });
     });

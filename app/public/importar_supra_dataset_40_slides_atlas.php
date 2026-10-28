@@ -92,7 +92,7 @@ $mapa = [
     'Valor sugerido para conclusão do ano'                       => 'valor_sugerido_conclusao',
 ];
 
-$camposData    = []; // nenhum campo de data nesse dataset
+$camposData    = [];
 $camposDecimal = ['kmi', 'kmf', 'valor_total_geo', 'valor_pago_geo', 'valor_previsto_conclusao', 'valor_sugerido_conclusao'];
 
 try {

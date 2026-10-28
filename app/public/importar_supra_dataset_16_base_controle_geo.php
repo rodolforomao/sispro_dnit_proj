@@ -115,6 +115,7 @@ $mapa = [
     'MARÇO_26'                  => 'marco_26',
     'abril_2026'                => 'abril_2026',
     'SITUAÇÃO DA OBRA NO MÊS'   => 'situacao_obra_mes',
+    'Instrumento ATLAS'         => 'instrumento_atlas',   // ← NOVO
 ];
 
 $camposData = ['o_termino', 'o_inicio'];
