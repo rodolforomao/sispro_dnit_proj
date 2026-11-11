@@ -1,0 +1,1509 @@
+{
+    "status": "concluido",
+    "etapa": "concluido",
+    "progresso": 100,
+    "total": 600,
+    "processados": 600,
+    "medicoes_inseridas": 14375,
+    "contratos_ignorados": 299,
+    "ignorados_detalhe": [
+        {
+            "Contrato": "00 00063\/2025",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00 00262\/2026",
+            "Estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00 00263\/2026",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00 00265\/2026",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00 00267\/2026",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00 00299\/2026",
+            "Estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00 00326\/2026",
+            "Estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00 00377\/2020",
+            "Estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00 00463\/2020",
+            "Estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00 00692\/2020",
+            "Estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00 00813\/2012",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000003\/2007",
+            "Estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000071\/2022",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000109\/2022",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000181\/2024",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000211\/2019",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000266\/2007",
+            "Estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000266\/2023",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000366\/2023",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000403\/2022",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000433\/2023",
+            "Estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000483\/2024",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000484\/2024",
+            "Estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000485\/2024",
+            "Estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000599\/2020",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "00000656\/2020",
+            "Estado": "DELEGADA",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000764\/2011",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000870\/2016",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "00000884\/2020",
+            "Estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "01 00198\/2026",
+            "Estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "01 00512\/2026",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "05 00135\/2026",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "11 00658\/2017",
+            "Estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "11 00824\/2025",
+            "Estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "12 00318\/2025",
+            "Estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "12 00575\/2026",
+            "Estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "12 00737\/2025",
+            "Estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "16 00361\/2026",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "23 00662\/2025",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "23 00748\/2023",
+            "Estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "A Licitar - BR-158 - Implantação Campo Mourão – Roncador",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "A Licitar - BR-158 - Implantação Roncador – Palmital",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "A Licitar - Construção de trecho rodoviário Entr. TO-020 - Div. TO\/MA (Goiatins)",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "A Licitar - Contorno de Guaíra",
+            "Estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "A Licitar - Implantação de rodovia Entr. BR-405 - Div. RN\/CE (Estrada do Cajueiro)",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "A Licitar: Construção de 14 OAEs - Trecho do Meio",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Adequação de trecho rodoviário Pecém – São Luís do Curu BR-222\/CE",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Adequação Marmelândia – Barracão - BR - 163",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-020\/CE – Adequação Caucaia – Div. CE\/PI",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-101 - Travessia de Estância",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-104\/RN - Implantação e Adequação de Capacidade",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-116\/CE - Adequação com duplicação Boqueirão do Cesário – Tabuleiro do Norte",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-153\/PR – Implantação Alto do Amparo – Imbituva",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-163\/PR – Adequação de trecho rodoviário – Entroncamento BR-277\/PR (Acesso Cascavel) - Marmelândia",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-230\/361\/PB Adequação e Duplicação\nFarinha – Cajazeiras  - PAC PROJETO",
+            "Estado": "DPP - DIRETORIA DE PLANEJAMENTO E PESQUISA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "BR-235\/SE - Duplicação Aracaju – Itabaiana",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-262\/MG- Adequação de trecho rodoviário João Monlevade – Div ES\/MG",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-352\/MG - Construção Div. GO\/MG – Patos de Minas",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-364\/MG - Construção Gurinhatã – Div.GO\/MG",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-365\/MG - Adequação Travessia Urbana Uberlândia",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "BR-476\/PR - Adequação Curitiba – Adrianópolis",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Caiçara do Rio do Vento – Riachuelo - Lote 2C",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Construção de Benfeitorias previsto no PBAI",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Construção Ponte sobre o Rio Mucuim",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Cruzamento Rodoferroviário TLSA MVP 11 x BR-222\/CE – Entr. Acesso ao Porto de Pecém",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-030 -1",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-101 -",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Div. RN\/CE – BR-304 - Mossoró - Lote 1A",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Entr. BR-104 – BR-304 - Angicos - Lote 2A",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Entr. RN-233 – BR-304 - Angicos - Lote 1C",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV -  A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Pavimentação",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV -  A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Pavimentação",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV - Duplicação de Monsenhor Gil até a Estaca Zero",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV | A Contratar | BR-226 - 124,90 à 227,70 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV | A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV | A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Futura sem PREV- Duplicação de Trecho Rodoviário - Campo Maior - Altos",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC obra Pavimentação Paranã – Divisa TO\/GO?",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC OBRA | BR-242\/BA Construção – Castro Alves– Santo Antônio",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC OBRA | BR-242\/BA Duplicação – Santo Antônio – Nazaré das Farinhas",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC OBRA | BR-242\/BA Duplicação- Barreiras – Luís Eduardo Magalhães",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC OBRA |ESTADUAL BNDES |BR-230\/PB - Construção do Arco Metropolitano de João Pessoa",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO - trecho sul Campina - BR-104 (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC projeto BR-235\/TO – Construção de trecho rodoviário?\nDiv.MA\/TO – Pedro Afonso – Entr. BR-153 (Lo",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | Adequação com Duplicação Farinha - Cajazeiras",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | Adequação Entr.BR-122 – Ourolândia",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | Adequação Lote 4 e 5-Div.GO\/BA – Luís Eduardo Magalhães",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-010\/GO Implantação de trecho rodoviário Entr.GO-118 – Div.GO\/TO",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-020\/GO - Adequação de trecho rodoviário Formosa – Div.GO\/BA",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-070\/MT - Duplicação trevo do Lagarto a Livramento - Adequação da serra do Mangaval",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-101\/BA Duplicação Eunápolis-Mucuri\/Itabatã",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-174\/MT - Implantação porto Santos Antônio das lendas divisa MT\/AM",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-242\/BA Implantação Muquém do São Francisco-Distrito de Javi-BA-172-Ibotirama (BA-16",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-319\/RO Implantação OAE no Trevo do Roque",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-364\/RO Adequação Cacoal – Porto Velho",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | BR-367\/BA Adequação - Entr.BA-001 (Santa Cruz de Cabrália)-Entr.BA-001(B) (Para Tranco",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | Duplicação Piripiri - Campo Maior | BR-343\/PI - 180,4 à 263,6",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | Implantação do km 63,80 ao km 189,3 (Lotes 2 e 3)?(125,50 km) (Ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PAC PROJETO | trecho norte BR-104\/PB - Adequação Campina Grande - Divisa RN - Norte",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev  CONTR | A Contratar | BR-280 - 36,70 à 74,58 | A Contratar | Reconhecimento de dívida",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV  LAJES - CERRO CORA (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev (Não está na NPO) - Remanescente do Lote B da BR-242",
+            "Estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Construção Petrolândia - Inajá - 50km| BR-110\/PE",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Variante do Arco Metropolitando de Recife | BR-101\/408-PE",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Viaduto do Arco Metropolitano de Recife (Viaduto Vitarella) |",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev - Contorno de Balsas - BR-330\/MA",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV - Supervisão da Ponte de Igapó Açu",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 - Desapropriações 135\/MG",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR - 000600\/2023-23 | A Contratar | BR-010 - 541,8 à 541,81 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR - 090480\/2024-12 | BR-153\/GO\/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbia",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR - Adequação de Pacajus - Boqueirão do Cesário - Lotes 2 e 3",
+            "Estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR - Pavimentação - km 0,00 ao km 170,00",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | ADEQUAÇÃO DA TRAVESSIA URBANA DE PETROLINA NAS BR-407\/428-PE| A Contra",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-010 - 408,80 a 448,30 | Adequação",
+            "Estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Licenças e Autorizações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-040 - 0 à 0 | A Contratar |Construção Valparaíso",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-060 - 0 à 0 | A Contratar | Pavimentação Goiânia - Jatai",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-070 - km 65 - km 188 | A Contratar |Adequação de Cocalzinho de Góia",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-080 - Lote 3 | A Contratar | (Não está no NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-116 - 0 à 34,80 | A Contratar | Desapropriação",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Eliminação de Ponto crítico",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-153 - 0 à 0 | A Contratar | Contorno rodoviário Goiânia",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-153 Erechim Passo Fundo| A Contratar",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-230 -  390,87 a 398,95 | A Contratar | Obra",
+            "Estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-235 - 0 à 114,8 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-242 - 391 à 394 | A Contratar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-242 | A Contratar | Obra",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-242 | A Licitar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Duplicação",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-285\/RS",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-308 - km 204,30 a 276,40 | 11 OAE's",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-317 - 289,3 à 299,4 | A Contratar | Construção Oae",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-319 - 103,5 à 665,7 | A Contratar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-330 - 1,3 à 115,78 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Duplicação",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-364 - 752 à 752,3 | A Contratar | Construção Oae",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-364| Adequação Perímetro Urbano de Ariquemes\/RO",
+            "Estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-365 - 276,94 à 407,80 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-367 - 0 à 0 | A Contratar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-392",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-392 - 0 à 2 | A Contratar | Supervisão",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-392\/101\/RS",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-392\/RS",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-401 km 107 a km 142,00| A Contratar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-415 - 7,64 à 11,64 | A Contratar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-418 - 0 à 0 | A Contratar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-419 - 11,30 à 11,50 - Edital 0143\/25-19 | A Contratar | Construção",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-422 - 0 à 59,34 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-423 - 18,2 à 86,12 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Construção Oae (Edital anulado ju",
+            "Estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-448\/RS",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 CONTR | A Contratar | BR-472 - 510,5 à 517,1 | A Contratar | Construção Oae",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV 01 CONTR| A Contratar | BR-116 - 300,54 – 397,20  | A Contratar | Supervisão",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 01 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | A Contratar | Supervisão Lote 1",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Desapropriações | Diversos | BR-153 - 0 à 1,7 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Desapropriações | Diversos | BR-158 - 0 à 10,3 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Desapropriações | Diversos | BR-242 - 11,9 à 185,4 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Desapropriações | Dnit | 230 - 11,4 à 13,38 | A Lavrar | Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Reconhecimento de Dívida | Arteleste Construtora | BR-364 - 938,9 à 942,76 | A Lavrar | Adeq",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Reconhecimento de Dívida | Construtora Agrienge Ltda - 00 00979\/2014 | BR-163 - 537 à 674,56",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 01 Reconhecimento de Dívida | Ste Serviços Técnicos De Engenharia S.A | BR-116 - 236 à 251,8 |",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 Condicionantes Ambientais - Ação 161U - PA",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR  | A Contratar | BR-116 - 0 à 9,2 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR  | A Contratar | BR-290 - 172,1 à 228 | A Contratar | Supervisão Lote 2",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR - 090152\/2024-03 | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR - Desapropriação - 13YE",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR - km 13,38 ao km 28,00 - Oitizeiro",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar |  - 0 à 0 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar |  - 0 à 0 | Compensação Ambiental | Gerenciamento CI-PBA",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Licenças e Autorizações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-030 - 191,5 à 280,1 | A Contratar |  Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Estudos Arqueológicos e Ambient",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-101 - 0,00 à 51,80 | A Contratar | Adequação",
+            "Estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Supervisão",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar |  Despesas com honorários peri",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-153 - 0 à 0 | Supervisão | Contorno rodoviário Goiânia",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Obra dos Acessos",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-230 - 851,11 à 999,80 | A Contratar | Pavimentação - LOTE 2",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Licenças e Autorizações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Gestão Ambiental",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-304 - 0 à 0 | A Contratar | Compensação Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-316 - 33,5 à 55,6 | A Contratar | Supervisão",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-319 - 103,5 à 103,51 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-324 - 512,5 à 519,7 | A Contratar | Licenças e Autorizações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Construção de OAE",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-364 | A Contratar | Remanejamento de interferências",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-365 - 407 à 476,20 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-367 - 0 à 46,28 | A Contratar | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-401 km 142,00 a km 177,50| A Contratar TED | Pavimentação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Supervisão",
+            "Estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BR-472 - 510,0 à 511 | A Contratar | Desapropriação",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar | BRs 010, 308 e 316 -  680,1 km  | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | A Contratar| BR-364|Travessia Urbana de Pimenta Bueno",
+            "Estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR | BR-153\/GO\/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbiara\/GO e seus Aces",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 02 CONTR| A Contratar | BR-116 - 300,54 – 511,00  | A Contratar | Aldeias indígenas",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 CONTR| A Contratar | BR-116-290 - 0 à 15,3 | A Contratar | Supervisão",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 02 Desapropriações | Diversos | BR-419 - 189,3 à 244 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 02 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-407",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 Condicionantes Ambientais - Ação 161U - PA",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 Condicionantes Ambientais | Cprh | BR-423 - 18,2 à 60 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR - Outros - 13YE",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-101 - 0 à 938,6 | A Contratar | Assessoria Técnica",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-135 - 267 à 344,7 | A Contratar | Pavimentação",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-280 - 3,00 à 17,40 e 25,40 à 28,20 | A Contratar | Duplicação",
+            "Estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Desapropriação",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV 03 CONTR | A Contratar | BR-304 km 48,8 a km 106,40| A Contratar | Supervisão",
+            "Estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar |Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-319 - 655,70 - 655,7 | A Contratar | Outros | CGMRR",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-365 - 276,94 à 337,40 | A Contratar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Gestão Ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR | A Contratar | BR-401 km 107 a km 177,50| A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 03 CONTR| A Contratar | BR-116 - 300,54 à 351,34 | A Contratar | Duplicação Lote 1 e 2 Remanesc",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 03 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Desapropriação",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 03 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | Desapropriação",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 CONTR| A Contratar |BR-101 - 168,60 à 189,00 | Adequação (5.2)",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-423",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 03 Reconhecimento de Dívida | Vereda Engenharia Ltda | Br-429\/R medição final - 0 à 0 | A Lavra",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR - 090075\/2025-02 | A Contratar | BR-163 - 676,3 à 788,98 | A Contratar Supervisão (pro",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR - Licenciamento Ambiental - km 0,00 ao km 190,10",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A Contratar | BR-116 - 0,00 à 387,41  | A Contratar | Despesas com honorários perici",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Supervisão",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A Contratar | BR-365 - 407,80 à 476,20 | A Contratar | Duplicação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 04 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 04 CONTR| A Contratar | BR-116 - 351,34 – 397,2  | A Contratar | Duplicação Lote 3 e 4 Remanesc",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 04 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Gestão Ambiental",
+            "Estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 04 Reconhecimento de Dívida | Direção Consultoria E Engenharia Ltda | BR-429 - 0 à 0 | A Lavrar",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR - Compensação Ambiental - km 0,00 ao km 190,10",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Desapropriações",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Pavimentação",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-163 - 676,3 à 788,98 | Pavimentação (remanescente do 00 00035\/2013)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-230 - 851,11 à 899,80 | A Contratar | Supervisão - LOTE 2",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-304 - 296,80 à 308 | A Contratar | Adequação",
+            "Estado": "0",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-365 - 277,40 à 476,20 | A Contratar | Desapropriação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | OAE",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 05 Desapropriações | Justiça Federal | BR-381 - 458 à 459 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 Condicionantes Ambientais | Semad\/Mg | BR-381 - 150 à 453 | A Lavrar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Licenças e Autorizações",
+            "Estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev 06 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar | Desapropriação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Pavimentação - LOTE 1",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 CONTR | A Contratar | BR-365 - 405,60 à 476,20 | A Contratar | Gestão ambiental",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 CONTR | Reconhecimento de Dívida| Geosolos Consultoria Projetos E Serviços Ltda. | BR-101 -",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 06 TCO\/TED - Gestão Ambiental - km 143,00 ao km 169,00",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 CONTR - 090152\/2024-03 | Compensação Ambiental - Veículos PBAI",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 CONTR | A contratar | BR-101 - 0 à 165,4 | A Lavrar |Desapropriações",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 CONTR | A Contratar | BR-365 - 337,40 à 407,8 | A Contratar | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 CONTR | A Contratar | BR-381 - 288,4 à 317 | A Contratar | Supervisão",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 07 TCO\/TED - Compensação Ambiental - km 133,10 ao km 268,20",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 08 CONTR | A Contratar | BR-101 - 83,6 à 165,4 | A Contratar | Duplicação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 08 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Supervisão - LOTE 1",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 08 Reconhecimento de Dívida | Strata Engenharia Ltda | BR-381 - 389,5 à 427 | A Lavrar | Adequa",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev 12 CONTRATO ADM. - 090203\/2024-00 (Ata de Registro de Preços nº 26\/2024)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 1| A Contratar |Eliminação de pontos críticos (Passarelas) - km 61 à 65| BR-104\/PE | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 2 TC | A Contratar |Implantação da Variante do acesso sul de Toritama| BR-104\/PE | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV 3| A Contratar |Vias locais de Toritama - km 27,70 à 30,60| BR-104\/PE | Adequação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - MG - Ação 1304",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - MG - Ação 13XJ",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - MG - Ação 7G16",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - MG - Ação 7S59",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev a definir - OAE's do Lote B (não está na NPO ainda)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - PR - Ação 163I",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - PR - Ação 7U22",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - RO - Ação 14LY",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - RO - Ação 7X64",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir - RO - Ação 7XS4",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir | 161V | ADEQUACAO DE TRECHO RODOVIARIO - ENTR. BR-155 (P\/REDENCAO) - DIV. PA\/MT - NA",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev a definir | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Desapropriação",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir |165L | ADEQUACAO DO COMPLEXO RODOVIARIO DO PERIMETRO URBANO DE MARABA - PA NAS BR-23",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV a definir |165L | BR-222\/PA - DUPLICAÇÃO ENTRE MARABÁ E DOM ELISEU (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV ACT (Não consta no NPO)| A Contratar |Duplicação da BR-232 - São Caetano a Belo Jardim  BR-232\/",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV Anel BH",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev contorno de patos (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Prev CONTR (Não está na NPO) - OAEs do Lote A da BR-242  - km 486,32 ao km 575,23",
+            "Estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev CONTR | A Contratar | BR-316 - 263,5 à 276,1  | A Contratar | Obra 1B",
+            "Estado": "SEDE",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "Prev CONTR | A Contratar | BR-432 -BR-432| A Contratar | Construção 16 OAEs",
+            "Estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV CONTR| A Contratar | BR-290 - 112,3 – 142 | A Contratar | Duplicação Lote 1 Remanescente",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV viaduto do gancho (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV | A Contratar | Duplicação de trecho rodoviário - Entrocamento BR-232 ( Lajedo - Garanhuns) 47,",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "PREV | Construção | A Contratar | BR-235 (PEDRO AFONSO - ENTR BR-153) |Construção",
+            "Estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+            "Motivo": "Erro: Falha Contrato"
+        },
+        {
+            "Contrato": "PREV(não está na NPO) - BR-230\/PB - Construção do Arco Metropolitano de João Pessoa",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Reconhecimento de dívida (ainda não está na NPO)",
+            "Estado": "N\/A",
+            "Motivo": "Erro: Falha Unidade"
+        },
+        {
+            "Contrato": "Remanescente Contorno Três Lagoas",
+            "Estado": "PREV\/FUTURA CONTRATAÇÃO",
+            "Motivo": "Erro: Falha Unidade"
+        }
+    ],
+    "iniciado_em": "2026-11-04 17:04:44",
+    "finalizado_em": "2026-11-04 19:20:16",
+    "tempo_segundos": 8132
+}

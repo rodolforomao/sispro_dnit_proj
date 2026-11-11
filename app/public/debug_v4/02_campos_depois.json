@@ -1,0 +1,86 @@
+[
+  {
+    "i": 0,
+    "name": "",
+    "type": "fieldset",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 1,
+    "name": "tipoAcao",
+    "type": "hidden",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 2,
+    "name": "senha",
+    "type": "hidden",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 3,
+    "name": "novaSenha",
+    "type": "hidden",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 4,
+    "name": "novaSenhaRepetida",
+    "type": "hidden",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 5,
+    "name": "tokenCaptcha",
+    "type": "hidden",
+    "value": "CARREGADO",
+    "disabled": false
+  },
+  {
+    "i": 6,
+    "name": "cpf",
+    "type": "text",
+    "value": "10598798676",
+    "disabled": false
+  },
+  {
+    "i": 7,
+    "name": "senhaTemp",
+    "type": "password",
+    "value": "Bruno158",
+    "disabled": false
+  },
+  {
+    "i": 8,
+    "name": "novaSenhaTemp",
+    "type": "password",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 9,
+    "name": "novaSenhaRepetidaTemp",
+    "type": "password",
+    "value": "",
+    "disabled": false
+  },
+  {
+    "i": 10,
+    "name": "",
+    "type": "button",
+    "value": "Entrar",
+    "disabled": false
+  },
+  {
+    "i": 11,
+    "name": "",
+    "type": "button",
+    "value": "Limpar",
+    "disabled": false
+  }
+]

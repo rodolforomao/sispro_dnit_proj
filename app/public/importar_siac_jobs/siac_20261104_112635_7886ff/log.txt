@@ -1,0 +1,17 @@
+[2026-11-04 11:26:35] INICIANDO JOB siac_20261104_112635_7886ff
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_112635_7886ff/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_112635_7886ff/saida" --job="siac_20261104_112635_7886ff" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-04 11:26:35] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[spawn] job [login] FALHOU: Login não funcionou. URL: https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do
+HTML size: 56672 bytes
+Debug em: C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_112635_7886ff/saida/debug (veja login_apos_clique.png e login_falhou.html)
+n] clicando no botão Entrar...
+[login] click falhou — tentando form.submit() via JS
+[login] navegando direto para página de relatório (como o Python)...
+[login] URL final: https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do

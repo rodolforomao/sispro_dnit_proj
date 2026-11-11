@@ -1,0 +1,19 @@
+{
+    "status": "concluido",
+    "etapa": "concluido",
+    "progresso": 100,
+    "total": 1,
+    "processados": 1,
+    "medicoes_inseridas": 0,
+    "contratos_ignorados": 1,
+    "ignorados_detalhe": [
+        {
+            "Contrato": "00 00083\/2017",
+            "Estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+            "Motivo": "Erro: Campo Unidade"
+        }
+    ],
+    "iniciado_em": "2026-11-04 11:14:29",
+    "finalizado_em": "2026-11-04 11:14:45",
+    "tempo_segundos": 16
+}

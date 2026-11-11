@@ -47,9 +47,7 @@ return [
     // Links
     'links' => ['controller' => 'LinksController', 'method' => 'index'],
 
-    // ============================================================
     // ATLAS / MONITORAMENTO (setor separado)
-    // ============================================================
     'home_atlas'                 => ['controller' => 'AtlasController', 'method' => 'index'],
     'comparativo_bancos_1x36x38' => ['controller' => 'ComparacaoAtlasController', 'method' => 'comparativoBancos'],
     'comparativo_bancos_16x40'   => ['controller' => 'ComparacaoBancos16x40Controller', 'method' => 'index'],
@@ -65,4 +63,25 @@ return [
     'notificacoes_obras/comentarios/adicionar' => ['controller' => 'NotificacoesObrasController', 'method' => 'adicionarComentario'],
     'notificacoes_obras/comentarios/editar'    => ['controller' => 'NotificacoesObrasController', 'method' => 'editarComentario'],
     'notificacoes_obras/comentarios/excluir'   => ['controller' => 'NotificacoesObrasController', 'method' => 'excluirComentario'],
+
+    // ANÁLISE ORÇAMENTÁRIA E FINANCEIRA
+    'analise_orc'                           => ['controller' => 'AnaliseOrcController', 'method' => 'index'],
+    'analise_orc/acoes'                     => ['controller' => 'AnaliseOrcController', 'method' => 'acoes'],
+    'analise_orc/tipos'                     => ['controller' => 'AnaliseOrcController', 'method' => 'tipos'],
+    'analise_orc/contratos'                 => ['controller' => 'AnaliseOrcController', 'method' => 'contratos'],
+    'analise_orc/contratos_disponiveis'     => ['controller' => 'AnaliseOrcController', 'method' => 'contratosDisponiveis'],
+    'analise_orc/atualizar_dataset38'       => ['controller' => 'AnaliseOrcController', 'method' => 'atualizarDataset38'],
+    'analise_orc/detalhe'                   => ['controller' => 'AnaliseOrcController', 'method' => 'detalhe'],
+    'analise_orc/medicoes'                  => ['controller' => 'AnaliseOrcController', 'method' => 'medicoes'],
+    'analise_orc/notificacoes'              => ['controller' => 'AnaliseOrcController', 'method' => 'notificacoes'],
+    'analise_orc/notificacoes/marcar_lida'  => ['controller' => 'AnaliseOrcController', 'method' => 'marcarLida'],
+    'analise_orc/notificacoes/marcar_todas' => ['controller' => 'AnaliseOrcController', 'method' => 'marcarTodasLidas'],
+    'analise_orc/siac/executar'             => ['controller' => 'AnaliseOrcController', 'method' => 'executarSiac'],
+    'analise_orc/estimativa/salvar'         => ['controller' => 'AnaliseOrcController', 'method' => 'salvarEstimativa'],
+    'analise_orc/planejado_analista/salvar' => ['controller' => 'AnaliseOrcController', 'method' => 'salvarPlanejadoAnalista'],
+    'analise_orc/preferencia/salvar'        => ['controller' => 'AnaliseOrcController', 'method' => 'salvarPreferencia'],
+
+    // >>> RANKING (adicionar estas duas)
+    'analise_orc/ranking'                   => ['controller' => 'AnaliseOrcController', 'method' => 'ranking'],
+    'analise_orc/ranking_data'              => ['controller' => 'AnaliseOrcController', 'method' => 'rankingData'],
 ];

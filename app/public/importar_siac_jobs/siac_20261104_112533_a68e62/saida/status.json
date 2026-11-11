@@ -1,0 +1,5 @@
+{
+    "status": "erro",
+    "etapa": "login",
+    "erro": "Login não funcionou. URL: https:\/\/sisdnit.dnit.gov.br\/sisdnit\/jsp\/login.do\nHTML size: 56672 bytes\nDebug em: C:\\xampp\\htdocs\\sispro_dnit_proj\\app\\public\/importar_siac_jobs\/siac_20261104_112533_a68e62\/saida\/debug (veja login_apos_clique.png e login_falhou.html)"
+}

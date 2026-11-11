@@ -12,6 +12,30 @@ class ProcessoController {
         $this->model = new ProcessoModel($pdo);
     }
 
+    /**
+     * ✅ Reconhece o sentinela "-1" vindo da URL quando o usuário
+     *    clica no X de um filtro que era apenas o DEFAULT do usuário
+     *    (ex.: equipe=PROJETO, responsavel=Bruno).
+     *
+     *    Sem isso, o controller reaplicaria o default e o filtro
+     *    "voltaria" após cada remoção.
+     *
+     *    Deve ser chamado APÓS a montagem inicial de $filtros (com defaults)
+     *    e ANTES de executar a query de listagem.
+     *
+     * @param array $filtros Passado por referência
+     */
+    public static function sanitizarFiltrosSentinela(array &$filtros) {
+        foreach (['equipe', 'responsavel'] as $param) {
+            if (isset($_GET[$param]) && (string)$_GET[$param] === '-1') {
+                $filtros[$param] = '';
+            }
+        }
+    }
+
+    // ============================
+    // CREATE
+    // ============================
     public function create() {
         // AJAX para buscar contratos por UF
         if (isset($_GET['action']) && $_GET['action'] === 'get_contratos') {

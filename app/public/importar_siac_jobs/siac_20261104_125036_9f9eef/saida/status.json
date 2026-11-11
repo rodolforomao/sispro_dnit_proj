@@ -1,0 +1,5 @@
+{
+    "status": "erro",
+    "etapa": "login",
+    "erro": "Login falhou apos 3 tentativas.\nDetalhes:\n  - t1: timeout URL (https:\/\/sisdnit.dnit.gov.br\/sisdnit\/jsp\/login.do;jsessionid=43B47051EB5A595612D76852C98FB191)\n  - t2: timeout URL (https:\/\/sisdnit.dnit.gov.br\/sisdnit\/jsp\/login.do)\n  - t3: timeout URL (https:\/\/sisdnit.dnit.gov.br\/sisdnit\/jsp\/login.do)\nScreenshots em: C:\\xampp\\htdocs\\sispro_dnit_proj\\app\\public\/importar_siac_jobs\/siac_20261104_125036_9f9eef\/saida\/login_debug\nDica: SIAC bloqueia login em headless. headless=NAO"
+}

@@ -1,0 +1,18 @@
+[2026-11-04 11:04:49] INICIANDO JOB siac_20261104_110449_086dcc
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_110449_086dcc/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_110449_086dcc/saida" --job="siac_20261104_110449_086dcc" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-04 11:04:49] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[spawn] job siac_20261104_110449_086dcc iniciado, 1 contratos
+[driver] iniciando msedgedriver porta 4503
+[driver] pronto
+[login] autenticando no SIAC...
+[login] OK
+[0/1] 00 00083/2017 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+    ⚠ ignorado: Erro: Campo Unidade
+OK — 0 medições inseridas, 1 ignorados.

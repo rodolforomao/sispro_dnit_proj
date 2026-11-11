@@ -118,8 +118,19 @@ $h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                 </a>
             </div>
 
+            <!-- FERRAMENTA 4 (NOVA): Análise Orçamentária e Financeira -->
+            <div class="col-12 col-md-6 col-lg-3 d-flex">
+                <a href="analise_orc" class="text-decoration-none w-100">
+                    <div class="card card-ferramentas border-0 shadow-sm w-100">
+                        <div class="card-body text-center d-flex flex-column justify-content-center py-4">
+                            <i class="bi bi-cash-stack icone-ferramenta text-danger"></i>
+                            <h5 class="mt-3 mb-2">Análise Orçamentária e Financeira</h5>
+                            <p class="descricao mb-0">Orçamento e performance dos contratos de obra</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
-
     </div>
 </div>
 

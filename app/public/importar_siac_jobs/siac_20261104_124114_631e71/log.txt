@@ -1,0 +1,17 @@
+[2026-11-04 12:41:14] INICIANDO JOB siac_20261104_124114_631e71
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_124114_631e71/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_124114_631e71/saida" --job="siac_20261104_124114_631e71" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-04 12:41:14] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[spawn] job siac_20261104_124114_631e71, 1 contratos (headless=sim)
+[driver] iniciando porta 4494
+[driver] pronto
+[login] iniciando...
+[login] tentativa 1/3
+[login] tentativa 2/3
+[login] tentativa 3/3

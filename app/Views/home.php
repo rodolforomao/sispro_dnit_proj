@@ -56,68 +56,45 @@ if (!function_exists('obterIniciais')) {
 
 // Construir array de filtros aplicados (com 'param')
 $filtrosAplicados = [];
-if (!empty($filtros['equipe'])) {
+if (!empty($filtros['equipe']) && (string)$filtros['equipe'] !== '-1') {
     $nomeEquipe = '';
     foreach ($equipes as $e) {
-        if ($e['id'] == $filtros['equipe']) {
-            $nomeEquipe = $e['nome'];
-            break;
-        }
+        if ($e['id'] == $filtros['equipe']) { $nomeEquipe = $e['nome']; break; }
     }
     if ($nomeEquipe) $filtrosAplicados[] = ['param' => 'equipe', 'label' => 'Equipe', 'valor' => $nomeEquipe];
 }
-if (!empty($filtros['responsavel'])) {
+if (!empty($filtros['responsavel']) && (string)$filtros['responsavel'] !== '-1') {
     $nomeResp = '';
     foreach ($responsaveis as $r) {
-        if ($r['id'] == $filtros['responsavel']) {
-            $nomeResp = $r['nome'];
-            break;
-        }
+        if ($r['id'] == $filtros['responsavel']) { $nomeResp = $r['nome']; break; }
     }
     if ($nomeResp) $filtrosAplicados[] = ['param' => 'responsavel', 'label' => 'Responsável', 'valor' => $nomeResp];
 }
 if (!empty($filtros['status'])) {
     $nomeStatus = '';
     foreach ($statuses as $s) {
-        if ($s['id'] == $filtros['status']) {
-            $nomeStatus = $s['nome'];
-            break;
-        }
+        if ($s['id'] == $filtros['status']) { $nomeStatus = $s['nome']; break; }
     }
     if ($nomeStatus) $filtrosAplicados[] = ['param' => 'status', 'label' => 'Status', 'valor' => $nomeStatus];
 }
 if (!empty($filtros['contrato'])) {
     $numContrato = '';
     foreach ($contratos as $c) {
-        if ($c['id'] == $filtros['contrato']) {
-            $numContrato = $c['numero'];
-            break;
-        }
+        if ($c['id'] == $filtros['contrato']) { $numContrato = $c['numero']; break; }
     }
     if ($numContrato) $filtrosAplicados[] = ['param' => 'contrato', 'label' => 'Contrato', 'valor' => $numContrato];
 }
-if (!empty($filtros['assunto'])) {
-    $filtrosAplicados[] = ['param' => 'assunto', 'label' => 'Assunto', 'valor' => $filtros['assunto']];
-}
-if (!empty($filtros['processo'])) {
-    $filtrosAplicados[] = ['param' => 'processo', 'label' => 'Nº Processo', 'valor' => $filtros['processo']];
-}
+if (!empty($filtros['assunto'])) $filtrosAplicados[] = ['param' => 'assunto', 'label' => 'Assunto', 'valor' => $filtros['assunto']];
+if (!empty($filtros['processo'])) $filtrosAplicados[] = ['param' => 'processo', 'label' => 'Nº Processo', 'valor' => $filtros['processo']];
 if (!empty($filtros['tipo'])) {
     $nomeTipo = '';
     foreach ($tipos as $t) {
-        if ($t['id'] == $filtros['tipo']) {
-            $nomeTipo = $t['nome'];
-            break;
-        }
+        if ($t['id'] == $filtros['tipo']) { $nomeTipo = $t['nome']; break; }
     }
     if ($nomeTipo) $filtrosAplicados[] = ['param' => 'tipo', 'label' => 'Tipo', 'valor' => $nomeTipo];
 }
-if (!empty($filtros['uf'])) {
-    $filtrosAplicados[] = ['param' => 'uf', 'label' => 'UF', 'valor' => $filtros['uf']];
-}
-if (!empty($filtros['br'])) {
-    $filtrosAplicados[] = ['param' => 'br', 'label' => 'BR', 'valor' => $filtros['br']];
-}
+if (!empty($filtros['uf'])) $filtrosAplicados[] = ['param' => 'uf', 'label' => 'UF', 'valor' => $filtros['uf']];
+if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => 'BR', 'valor' => $filtros['br']];
 ?>
 <!DOCTYPE html>
 <html lang="pt" data-theme="light">
@@ -127,265 +104,111 @@ if (!empty($filtros['br'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- ============================================================
+         PERSISTÊNCIA DE FILTROS ENTRE PÁGINAS DO MÓDULO
+         ============================================================ -->
+    <script>
+    (function() {
+        var STORAGE_KEY = 'sispro_processos_filtros';
+        var params = new URLSearchParams(window.location.search);
+        var filterKeys = ['equipe','responsavel','status','contrato','assunto','processo','tipo','uf','br','pagina'];
+
+        // 1) Limpeza explícita (botão "Limpar Filtros" / "Limpar" do modal)
+        if (params.get('clear') === '1') {
+            sessionStorage.removeItem(STORAGE_KEY);
+            return;
+        }
+
+        // 2) Tem filtro na URL? Salva o estado
+        var hasFilter = filterKeys.some(function(k) {
+            var v = params.get(k);
+            return v !== null && v !== '';
+        });
+        if (hasFilter) {
+            sessionStorage.setItem(STORAGE_KEY, window.location.search);
+            return;
+        }
+
+        // 3) Sem filtro na URL → restaura somente se veio de dentro do módulo
+        var saved = sessionStorage.getItem(STORAGE_KEY);
+        if (!saved || saved.length <= 1) return;
+
+        var ref = document.referrer;
+        var fromSameModule = false;
+        if (ref) {
+            try {
+                var refUrl = new URL(ref);
+                if (refUrl.origin === window.location.origin) {
+                    var refFile = (refUrl.pathname.split('/').pop() || 'index')
+                                    .replace(/\.php$/i, '').toLowerCase();
+                    var processosFiles = ['index','view','edit','create','delete','home',
+                                          'exportar_csv','store','update','ajax_comentarios'];
+                    fromSameModule = processosFiles.indexOf(refFile) !== -1;
+                }
+            } catch(e) {}
+        }
+        if (fromSameModule) {
+            window.location.replace(window.location.pathname + saved);
+        }
+    })();
+    </script>
+
     <style>
-        /* ============================================================
-           VARIÁVEIS DE TEMA
-           ============================================================ */
         :root {
-            --bg-body: #f8f9fc;
-            --bg-card: #ffffff;
-            --text-primary: #2c3e50;
-            --text-secondary: #6c757d;
-            --border-color: #dce1e8;
+            --bg-body: #f8f9fc; --bg-card: #ffffff; --text-primary: #2c3e50;
+            --text-secondary: #6c757d; --border-color: #dce1e8;
             --shadow: 0 8px 30px rgba(0,0,0,0.08);
             --table-hover: rgba(0,0,0,0.03);
-            --input-bg: #ffffff;
-            --input-border: #dce1e8;
-            --header-bg: #ffffff;
-            --dropdown-bg: #ffffff;
+            --input-bg: #ffffff; --input-border: #dce1e8;
+            --header-bg: #ffffff; --dropdown-bg: #ffffff;
             --dropdown-hover: #f0f4f8;
-            --modal-bg: #ffffff;
-            --modal-header-bg: #f8f9fc;
+            --modal-bg: #ffffff; --modal-header-bg: #f8f9fc;
         }
+        body { background: var(--bg-body); color: var(--text-primary); transition: background 0.3s, color 0.3s; padding-top: 70px; }
+        .card { background: var(--bg-card); border: none; border-radius: 16px; box-shadow: var(--shadow); padding: 20px 25px; transition: background 0.3s, box-shadow 0.3s; }
+        .table th { color: var(--text-primary); border-top: none; white-space: nowrap; }
+        .table td { vertical-align: middle; word-break: break-word; color: var(--text-primary); }
+        .table-hover tbody tr:hover { background-color: var(--table-hover); }
+        .form-control, .form-select { background: var(--input-bg); border-color: var(--input-border); color: var(--text-primary); border-radius: 10px; }
+        .form-control:focus, .form-select:focus { border-color: #4a90e2; box-shadow: 0 0 0 0.2rem rgba(74,144,226,0.15); }
+        .modal-content { background: var(--modal-bg); color: var(--text-primary); }
+        .modal-header { background: var(--modal-header-bg); border-bottom: 1px solid var(--border-color); }
+        .dropdown-menu { background: var(--dropdown-bg); border-color: var(--border-color); }
+        .dropdown-item { color: var(--text-primary); }
+        .dropdown-item:hover { background: var(--dropdown-hover); color: var(--text-primary); }
 
-        /* ============================================================
-           ESTILOS GLOBAIS
-           ============================================================ */
-        body {
-            background: var(--bg-body);
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.3s;
-            padding-top: 70px;
-        }
-        .card {
-            background: var(--bg-card);
-            border: none;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 20px 25px;
-            transition: background 0.3s, box-shadow 0.3s;
-        }
-        .table th {
-            color: var(--text-primary);
-            border-top: none;
-            white-space: nowrap;
-        }
-        .table td {
-            vertical-align: middle;
-            word-break: break-word;
-            color: var(--text-primary);
-        }
-        .table-hover tbody tr:hover {
-            background-color: var(--table-hover);
-        }
-        .form-control, .form-select {
-            background: var(--input-bg);
-            border-color: var(--input-border);
-            color: var(--text-primary);
-            border-radius: 10px;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 0.2rem rgba(74,144,226,0.15);
-        }
-        .modal-content {
-            background: var(--modal-bg);
-            color: var(--text-primary);
-        }
-        .modal-header {
-            background: var(--modal-header-bg);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .dropdown-menu {
-            background: var(--dropdown-bg);
-            border-color: var(--border-color);
-        }
-        .dropdown-item {
-            color: var(--text-primary);
-        }
-        .dropdown-item:hover {
-            background: var(--dropdown-hover);
-            color: var(--text-primary);
-        }
+        .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1030; background: var(--header-bg); border-bottom: 1px solid var(--border-color); padding: 8px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; transition: background 0.3s, border-color 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 60px; }
+        .topbar-left { display: flex; align-items: center; gap: 10px; }
+        .topbar-left .logo-dnit { max-height: 40px; width: auto; }
+        .topbar-left .sistema-titulo { font-weight: 700; color: #004a8f; font-size: 1.2rem; letter-spacing: 1px; }
+        .topbar-center { flex: 1; text-align: center; }
+        .topbar-center .badge-setor { background: #17a2b8; color: #fff; font-size: 0.9rem; padding: 6px 14px; }
+        .topbar-right { display: flex; align-items: center; gap: 10px; }
+        .topbar-right .btn-icon { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); padding: 0 6px; cursor: pointer; transition: color 0.2s; }
+        .topbar-right .btn-icon:hover { color: #004a8f; }
+        .topbar-right .btn-avatar { position: relative; background: none; border: none; padding: 0; cursor: pointer; }
+        .topbar-right .btn-avatar .avatar-icon { width: 38px; height: 38px; border-radius: 50%; background: #0d6efd; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; text-transform: uppercase; }
+        .topbar-right .btn-avatar .badge-notificacao { position: absolute; top: -4px; right: -4px; background-color: #dc3545; color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 0.65rem; font-weight: 700; line-height: 1; border: 2px solid var(--header-bg); min-width: 18px; text-align: center; }
+        .dropdown-menu-avatar { min-width: 220px; padding: 8px 0; }
+        .dropdown-menu-avatar .dropdown-item { padding: 10px 20px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+        .dropdown-menu-avatar .dropdown-item i { font-size: 1.2rem; width: 24px; text-align: center; }
+        .dropdown-menu-avatar .dropdown-header { padding: 10px 20px; font-weight: 600; color: var(--text-primary); border-bottom: 1px solid var(--border-color); margin-bottom: 4px; }
+        .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px; }
 
-        /* ============================================================
-           BARRA SUPERIOR FIXA
-           ============================================================ */
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 8px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            transition: background 0.3s, border-color 0.3s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            min-height: 60px;
-        }
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .topbar-left .logo-dnit {
-            max-height: 40px;
-            width: auto;
-        }
-        .topbar-left .sistema-titulo {
-            font-weight: 700;
-            color: #004a8f;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
-        .topbar-center {
-            flex: 1;
-            text-align: center;
-        }
-        .topbar-center .badge-setor {
-            background: #17a2b8;
-            color: #fff;
-            font-size: 0.9rem;
-            padding: 6px 14px;
-        }
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .topbar-right .btn-icon {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            padding: 0 6px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .topbar-right .btn-icon:hover {
-            color: #004a8f;
-        }
-
-        /* Avatar com badge de notificação */
-        .topbar-right .btn-avatar {
-            position: relative;
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-        }
-        .topbar-right .btn-avatar .avatar-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #0d6efd;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-        .topbar-right .btn-avatar .badge-notificacao {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background-color: #dc3545;
-            color: #fff;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            line-height: 1;
-            border: 2px solid var(--header-bg);
-            min-width: 18px;
-            text-align: center;
-        }
-
-        .dropdown-menu-avatar {
-            min-width: 220px;
-            padding: 8px 0;
-        }
-        .dropdown-menu-avatar .dropdown-item {
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .dropdown-menu-avatar .dropdown-item i {
-            font-size: 1.2rem;
-            width: 24px;
-            text-align: center;
-        }
-        .dropdown-menu-avatar .dropdown-header {
-            padding: 10px 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 4px;
-        }
-        .dropdown-menu-avatar .dropdown-header small {
-            display: block;
-            font-weight: 400;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        /* ============================================================
-           DEMAIS ESTILOS
-           ============================================================ */
         .table-responsive { overflow-x: auto; }
         .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 500; }
         .btn-action { border-radius: 8px; padding: 4px 10px; margin: 0 2px; }
         .footer-text { font-size: 0.9rem; color: var(--text-secondary); }
         .comentario-badge { position: relative; cursor: pointer; font-size: 1.3rem; }
-        .comentario-badge .badge-dot {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 12px;
-            height: 12px;
-            background-color: #ffc107;
-            border-radius: 50%;
-            border: 2px solid white;
-            display: none;
-        }
+        .comentario-badge .badge-dot { position: absolute; top: -6px; right: -6px; width: 12px; height: 12px; background-color: #ffc107; border-radius: 50%; border: 2px solid white; display: none; }
         .comentario-badge.has-comentario .badge-dot { display: block; }
         .col-min-width { min-width: 100px; }
         .col-min-width-sm { min-width: 80px; }
         .col-min-width-lg { min-width: 150px; }
-        .copiar-ao-clicar {
-            cursor: pointer;
-            color: #0d6efd;
-            text-decoration: none;
-        }
+        .copiar-ao-clicar { cursor: pointer; color: #0d6efd; text-decoration: none; }
         .copiar-ao-clicar:hover { text-decoration: underline; }
-        #toastCopiado {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.85);
-            color: #fff;
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            z-index: 99999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+        #toastCopiado { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 28px; border-radius: 30px; font-weight: 500; font-size: 0.95rem; z-index: 99999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         #toastCopiado.show { opacity: 1; visibility: visible; }
         #toastCopiado i { margin-right: 8px; }
         .badge-status-em-elaboracao { background-color: #FFA500; color: #000; }
@@ -399,50 +222,11 @@ if (!empty($filtros['br'])) {
         .text-entregue { color: #000 !important; font-weight: bold; }
         .text-no-prazo { color: #000 !important; font-weight: bold; }
         .icone-alerta { color: #FFC107; font-size: 1.1rem; margin-left: 5px; cursor: help; }
-
-        /* ✅ Prazo amarelo em negrito quando tem_prazo estiver marcado */
-        .prazo-amarelo {
-            color: #FFC107 !important;
-            font-weight: bold !important;
-        }
-
-        /* ✅ Badge de Tipo */
-        .tipo-badge {
-            background: #eef2ff;
-            color: #3730a3;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            white-space: nowrap;
-            display: inline-block;
-        }
-
-        /* ============================================================
-           ✅ CORREÇÃO: coluna Contrato — quebra nomes longos
-           ============================================================ */
-        .col-contrato {
-            max-width: 220px;
-            white-space: normal;
-            word-break: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .comentario-bolha {
-            background: #f1f3f5;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            border-left: 4px solid #0d6efd;
-            position: relative;
-        }
-        .comentario-bolha .comentario-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 4px;
-        }
+        .prazo-amarelo { color: #FFC107 !important; font-weight: bold !important; }
+        .tipo-badge { background: #eef2ff; color: #3730a3; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 500; white-space: nowrap; display: inline-block; }
+        .col-contrato { max-width: 220px; white-space: normal; word-break: break-word; overflow-wrap: break-word; }
+        .comentario-bolha { background: #f1f3f5; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid #0d6efd; position: relative; }
+        .comentario-bolha .comentario-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
         .comentario-bolha .comentario-usuario { font-weight: 700; color: #0d6efd; }
         .comentario-bolha .comentario-data { font-size: 0.8rem; color: var(--text-secondary); }
         .comentario-bolha .comentario-texto { margin-top: 4px; word-wrap: break-word; white-space: pre-wrap; }
@@ -455,22 +239,8 @@ if (!empty($filtros['br'])) {
         .pagination .page-item.active .page-link { background-color: #004a8f; border-color: #004a8f; color: #fff; }
         .pagination .page-link:hover { background-color: #e9ecef; border-color: #dee2e6; }
         .btn-filtros { border-radius: 30px; padding: 8px 24px; font-weight: 500; }
-        .badge-filtro {
-            background: #e9ecef;
-            color: #2c3e50;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 20px;
-            margin-right: 8px;
-            margin-bottom: 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .badge-filtro .remover-filtro {
-            cursor: pointer;
-            opacity: 0.7;
-        }
+        .badge-filtro { background: #e9ecef; color: #2c3e50; font-weight: 500; padding: 6px 12px; border-radius: 20px; margin-right: 8px; margin-bottom: 4px; display: inline-flex; align-items: center; gap: 6px; }
+        .badge-filtro .remover-filtro { cursor: pointer; opacity: 0.7; }
         .badge-filtro .remover-filtro:hover { opacity: 1; }
         @media (max-width: 768px) {
             .table-responsive { font-size: 0.85rem; }
@@ -490,12 +260,8 @@ if (!empty($filtros['br'])) {
 <body>
 <?php include APP_PATH . '/Views/header.php'; ?>
 
-<!-- ============================================================
-     CONTEÚDO PRINCIPAL
-     ============================================================ -->
 <div class="container-fluid mt-4">
 
-    <!-- ✅ FLASH MESSAGE -->
     <?php if (!empty($_SESSION['flash_processo'])): 
         $flash = $_SESSION['flash_processo'];
         unset($_SESSION['flash_processo']);
@@ -510,7 +276,6 @@ if (!empty($filtros['br'])) {
     <?php endif; ?>
 
     <div class="card">
-        <!-- Título, contadores e botões -->
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
             <div>
                 <h2 class="processo-titulo">Processos</h2>
@@ -527,7 +292,7 @@ if (!empty($filtros['br'])) {
                 <button type="button" class="btn btn-outline-secondary btn-filtros" data-bs-toggle="modal" data-bs-target="#modalFiltros">
                     <i class="bi bi-funnel"></i> Filtros
                 </button>
-                <a href="index" class="btn btn-outline-secondary btn-filtros">
+                <a href="index?clear=1" class="btn btn-outline-secondary btn-filtros">
                     <i class="bi bi-eraser"></i> Limpar Filtros
                 </a>
             </div>
@@ -540,13 +305,25 @@ if (!empty($filtros['br'])) {
             <?php foreach ($filtrosAplicados as $f): ?>
                 <?php
                     $novosGET = $_GET;
+                    $idDefaults = ['equipe', 'responsavel'];
+
                     if (array_key_exists($f['param'], $_GET)) {
+                        // Filtro explícito na URL — apenas remove
                         unset($novosGET[$f['param']]);
                     } else {
-                        $novosGET[$f['param']] = '';
+                        // É um default → usa sentinela -1 para impedir o controller
+                        // de reaplicar o default do usuário
+                        if (in_array($f['param'], $idDefaults)) {
+                            $novosGET[$f['param']] = '-1';
+                        } else {
+                            $novosGET[$f['param']] = '';
+                        }
                     }
                     unset($novosGET['pagina']);
-                    $urlSemFiltro = '?' . http_build_query($novosGET);
+
+                    $urlSemFiltro = $novosGET
+                        ? '?' . http_build_query($novosGET)
+                        : '?clear=1';
                 ?>
                 <span class="badge-filtro">
                     <?= htmlspecialchars($f['label']) ?>: <?= htmlspecialchars($f['valor']) ?>
@@ -572,11 +349,11 @@ if (!empty($filtros['br'])) {
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Equipe</label>
                                     <select name="equipe" class="form-select select2-filtro">
-                                        <option value="">Todas</option>
+                                        <option value="-1" <?= (isset($_GET['equipe']) && (string)$_GET['equipe'] === '-1') ? 'selected' : '' ?>>Todas</option>
                                         <?php foreach ($equipes as $e): ?>
                                             <?php
                                                 $selected = '';
-                                                if ($filtros['equipe'] == $e['id']) {
+                                                if ($filtros['equipe'] == $e['id'] && (string)$filtros['equipe'] !== '-1') {
                                                     $selected = 'selected';
                                                 } elseif (empty($filtros['equipe']) && isset($default_equipe) && $default_equipe == $e['id'] && !array_key_exists('equipe', $_GET)) {
                                                     $selected = 'selected';
@@ -589,11 +366,11 @@ if (!empty($filtros['br'])) {
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Responsável</label>
                                     <select name="responsavel" class="form-select select2-filtro">
-                                        <option value="">Todos</option>
+                                        <option value="-1" <?= (isset($_GET['responsavel']) && (string)$_GET['responsavel'] === '-1') ? 'selected' : '' ?>>Todos</option>
                                         <?php foreach ($responsaveis as $r): ?>
                                             <?php
                                                 $selected = '';
-                                                if ($filtros['responsavel'] == $r['id']) {
+                                                if ($filtros['responsavel'] == $r['id'] && (string)$filtros['responsavel'] !== '-1') {
                                                     $selected = 'selected';
                                                 } elseif (empty($filtros['responsavel']) && isset($default_responsavel) && $default_responsavel == $r['id'] && !array_key_exists('responsavel', $_GET)) {
                                                     $selected = 'selected';
@@ -664,7 +441,7 @@ if (!empty($filtros['br'])) {
                             <input type="hidden" name="pagina" value="1">
                         </div>
                         <div class="modal-footer">
-                            <a href="index" class="btn btn-secondary">Limpar</a>
+                            <a href="index?clear=1" class="btn btn-secondary">Limpar</a>
                             <button type="submit" class="btn btn-primary btn-aplicar">Aplicar Filtros</button>
                         </div>
                     </form>
@@ -672,7 +449,6 @@ if (!empty($filtros['br'])) {
             </div>
         </div>
 
-        <!-- MODAL DE CONFIRMAÇÃO EXPORTAR -->
         <div class="modal fade modal-confirm-export" id="modalConfirmExport" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -693,39 +469,18 @@ if (!empty($filtros['br'])) {
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <colgroup>
-                    <col class="col-min-width">
-                    <col class="col-min-width">
-                    <col class="col-min-width-sm">
-                    <col class="col-min-width-lg">
-                    <col style="min-width: 100px;">
-                    <col style="min-width: 100px;">
-                    <col style="min-width: 200px;">
-                    <col class="col-min-width">
-                    <col style="min-width: 60px;">
-                    <col style="min-width: 80px;">
-                    <col style="min-width: 110px;">
-                    <col style="min-width: 110px;">
-                    <col style="min-width: 90px;">
-                    <col style="min-width: 70px;">
-                    <col style="min-width: 140px;">
+                    <col class="col-min-width"><col class="col-min-width"><col class="col-min-width-sm">
+                    <col class="col-min-width-lg"><col style="min-width: 100px;"><col style="min-width: 100px;">
+                    <col style="min-width: 200px;"><col class="col-min-width"><col style="min-width: 60px;">
+                    <col style="min-width: 80px;"><col style="min-width: 110px;"><col style="min-width: 110px;">
+                    <col style="min-width: 90px;"><col style="min-width: 70px;"><col style="min-width: 140px;">
                 </colgroup>
                 <thead>
                     <tr>
-                        <th>Equipe</th>
-                        <th>Responsável</th>
-                        <th>Status</th>
-                        <th>Nº Processo</th>
-                        <th>SEI Criado 1</th>
-                        <th>Tipo</th>
-                        <th>Assunto</th>
-                        <th>Contrato</th>
-                        <th>UF</th>
-                        <th>BR</th>
-                        <th>Data Entrada</th>
-                        <th>Prazo</th>
-                        <th>Situação</th>
-                        <th class="text-center">Coment.</th>
-                        <th class="text-center">Ações</th>
+                        <th>Equipe</th><th>Responsável</th><th>Status</th><th>Nº Processo</th>
+                        <th>SEI Criado 1</th><th>Tipo</th><th>Assunto</th><th>Contrato</th>
+                        <th>UF</th><th>BR</th><th>Data Entrada</th><th>Prazo</th>
+                        <th>Situação</th><th class="text-center">Coment.</th><th class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -734,12 +489,12 @@ if (!empty($filtros['br'])) {
                         $statusNome = $p['status_nome'] ?? '';
                         $statusClasses = [
                             'Em elaboração' => 'badge-status-em-elaboracao',
-                            'Elaborado'     => 'badge-status-elaborado',
-                            'Revisado'      => 'badge-status-revisado',
-                            'Aguardar'      => 'badge-status-aguardar',
-                            'Assinado'      => 'badge-status-assinado',
-                            'Marília'       => 'badge-status-marilia',
-                            'Concluído'     => 'badge-status-concluido'
+                            'Elaborado' => 'badge-status-elaborado',
+                            'Revisado' => 'badge-status-revisado',
+                            'Aguardar' => 'badge-status-aguardar',
+                            'Assinado' => 'badge-status-assinado',
+                            'Marília' => 'badge-status-marilia',
+                            'Concluído' => 'badge-status-concluido'
                         ];
                         $statusClass = $statusClasses[$statusNome] ?? 'bg-secondary';
                         $situacao = '';
@@ -752,22 +507,13 @@ if (!empty($filtros['br'])) {
                         } elseif (!empty($p['prazo'])) {
                             $prazo = new DateTime($p['prazo']);
                             $prazo->setTime(0, 0, 0);
-                            if ($prazo < $hoje) {
-                                $situacao = 'Atrasado';
-                                $classe_situacao = 'text-atrasado';
-                            } else {
-                                $situacao = 'No prazo';
-                                $classe_situacao = 'text-no-prazo';
-                            }
-                        } else {
-                            $situacao = 'Sem prazo';
-                            $classe_situacao = 'text-muted';
-                        }
+                            if ($prazo < $hoje) { $situacao = 'Atrasado'; $classe_situacao = 'text-atrasado'; }
+                            else { $situacao = 'No prazo'; $classe_situacao = 'text-no-prazo'; }
+                        } else { $situacao = 'Sem prazo'; $classe_situacao = 'text-muted'; }
                         $mostrarAlerta = ($statusNome == 'Revisado' && ($p['cadastrado_sima'] == 0 || $p['cadastrado_sima'] == 'Não'));
                         $tem_comentario = ($p['total_comentarios'] > 0);
                         $seiCriado1 = !empty($p['sei_criado_1']) ? $p['sei_criado_1'] : '-';
                         $numeroProcesso = $p['numero_processo'] ?? '';
-                        // ✅ Define classe do prazo conforme tem_prazo
                         $classePrazo = !empty($p['tem_prazo']) ? 'prazo-amarelo' : '';
                     ?>
                     <tr>
@@ -786,19 +532,13 @@ if (!empty($filtros['br'])) {
                         </td>
                         <td class="text-nowrap">
                             <?php if ($seiCriado1 !== '-'): ?>
-                                <span class="copiar-ao-clicar" data-copiar="<?= htmlspecialchars($seiCriado1) ?>" title="Clique para copiar o SEI">
-                                    <?= htmlspecialchars($seiCriado1) ?>
-                                </span>
-                            <?php else: ?>
-                                -
-                            <?php endif; ?>
+                                <span class="copiar-ao-clicar" data-copiar="<?= htmlspecialchars($seiCriado1) ?>" title="Clique para copiar o SEI"><?= htmlspecialchars($seiCriado1) ?></span>
+                            <?php else: ?>-<?php endif; ?>
                         </td>
                         <td class="text-nowrap">
                             <?php if (!empty($p['tipo_nome'])): ?>
                                 <span class="tipo-badge"><?= htmlspecialchars($p['tipo_nome']) ?></span>
-                            <?php else: ?>
-                                —
-                            <?php endif; ?>
+                            <?php else: ?>—<?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($p['assunto'] ?? '') ?></td>
                         <td class="col-contrato"><?= htmlspecialchars($p['contrato_num'] ?? '') ?></td>
@@ -811,13 +551,11 @@ if (!empty($filtros['br'])) {
                         <td class="text-nowrap <?= $classe_situacao ?>"><?= $situacao ?></td>
                         <td class="text-center">
                             <span class="comentario-badge <?= $tem_comentario ? 'has-comentario' : '' ?>" 
-                                  data-bs-toggle="modal" 
-                                  data-bs-target="#modalComentario" 
+                                  data-bs-toggle="modal" data-bs-target="#modalComentario" 
                                   data-processo-id="<?= $p['id'] ?>"
                                   data-processo-num="<?= htmlspecialchars($p['numero_processo'] ?? '') ?>"
                                   title="Comentários">
-                                <i class="bi bi-chat-dots"></i>
-                                <span class="badge-dot"></span>
+                                <i class="bi bi-chat-dots"></i><span class="badge-dot"></span>
                             </span>
                         </td>
                         <td class="text-center text-nowrap">
@@ -847,12 +585,8 @@ if (!empty($filtros['br'])) {
                     unset($queryParams['pagina']);
                     $baseUrl = '?' . http_build_query($queryParams);
                 ?>
-                <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $baseUrl . '&pagina=1' ?>">«</a>
-                </li>
-                <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $baseUrl . '&pagina=' . ($paginaAtual - 1) ?>">‹</a>
-                </li>
+                <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>"><a class="page-link" href="<?= $baseUrl . '&pagina=1' ?>">«</a></li>
+                <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>"><a class="page-link" href="<?= $baseUrl . '&pagina=' . ($paginaAtual - 1) ?>">‹</a></li>
                 <?php
                     $inicio = max(1, $paginaAtual - 2);
                     $fim = min($totalPaginas, $paginaAtual + 2);
@@ -869,16 +603,10 @@ if (!empty($filtros['br'])) {
                         echo '<li class="page-item"><a class="page-link" href="' . $baseUrl . '&pagina=' . $totalPaginas . '">' . $totalPaginas . '</a></li>';
                     }
                 ?>
-                <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $baseUrl . '&pagina=' . ($paginaAtual + 1) ?>">›</a>
-                </li>
-                <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $baseUrl . '&pagina=' . $totalPaginas ?>">»</a>
-                </li>
+                <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>"><a class="page-link" href="<?= $baseUrl . '&pagina=' . ($paginaAtual + 1) ?>">›</a></li>
+                <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>"><a class="page-link" href="<?= $baseUrl . '&pagina=' . $totalPaginas ?>">»</a></li>
             </ul>
-            <div class="text-center text-muted small">
-                Mostrando <?= count($processos) ?> de <?= $totalRegistros ?> processos
-            </div>
+            <div class="text-center text-muted small">Mostrando <?= count($processos) ?> de <?= $totalRegistros ?> processos</div>
         </nav>
         <?php endif; ?>
 
@@ -888,7 +616,6 @@ if (!empty($filtros['br'])) {
     </div>
 </div>
 
-<!-- Toast e Modal de Comentários -->
 <div id="toastCopiado"><i class="bi bi-check-circle-fill text-success"></i> Copiado!</div>
 
 <div class="modal fade modal-comentario" id="modalComentario" tabindex="-1" aria-hidden="true">
@@ -924,13 +651,18 @@ $(document).ready(function() {
     var usuarioNivel = <?= json_encode($usuario_nivel) ?>;
     var usuarioId = <?= json_encode($usuario_id) ?>;
 
-    // SELECT2
     $('.select2-filtro').select2({
-        width: '100%',
-        allowClear: true,
-        placeholder: 'Selecione...',
-        dropdownAutoWidth: true,
-        dropdownParent: $('#modalFiltros')
+        width: '100%', allowClear: true, placeholder: 'Selecione...',
+        dropdownAutoWidth: true, dropdownParent: $('#modalFiltros')
+    });
+
+    // Ao limpar via ícone X do select2, envia -1 para equipe/responsavel
+    // (evita que o controller reaplique o default do usuário)
+    $('.select2-filtro').on('select2:clear', function() {
+        var name = $(this).attr('name');
+        if (name === 'equipe' || name === 'responsavel') {
+            $(this).val('-1').trigger('change');
+        }
     });
 
     $(document).on('select2:open', function() {
@@ -940,7 +672,6 @@ $(document).ready(function() {
         }, 200);
     });
 
-    // Exportar CSV
     var urlExportar = 'exportar_csv?<?= http_build_query($_GET) ?>';
     $('#btnExportarCSV').on('click', function(e) {
         e.preventDefault();
@@ -949,7 +680,6 @@ $(document).ready(function() {
         $('#btnConfirmarExportar').attr('href', urlExportar);
     });
 
-    // Toast e copiar
     var toastTimer = null;
     function mostrarToast(mensagem) {
         var toast = document.getElementById('toastCopiado');
@@ -959,41 +689,25 @@ $(document).ready(function() {
         clearTimeout(toastTimer);
         toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
     }
-
     function copiarTexto(texto) {
         if (!texto || texto === '-') { mostrarToast('Nada para copiar'); return; }
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(texto)
-                .then(function() { mostrarToast('Copiado: ' + texto); })
-                .catch(function() { fallbackCopiar(texto); });
-        } else {
-            fallbackCopiar(texto);
-        }
+            navigator.clipboard.writeText(texto).then(function() { mostrarToast('Copiado: ' + texto); }).catch(function() { fallbackCopiar(texto); });
+        } else { fallbackCopiar(texto); }
     }
-
     function fallbackCopiar(texto) {
         var textarea = document.createElement('textarea');
-        textarea.value = texto;
-        textarea.style.position = 'fixed';
-        textarea.style.top = '-9999px';
-        textarea.style.left = '-9999px';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            var sucesso = document.execCommand('copy');
-            if (sucesso) mostrarToast('Copiado: ' + texto);
-            else mostrarToast('Erro ao copiar');
-        } catch (e) { mostrarToast('Erro ao copiar'); }
+        textarea.value = texto; textarea.style.position = 'fixed'; textarea.style.top = '-9999px';
+        textarea.style.left = '-9999px'; textarea.style.opacity = '0';
+        document.body.appendChild(textarea); textarea.select();
+        try { var sucesso = document.execCommand('copy'); if (sucesso) mostrarToast('Copiado: ' + texto); else mostrarToast('Erro ao copiar'); }
+        catch (e) { mostrarToast('Erro ao copiar'); }
         document.body.removeChild(textarea);
     }
-
     $(document).on('click', '.copiar-ao-clicar', function() {
-        var texto = $(this).data('copiar');
-        copiarTexto(texto);
+        copiarTexto($(this).data('copiar'));
     });
 
-    // Comentários
     $('#modalComentario').on('show.bs.modal', function(event) {
         var trigger = $(event.relatedTarget);
         var processoId = trigger.data('processo-id');
@@ -1006,10 +720,8 @@ $(document).ready(function() {
     function carregarComentarios(processoId) {
         $('#lista-comentarios').html('<p class="text-muted text-center">Carregando...</p>');
         $.ajax({
-            url: 'ajax_comentarios.php',
-            method: 'GET',
-            data: { action: 'get', processo_id: processoId },
-            dataType: 'json',
+            url: 'ajax_comentarios.php', method: 'GET',
+            data: { action: 'get', processo_id: processoId }, dataType: 'json',
             success: function(data) {
                 var html = '';
                 if (!data || data.length === 0) {
@@ -1026,8 +738,7 @@ $(document).ready(function() {
                                     '<div class="comentario-header">' +
                                         '<span class="comentario-usuario">' + escaparHtml(c.usuario_nome) + '</span>' +
                                         '<div class="comentario-acoes">' +
-                                            '<span class="comentario-data">' + c.created_at + '</span>' +
-                                            btnEditar + btnExcluir +
+                                            '<span class="comentario-data">' + c.created_at + '</span>' + btnEditar + btnExcluir +
                                         '</div>' +
                                     '</div>' +
                                     '<div class="comentario-texto">' + escaparHtml(texto) + '</div>' +
@@ -1052,24 +763,17 @@ $(document).ready(function() {
                         var novoTexto = areaEdit.val().trim();
                         if (!novoTexto) { alert('O comentário não pode ficar vazio.'); return; }
                         $.ajax({
-                            url: 'ajax_comentarios.php',
-                            method: 'POST',
-                            data: { action: 'editar', id: id, comentario: novoTexto },
-                            dataType: 'json',
+                            url: 'ajax_comentarios.php', method: 'POST',
+                            data: { action: 'editar', id: id, comentario: novoTexto }, dataType: 'json',
                             success: function(res) {
-                                if (res.success) {
-                                    var processoId = $('#comentario-processo-id').val();
-                                    carregarComentarios(processoId);
-                                } else {
-                                    alert('Erro ao editar: ' + (res.error || 'Desconhecido'));
-                                }
+                                if (res.success) { carregarComentarios($('#comentario-processo-id').val()); }
+                                else { alert('Erro ao editar: ' + (res.error || 'Desconhecido')); }
                             },
                             error: function() { alert('Erro de comunicação.'); }
                         });
                     });
                     botoes.find('.cancelar-edicao').on('click', function() {
-                        var processoId = $('#comentario-processo-id').val();
-                        carregarComentarios(processoId);
+                        carregarComentarios($('#comentario-processo-id').val());
                     });
                 });
 
@@ -1077,41 +781,32 @@ $(document).ready(function() {
                     var id = $(this).data('id');
                     if (confirm('Excluir este comentário?')) {
                         $.ajax({
-                            url: 'ajax_comentarios.php',
-                            method: 'POST',
-                            data: { action: 'excluir', id: id },
-                            dataType: 'json',
+                            url: 'ajax_comentarios.php', method: 'POST',
+                            data: { action: 'excluir', id: id }, dataType: 'json',
                             success: function(res) {
                                 if (res.success) {
-                                    var processoId = $('#comentario-processo-id').val();
-                                    carregarComentarios(processoId);
-                                    atualizarBadge(processoId);
-                                } else {
-                                    alert('Erro: ' + (res.error || 'Desconhecido'));
-                                }
+                                    var pid = $('#comentario-processo-id').val();
+                                    carregarComentarios(pid);
+                                    atualizarBadge(pid);
+                                } else { alert('Erro: ' + (res.error || 'Desconhecido')); }
                             },
                             error: function() { alert('Erro de comunicação.'); }
                         });
                     }
                 });
             },
-            error: function() {
-                $('#lista-comentarios').html('<p class="text-danger text-center">Erro ao carregar comentários.</p>');
-            }
+            error: function() { $('#lista-comentarios').html('<p class="text-danger text-center">Erro ao carregar comentários.</p>'); }
         });
     }
 
     function atualizarBadge(processoId) {
         $.ajax({
-            url: 'ajax_comentarios.php',
-            method: 'GET',
-            data: { action: 'get', processo_id: processoId, count_only: 1 },
-            dataType: 'json',
+            url: 'ajax_comentarios.php', method: 'GET',
+            data: { action: 'get', processo_id: processoId, count_only: 1 }, dataType: 'json',
             success: function(data) {
                 var total = data.total || 0;
                 var badge = $('.comentario-badge[data-processo-id="' + processoId + '"]');
-                if (total > 0) badge.addClass('has-comentario');
-                else badge.removeClass('has-comentario');
+                if (total > 0) badge.addClass('has-comentario'); else badge.removeClass('has-comentario');
             }
         });
     }
@@ -1122,31 +817,23 @@ $(document).ready(function() {
         var comentario = $('#novo-comentario').val().trim();
         if (!comentario) return;
         $.ajax({
-            url: 'ajax_comentarios.php',
-            method: 'POST',
-            data: { action: 'adicionar', processo_id: processoId, comentario: comentario },
-            dataType: 'json',
+            url: 'ajax_comentarios.php', method: 'POST',
+            data: { action: 'adicionar', processo_id: processoId, comentario: comentario }, dataType: 'json',
             success: function(res) {
                 if (res.success) {
                     $('#novo-comentario').val('');
                     carregarComentarios(processoId);
-                    var badge = $('.comentario-badge[data-processo-id="' + processoId + '"]');
-                    badge.addClass('has-comentario');
-                } else {
-                    alert('Erro: ' + (res.error || 'Desconhecido'));
-                }
+                    $('.comentario-badge[data-processo-id="' + processoId + '"]').addClass('has-comentario');
+                } else { alert('Erro: ' + (res.error || 'Desconhecido')); }
             },
             error: function() { alert('Erro de comunicação.'); }
         });
     });
 
-    function escaparHtml(texto) {
-        return $('<div>').text(texto).html();
-    }
+    function escaparHtml(texto) { return $('<div>').text(texto).html(); }
 });
 </script>
 
-<!-- ✅ AUTO-DISMISS DA FLASH MESSAGE (5 segundos) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var alertas = document.querySelectorAll('.alert-dismissible');
@@ -1157,6 +844,29 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() { el.style.display = 'none'; }, 400);
         }, 5000);
     });
+});
+</script>
+
+<!-- Limpeza automática de filtros ao sair do módulo -->
+<script>
+document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('javascript:') ||
+        href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    try {
+        var url = new URL(href, window.location.href);
+        if (url.origin !== window.location.origin) {
+            sessionStorage.removeItem('sispro_processos_filtros');
+            return;
+        }
+        var filename = (url.pathname.split('/').pop() || 'index').replace(/\.php$/i, '').toLowerCase();
+        var processosFiles = ['index','view','edit','create','delete','home','exportar_csv','store','update','ajax_comentarios'];
+        if (processosFiles.indexOf(filename) === -1) {
+            sessionStorage.removeItem('sispro_processos_filtros');
+        }
+    } catch(ex) {}
 });
 </script>
 </body>

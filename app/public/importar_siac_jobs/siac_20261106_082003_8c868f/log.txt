@@ -1,0 +1,2431 @@
+[2026-11-06 08:20:03] INICIANDO JOB siac_20261106_082003_8c868f
+[modo] COMPLETO (600 contratos)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261106_082003_8c868f/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261106_082003_8c868f/saida" --job="siac_20261106_082003_8c868f" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-06 08:20:03] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[08:20:04] [spawn] job siac_20261106_082003_8c868f, 600 contratos (headless=NAO)
+[08:20:04] [driver] iniciando porta 4942
+[08:20:04] [driver] pronto
+[08:20:05] [sess] criada, headless=NAO
+[08:20:05] ══════════════════════════════════════
+[08:20:05] [login] iniciando (3 tentativas se necessario)
+[08:20:05] [login] --- tentativa 1/3 ---
+[08:20:08] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[08:20:09] [login]   encriptarEnviar: OK
+[08:20:10] [login]   OK (conteudo) em ~1s
+[08:20:10] ══════════════════════════════════════
+[08:20:10] [valid] abrindo pagina de relatorio...
+[08:20:12] [valid] pronto em 0s
+[08:20:12] ══════════════════════════════════════
+[08:20:12] [loop] iniciando 600 contratos
+[08:20:12] [0/600] 00 00011/2021 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:20:20]     -> gerando PDF...
+[08:20:24]     -> parse PDF...
+[08:20:24]     -> 61 medicoes parseadas
+[08:20:24]     -> 61 medicao(oes) inserida(s)
+[08:20:24] [1/600] 00 00022/2017 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:20:32]     -> gerando PDF...
+[08:20:34]     -> parse PDF...
+[08:20:34]     -> 23 medicoes parseadas
+[08:20:34]     -> 23 medicao(oes) inserida(s)
+[08:20:34] [2/600] 00 00033/2015 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:20:43]     -> gerando PDF...
+[08:20:48]     -> parse PDF...
+[08:20:48]     -> 98 medicoes parseadas
+[08:20:48]     -> 98 medicao(oes) inserida(s)
+[08:20:48] [3/600] 00 00035/2013 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:20:56]     -> gerando PDF...
+[08:21:00]     -> parse PDF...
+[08:21:00]     -> 97 medicoes parseadas
+[08:21:00]     -> 97 medicao(oes) inserida(s)
+[08:21:00] [4/600] 00 00041/2025 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:21:09]     -> gerando PDF...
+[08:21:11]     -> parse PDF...
+[08:21:11]     -> 14 medicoes parseadas
+[08:21:11]     -> 14 medicao(oes) inserida(s)
+[08:21:11] [5/600] 00 00049/2008 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:21:19]     -> gerando PDF...
+[08:21:27]     -> parse PDF...
+[08:21:27]     -> 186 medicoes parseadas
+[08:21:27]     -> 186 medicao(oes) inserida(s)
+[08:21:27] [6/600] 00 00054/2023 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:21:35]     -> gerando PDF...
+[08:21:38]     -> parse PDF...
+[08:21:38]     -> 40 medicoes parseadas
+[08:21:38]     -> 40 medicao(oes) inserida(s)
+[08:21:38] [7/600] 00 00057/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:21:47]     -> gerando PDF...
+[08:21:50]     -> parse PDF...
+[08:21:50]     -> 29 medicoes parseadas
+[08:21:50]     -> 29 medicao(oes) inserida(s)
+[08:21:50] [8/600] 00 00063/2025 (0)
+[08:22:04]     [UNIDADE] nenhuma opcao retornada
+[08:22:04]     ignorado: Erro: Falha Unidade
+[08:22:04] [9/600] 00 00083/2017 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:22:12]     -> gerando PDF...
+[08:22:18]     -> parse PDF...
+[08:22:19]     -> 115 medicoes parseadas
+[08:22:19]     -> 115 medicao(oes) inserida(s)
+[08:22:19] [10/600] 00 00093/2022 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:22:26]     -> gerando PDF...
+[08:22:29]     -> parse PDF...
+[08:22:29]     -> 31 medicoes parseadas
+[08:22:29]     -> 31 medicao(oes) inserida(s)
+[08:22:29] [11/600] 00 00100/2022 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:22:37]     -> gerando PDF...
+[08:22:41]     -> parse PDF...
+[08:22:41]     -> 52 medicoes parseadas
+[08:22:41]     -> 52 medicao(oes) inserida(s)
+[08:22:41] [12/600] 00 00202/2025 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:22:49]     -> gerando PDF...
+[08:22:51]     -> parse PDF...
+[08:22:51]     -> 14 medicoes parseadas
+[08:22:51]     -> 14 medicao(oes) inserida(s)
+[08:22:51] [13/600] 00 00217/2014 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:22:59]     -> gerando PDF...
+[08:23:03]     -> parse PDF...
+[08:23:03]     -> 89 medicoes parseadas
+[08:23:03]     -> 89 medicao(oes) inserida(s)
+[08:23:03] [14/600] 00 00245/2025 (S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE)
+[08:23:11]     -> gerando PDF...
+[08:23:13]     -> parse PDF...
+[08:23:13]     -> 8 medicoes parseadas
+[08:23:13]     -> 8 medicao(oes) inserida(s)
+[08:23:13] [15/600] 00 00246/2024 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:23:21]     -> gerando PDF...
+[08:23:23]     -> parse PDF...
+[08:23:23]     -> 23 medicoes parseadas
+[08:23:23]     -> 23 medicao(oes) inserida(s)
+[08:23:23] [16/600] 00 00246/2025 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:23:32]     -> gerando PDF...
+[08:23:34]     -> parse PDF...
+[08:23:34]     -> 8 medicoes parseadas
+[08:23:34]     -> 8 medicao(oes) inserida(s)
+[08:23:34] [17/600] 00 00247/2025 (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[08:23:42]     -> gerando PDF...
+[08:23:43]     -> parse PDF...
+[08:23:44]     -> 11 medicoes parseadas
+[08:23:44]     -> 11 medicao(oes) inserida(s)
+[08:23:44] [18/600] 00 00262/2026 (S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS)
+[08:24:01]     [CONTRATO] nenhuma opcao retornada
+[08:24:01]     ignorado: Erro: Falha Contrato
+[08:24:01] [19/600] 00 00263/2026 (N/A)
+[08:24:16]     [UNIDADE] nenhuma opcao retornada
+[08:24:16]     ignorado: Erro: Falha Unidade
+[08:24:16] [20/600] 00 00264/2019 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:24:24]     -> gerando PDF...
+[08:24:28]     -> parse PDF...
+[08:24:28]     -> 87 medicoes parseadas
+[08:24:28]     -> 87 medicao(oes) inserida(s)
+[08:24:28] [21/600] 00 00265/2026 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:24:46]     [CONTRATO] nenhuma opcao retornada
+[08:24:46]     ignorado: Erro: Falha Contrato
+[08:24:46] [22/600] 00 00267/2026 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:25:04]     [CONTRATO] nenhuma opcao retornada
+[08:25:04]     ignorado: Erro: Falha Contrato
+[08:25:04] [23/600] 00 00277/2022 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:25:12]     -> gerando PDF...
+[08:25:15]     -> parse PDF...
+[08:25:15]     -> 49 medicoes parseadas
+[08:25:15]     -> 49 medicao(oes) inserida(s)
+[08:25:15] [24/600] 00 00287/2024 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:25:23]     -> gerando PDF...
+[08:25:26]     -> parse PDF...
+[08:25:26]     -> 26 medicoes parseadas
+[08:25:26]     -> 26 medicao(oes) inserida(s)
+[08:25:26] [25/600] 00 00288/2024 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:25:34]     -> gerando PDF...
+[08:25:36]     -> parse PDF...
+[08:25:36]     -> 27 medicoes parseadas
+[08:25:36]     -> 27 medicao(oes) inserida(s)
+[08:25:36] [26/600] 00 00289/2024 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:25:44]     -> gerando PDF...
+[08:25:46]     -> parse PDF...
+[08:25:46]     -> 27 medicoes parseadas
+[08:25:46]     -> 27 medicao(oes) inserida(s)
+[08:25:46] [27/600] 00 00290/2024 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:25:54]     -> gerando PDF...
+[08:25:57]     -> parse PDF...
+[08:25:57]     -> 27 medicoes parseadas
+[08:25:57]     -> 27 medicao(oes) inserida(s)
+[08:25:57] [28/600] 00 00299/2026 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[08:26:15]     [CONTRATO] nenhuma opcao retornada
+[08:26:15]     ignorado: Erro: Falha Contrato
+[08:26:15] [29/600] 00 00320/2022 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:26:23]     -> gerando PDF...
+[08:26:26]     -> parse PDF...
+[08:26:26]     -> 49 medicoes parseadas
+[08:26:26]     -> 49 medicao(oes) inserida(s)
+[08:26:26] [30/600] 00 00326/2026 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:26:44]     [CONTRATO] nenhuma opcao retornada
+[08:26:44]     ignorado: Erro: Falha Contrato
+[08:26:44] [31/600] 00 00351/2013 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:26:52]     -> gerando PDF...
+[08:26:56]     -> parse PDF...
+[08:26:56]     -> 108 medicoes parseadas
+[08:26:56]     -> 108 medicao(oes) inserida(s)
+[08:26:56] [32/600] 00 00352/2013 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:27:04]     -> gerando PDF...
+[08:27:09]     -> parse PDF...
+[08:27:09]     -> 108 medicoes parseadas
+[08:27:09]     -> 108 medicao(oes) inserida(s)
+[08:27:09] [33/600] 00 00375/2024 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:27:17]     -> gerando PDF...
+[08:27:19]     -> parse PDF...
+[08:27:19]     -> 26 medicoes parseadas
+[08:27:19]     -> 26 medicao(oes) inserida(s)
+[08:27:19] [34/600] 00 00377/2020 (CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA)
+[08:27:34]     [UNIDADE] nenhuma opcao retornada
+[08:27:34]     ignorado: Erro: Falha Unidade
+[08:27:34] [35/600] 00 00379/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:27:42]     -> gerando PDF...
+[08:27:44]     -> parse PDF...
+[08:27:44]     -> 24 medicoes parseadas
+[08:27:44]     -> 24 medicao(oes) inserida(s)
+[08:27:44] [36/600] 00 00389/2024 (S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS)
+[08:27:52]     -> gerando PDF...
+[08:27:54]     -> parse PDF...
+[08:27:54]     -> 16 medicoes parseadas
+[08:27:54]     -> 16 medicao(oes) inserida(s)
+[08:27:54] [37/600] 00 00390/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:28:02]     -> gerando PDF...
+[08:28:05]     -> parse PDF...
+[08:28:05]     -> 25 medicoes parseadas
+[08:28:05]     -> 25 medicao(oes) inserida(s)
+[08:28:05] [38/600] 00 00391/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:28:13]     -> gerando PDF...
+[08:28:15]     -> parse PDF...
+[08:28:15]     -> 27 medicoes parseadas
+[08:28:15]     -> 27 medicao(oes) inserida(s)
+[08:28:15] [39/600] 00 00392/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:28:23]     -> gerando PDF...
+[08:28:26]     -> parse PDF...
+[08:28:26]     -> 27 medicoes parseadas
+[08:28:26]     -> 27 medicao(oes) inserida(s)
+[08:28:26] [40/600] 00 00402/2024 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:28:34]     -> gerando PDF...
+[08:28:36]     -> parse PDF...
+[08:28:36]     -> 13 medicoes parseadas
+[08:28:36]     -> 13 medicao(oes) inserida(s)
+[08:28:36] [41/600] 00 00409/2014 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:28:44]     -> gerando PDF...
+[08:28:51]     -> parse PDF...
+[08:28:51]     -> 150 medicoes parseadas
+[08:28:51]     -> 150 medicao(oes) inserida(s)
+[08:28:51] [42/600] 00 00412/2016 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:28:59]     -> gerando PDF...
+[08:29:04]     -> parse PDF...
+[08:29:04]     -> 89 medicoes parseadas
+[08:29:04]     -> 89 medicao(oes) inserida(s)
+[08:29:04] [43/600] 00 00412/2024 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:29:12]     -> gerando PDF...
+[08:29:14]     -> parse PDF...
+[08:29:14]     -> 25 medicoes parseadas
+[08:29:14]     -> 25 medicao(oes) inserida(s)
+[08:29:14] [44/600] 00 00431/2025 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[08:29:22]     -> gerando PDF...
+[08:29:24]     -> parse PDF...
+[08:29:24]     -> 12 medicoes parseadas
+[08:29:24]     -> 12 medicao(oes) inserida(s)
+[08:29:24] [45/600] 00 00459/2024 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:29:32]     -> gerando PDF...
+[08:29:34]     -> parse PDF...
+[08:29:34]     -> 26 medicoes parseadas
+[08:29:34]     -> 26 medicao(oes) inserida(s)
+[08:29:34] [46/600] 00 00461/2025 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[08:29:42]     -> gerando PDF...
+[08:29:44]     -> parse PDF...
+[08:29:44]     -> 12 medicoes parseadas
+[08:29:44]     -> 12 medicao(oes) inserida(s)
+[08:29:44] [47/600] 00 00462/2012 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:29:52]     -> gerando PDF...
+[08:29:59]     -> parse PDF...
+[08:29:59]     -> 102 medicoes parseadas
+[08:29:59]     -> 102 medicao(oes) inserida(s)
+[08:29:59] [48/600] 00 00463/2020 (CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA)
+[08:30:14]     [UNIDADE] nenhuma opcao retornada
+[08:30:14]     ignorado: Erro: Falha Unidade
+[08:30:14] [49/600] 00 00493/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:30:22]     -> gerando PDF...
+[08:30:30]     -> parse PDF...
+[08:30:30]     -> 153 medicoes parseadas
+[08:30:31]     -> 153 medicao(oes) inserida(s)
+[08:30:31] [50/600] 00 00494/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:30:39]     -> gerando PDF...
+[08:30:46]     -> parse PDF...
+[08:30:46]     -> 151 medicoes parseadas
+[08:30:46]     -> 151 medicao(oes) inserida(s)
+[08:30:46] [51/600] 00 00508/2011 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:30:54]     -> gerando PDF...
+[08:31:01]     -> parse PDF...
+[08:31:01]     -> 179 medicoes parseadas
+[08:31:01]     -> 179 medicao(oes) inserida(s)
+[08:31:01] [52/600] 00 00512/2022 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:31:09]     -> gerando PDF...
+[08:31:12]     -> parse PDF...
+[08:31:12]     -> 47 medicoes parseadas
+[08:31:12]     -> 47 medicao(oes) inserida(s)
+[08:31:12] [53/600] 00 00534/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:31:20]     -> gerando PDF...
+[08:31:25]     -> parse PDF...
+[08:31:25]     -> 146 medicoes parseadas
+[08:31:25]     -> 146 medicao(oes) inserida(s)
+[08:31:25] [54/600] 00 00544/2024 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[08:31:33]     -> gerando PDF...
+[08:31:36]     -> parse PDF...
+[08:31:36]     -> 26 medicoes parseadas
+[08:31:36]     -> 26 medicao(oes) inserida(s)
+[08:31:36] [55/600] 00 00563/2024 (S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS)
+[08:31:44]     -> gerando PDF...
+[08:31:46]     -> parse PDF...
+[08:31:46]     -> 24 medicoes parseadas
+[08:31:46]     -> 24 medicao(oes) inserida(s)
+[08:31:46] [56/600] 00 00590/2022 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:31:54]     -> gerando PDF...
+[08:31:56]     -> parse PDF...
+[08:31:56]     -> 23 medicoes parseadas
+[08:31:56]     -> 23 medicao(oes) inserida(s)
+[08:31:56] [57/600] 00 00608/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:32:04]     -> gerando PDF...
+[08:32:07]     -> parse PDF...
+[08:32:07]     -> 22 medicoes parseadas
+[08:32:07]     -> 22 medicao(oes) inserida(s)
+[08:32:07] [58/600] 00 00618/2021 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:32:14]     -> gerando PDF...
+[08:32:17]     -> parse PDF...
+[08:32:17]     -> 55 medicoes parseadas
+[08:32:17]     -> 55 medicao(oes) inserida(s)
+[08:32:17] [59/600] 00 00619/2024 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:32:26]     -> gerando PDF...
+[08:32:28]     -> parse PDF...
+[08:32:28]     -> 24 medicoes parseadas
+[08:32:28]     -> 24 medicao(oes) inserida(s)
+[08:32:28] [60/600] 00 00636/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:32:36]     -> gerando PDF...
+[08:32:39]     -> parse PDF...
+[08:32:39]     -> 22 medicoes parseadas
+[08:32:39]     -> 22 medicao(oes) inserida(s)
+[08:32:39] [61/600] 00 00676/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:32:47]     -> gerando PDF...
+[08:32:49]     -> parse PDF...
+[08:32:49]     -> 22 medicoes parseadas
+[08:32:50]     -> 22 medicao(oes) inserida(s)
+[08:32:50] [62/600] 00 00679/2023 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:32:57]     -> gerando PDF...
+[08:33:00]     -> parse PDF...
+[08:33:00]     -> 32 medicoes parseadas
+[08:33:00]     -> 32 medicao(oes) inserida(s)
+[08:33:00] [63/600] 00 00680/2023 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[08:33:08]     -> gerando PDF...
+[08:33:11]     -> parse PDF...
+[08:33:11]     -> 28 medicoes parseadas
+[08:33:11]     -> 28 medicao(oes) inserida(s)
+[08:33:11] [64/600] 00 00692/2020 (CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA)
+[08:33:25]     [UNIDADE] nenhuma opcao retornada
+[08:33:25]     ignorado: Erro: Falha Unidade
+[08:33:25] [65/600] 00 00704/2022 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:33:33]     -> gerando PDF...
+[08:33:35]     -> parse PDF...
+[08:33:35]     -> 33 medicoes parseadas
+[08:33:35]     -> 33 medicao(oes) inserida(s)
+[08:33:35] [66/600] 00 00719/2023 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:33:43]     -> gerando PDF...
+[08:33:46]     -> parse PDF...
+[08:33:46]     -> 24 medicoes parseadas
+[08:33:46]     -> 24 medicao(oes) inserida(s)
+[08:33:46] [67/600] 00 00726/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:33:54]     -> gerando PDF...
+[08:33:58]     -> parse PDF...
+[08:33:58]     -> 101 medicoes parseadas
+[08:33:58]     -> 101 medicao(oes) inserida(s)
+[08:33:58] [68/600] 00 00727/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:34:06]     -> gerando PDF...
+[08:34:12]     -> parse PDF...
+[08:34:12]     -> 151 medicoes parseadas
+[08:34:13]     -> 151 medicao(oes) inserida(s)
+[08:34:13] [69/600] 00 00755/2023 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[08:34:21]     -> gerando PDF...
+[08:34:23]     -> parse PDF...
+[08:34:23]     -> 30 medicoes parseadas
+[08:34:23]     -> 30 medicao(oes) inserida(s)
+[08:34:23] [70/600] 00 00792/2018 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:34:31]     -> gerando PDF...
+[08:34:34]     -> parse PDF...
+[08:34:34]     -> 46 medicoes parseadas
+[08:34:34]     -> 46 medicao(oes) inserida(s)
+[08:34:34] [71/600] 00 00793/2025 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:34:42]     -> gerando PDF...
+[08:34:44]     -> parse PDF...
+[08:34:44]     -> 9 medicoes parseadas
+[08:34:44]     -> 9 medicao(oes) inserida(s)
+[08:34:44] [72/600] 00 00796/2025 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:34:52]     -> gerando PDF...
+[08:34:54]     -> parse PDF...
+[08:34:54]     -> 9 medicoes parseadas
+[08:34:54]     -> 9 medicao(oes) inserida(s)
+[08:34:54] [73/600] 00 00798/2025 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[08:35:02]     -> gerando PDF...
+[08:35:04]     -> parse PDF...
+[08:35:04]     -> 7 medicoes parseadas
+[08:35:04]     -> 7 medicao(oes) inserida(s)
+[08:35:04] [74/600] 00 00800/2025 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[08:35:12]     -> gerando PDF...
+[08:35:14]     -> parse PDF...
+[08:35:14]     -> 9 medicoes parseadas
+[08:35:14]     -> 9 medicao(oes) inserida(s)
+[08:35:14] [75/600] 00 00813/2012 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:35:32]     [CONTRATO] nenhuma opcao retornada
+[08:35:32]     ignorado: Erro: Falha Contrato
+[08:35:32] [76/600] 00 00817/2013 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:35:41]     -> gerando PDF...
+[08:35:46]     -> parse PDF...
+[08:35:46]     -> 110 medicoes parseadas
+[08:35:46]     -> 110 medicao(oes) inserida(s)
+[08:35:46] [77/600] 00 00829/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:35:54]     -> gerando PDF...
+[08:35:57]     -> parse PDF...
+[08:35:57]     -> 19 medicoes parseadas
+[08:35:57]     -> 19 medicao(oes) inserida(s)
+[08:35:57] [78/600] 00 00835/2025 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:36:05]     -> gerando PDF...
+[08:36:07]     -> parse PDF...
+[08:36:07]     -> 6 medicoes parseadas
+[08:36:07]     -> 6 medicao(oes) inserida(s)
+[08:36:07] [79/600] 00 00939/2015 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[08:36:15]     -> gerando PDF...
+[08:36:29]     -> parse PDF...
+[08:36:30]     -> 124 medicoes parseadas
+[08:36:30]     -> 124 medicao(oes) inserida(s)
+[08:36:30] [80/600] 00 00952/2024 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[08:36:38]     -> gerando PDF...
+[08:36:40]     -> parse PDF...
+[08:36:40]     -> 16 medicoes parseadas
+[08:36:40]     -> 16 medicao(oes) inserida(s)
+[08:36:40] [81/600] 00 00958/2024 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[08:36:48]     -> gerando PDF...
+[08:36:50]     -> parse PDF...
+[08:36:50]     -> 12 medicoes parseadas
+[08:36:50]     -> 12 medicao(oes) inserida(s)
+[08:36:50] [82/600] 00 01061/2014 (S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO)
+[08:36:58]     -> gerando PDF...
+[08:37:03]     -> parse PDF...
+[08:37:04]     -> 135 medicoes parseadas
+[08:37:04]     -> 135 medicao(oes) inserida(s)
+[08:37:04] [83/600] 00 01070/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:37:12]     -> gerando PDF...
+[08:37:15]     -> parse PDF...
+[08:37:15]     -> 42 medicoes parseadas
+[08:37:15]     -> 42 medicao(oes) inserida(s)
+[08:37:15] [84/600] 00 01086/2010 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:37:24]     -> gerando PDF...
+[08:37:30]     -> parse PDF...
+[08:37:31]     -> 171 medicoes parseadas
+[08:37:31]     -> 171 medicao(oes) inserida(s)
+[08:37:31] [85/600] 00 01126/2013 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:37:39]     -> gerando PDF...
+[08:37:45]     -> parse PDF...
+[08:37:46]     -> 151 medicoes parseadas
+[08:37:46]     -> 151 medicao(oes) inserida(s)
+[08:37:46] [86/600] 00000003/2007 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[08:38:03]     [CONTRATO] nenhuma opcao retornada
+[08:38:04]     ignorado: Erro: Falha Contrato
+[08:38:04] [87/600] 00000071/2022 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[08:38:22]     [CONTRATO] nenhuma opcao retornada
+[08:38:22]     ignorado: Erro: Falha Contrato
+[08:38:22] [88/600] 00000109/2022 (N/A)
+[08:38:36]     [UNIDADE] nenhuma opcao retornada
+[08:38:36]     ignorado: Erro: Falha Unidade
+[08:38:36] [89/600] 00000181/2024 (N/A)
+[08:38:50]     [UNIDADE] nenhuma opcao retornada
+[08:38:50]     ignorado: Erro: Falha Unidade
+[08:38:50] [90/600] 00000211/2019 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:39:08]     [CONTRATO] nenhuma opcao retornada
+[08:39:09]     ignorado: Erro: Falha Contrato
+[08:39:09] [91/600] 00000266/2007 (S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO)
+[08:39:27]     [CONTRATO] nenhuma opcao retornada
+[08:39:27]     ignorado: Erro: Falha Contrato
+[08:39:27] [92/600] 00000266/2023 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:39:47]     [CONTRATO] nenhuma opcao retornada
+[08:39:47]     ignorado: Erro: Falha Contrato
+[08:39:47] [93/600] 00000366/2023 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:40:05]     [CONTRATO] nenhuma opcao retornada
+[08:40:05]     ignorado: Erro: Falha Contrato
+[08:40:05] [94/600] 00000403/2022 (N/A)
+[08:40:21]     [UNIDADE] nenhuma opcao retornada
+[08:40:21]     ignorado: Erro: Falha Unidade
+[08:40:21] [95/600] 00000433/2023 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:40:39]     [CONTRATO] nenhuma opcao retornada
+[08:40:39]     ignorado: Erro: Falha Contrato
+[08:40:39] [96/600] 00000483/2024 (N/A)
+[08:40:54]     [UNIDADE] nenhuma opcao retornada
+[08:40:54]     ignorado: Erro: Falha Unidade
+[08:40:54] [97/600] 00000484/2024 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[08:41:12]     [CONTRATO] nenhuma opcao retornada
+[08:41:13]     ignorado: Erro: Falha Contrato
+[08:41:13] [98/600] 00000485/2024 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[08:41:31]     [CONTRATO] nenhuma opcao retornada
+[08:41:31]     ignorado: Erro: Falha Contrato
+[08:41:31] [99/600] 00000599/2020 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:41:49]     [CONTRATO] nenhuma opcao retornada
+[08:41:49]     ignorado: Erro: Falha Contrato
+[08:41:49] [100/600] 00000656/2020 (DELEGADA)
+[08:42:04]     [UNIDADE] nenhuma opcao retornada
+[08:42:04]     ignorado: Erro: Falha Unidade
+[08:42:04] [101/600] 00000764/2011 (N/A)
+[08:42:18]     [UNIDADE] nenhuma opcao retornada
+[08:42:18]     ignorado: Erro: Falha Unidade
+[08:42:18] [102/600] 00000870/2016 (N/A)
+[08:42:33]     [UNIDADE] nenhuma opcao retornada
+[08:42:33]     ignorado: Erro: Falha Unidade
+[08:42:33] [103/600] 00000884/2020 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[08:42:54]     [CONTRATO] nenhuma opcao retornada
+[08:42:54]     ignorado: Erro: Falha Contrato
+[08:42:54] [104/600] 01 00198/2026 (S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS)
+[08:43:14]     [CONTRATO] nenhuma opcao retornada
+[08:43:15]     ignorado: Erro: Falha Contrato
+[08:43:15] [105/600] 01 00425/2021 (S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS)
+[08:43:23]     -> gerando PDF...
+[08:43:26]     -> parse PDF...
+[08:43:27]     -> 43 medicoes parseadas
+[08:43:27]     -> 43 medicao(oes) inserida(s)
+[08:43:27] [106/600] 01 00512/2026 (N/A)
+[08:43:42]     [UNIDADE] nenhuma opcao retornada
+[08:43:42]     ignorado: Erro: Falha Unidade
+[08:43:42] [107/600] 02 00007/2026 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:43:52]     -> gerando PDF...
+[08:43:54]     -> parse PDF...
+[08:43:54]     -> 9 medicoes parseadas
+[08:43:54]     -> 9 medicao(oes) inserida(s)
+[08:43:54] [108/600] 02 00010/2018 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:44:04]     -> gerando PDF...
+[08:44:08]     -> parse PDF...
+[08:44:08]     -> 103 medicoes parseadas
+[08:44:08]     -> 103 medicao(oes) inserida(s)
+[08:44:08] [109/600] 02 00247/2023 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:44:17]     -> gerando PDF...
+[08:44:19]     -> parse PDF...
+[08:44:19]     -> 20 medicoes parseadas
+[08:44:19]     -> 20 medicao(oes) inserida(s)
+[08:44:19] [110/600] 02 00261/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:44:30]     -> gerando PDF...
+[08:44:32]     -> parse PDF...
+[08:44:32]     -> 27 medicoes parseadas
+[08:44:32]     -> 27 medicao(oes) inserida(s)
+[08:44:32] [111/600] 02 00263/2023 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:44:42]     -> gerando PDF...
+[08:44:44]     -> parse PDF...
+[08:44:45]     -> 21 medicoes parseadas
+[08:44:45]     -> 21 medicao(oes) inserida(s)
+[08:44:45] [112/600] 02 00341/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:44:54]     -> gerando PDF...
+[08:44:56]     -> parse PDF...
+[08:44:56]     -> 23 medicoes parseadas
+[08:44:56]     -> 23 medicao(oes) inserida(s)
+[08:44:56] [113/600] 02 00342/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:45:05]     -> gerando PDF...
+[08:45:07]     -> parse PDF...
+[08:45:07]     -> 27 medicoes parseadas
+[08:45:07]     -> 27 medicao(oes) inserida(s)
+[08:45:07] [114/600] 02 00398/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:45:16]     -> gerando PDF...
+[08:45:18]     -> parse PDF...
+[08:45:18]     -> 17 medicoes parseadas
+[08:45:18]     -> 17 medicao(oes) inserida(s)
+[08:45:18] [115/600] 02 00418/2018 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:45:27]     -> gerando PDF...
+[08:45:31]     -> parse PDF...
+[08:45:31]     -> 94 medicoes parseadas
+[08:45:31]     -> 94 medicao(oes) inserida(s)
+[08:45:31] [116/600] 02 00471/2021 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:45:40]     -> gerando PDF...
+[08:45:43]     -> parse PDF...
+[08:45:43]     -> 58 medicoes parseadas
+[08:45:43]     -> 58 medicao(oes) inserida(s)
+[08:45:43] [117/600] 02 00490/2022 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:45:52]     -> gerando PDF...
+[08:45:54]     -> parse PDF...
+[08:45:54]     -> 46 medicoes parseadas
+[08:45:54]     -> 46 medicao(oes) inserida(s)
+[08:45:54] [118/600] 02 00519/2023 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:46:04]     -> gerando PDF...
+[08:46:06]     -> parse PDF...
+[08:46:06]     -> 36 medicoes parseadas
+[08:46:06]     -> 36 medicao(oes) inserida(s)
+[08:46:06] [119/600] 02 00592/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:46:15]     -> gerando PDF...
+[08:46:17]     -> parse PDF...
+[08:46:17]     -> 22 medicoes parseadas
+[08:46:17]     -> 22 medicao(oes) inserida(s)
+[08:46:17] [120/600] 02 00731/2021 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:46:26]     -> gerando PDF...
+[08:46:28]     -> parse PDF...
+[08:46:29]     -> 48 medicoes parseadas
+[08:46:29]     -> 48 medicao(oes) inserida(s)
+[08:46:29] [121/600] 02 00762/2024 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:46:37]     -> gerando PDF...
+[08:46:40]     -> parse PDF...
+[08:46:40]     -> 22 medicoes parseadas
+[08:46:40]     -> 22 medicao(oes) inserida(s)
+[08:46:40] [122/600] 02 00898/2020 (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[08:46:48]     -> gerando PDF...
+[08:46:52]     -> parse PDF...
+[08:46:52]     -> 60 medicoes parseadas
+[08:46:52]     -> 60 medicao(oes) inserida(s)
+[08:46:52] [123/600] 03 00077/2024 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:47:00]     -> gerando PDF...
+[08:47:02]     -> parse PDF...
+[08:47:03]     -> 31 medicoes parseadas
+[08:47:03]     -> 31 medicao(oes) inserida(s)
+[08:47:03] [124/600] 03 00473/2021 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:47:11]     -> gerando PDF...
+[08:47:14]     -> parse PDF...
+[08:47:14]     -> 53 medicoes parseadas
+[08:47:14]     -> 53 medicao(oes) inserida(s)
+[08:47:14] [125/600] 03 00537/2015 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:47:23]     -> gerando PDF...
+[08:47:29]     -> parse PDF...
+[08:47:29]     -> 128 medicoes parseadas
+[08:47:29]     -> 128 medicao(oes) inserida(s)
+[08:47:29] [126/600] 03 00912/2020 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:47:37]     -> gerando PDF...
+[08:47:41]     -> parse PDF...
+[08:47:41]     -> 65 medicoes parseadas
+[08:47:41]     -> 65 medicao(oes) inserida(s)
+[08:47:41] [127/600] 03 00935/2024 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[08:47:49]     -> gerando PDF...
+[08:47:52]     -> parse PDF...
+[08:47:52]     -> 18 medicoes parseadas
+[08:47:52]     -> 18 medicao(oes) inserida(s)
+[08:47:52] [128/600] 04 00260/2021 (S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO)
+[08:48:00]     -> gerando PDF...
+[08:48:03]     -> parse PDF...
+[08:48:04]     -> 60 medicoes parseadas
+[08:48:04]     -> 60 medicao(oes) inserida(s)
+[08:48:04] [129/600] 04 00276/2023 (S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO)
+[08:48:12]     -> gerando PDF...
+[08:48:15]     -> parse PDF...
+[08:48:15]     -> 41 medicoes parseadas
+[08:48:15]     -> 41 medicao(oes) inserida(s)
+[08:48:15] [130/600] 04 00421/2024 (S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO)
+[08:48:23]     -> gerando PDF...
+[08:48:25]     -> parse PDF...
+[08:48:25]     -> 26 medicoes parseadas
+[08:48:25]     -> 26 medicao(oes) inserida(s)
+[08:48:25] [131/600] 04 00520/2022 (S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO)
+[08:48:34]     -> gerando PDF...
+[08:48:36]     -> parse PDF...
+[08:48:36]     -> 48 medicoes parseadas
+[08:48:37]     -> 48 medicao(oes) inserida(s)
+[08:48:37] [132/600] 05 00028/2015 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:48:45]     -> gerando PDF...
+[08:48:50]     -> parse PDF...
+[08:48:51]     -> 112 medicoes parseadas
+[08:48:51]     -> 112 medicao(oes) inserida(s)
+[08:48:51] [133/600] 05 00030/2015 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:48:59]     -> gerando PDF...
+[08:49:04]     -> parse PDF...
+[08:49:05]     -> 124 medicoes parseadas
+[08:49:05]     -> 124 medicao(oes) inserida(s)
+[08:49:05] [134/600] 05 00059/2022 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:49:14]     -> gerando PDF...
+[08:49:16]     -> parse PDF...
+[08:49:16]     -> 45 medicoes parseadas
+[08:49:16]     -> 45 medicao(oes) inserida(s)
+[08:49:16] [135/600] 05 00068/2026 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:49:25]     -> gerando PDF...
+[08:49:27]     -> parse PDF...
+[08:49:27]     -> 8 medicoes parseadas
+[08:49:27]     -> 8 medicao(oes) inserida(s)
+[08:49:27] [136/600] 05 00105/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:49:35]     -> gerando PDF...
+[08:49:38]     -> parse PDF...
+[08:49:38]     -> 26 medicoes parseadas
+[08:49:38]     -> 26 medicao(oes) inserida(s)
+[08:49:38] [137/600] 05 00114/2017 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:49:46]     -> gerando PDF...
+[08:49:49]     -> parse PDF...
+[08:49:49]     -> 55 medicoes parseadas
+[08:49:49]     -> 55 medicao(oes) inserida(s)
+[08:49:49] [138/600] 05 00130/2022 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:49:58]     -> gerando PDF...
+[08:50:01]     -> parse PDF...
+[08:50:01]     -> 53 medicoes parseadas
+[08:50:01]     -> 53 medicao(oes) inserida(s)
+[08:50:01] [139/600] 05 00133/2026 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:50:10]     -> gerando PDF...
+[08:50:11]     -> parse PDF...
+[08:50:11]     -> 1 medicoes parseadas
+[08:50:11]     -> 1 medicao(oes) inserida(s)
+[08:50:11] [140/600] 05 00135/2026 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:50:30]     [CONTRATO] nenhuma opcao retornada
+[08:50:30]     ignorado: Erro: Falha Contrato
+[08:50:30] [141/600] 05 00155/2023 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:50:39]     -> gerando PDF...
+[08:50:43]     -> parse PDF...
+[08:50:43]     -> 42 medicoes parseadas
+[08:50:43]     -> 42 medicao(oes) inserida(s)
+[08:50:43] [142/600] 05 00179/2023 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:50:51]     -> gerando PDF...
+[08:50:54]     -> parse PDF...
+[08:50:54]     -> 28 medicoes parseadas
+[08:50:54]     -> 28 medicao(oes) inserida(s)
+[08:50:54] [143/600] 05 00189/2017 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:02]     -> gerando PDF...
+[08:51:05]     -> parse PDF...
+[08:51:05]     -> 58 medicoes parseadas
+[08:51:05]     -> 58 medicao(oes) inserida(s)
+[08:51:05] [144/600] 05 00286/2025 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:14]     -> gerando PDF...
+[08:51:16]     -> parse PDF...
+[08:51:16]     -> 14 medicoes parseadas
+[08:51:16]     -> 14 medicao(oes) inserida(s)
+[08:51:16] [145/600] 05 00287/2025 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:24]     -> gerando PDF...
+[08:51:27]     -> parse PDF...
+[08:51:27]     -> 16 medicoes parseadas
+[08:51:27]     -> 16 medicao(oes) inserida(s)
+[08:51:27] [146/600] 05 00291/2026 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:35]     -> gerando PDF...
+[08:51:37]     -> parse PDF...
+[08:51:37]     -> 2 medicoes parseadas
+[08:51:37]     -> 2 medicao(oes) inserida(s)
+[08:51:37] [147/600] 05 00312/2023 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:45]     -> gerando PDF...
+[08:51:48]     -> parse PDF...
+[08:51:48]     -> 38 medicoes parseadas
+[08:51:48]     -> 38 medicao(oes) inserida(s)
+[08:51:48] [148/600] 05 00402/2021 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:51:56]     -> gerando PDF...
+[08:51:59]     -> parse PDF...
+[08:51:59]     -> 53 medicoes parseadas
+[08:51:59]     -> 53 medicao(oes) inserida(s)
+[08:51:59] [149/600] 05 00523/2023 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:52:08]     -> gerando PDF...
+[08:52:10]     -> parse PDF...
+[08:52:11]     -> 35 medicoes parseadas
+[08:52:11]     -> 35 medicao(oes) inserida(s)
+[08:52:11] [150/600] 05 00540/2024 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:52:19]     -> gerando PDF...
+[08:52:21]     -> parse PDF...
+[08:52:21]     -> 13 medicoes parseadas
+[08:52:21]     -> 13 medicao(oes) inserida(s)
+[08:52:21] [151/600] 05 00604/2022 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:52:30]     -> gerando PDF...
+[08:52:32]     -> parse PDF...
+[08:52:32]     -> 46 medicoes parseadas
+[08:52:32]     -> 46 medicao(oes) inserida(s)
+[08:52:32] [152/600] 05 00629/2014 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:52:41]     -> gerando PDF...
+[08:52:45]     -> parse PDF...
+[08:52:45]     -> 73 medicoes parseadas
+[08:52:45]     -> 73 medicao(oes) inserida(s)
+[08:52:45] [153/600] 05 00664/2025 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:52:54]     -> gerando PDF...
+[08:52:55]     -> parse PDF...
+[08:52:55]     -> 3 medicoes parseadas
+[08:52:55]     -> 3 medicao(oes) inserida(s)
+[08:52:55] [154/600] 05 00858/2014 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:53:04]     -> gerando PDF...
+[08:53:07]     -> parse PDF...
+[08:53:07]     -> 65 medicoes parseadas
+[08:53:07]     -> 65 medicao(oes) inserida(s)
+[08:53:07] [155/600] 05 00875/2014 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:53:16]     -> gerando PDF...
+[08:53:20]     -> parse PDF...
+[08:53:20]     -> 76 medicoes parseadas
+[08:53:20]     -> 76 medicao(oes) inserida(s)
+[08:53:20] [156/600] 05 00879/2014 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:53:29]     -> gerando PDF...
+[08:53:36]     -> parse PDF...
+[08:53:36]     -> 118 medicoes parseadas
+[08:53:36]     -> 118 medicao(oes) inserida(s)
+[08:53:36] [157/600] 05 00911/2016 (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[08:53:45]     -> gerando PDF...
+[08:53:49]     -> parse PDF...
+[08:53:49]     -> 92 medicoes parseadas
+[08:53:49]     -> 92 medicao(oes) inserida(s)
+[08:53:49] [158/600] 06 00111/2026 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:53:58]     -> gerando PDF...
+[08:54:00]     -> parse PDF...
+[08:54:00]     -> 3 medicoes parseadas
+[08:54:00]     -> 3 medicao(oes) inserida(s)
+[08:54:00] [159/600] 06 00120/2025 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:54:08]     -> gerando PDF...
+[08:54:11]     -> parse PDF...
+[08:54:11]     -> 19 medicoes parseadas
+[08:54:11]     -> 19 medicao(oes) inserida(s)
+[08:54:11] [160/600] 06 00298/2023 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:54:19]     -> gerando PDF...
+[08:54:22]     -> parse PDF...
+[08:54:22]     -> 40 medicoes parseadas
+[08:54:22]     -> 40 medicao(oes) inserida(s)
+[08:54:22] [161/600] 06 00331/2023 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:54:32]     -> gerando PDF...
+[08:54:34]     -> parse PDF...
+[08:54:34]     -> 37 medicoes parseadas
+[08:54:34]     -> 37 medicao(oes) inserida(s)
+[08:54:34] [162/600] 06 00343/2023 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:54:43]     -> gerando PDF...
+[08:54:45]     -> parse PDF...
+[08:54:45]     -> 16 medicoes parseadas
+[08:54:45]     -> 16 medicao(oes) inserida(s)
+[08:54:45] [163/600] 06 00416/2022 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:54:54]     -> gerando PDF...
+[08:54:57]     -> parse PDF...
+[08:54:57]     -> 31 medicoes parseadas
+[08:54:57]     -> 31 medicao(oes) inserida(s)
+[08:54:57] [164/600] 06 00428/2023 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:55:05]     -> gerando PDF...
+[08:55:08]     -> parse PDF...
+[08:55:08]     -> 36 medicoes parseadas
+[08:55:08]     -> 36 medicao(oes) inserida(s)
+[08:55:08] [165/600] 06 00625/2021 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:55:17]     -> gerando PDF...
+[08:55:19]     -> parse PDF...
+[08:55:19]     -> 36 medicoes parseadas
+[08:55:19]     -> 36 medicao(oes) inserida(s)
+[08:55:19] [166/600] 06 00645/2025 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:55:28]     -> gerando PDF...
+[08:55:30]     -> parse PDF...
+[08:55:30]     -> 8 medicoes parseadas
+[08:55:30]     -> 8 medicao(oes) inserida(s)
+[08:55:30] [167/600] 06 00646/2025 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:55:39]     -> gerando PDF...
+[08:55:41]     -> parse PDF...
+[08:55:41]     -> 8 medicoes parseadas
+[08:55:41]     -> 8 medicao(oes) inserida(s)
+[08:55:41] [168/600] 06 00798/2020 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:55:50]     -> gerando PDF...
+[08:55:52]     -> parse PDF...
+[08:55:52]     -> 8 medicoes parseadas
+[08:55:52]     -> 8 medicao(oes) inserida(s)
+[08:55:52] [169/600] 06 00834/2020 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:56:00]     -> gerando PDF...
+[08:56:03]     -> parse PDF...
+[08:56:03]     -> 48 medicoes parseadas
+[08:56:03]     -> 48 medicao(oes) inserida(s)
+[08:56:03] [170/600] 06 00919/2024 (S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS)
+[08:56:12]     -> gerando PDF...
+[08:56:14]     -> parse PDF...
+[08:56:14]     -> 18 medicoes parseadas
+[08:56:14]     -> 18 medicao(oes) inserida(s)
+[08:56:14] [171/600] 09 00047/2023 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:56:23]     -> gerando PDF...
+[08:56:25]     -> parse PDF...
+[08:56:25]     -> 41 medicoes parseadas
+[08:56:25]     -> 41 medicao(oes) inserida(s)
+[08:56:25] [172/600] 09 00070/2022 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:56:34]     -> gerando PDF...
+[08:56:37]     -> parse PDF...
+[08:56:37]     -> 52 medicoes parseadas
+[08:56:37]     -> 52 medicao(oes) inserida(s)
+[08:56:37] [173/600] 09 00397/2021 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:56:46]     -> gerando PDF...
+[08:56:49]     -> parse PDF...
+[08:56:49]     -> 42 medicoes parseadas
+[08:56:49]     -> 42 medicao(oes) inserida(s)
+[08:56:49] [174/600] 09 00498/2023 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:56:58]     -> gerando PDF...
+[08:57:00]     -> parse PDF...
+[08:57:00]     -> 13 medicoes parseadas
+[08:57:00]     -> 13 medicao(oes) inserida(s)
+[08:57:00] [175/600] 09 00705/2022 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:57:08]     -> gerando PDF...
+[08:57:10]     -> parse PDF...
+[08:57:11]     -> 31 medicoes parseadas
+[08:57:11]     -> 31 medicao(oes) inserida(s)
+[08:57:11] [176/600] 09 00837/2014 (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[08:57:19]     -> gerando PDF...
+[08:57:25]     -> parse PDF...
+[08:57:25]     -> 106 medicoes parseadas
+[08:57:25]     -> 106 medicao(oes) inserida(s)
+[08:57:25] [177/600] 10 00041/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:57:34]     -> gerando PDF...
+[08:57:37]     -> parse PDF...
+[08:57:37]     -> 44 medicoes parseadas
+[08:57:37]     -> 44 medicao(oes) inserida(s)
+[08:57:37] [178/600] 10 00058/2022 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:57:46]     -> gerando PDF...
+[08:57:51]     -> parse PDF...
+[08:57:51]     -> 56 medicoes parseadas
+[08:57:51]     -> 56 medicao(oes) inserida(s)
+[08:57:51] [179/600] 10 00062/2024 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:57:59]     -> gerando PDF...
+[08:58:02]     -> parse PDF...
+[08:58:02]     -> 27 medicoes parseadas
+[08:58:02]     -> 27 medicao(oes) inserida(s)
+[08:58:02] [180/600] 10 00094/2021 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:58:10]     -> gerando PDF...
+[08:58:14]     -> parse PDF...
+[08:58:14]     -> 64 medicoes parseadas
+[08:58:14]     -> 64 medicao(oes) inserida(s)
+[08:58:14] [181/600] 10 00136/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:58:23]     -> gerando PDF...
+[08:58:26]     -> parse PDF...
+[08:58:26]     -> 42 medicoes parseadas
+[08:58:26]     -> 42 medicao(oes) inserida(s)
+[08:58:26] [182/600] 10 00138/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:58:34]     -> gerando PDF...
+[08:58:37]     -> parse PDF...
+[08:58:37]     -> 43 medicoes parseadas
+[08:58:37]     -> 43 medicao(oes) inserida(s)
+[08:58:37] [183/600] 10 00169/2024 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:58:46]     -> gerando PDF...
+[08:58:49]     -> parse PDF...
+[08:58:49]     -> 32 medicoes parseadas
+[08:58:49]     -> 32 medicao(oes) inserida(s)
+[08:58:49] [184/600] 10 00230/2025 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:58:57]     -> gerando PDF...
+[08:58:59]     -> parse PDF...
+[08:58:59]     -> 17 medicoes parseadas
+[08:58:59]     -> 17 medicao(oes) inserida(s)
+[08:58:59] [185/600] 10 00325/2026 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:59:08]     -> gerando PDF...
+[08:59:10]     -> parse PDF...
+[08:59:10]     -> 1 medicoes parseadas
+[08:59:10]     -> 1 medicao(oes) inserida(s)
+[08:59:10] [186/600] 10 00329/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:59:18]     -> gerando PDF...
+[08:59:21]     -> parse PDF...
+[08:59:21]     -> 39 medicoes parseadas
+[08:59:21]     -> 39 medicao(oes) inserida(s)
+[08:59:21] [187/600] 10 00391/2022 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:59:30]     -> gerando PDF...
+[08:59:33]     -> parse PDF...
+[08:59:33]     -> 51 medicoes parseadas
+[08:59:33]     -> 51 medicao(oes) inserida(s)
+[08:59:33] [188/600] 10 00427/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:59:41]     -> gerando PDF...
+[08:59:44]     -> parse PDF...
+[08:59:44]     -> 38 medicoes parseadas
+[08:59:44]     -> 38 medicao(oes) inserida(s)
+[08:59:44] [189/600] 10 00547/2015 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[08:59:53]     -> gerando PDF...
+[09:00:04]     -> parse PDF...
+[09:00:04]     -> 140 medicoes parseadas
+[09:00:05]     -> 140 medicao(oes) inserida(s)
+[09:00:05] [190/600] 10 00588/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:00:13]     -> gerando PDF...
+[09:00:16]     -> parse PDF...
+[09:00:16]     -> 34 medicoes parseadas
+[09:00:16]     -> 34 medicao(oes) inserida(s)
+[09:00:16] [191/600] 10 00605/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:00:24]     -> gerando PDF...
+[09:00:28]     -> parse PDF...
+[09:00:28]     -> 36 medicoes parseadas
+[09:00:28]     -> 36 medicao(oes) inserida(s)
+[09:00:28] [192/600] 10 00631/2012 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:00:36]     -> gerando PDF...
+[09:00:43]     -> parse PDF...
+[09:00:43]     -> 170 medicoes parseadas
+[09:00:43]     -> 170 medicao(oes) inserida(s)
+[09:00:43] [193/600] 10 00635/2012 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:00:52]     -> gerando PDF...
+[09:00:58]     -> parse PDF...
+[09:00:58]     -> 144 medicoes parseadas
+[09:00:58]     -> 144 medicao(oes) inserida(s)
+[09:00:58] [194/600] 10 00635/2015 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:01:06]     -> gerando PDF...
+[09:01:17]     -> parse PDF...
+[09:01:17]     -> 145 medicoes parseadas
+[09:01:17]     -> 145 medicao(oes) inserida(s)
+[09:01:17] [195/600] 10 00636/2012 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:01:26]     -> gerando PDF...
+[09:01:33]     -> parse PDF...
+[09:01:33]     -> 166 medicoes parseadas
+[09:01:33]     -> 166 medicao(oes) inserida(s)
+[09:01:33] [196/600] 10 00650/2016 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:01:41]     -> gerando PDF...
+[09:01:46]     -> parse PDF...
+[09:01:47]     -> 119 medicoes parseadas
+[09:01:47]     -> 119 medicao(oes) inserida(s)
+[09:01:47] [197/600] 10 00717/2023 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:01:55]     -> gerando PDF...
+[09:01:58]     -> parse PDF...
+[09:01:58]     -> 27 medicoes parseadas
+[09:01:58]     -> 27 medicao(oes) inserida(s)
+[09:01:58] [198/600] 10 00802/2020 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:02:07]     -> gerando PDF...
+[09:02:10]     -> parse PDF...
+[09:02:10]     -> 63 medicoes parseadas
+[09:02:10]     -> 63 medicao(oes) inserida(s)
+[09:02:10] [199/600] 10 00821/2019 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:02:18]     -> gerando PDF...
+[09:02:23]     -> parse PDF...
+[09:02:23]     -> 78 medicoes parseadas
+[09:02:23]     -> 78 medicao(oes) inserida(s)
+[09:02:23] [200/600] 10 00844/2020 (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:02:32]     -> gerando PDF...
+[09:02:35]     -> parse PDF...
+[09:02:35]     -> 50 medicoes parseadas
+[09:02:35]     -> 50 medicao(oes) inserida(s)
+[09:02:35] [201/600] 11 00031/2024 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:02:43]     -> gerando PDF...
+[09:02:45]     -> parse PDF...
+[09:02:45]     -> 9 medicoes parseadas
+[09:02:45]     -> 9 medicao(oes) inserida(s)
+[09:02:45] [202/600] 11 00159/2022 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:02:54]     -> gerando PDF...
+[09:02:57]     -> parse PDF...
+[09:02:57]     -> 53 medicoes parseadas
+[09:02:57]     -> 53 medicao(oes) inserida(s)
+[09:02:57] [203/600] 11 00174/2017 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:03:05]     -> gerando PDF...
+[09:03:09]     -> parse PDF...
+[09:03:09]     -> 92 medicoes parseadas
+[09:03:09]     -> 92 medicao(oes) inserida(s)
+[09:03:09] [204/600] 11 00209/2025 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:03:18]     -> gerando PDF...
+[09:03:20]     -> parse PDF...
+[09:03:20]     -> 17 medicoes parseadas
+[09:03:20]     -> 17 medicao(oes) inserida(s)
+[09:03:20] [205/600] 11 00259/2016 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:03:28]     -> gerando PDF...
+[09:03:31]     -> parse PDF...
+[09:03:31]     -> 40 medicoes parseadas
+[09:03:31]     -> 40 medicao(oes) inserida(s)
+[09:03:31] [206/600] 11 00371/2017 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:03:40]     -> gerando PDF...
+[09:03:43]     -> parse PDF...
+[09:03:43]     -> 82 medicoes parseadas
+[09:03:43]     -> 82 medicao(oes) inserida(s)
+[09:03:43] [207/600] 11 00485/2020 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:03:52]     -> gerando PDF...
+[09:03:55]     -> parse PDF...
+[09:03:55]     -> 55 medicoes parseadas
+[09:03:55]     -> 55 medicao(oes) inserida(s)
+[09:03:55] [208/600] 11 00488/2020 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:03]     -> gerando PDF...
+[09:04:06]     -> parse PDF...
+[09:04:06]     -> 53 medicoes parseadas
+[09:04:06]     -> 53 medicao(oes) inserida(s)
+[09:04:06] [209/600] 11 00551/2023 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:15]     -> gerando PDF...
+[09:04:18]     -> parse PDF...
+[09:04:18]     -> 36 medicoes parseadas
+[09:04:18]     -> 36 medicao(oes) inserida(s)
+[09:04:18] [210/600] 11 00567/2023 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:26]     -> gerando PDF...
+[09:04:29]     -> parse PDF...
+[09:04:29]     -> 30 medicoes parseadas
+[09:04:29]     -> 30 medicao(oes) inserida(s)
+[09:04:29] [211/600] 11 00594/2026 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:37]     -> gerando PDF...
+[09:04:39]     -> parse PDF...
+[09:04:39]     -> 1 medicoes parseadas
+[09:04:39]     -> 1 medicao(oes) inserida(s)
+[09:04:39] [212/600] 11 00603/2018 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:47]     -> gerando PDF...
+[09:04:51]     -> parse PDF...
+[09:04:51]     -> 77 medicoes parseadas
+[09:04:51]     -> 77 medicao(oes) inserida(s)
+[09:04:51] [213/600] 11 00655/2025 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:04:59]     -> gerando PDF...
+[09:05:01]     -> parse PDF...
+[09:05:01]     -> 11 medicoes parseadas
+[09:05:01]     -> 11 medicao(oes) inserida(s)
+[09:05:01] [214/600] 11 00658/2017 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:05:21]     [CONTRATO] nenhuma opcao retornada
+[09:05:21]     ignorado: Erro: Falha Contrato
+[09:05:21] [215/600] 11 00824/2025 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:05:39]     [CONTRATO] nenhuma opcao retornada
+[09:05:39]     ignorado: Erro: Falha Contrato
+[09:05:39] [216/600] 11 00927/2015 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:05:48]     -> gerando PDF...
+[09:05:50]     -> parse PDF...
+[09:05:50]     -> 18 medicoes parseadas
+[09:05:50]     -> 18 medicao(oes) inserida(s)
+[09:05:50] [217/600] 11 00960/2015 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:05:58]     -> gerando PDF...
+[09:06:01]     -> parse PDF...
+[09:06:01]     -> 64 medicoes parseadas
+[09:06:01]     -> 64 medicao(oes) inserida(s)
+[09:06:01] [218/600] 12 00089/2023 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:06:10]     -> gerando PDF...
+[09:06:13]     -> parse PDF...
+[09:06:13]     -> 42 medicoes parseadas
+[09:06:13]     -> 42 medicao(oes) inserida(s)
+[09:06:13] [219/600] 12 00214/2019 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:06:21]     -> gerando PDF...
+[09:06:24]     -> parse PDF...
+[09:06:24]     -> 48 medicoes parseadas
+[09:06:24]     -> 48 medicao(oes) inserida(s)
+[09:06:24] [220/600] 12 00218/2022 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:06:32]     -> gerando PDF...
+[09:06:34]     -> parse PDF...
+[09:06:34]     -> 20 medicoes parseadas
+[09:06:34]     -> 20 medicao(oes) inserida(s)
+[09:06:34] [221/600] 12 00293/2021 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:06:42]     -> gerando PDF...
+[09:06:45]     -> parse PDF...
+[09:06:45]     -> 36 medicoes parseadas
+[09:06:45]     -> 36 medicao(oes) inserida(s)
+[09:06:45] [222/600] 12 00318/2025 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:03]     [CONTRATO] nenhuma opcao retornada
+[09:07:03]     ignorado: Erro: Falha Contrato
+[09:07:03] [223/600] 12 00350/2024 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:11]     -> gerando PDF...
+[09:07:14]     -> parse PDF...
+[09:07:14]     -> 28 medicoes parseadas
+[09:07:14]     -> 28 medicao(oes) inserida(s)
+[09:07:14] [224/600] 12 00368/2023 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:22]     -> gerando PDF...
+[09:07:24]     -> parse PDF...
+[09:07:24]     -> 37 medicoes parseadas
+[09:07:24]     -> 37 medicao(oes) inserida(s)
+[09:07:24] [225/600] 12 00384/2024 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:33]     -> gerando PDF...
+[09:07:35]     -> parse PDF...
+[09:07:35]     -> 27 medicoes parseadas
+[09:07:35]     -> 27 medicao(oes) inserida(s)
+[09:07:35] [226/600] 12 00439/2024 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:43]     -> gerando PDF...
+[09:07:45]     -> parse PDF...
+[09:07:45]     -> 17 medicoes parseadas
+[09:07:45]     -> 17 medicao(oes) inserida(s)
+[09:07:45] [227/600] 12 00480/2021 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:07:53]     -> gerando PDF...
+[09:07:56]     -> parse PDF...
+[09:07:56]     -> 28 medicoes parseadas
+[09:07:56]     -> 28 medicao(oes) inserida(s)
+[09:07:56] [228/600] 12 00568/2026 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:08:04]     -> gerando PDF...
+[09:08:06]     -> parse PDF...
+[09:08:06]     -> 2 medicoes parseadas
+[09:08:06]     -> 2 medicao(oes) inserida(s)
+[09:08:06] [229/600] 12 00575/2026 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:08:24]     [CONTRATO] nenhuma opcao retornada
+[09:08:24]     ignorado: Erro: Falha Contrato
+[09:08:24] [230/600] 12 00588/2024 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:08:32]     -> gerando PDF...
+[09:08:34]     -> parse PDF...
+[09:08:34]     -> 24 medicoes parseadas
+[09:08:34]     -> 24 medicao(oes) inserida(s)
+[09:08:34] [231/600] 12 00600/2025 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:08:43]     -> gerando PDF...
+[09:08:44]     -> parse PDF...
+[09:08:44]     -> 7 medicoes parseadas
+[09:08:44]     -> 7 medicao(oes) inserida(s)
+[09:08:44] [232/600] 12 00686/2020 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:08:53]     -> gerando PDF...
+[09:08:56]     -> parse PDF...
+[09:08:56]     -> 59 medicoes parseadas
+[09:08:56]     -> 59 medicao(oes) inserida(s)
+[09:08:56] [233/600] 12 00737/2025 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:09:14]     [CONTRATO] nenhuma opcao retornada
+[09:09:14]     ignorado: Erro: Falha Contrato
+[09:09:14] [234/600] 12 00799/2018 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:09:22]     -> gerando PDF...
+[09:09:25]     -> parse PDF...
+[09:09:25]     -> 46 medicoes parseadas
+[09:09:25]     -> 46 medicao(oes) inserida(s)
+[09:09:25] [235/600] 12 00857/2015 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:09:34]     -> gerando PDF...
+[09:09:37]     -> parse PDF...
+[09:09:37]     -> 66 medicoes parseadas
+[09:09:37]     -> 66 medicao(oes) inserida(s)
+[09:09:37] [236/600] 12 00961/2015 (S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL)
+[09:09:45]     -> gerando PDF...
+[09:09:51]     -> parse PDF...
+[09:09:51]     -> 101 medicoes parseadas
+[09:09:51]     -> 101 medicao(oes) inserida(s)
+[09:09:51] [237/600] 13 00425/2018 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:09:59]     -> gerando PDF...
+[09:10:03]     -> parse PDF...
+[09:10:03]     -> 90 medicoes parseadas
+[09:10:03]     -> 90 medicao(oes) inserida(s)
+[09:10:03] [238/600] 13 00434/2023 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:10:12]     -> gerando PDF...
+[09:10:14]     -> parse PDF...
+[09:10:14]     -> 37 medicoes parseadas
+[09:10:14]     -> 37 medicao(oes) inserida(s)
+[09:10:14] [239/600] 13 00607/2022 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:10:23]     -> gerando PDF...
+[09:10:24]     -> parse PDF...
+[09:10:24]     -> 8 medicoes parseadas
+[09:10:24]     -> 8 medicao(oes) inserida(s)
+[09:10:24] [240/600] 13 00651/2025 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:10:32]     -> gerando PDF...
+[09:10:34]     -> parse PDF...
+[09:10:34]     -> 10 medicoes parseadas
+[09:10:34]     -> 10 medicao(oes) inserida(s)
+[09:10:34] [241/600] 13 00655/2023 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:10:42]     -> gerando PDF...
+[09:10:45]     -> parse PDF...
+[09:10:45]     -> 34 medicoes parseadas
+[09:10:45]     -> 34 medicao(oes) inserida(s)
+[09:10:45] [242/600] 13 00685/2023 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:10:54]     -> gerando PDF...
+[09:10:56]     -> parse PDF...
+[09:10:56]     -> 15 medicoes parseadas
+[09:10:56]     -> 15 medicao(oes) inserida(s)
+[09:10:56] [243/600] 13 00938/2017 (S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA)
+[09:11:04]     -> gerando PDF...
+[09:11:09]     -> parse PDF...
+[09:11:09]     -> 103 medicoes parseadas
+[09:11:09]     -> 103 medicao(oes) inserida(s)
+[09:11:09] [244/600] 14 00070/2026 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[09:11:17]     -> gerando PDF...
+[09:11:19]     -> parse PDF...
+[09:11:19]     -> 5 medicoes parseadas
+[09:11:19]     -> 5 medicao(oes) inserida(s)
+[09:11:19] [245/600] 14 00335/2022 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[09:11:27]     -> gerando PDF...
+[09:11:30]     -> parse PDF...
+[09:11:30]     -> 50 medicoes parseadas
+[09:11:30]     -> 50 medicao(oes) inserida(s)
+[09:11:30] [246/600] 14 00360/2022 (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[09:11:38]     -> gerando PDF...
+[09:11:41]     -> parse PDF...
+[09:11:41]     -> 46 medicoes parseadas
+[09:11:41]     -> 46 medicao(oes) inserida(s)
+[09:11:41] [247/600] 15 00039/2023 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:11:52]     -> gerando PDF...
+[09:11:54]     -> parse PDF...
+[09:11:54]     -> 34 medicoes parseadas
+[09:11:54]     -> 34 medicao(oes) inserida(s)
+[09:11:54] [248/600] 15 00160/2026 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:12:03]     -> gerando PDF...
+[09:12:05]     -> parse PDF...
+[09:12:05]     -> 2 medicoes parseadas
+[09:12:05]     -> 2 medicao(oes) inserida(s)
+[09:12:05] [249/600] 15 00441/2014 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:12:13]     -> gerando PDF...
+[09:12:22]     -> parse PDF...
+[09:12:22]     -> 109 medicoes parseadas
+[09:12:22]     -> 109 medicao(oes) inserida(s)
+[09:12:22] [250/600] 15 00459/2022 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:12:31]     -> gerando PDF...
+[09:12:33]     -> parse PDF...
+[09:12:33]     -> 39 medicoes parseadas
+[09:12:33]     -> 39 medicao(oes) inserida(s)
+[09:12:33] [251/600] 15 00536/2022 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:12:42]     -> gerando PDF...
+[09:12:44]     -> parse PDF...
+[09:12:44]     -> 27 medicoes parseadas
+[09:12:44]     -> 27 medicao(oes) inserida(s)
+[09:12:44] [252/600] 15 00537/2022 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:12:53]     -> gerando PDF...
+[09:12:55]     -> parse PDF...
+[09:12:55]     -> 22 medicoes parseadas
+[09:12:55]     -> 22 medicao(oes) inserida(s)
+[09:12:55] [253/600] 15 00626/2023 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:13:03]     -> gerando PDF...
+[09:13:06]     -> parse PDF...
+[09:13:06]     -> 25 medicoes parseadas
+[09:13:06]     -> 25 medicao(oes) inserida(s)
+[09:13:06] [254/600] 15 00627/2023 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:13:14]     -> gerando PDF...
+[09:13:16]     -> parse PDF...
+[09:13:16]     -> 21 medicoes parseadas
+[09:13:16]     -> 21 medicao(oes) inserida(s)
+[09:13:16] [255/600] 15 00699/2025 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:13:25]     -> gerando PDF...
+[09:13:27]     -> parse PDF...
+[09:13:27]     -> 11 medicoes parseadas
+[09:13:27]     -> 11 medicao(oes) inserida(s)
+[09:13:27] [256/600] 15 00710/2020 (S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO)
+[09:13:35]     -> gerando PDF...
+[09:13:39]     -> parse PDF...
+[09:13:39]     -> 71 medicoes parseadas
+[09:13:39]     -> 71 medicao(oes) inserida(s)
+[09:13:39] [257/600] 16 00180/2021 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:13:47]     -> gerando PDF...
+[09:13:50]     -> parse PDF...
+[09:13:50]     -> 60 medicoes parseadas
+[09:13:50]     -> 60 medicao(oes) inserida(s)
+[09:13:50] [258/600] 16 00192/2019 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:13:59]     -> gerando PDF...
+[09:14:03]     -> parse PDF...
+[09:14:03]     -> 86 medicoes parseadas
+[09:14:03]     -> 86 medicao(oes) inserida(s)
+[09:14:03] [259/600] 16 00332/2023 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:14:12]     -> gerando PDF...
+[09:14:15]     -> parse PDF...
+[09:14:15]     -> 39 medicoes parseadas
+[09:14:15]     -> 39 medicao(oes) inserida(s)
+[09:14:15] [260/600] 16 00355/2014 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:14:23]     -> gerando PDF...
+[09:14:30]     -> parse PDF...
+[09:14:31]     -> 144 medicoes parseadas
+[09:14:31]     -> 144 medicao(oes) inserida(s)
+[09:14:31] [261/600] 16 00361/2026 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:14:49]     [CONTRATO] nenhuma opcao retornada
+[09:14:49]     ignorado: Erro: Falha Contrato
+[09:14:49] [262/600] 16 00381/2023 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:14:57]     -> gerando PDF...
+[09:15:00]     -> parse PDF...
+[09:15:00]     -> 37 medicoes parseadas
+[09:15:00]     -> 37 medicao(oes) inserida(s)
+[09:15:00] [263/600] 16 00503/2015 (CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE)
+[09:15:09]     -> gerando PDF...
+[09:15:15]     -> parse PDF...
+[09:15:15]     -> 130 medicoes parseadas
+[09:15:15]     -> 130 medicao(oes) inserida(s)
+[09:15:15] [264/600] 16 00534/2014 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:15:23]     -> gerando PDF...
+[09:15:28]     -> parse PDF...
+[09:15:28]     -> 95 medicoes parseadas
+[09:15:28]     -> 95 medicao(oes) inserida(s)
+[09:15:28] [265/600] 16 00574/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:15:37]     -> gerando PDF...
+[09:15:43]     -> parse PDF...
+[09:15:43]     -> 151 medicoes parseadas
+[09:15:43]     -> 151 medicao(oes) inserida(s)
+[09:15:43] [266/600] 16 00603/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:15:52]     -> gerando PDF...
+[09:15:59]     -> parse PDF...
+[09:15:59]     -> 122 medicoes parseadas
+[09:15:59]     -> 122 medicao(oes) inserida(s)
+[09:15:59] [267/600] 16 00606/2024 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:16:07]     -> gerando PDF...
+[09:16:09]     -> parse PDF...
+[09:16:09]     -> 22 medicoes parseadas
+[09:16:09]     -> 22 medicao(oes) inserida(s)
+[09:16:09] [268/600] 16 00614/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:16:17]     -> gerando PDF...
+[09:16:24]     -> parse PDF...
+[09:16:24]     -> 151 medicoes parseadas
+[09:16:24]     -> 151 medicao(oes) inserida(s)
+[09:16:24] [269/600] 16 00641/2023 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:16:33]     -> gerando PDF...
+[09:16:35]     -> parse PDF...
+[09:16:35]     -> 33 medicoes parseadas
+[09:16:35]     -> 33 medicao(oes) inserida(s)
+[09:16:35] [270/600] 16 00654/2022 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:16:44]     -> gerando PDF...
+[09:16:46]     -> parse PDF...
+[09:16:46]     -> 37 medicoes parseadas
+[09:16:46]     -> 37 medicao(oes) inserida(s)
+[09:16:46] [271/600] 16 00674/2024 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:16:55]     -> gerando PDF...
+[09:16:57]     -> parse PDF...
+[09:16:57]     -> 20 medicoes parseadas
+[09:16:57]     -> 20 medicao(oes) inserida(s)
+[09:16:57] [272/600] 16 00703/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:17:06]     -> gerando PDF...
+[09:17:13]     -> parse PDF...
+[09:17:14]     -> 140 medicoes parseadas
+[09:17:14]     -> 140 medicao(oes) inserida(s)
+[09:17:14] [273/600] 16 00734/2023 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:17:22]     -> gerando PDF...
+[09:17:24]     -> parse PDF...
+[09:17:24]     -> 29 medicoes parseadas
+[09:17:24]     -> 29 medicao(oes) inserida(s)
+[09:17:24] [274/600] 16 00840/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:17:33]     -> gerando PDF...
+[09:17:38]     -> parse PDF...
+[09:17:39]     -> 122 medicoes parseadas
+[09:17:39]     -> 122 medicao(oes) inserida(s)
+[09:17:39] [275/600] 16 00846/2025 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:17:48]     -> gerando PDF...
+[09:17:50]     -> parse PDF...
+[09:17:50]     -> 7 medicoes parseadas
+[09:17:50]     -> 7 medicao(oes) inserida(s)
+[09:17:50] [276/600] 16 00929/2014 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:17:58]     -> gerando PDF...
+[09:18:01]     -> parse PDF...
+[09:18:01]     -> 60 medicoes parseadas
+[09:18:01]     -> 60 medicao(oes) inserida(s)
+[09:18:01] [277/600] 16 01093/2013 (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:18:09]     -> gerando PDF...
+[09:18:17]     -> parse PDF...
+[09:18:17]     -> 151 medicoes parseadas
+[09:18:17]     -> 151 medicao(oes) inserida(s)
+[09:18:17] [278/600] 17 00261/2022 (S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO)
+[09:18:25]     -> gerando PDF...
+[09:18:28]     -> parse PDF...
+[09:18:28]     -> 33 medicoes parseadas
+[09:18:28]     -> 33 medicao(oes) inserida(s)
+[09:18:28] [279/600] 17 00280/2025 (S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO)
+[09:18:36]     -> gerando PDF...
+[09:18:38]     -> parse PDF...
+[09:18:38]     -> 16 medicoes parseadas
+[09:18:38]     -> 16 medicao(oes) inserida(s)
+[09:18:38] [280/600] 17 00432/2023 (S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO)
+[09:18:46]     -> gerando PDF...
+[09:18:49]     -> parse PDF...
+[09:18:49]     -> 32 medicoes parseadas
+[09:18:49]     -> 32 medicao(oes) inserida(s)
+[09:18:49] [281/600] 18 00131/2022 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:18:57]     -> gerando PDF...
+[09:18:59]     -> parse PDF...
+[09:18:59]     -> 33 medicoes parseadas
+[09:18:59]     -> 33 medicao(oes) inserida(s)
+[09:18:59] [282/600] 18 00191/2019 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:19:07]     -> gerando PDF...
+[09:19:11]     -> parse PDF...
+[09:19:11]     -> 60 medicoes parseadas
+[09:19:11]     -> 60 medicao(oes) inserida(s)
+[09:19:11] [283/600] 18 00255/2022 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:19:19]     -> gerando PDF...
+[09:19:22]     -> parse PDF...
+[09:19:22]     -> 33 medicoes parseadas
+[09:19:22]     -> 33 medicao(oes) inserida(s)
+[09:19:22] [284/600] 18 00324/2026 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:19:30]     -> gerando PDF...
+[09:19:32]     -> parse PDF...
+[09:19:32]     -> 3 medicoes parseadas
+[09:19:32]     -> 3 medicao(oes) inserida(s)
+[09:19:32] [285/600] 18 00493/2025 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:19:40]     -> gerando PDF...
+[09:19:42]     -> parse PDF...
+[09:19:42]     -> 13 medicoes parseadas
+[09:19:42]     -> 13 medicao(oes) inserida(s)
+[09:19:42] [286/600] 18 00517/2022 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:19:50]     -> gerando PDF...
+[09:19:53]     -> parse PDF...
+[09:19:53]     -> 39 medicoes parseadas
+[09:19:53]     -> 39 medicao(oes) inserida(s)
+[09:19:53] [287/600] 18 00557/2023 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:01]     -> gerando PDF...
+[09:20:04]     -> parse PDF...
+[09:20:04]     -> 21 medicoes parseadas
+[09:20:04]     -> 21 medicao(oes) inserida(s)
+[09:20:04] [288/600] 18 00569/2025 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:12]     -> gerando PDF...
+[09:20:14]     -> parse PDF...
+[09:20:14]     -> 12 medicoes parseadas
+[09:20:14]     -> 12 medicao(oes) inserida(s)
+[09:20:14] [289/600] 18 00679/2025 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:22]     -> gerando PDF...
+[09:20:24]     -> parse PDF...
+[09:20:24]     -> 9 medicoes parseadas
+[09:20:24]     -> 9 medicao(oes) inserida(s)
+[09:20:24] [290/600] 18 00687/2024 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:32]     -> gerando PDF...
+[09:20:35]     -> parse PDF...
+[09:20:35]     -> 23 medicoes parseadas
+[09:20:35]     -> 23 medicao(oes) inserida(s)
+[09:20:35] [291/600] 18 00843/2019 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:43]     -> gerando PDF...
+[09:20:46]     -> parse PDF...
+[09:20:46]     -> 53 medicoes parseadas
+[09:20:46]     -> 53 medicao(oes) inserida(s)
+[09:20:46] [292/600] 18 00899/2019 (S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ)
+[09:20:55]     -> gerando PDF...
+[09:20:59]     -> parse PDF...
+[09:20:59]     -> 72 medicoes parseadas
+[09:20:59]     -> 72 medicao(oes) inserida(s)
+[09:20:59] [293/600] 19 00127/2022 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:21:07]     -> gerando PDF...
+[09:21:10]     -> parse PDF...
+[09:21:10]     -> 50 medicoes parseadas
+[09:21:10]     -> 50 medicao(oes) inserida(s)
+[09:21:10] [294/600] 19 00142/2024 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:21:18]     -> gerando PDF...
+[09:21:21]     -> parse PDF...
+[09:21:21]     -> 28 medicoes parseadas
+[09:21:21]     -> 28 medicao(oes) inserida(s)
+[09:21:21] [295/600] 19 00194/2021 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:21:29]     -> gerando PDF...
+[09:21:33]     -> parse PDF...
+[09:21:33]     -> 60 medicoes parseadas
+[09:21:33]     -> 60 medicao(oes) inserida(s)
+[09:21:33] [296/600] 19 00324/2024 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:21:42]     -> gerando PDF...
+[09:21:44]     -> parse PDF...
+[09:21:44]     -> 23 medicoes parseadas
+[09:21:44]     -> 23 medicao(oes) inserida(s)
+[09:21:44] [297/600] 19 00345/2022 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:21:53]     -> gerando PDF...
+[09:21:56]     -> parse PDF...
+[09:21:56]     -> 48 medicoes parseadas
+[09:21:56]     -> 48 medicao(oes) inserida(s)
+[09:21:56] [298/600] 19 00526/2023 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:22:04]     -> gerando PDF...
+[09:22:07]     -> parse PDF...
+[09:22:07]     -> 35 medicoes parseadas
+[09:22:07]     -> 35 medicao(oes) inserida(s)
+[09:22:07] [299/600] 19 00587/2017 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:22:15]     -> gerando PDF...
+[09:22:20]     -> parse PDF...
+[09:22:20]     -> 70 medicoes parseadas
+[09:22:20]     -> 70 medicao(oes) inserida(s)
+[09:22:20] [300/600] 19 00644/2021 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:22:28]     -> gerando PDF...
+[09:22:31]     -> parse PDF...
+[09:22:31]     -> 51 medicoes parseadas
+[09:22:31]     -> 51 medicao(oes) inserida(s)
+[09:22:31] [301/600] 19 00695/2022 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:22:40]     -> gerando PDF...
+[09:22:43]     -> parse PDF...
+[09:22:43]     -> 45 medicoes parseadas
+[09:22:43]     -> 45 medicao(oes) inserida(s)
+[09:22:43] [302/600] 19 00716/2017 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:22:51]     -> gerando PDF...
+[09:22:55]     -> parse PDF...
+[09:22:55]     -> 76 medicoes parseadas
+[09:22:55]     -> 76 medicao(oes) inserida(s)
+[09:22:55] [303/600] 19 00758/2023 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:23:03]     -> gerando PDF...
+[09:23:06]     -> parse PDF...
+[09:23:06]     -> 32 medicoes parseadas
+[09:23:06]     -> 32 medicao(oes) inserida(s)
+[09:23:06] [304/600] 19 00934/2020 (S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL)
+[09:23:14]     -> gerando PDF...
+[09:23:17]     -> parse PDF...
+[09:23:17]     -> 55 medicoes parseadas
+[09:23:17]     -> 55 medicao(oes) inserida(s)
+[09:23:17] [305/600] 20 00074/2025 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:23:26]     -> gerando PDF...
+[09:23:28]     -> parse PDF...
+[09:23:28]     -> 18 medicoes parseadas
+[09:23:28]     -> 18 medicao(oes) inserida(s)
+[09:23:28] [306/600] 20 00101/2023 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:23:36]     -> gerando PDF...
+[09:23:39]     -> parse PDF...
+[09:23:39]     -> 42 medicoes parseadas
+[09:23:39]     -> 42 medicao(oes) inserida(s)
+[09:23:39] [307/600] 20 00245/2026 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:23:47]     -> gerando PDF...
+[09:23:49]     -> parse PDF...
+[09:23:49]     -> 2 medicoes parseadas
+[09:23:49]     -> 2 medicao(oes) inserida(s)
+[09:23:49] [308/600] 20 00308/2022 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:23:57]     -> gerando PDF...
+[09:24:00]     -> parse PDF...
+[09:24:00]     -> 31 medicoes parseadas
+[09:24:00]     -> 31 medicao(oes) inserida(s)
+[09:24:00] [309/600] 20 00563/2023 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:24:08]     -> gerando PDF...
+[09:24:10]     -> parse PDF...
+[09:24:10]     -> 19 medicoes parseadas
+[09:24:10]     -> 19 medicao(oes) inserida(s)
+[09:24:10] [310/600] 20 00580/2022 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:24:18]     -> gerando PDF...
+[09:24:20]     -> parse PDF...
+[09:24:20]     -> 15 medicoes parseadas
+[09:24:20]     -> 15 medicao(oes) inserida(s)
+[09:24:20] [311/600] 20 00866/2019 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[09:24:29]     -> gerando PDF...
+[09:24:32]     -> parse PDF...
+[09:24:32]     -> 42 medicoes parseadas
+[09:24:32]     -> 42 medicao(oes) inserida(s)
+[09:24:32] [312/600] 21 00087/2026 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:24:40]     -> gerando PDF...
+[09:24:42]     -> parse PDF...
+[09:24:42]     -> 6 medicoes parseadas
+[09:24:42]     -> 6 medicao(oes) inserida(s)
+[09:24:42] [313/600] 21 00241/2026 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:24:50]     -> gerando PDF...
+[09:24:52]     -> parse PDF...
+[09:24:52]     -> 4 medicoes parseadas
+[09:24:52]     -> 4 medicao(oes) inserida(s)
+[09:24:52] [314/600] 21 00259/2025 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:00]     -> gerando PDF...
+[09:25:02]     -> parse PDF...
+[09:25:02]     -> 16 medicoes parseadas
+[09:25:02]     -> 16 medicao(oes) inserida(s)
+[09:25:02] [315/600] 21 00409/2021 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:10]     -> gerando PDF...
+[09:25:15]     -> parse PDF...
+[09:25:15]     -> 62 medicoes parseadas
+[09:25:15]     -> 62 medicao(oes) inserida(s)
+[09:25:15] [316/600] 21 00512/2024 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:23]     -> gerando PDF...
+[09:25:25]     -> parse PDF...
+[09:25:25]     -> 26 medicoes parseadas
+[09:25:25]     -> 26 medicao(oes) inserida(s)
+[09:25:25] [317/600] 21 00566/2022 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:33]     -> gerando PDF...
+[09:25:36]     -> parse PDF...
+[09:25:36]     -> 27 medicoes parseadas
+[09:25:36]     -> 27 medicao(oes) inserida(s)
+[09:25:36] [318/600] 21 00820/2025 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:44]     -> gerando PDF...
+[09:25:46]     -> parse PDF...
+[09:25:46]     -> 9 medicoes parseadas
+[09:25:46]     -> 9 medicao(oes) inserida(s)
+[09:25:46] [319/600] 21 00923/2024 (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[09:25:54]     -> gerando PDF...
+[09:25:56]     -> parse PDF...
+[09:25:56]     -> 21 medicoes parseadas
+[09:25:56]     -> 21 medicao(oes) inserida(s)
+[09:25:56] [320/600] 22 00111/2025 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:05]     -> gerando PDF...
+[09:26:07]     -> parse PDF...
+[09:26:07]     -> 4 medicoes parseadas
+[09:26:07]     -> 4 medicao(oes) inserida(s)
+[09:26:07] [321/600] 22 00513/2023 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:15]     -> gerando PDF...
+[09:26:17]     -> parse PDF...
+[09:26:17]     -> 21 medicoes parseadas
+[09:26:17]     -> 21 medicao(oes) inserida(s)
+[09:26:17] [322/600] 22 00541/2021 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:25]     -> gerando PDF...
+[09:26:28]     -> parse PDF...
+[09:26:28]     -> 42 medicoes parseadas
+[09:26:28]     -> 42 medicao(oes) inserida(s)
+[09:26:28] [323/600] 22 00686/2023 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:36]     -> gerando PDF...
+[09:26:39]     -> parse PDF...
+[09:26:39]     -> 26 medicoes parseadas
+[09:26:39]     -> 26 medicao(oes) inserida(s)
+[09:26:39] [324/600] 22 00757/2023 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:47]     -> gerando PDF...
+[09:26:49]     -> parse PDF...
+[09:26:49]     -> 19 medicoes parseadas
+[09:26:49]     -> 19 medicao(oes) inserida(s)
+[09:26:49] [325/600] 22 00761/2024 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:26:57]     -> gerando PDF...
+[09:26:59]     -> parse PDF...
+[09:26:59]     -> 16 medicoes parseadas
+[09:26:59]     -> 16 medicao(oes) inserida(s)
+[09:26:59] [326/600] 22 00794/2021 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:27:07]     -> gerando PDF...
+[09:27:10]     -> parse PDF...
+[09:27:10]     -> 58 medicoes parseadas
+[09:27:10]     -> 58 medicao(oes) inserida(s)
+[09:27:10] [327/600] 22 00902/2020 (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:27:19]     -> gerando PDF...
+[09:27:23]     -> parse PDF...
+[09:27:23]     -> 65 medicoes parseadas
+[09:27:23]     -> 65 medicao(oes) inserida(s)
+[09:27:23] [328/600] 23 00217/2017 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:27:31]     -> gerando PDF...
+[09:27:35]     -> parse PDF...
+[09:27:35]     -> 70 medicoes parseadas
+[09:27:35]     -> 70 medicao(oes) inserida(s)
+[09:27:35] [329/600] 23 00426/2024 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:27:43]     -> gerando PDF...
+[09:27:45]     -> parse PDF...
+[09:27:45]     -> 12 medicoes parseadas
+[09:27:45]     -> 12 medicao(oes) inserida(s)
+[09:27:45] [330/600] 23 00456/2024 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:27:53]     -> gerando PDF...
+[09:27:55]     -> parse PDF...
+[09:27:55]     -> 26 medicoes parseadas
+[09:27:55]     -> 26 medicao(oes) inserida(s)
+[09:27:55] [331/600] 23 00565/2012 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:28:04]     -> gerando PDF...
+[09:28:08]     -> parse PDF...
+[09:28:08]     -> 75 medicoes parseadas
+[09:28:08]     -> 75 medicao(oes) inserida(s)
+[09:28:08] [332/600] 23 00658/2023 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:28:16]     -> gerando PDF...
+[09:28:18]     -> parse PDF...
+[09:28:18]     -> 21 medicoes parseadas
+[09:28:18]     -> 21 medicao(oes) inserida(s)
+[09:28:18] [333/600] 23 00662/2025 (0)
+[09:28:32]     [UNIDADE] nenhuma opcao retornada
+[09:28:33]     ignorado: Erro: Falha Unidade
+[09:28:33] [334/600] 23 00713/2019 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:28:41]     -> gerando PDF...
+[09:28:44]     -> parse PDF...
+[09:28:45]     -> 81 medicoes parseadas
+[09:28:45]     -> 81 medicao(oes) inserida(s)
+[09:28:45] [335/600] 23 00748/2023 (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:29:03]     [CONTRATO] nenhuma opcao retornada
+[09:29:03]     ignorado: Erro: Falha Contrato
+[09:29:03] [336/600] 24 00516/2023 (S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE)
+[09:29:11]     -> gerando PDF...
+[09:29:13]     -> parse PDF...
+[09:29:13]     -> 21 medicoes parseadas
+[09:29:13]     -> 21 medicao(oes) inserida(s)
+[09:29:13] [337/600] 24 00517/2023 (S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE)
+[09:29:22]     -> gerando PDF...
+[09:29:25]     -> parse PDF...
+[09:29:25]     -> 33 medicoes parseadas
+[09:29:25]     -> 33 medicao(oes) inserida(s)
+[09:29:25] [338/600] 25 00315/2025 (S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ)
+[09:29:37]     -> gerando PDF...
+[09:29:40]     -> parse PDF...
+[09:29:40]     -> 15 medicoes parseadas
+[09:29:40]     -> 15 medicao(oes) inserida(s)
+[09:29:40] [339/600] 26 00008/2024 (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[09:29:56]     -> gerando PDF...
+[09:29:59]     -> parse PDF...
+[09:29:59]     -> 30 medicoes parseadas
+[09:30:00]     -> 30 medicao(oes) inserida(s)
+[09:30:00] [340/600] 26 00504/2020 (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[09:30:12]     -> gerando PDF...
+[09:30:16]     -> parse PDF...
+[09:30:16]     -> 59 medicoes parseadas
+[09:30:16]     -> 59 medicao(oes) inserida(s)
+[09:30:16] [341/600] A Licitar - BR-158 - Implantação Campo Mourão – Roncador (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[09:30:35]     [CONTRATO] nenhuma opcao retornada
+[09:30:35]     ignorado: Erro: Falha Contrato
+[09:30:35] [342/600] A Licitar - BR-158 - Implantação Roncador – Palmital (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[09:30:54]     [CONTRATO] nenhuma opcao retornada
+[09:30:54]     ignorado: Erro: Falha Contrato
+[09:30:54] [343/600] A Licitar - Construção de trecho rodoviário Entr. TO-020 - Div. TO/MA (Goiatins) (0)
+[09:31:08]     [UNIDADE] nenhuma opcao retornada
+[09:31:09]     ignorado: Erro: Falha Unidade
+[09:31:09] [344/600] A Licitar - Contorno de Guaíra (S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ)
+[09:31:27]     [CONTRATO] nenhuma opcao retornada
+[09:31:27]     ignorado: Erro: Falha Contrato
+[09:31:27] [345/600] A Licitar - Implantação de rodovia Entr. BR-405 - Div. RN/CE (Estrada do Cajueiro) (0)
+[09:31:41]     [UNIDADE] nenhuma opcao retornada
+[09:31:41]     ignorado: Erro: Falha Unidade
+[09:31:41] [346/600] A Licitar: Construção de 14 OAEs - Trecho do Meio (0)
+[09:31:56]     [UNIDADE] nenhuma opcao retornada
+[09:31:56]     ignorado: Erro: Falha Unidade
+[09:31:56] [347/600] Adequação de trecho rodoviário Pecém – São Luís do Curu BR-222/CE (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[09:32:14]     [CONTRATO] nenhuma opcao retornada
+[09:32:14]     ignorado: Erro: Falha Contrato
+[09:32:14] [348/600] Adequação Marmelândia – Barracão - BR - 163 (PREV/FUTURA CONTRATAÇÃO)
+[09:32:28]     [UNIDADE] nenhuma opcao retornada
+[09:32:28]     ignorado: Erro: Falha Unidade
+[09:32:28] [349/600] BR-020/CE – Adequação Caucaia – Div. CE/PI (PREV/FUTURA CONTRATAÇÃO)
+[09:32:43]     [UNIDADE] nenhuma opcao retornada
+[09:32:43]     ignorado: Erro: Falha Unidade
+[09:32:43] [350/600] BR-101 - Travessia de Estância (PREV/FUTURA CONTRATAÇÃO)
+[09:32:57]     [UNIDADE] nenhuma opcao retornada
+[09:32:57]     ignorado: Erro: Falha Unidade
+[09:32:57] [351/600] BR-104/RN - Implantação e Adequação de Capacidade (PREV/FUTURA CONTRATAÇÃO)
+[09:33:12]     [UNIDADE] nenhuma opcao retornada
+[09:33:12]     ignorado: Erro: Falha Unidade
+[09:33:12] [352/600] BR-116/CE - Adequação com duplicação Boqueirão do Cesário – Tabuleiro do Norte (PREV/FUTURA CONTRATAÇÃO)
+[09:33:26]     [UNIDADE] nenhuma opcao retornada
+[09:33:26]     ignorado: Erro: Falha Unidade
+[09:33:26] [353/600] BR-153/PR – Implantação Alto do Amparo – Imbituva (PREV/FUTURA CONTRATAÇÃO)
+[09:33:41]     [UNIDADE] nenhuma opcao retornada
+[09:33:41]     ignorado: Erro: Falha Unidade
+[09:33:41] [354/600] BR-163/PR – Adequação de trecho rodoviário – Entroncamento BR-277/PR (Acesso Cascavel) - Marmelândia (PREV/FUTURA CONTRATAÇÃO)
+[09:33:55]     [UNIDADE] nenhuma opcao retornada
+[09:33:56]     ignorado: Erro: Falha Unidade
+[09:33:56] [355/600] BR-230/361/PB Adequação e Duplicação
+Farinha – Cajazeiras  - PAC PROJETO (DPP - DIRETORIA DE PLANEJAMENTO E PESQUISA)
+[09:34:14]     [CONTRATO] nenhuma opcao retornada
+[09:34:14]     ignorado: Erro: Falha Contrato
+[09:34:14] [356/600] BR-235/SE - Duplicação Aracaju – Itabaiana (PREV/FUTURA CONTRATAÇÃO)
+[09:34:29]     [UNIDADE] nenhuma opcao retornada
+[09:34:29]     ignorado: Erro: Falha Unidade
+[09:34:29] [357/600] BR-262/MG- Adequação de trecho rodoviário João Monlevade – Div ES/MG (PREV/FUTURA CONTRATAÇÃO)
+[09:34:43]     [UNIDADE] nenhuma opcao retornada
+[09:34:43]     ignorado: Erro: Falha Unidade
+[09:34:43] [358/600] BR-352/MG - Construção Div. GO/MG – Patos de Minas (PREV/FUTURA CONTRATAÇÃO)
+[09:34:58]     [UNIDADE] nenhuma opcao retornada
+[09:34:58]     ignorado: Erro: Falha Unidade
+[09:34:58] [359/600] BR-364/MG - Construção Gurinhatã – Div.GO/MG (PREV/FUTURA CONTRATAÇÃO)
+[09:35:13]     [UNIDADE] nenhuma opcao retornada
+[09:35:13]     ignorado: Erro: Falha Unidade
+[09:35:13] [360/600] BR-365/MG - Adequação Travessia Urbana Uberlândia (PREV/FUTURA CONTRATAÇÃO)
+[09:35:27]     [UNIDADE] nenhuma opcao retornada
+[09:35:27]     ignorado: Erro: Falha Unidade
+[09:35:27] [361/600] BR-476/PR - Adequação Curitiba – Adrianópolis (PREV/FUTURA CONTRATAÇÃO)
+[09:35:42]     [UNIDADE] nenhuma opcao retornada
+[09:35:42]     ignorado: Erro: Falha Unidade
+[09:35:42] [362/600] Caiçara do Rio do Vento – Riachuelo - Lote 2C (PREV/FUTURA CONTRATAÇÃO)
+[09:35:56]     [UNIDADE] nenhuma opcao retornada
+[09:35:56]     ignorado: Erro: Falha Unidade
+[09:35:56] [363/600] Construção de Benfeitorias previsto no PBAI (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[09:36:15]     [CONTRATO] nenhuma opcao retornada
+[09:36:15]     ignorado: Erro: Falha Contrato
+[09:36:15] [364/600] Construção Ponte sobre o Rio Mucuim (PREV/FUTURA CONTRATAÇÃO)
+[09:36:29]     [UNIDADE] nenhuma opcao retornada
+[09:36:29]     ignorado: Erro: Falha Unidade
+[09:36:29] [365/600] Cruzamento Rodoferroviário TLSA MVP 11 x BR-222/CE – Entr. Acesso ao Porto de Pecém (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[09:36:47]     [CONTRATO] nenhuma opcao retornada
+[09:36:48]     ignorado: Erro: Falha Contrato
+[09:36:48] [366/600] Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-030 -1 (N/A)
+[09:37:02]     [UNIDADE] nenhuma opcao retornada
+[09:37:02]     ignorado: Erro: Falha Unidade
+[09:37:02] [367/600] Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-101 - (N/A)
+[09:37:16]     [UNIDADE] nenhuma opcao retornada
+[09:37:17]     ignorado: Erro: Falha Unidade
+[09:37:17] [368/600] Div. RN/CE – BR-304 - Mossoró - Lote 1A (PREV/FUTURA CONTRATAÇÃO)
+[09:37:31]     [UNIDADE] nenhuma opcao retornada
+[09:37:31]     ignorado: Erro: Falha Unidade
+[09:37:31] [369/600] Entr. BR-104 – BR-304 - Angicos - Lote 2A (PREV/FUTURA CONTRATAÇÃO)
+[09:37:45]     [UNIDADE] nenhuma opcao retornada
+[09:37:46]     ignorado: Erro: Falha Unidade
+[09:37:46] [370/600] Entr. RN-233 – BR-304 - Angicos - Lote 1C (PREV/FUTURA CONTRATAÇÃO)
+[09:38:00]     [UNIDADE] nenhuma opcao retornada
+[09:38:00]     ignorado: Erro: Falha Unidade
+[09:38:00] [371/600] Futura sem PREV -  A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Pavimentação (PREV/FUTURA CONTRATAÇÃO)
+[09:38:15]     [UNIDADE] nenhuma opcao retornada
+[09:38:15]     ignorado: Erro: Falha Unidade
+[09:38:15] [372/600] Futura sem PREV -  A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Pavimentação (PREV/FUTURA CONTRATAÇÃO)
+[09:38:29]     [UNIDADE] nenhuma opcao retornada
+[09:38:29]     ignorado: Erro: Falha Unidade
+[09:38:29] [373/600] Futura sem PREV - Duplicação de Monsenhor Gil até a Estaca Zero (PREV/FUTURA CONTRATAÇÃO)
+[09:38:44]     [UNIDADE] nenhuma opcao retornada
+[09:38:44]     ignorado: Erro: Falha Unidade
+[09:38:44] [374/600] Futura sem PREV | A Contratar | BR-226 - 124,90 à 227,70 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:38:58]     [UNIDADE] nenhuma opcao retornada
+[09:38:58]     ignorado: Erro: Falha Unidade
+[09:38:58] [375/600] Futura sem PREV | A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:39:13]     [UNIDADE] nenhuma opcao retornada
+[09:39:13]     ignorado: Erro: Falha Unidade
+[09:39:13] [376/600] Futura sem PREV | A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:39:27]     [UNIDADE] nenhuma opcao retornada
+[09:39:28]     ignorado: Erro: Falha Unidade
+[09:39:28] [377/600] Futura sem PREV | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:39:42]     [UNIDADE] nenhuma opcao retornada
+[09:39:42]     ignorado: Erro: Falha Unidade
+[09:39:42] [378/600] Futura sem PREV | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:39:56]     [UNIDADE] nenhuma opcao retornada
+[09:39:57]     ignorado: Erro: Falha Unidade
+[09:39:57] [379/600] Futura sem PREV- Duplicação de Trecho Rodoviário - Campo Maior - Altos (PREV/FUTURA CONTRATAÇÃO)
+[09:40:11]     [UNIDADE] nenhuma opcao retornada
+[09:40:11]     ignorado: Erro: Falha Unidade
+[09:40:11] [380/600] PAC obra Pavimentação Paranã – Divisa TO/GO? (PREV/FUTURA CONTRATAÇÃO)
+[09:40:26]     [UNIDADE] nenhuma opcao retornada
+[09:40:26]     ignorado: Erro: Falha Unidade
+[09:40:26] [381/600] PAC OBRA | BR-242/BA Construção – Castro Alves– Santo Antônio (PREV/FUTURA CONTRATAÇÃO)
+[09:40:40]     [UNIDADE] nenhuma opcao retornada
+[09:40:40]     ignorado: Erro: Falha Unidade
+[09:40:40] [382/600] PAC OBRA | BR-242/BA Duplicação – Santo Antônio – Nazaré das Farinhas (PREV/FUTURA CONTRATAÇÃO)
+[09:40:55]     [UNIDADE] nenhuma opcao retornada
+[09:40:55]     ignorado: Erro: Falha Unidade
+[09:40:55] [383/600] PAC OBRA | BR-242/BA Duplicação- Barreiras – Luís Eduardo Magalhães (PREV/FUTURA CONTRATAÇÃO)
+[09:41:09]     [UNIDADE] nenhuma opcao retornada
+[09:41:09]     ignorado: Erro: Falha Unidade
+[09:41:09] [384/600] PAC OBRA |ESTADUAL BNDES |BR-230/PB - Construção do Arco Metropolitano de João Pessoa (N/A)
+[09:41:24]     [UNIDADE] nenhuma opcao retornada
+[09:41:24]     ignorado: Erro: Falha Unidade
+[09:41:24] [385/600] PAC PROJETO - trecho sul Campina - BR-104 (ainda não está na NPO) (N/A)
+[09:41:38]     [UNIDADE] nenhuma opcao retornada
+[09:41:38]     ignorado: Erro: Falha Unidade
+[09:41:38] [386/600] PAC projeto BR-235/TO – Construção de trecho rodoviário?
+Div.MA/TO – Pedro Afonso – Entr. BR-153 (Lo (PREV/FUTURA CONTRATAÇÃO)
+[09:41:53]     [UNIDADE] nenhuma opcao retornada
+[09:41:53]     ignorado: Erro: Falha Unidade
+[09:41:53] [387/600] PAC PROJETO | Adequação com Duplicação Farinha - Cajazeiras (N/A)
+[09:42:08]     [UNIDADE] nenhuma opcao retornada
+[09:42:08]     ignorado: Erro: Falha Unidade
+[09:42:08] [388/600] PAC PROJETO | Adequação Entr.BR-122 – Ourolândia (PREV/FUTURA CONTRATAÇÃO)
+[09:42:22]     [UNIDADE] nenhuma opcao retornada
+[09:42:22]     ignorado: Erro: Falha Unidade
+[09:42:22] [389/600] PAC PROJETO | Adequação Lote 4 e 5-Div.GO/BA – Luís Eduardo Magalhães (PREV/FUTURA CONTRATAÇÃO)
+[09:42:37]     [UNIDADE] nenhuma opcao retornada
+[09:42:37]     ignorado: Erro: Falha Unidade
+[09:42:37] [390/600] PAC PROJETO | BR-010/GO Implantação de trecho rodoviário Entr.GO-118 – Div.GO/TO (N/A)
+[09:42:51]     [UNIDADE] nenhuma opcao retornada
+[09:42:51]     ignorado: Erro: Falha Unidade
+[09:42:51] [391/600] PAC PROJETO | BR-020/GO - Adequação de trecho rodoviário Formosa – Div.GO/BA (N/A)
+[09:43:06]     [UNIDADE] nenhuma opcao retornada
+[09:43:06]     ignorado: Erro: Falha Unidade
+[09:43:06] [392/600] PAC PROJETO | BR-070/MT - Duplicação trevo do Lagarto a Livramento - Adequação da serra do Mangaval (N/A)
+[09:43:20]     [UNIDADE] nenhuma opcao retornada
+[09:43:20]     ignorado: Erro: Falha Unidade
+[09:43:20] [393/600] PAC PROJETO | BR-101/BA Duplicação Eunápolis-Mucuri/Itabatã (PREV/FUTURA CONTRATAÇÃO)
+[09:43:35]     [UNIDADE] nenhuma opcao retornada
+[09:43:35]     ignorado: Erro: Falha Unidade
+[09:43:35] [394/600] PAC PROJETO | BR-174/MT - Implantação porto Santos Antônio das lendas divisa MT/AM (N/A)
+[09:43:49]     [UNIDADE] nenhuma opcao retornada
+[09:43:49]     ignorado: Erro: Falha Unidade
+[09:43:49] [395/600] PAC PROJETO | BR-242/BA Implantação Muquém do São Francisco-Distrito de Javi-BA-172-Ibotirama (BA-16 (PREV/FUTURA CONTRATAÇÃO)
+[09:44:04]     [UNIDADE] nenhuma opcao retornada
+[09:44:04]     ignorado: Erro: Falha Unidade
+[09:44:04] [396/600] PAC PROJETO | BR-319/RO Implantação OAE no Trevo do Roque (PREV/FUTURA CONTRATAÇÃO)
+[09:44:18]     [UNIDADE] nenhuma opcao retornada
+[09:44:18]     ignorado: Erro: Falha Unidade
+[09:44:18] [397/600] PAC PROJETO | BR-364/RO Adequação Cacoal – Porto Velho (PREV/FUTURA CONTRATAÇÃO)
+[09:44:33]     [UNIDADE] nenhuma opcao retornada
+[09:44:33]     ignorado: Erro: Falha Unidade
+[09:44:33] [398/600] PAC PROJETO | BR-367/BA Adequação - Entr.BA-001 (Santa Cruz de Cabrália)-Entr.BA-001(B) (Para Tranco (PREV/FUTURA CONTRATAÇÃO)
+[09:44:47]     [UNIDADE] nenhuma opcao retornada
+[09:44:48]     ignorado: Erro: Falha Unidade
+[09:44:48] [399/600] PAC PROJETO | Duplicação Piripiri - Campo Maior | BR-343/PI - 180,4 à 263,6 (PREV/FUTURA CONTRATAÇÃO)
+[09:45:02]     [UNIDADE] nenhuma opcao retornada
+[09:45:02]     ignorado: Erro: Falha Unidade
+[09:45:02] [400/600] PAC PROJETO | Implantação do km 63,80 ao km 189,3 (Lotes 2 e 3)?(125,50 km) (Ainda não está na NPO) (N/A)
+[09:45:16]     [UNIDADE] nenhuma opcao retornada
+[09:45:17]     ignorado: Erro: Falha Unidade
+[09:45:17] [401/600] PAC PROJETO | trecho norte BR-104/PB - Adequação Campina Grande - Divisa RN - Norte (N/A)
+[09:45:31]     [UNIDADE] nenhuma opcao retornada
+[09:45:31]     ignorado: Erro: Falha Unidade
+[09:45:31] [402/600] Prev  CONTR | A Contratar | BR-280 - 36,70 à 74,58 | A Contratar | Reconhecimento de dívida (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:45:49]     [CONTRATO] nenhuma opcao retornada
+[09:45:49]     ignorado: Erro: Falha Contrato
+[09:45:49] [403/600] PREV  LAJES - CERRO CORA (ainda não está na NPO) (N/A)
+[09:46:04]     [UNIDADE] nenhuma opcao retornada
+[09:46:04]     ignorado: Erro: Falha Unidade
+[09:46:04] [404/600] Prev (Não está na NPO) - Remanescente do Lote B da BR-242 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[09:46:22]     [CONTRATO] nenhuma opcao retornada
+[09:46:22]     ignorado: Erro: Falha Contrato
+[09:46:22] [405/600] PREV (NÃO ESTÁ NA NPO) | A Contratar | Construção Petrolândia - Inajá - 50km| BR-110/PE (N/A)
+[09:46:37]     [UNIDADE] nenhuma opcao retornada
+[09:46:37]     ignorado: Erro: Falha Unidade
+[09:46:37] [406/600] PREV (NÃO ESTÁ NA NPO) | A Contratar | Variante do Arco Metropolitando de Recife | BR-101/408-PE (N/A)
+[09:46:51]     [UNIDADE] nenhuma opcao retornada
+[09:46:51]     ignorado: Erro: Falha Unidade
+[09:46:51] [407/600] PREV (NÃO ESTÁ NA NPO) | A Contratar | Viaduto do Arco Metropolitano de Recife (Viaduto Vitarella) | (N/A)
+[09:47:06]     [UNIDADE] nenhuma opcao retornada
+[09:47:06]     ignorado: Erro: Falha Unidade
+[09:47:06] [408/600] Prev - Contorno de Balsas - BR-330/MA (0)
+[09:47:21]     [UNIDADE] nenhuma opcao retornada
+[09:47:21]     ignorado: Erro: Falha Unidade
+[09:47:21] [409/600] PREV - Supervisão da Ponte de Igapó Açu (N/A)
+[09:47:35]     [UNIDADE] nenhuma opcao retornada
+[09:47:35]     ignorado: Erro: Falha Unidade
+[09:47:35] [410/600] Prev 01 - Desapropriações 135/MG (N/A)
+[09:47:50]     [UNIDADE] nenhuma opcao retornada
+[09:47:50]     ignorado: Erro: Falha Unidade
+[09:47:50] [411/600] Prev 01 CONTR - 000600/2023-23 | A Contratar | BR-010 - 541,8 à 541,81 | A Contratar | Supervisão (N/A)
+[09:48:04]     [UNIDADE] nenhuma opcao retornada
+[09:48:04]     ignorado: Erro: Falha Unidade
+[09:48:04] [412/600] Prev 01 CONTR - 090480/2024-12 | BR-153/GO/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbia (N/A)
+[09:48:19]     [UNIDADE] nenhuma opcao retornada
+[09:48:19]     ignorado: Erro: Falha Unidade
+[09:48:19] [413/600] Prev 01 CONTR - Adequação de Pacajus - Boqueirão do Cesário - Lotes 2 e 3 (S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ)
+[09:48:37]     [CONTRATO] nenhuma opcao retornada
+[09:48:37]     ignorado: Erro: Falha Contrato
+[09:48:37] [414/600] Prev 01 CONTR - Pavimentação - km 0,00 ao km 170,00 (N/A)
+[09:48:52]     [UNIDADE] nenhuma opcao retornada
+[09:48:52]     ignorado: Erro: Falha Unidade
+[09:48:52] [415/600] Prev 01 CONTR | A Contratar | ADEQUAÇÃO DA TRAVESSIA URBANA DE PETROLINA NAS BR-407/428-PE| A Contra (N/A)
+[09:49:06]     [UNIDADE] nenhuma opcao retornada
+[09:49:06]     ignorado: Erro: Falha Unidade
+[09:49:06] [416/600] Prev 01 CONTR | A Contratar | BR-010 - 408,80 a 448,30 | Adequação (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[09:49:24]     [CONTRATO] nenhuma opcao retornada
+[09:49:24]     ignorado: Erro: Falha Contrato
+[09:49:24] [417/600] Prev 01 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Desapropriações (N/A)
+[09:49:39]     [UNIDADE] nenhuma opcao retornada
+[09:49:39]     ignorado: Erro: Falha Unidade
+[09:49:39] [418/600] Prev 01 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Licenças e Autorizações (N/A)
+[09:49:53]     [UNIDADE] nenhuma opcao retornada
+[09:49:53]     ignorado: Erro: Falha Unidade
+[09:49:53] [419/600] Prev 01 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Desapropriações (N/A)
+[09:50:08]     [UNIDADE] nenhuma opcao retornada
+[09:50:08]     ignorado: Erro: Falha Unidade
+[09:50:08] [420/600] Prev 01 CONTR | A Contratar | BR-040 - 0 à 0 | A Contratar |Construção Valparaíso (N/A)
+[09:50:22]     [UNIDADE] nenhuma opcao retornada
+[09:50:22]     ignorado: Erro: Falha Unidade
+[09:50:22] [421/600] Prev 01 CONTR | A Contratar | BR-060 - 0 à 0 | A Contratar | Pavimentação Goiânia - Jatai (N/A)
+[09:50:37]     [UNIDADE] nenhuma opcao retornada
+[09:50:37]     ignorado: Erro: Falha Unidade
+[09:50:37] [422/600] Prev 01 CONTR | A Contratar | BR-070 - km 65 - km 188 | A Contratar |Adequação de Cocalzinho de Góia (N/A)
+[09:50:51]     [UNIDADE] nenhuma opcao retornada
+[09:50:51]     ignorado: Erro: Falha Unidade
+[09:50:51] [423/600] Prev 01 CONTR | A Contratar | BR-080 - Lote 3 | A Contratar | (Não está no NPO) (N/A)
+[09:51:06]     [UNIDADE] nenhuma opcao retornada
+[09:51:06]     ignorado: Erro: Falha Unidade
+[09:51:06] [424/600] Prev 01 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Adequação (N/A)
+[09:51:21]     [UNIDADE] nenhuma opcao retornada
+[09:51:21]     ignorado: Erro: Falha Unidade
+[09:51:21] [425/600] Prev 01 CONTR | A Contratar | BR-116 - 0 à 34,80 | A Contratar | Desapropriação (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:51:39]     [CONTRATO] nenhuma opcao retornada
+[09:51:39]     ignorado: Erro: Falha Contrato
+[09:51:39] [426/600] Prev 01 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Eliminação de Ponto crítico (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[09:51:59]     [CONTRATO] nenhuma opcao retornada
+[09:51:59]     ignorado: Erro: Falha Contrato
+[09:51:59] [427/600] Prev 01 CONTR | A Contratar | BR-153 - 0 à 0 | A Contratar | Contorno rodoviário Goiânia (N/A)
+[09:52:14]     [UNIDADE] nenhuma opcao retornada
+[09:52:14]     ignorado: Erro: Falha Unidade
+[09:52:14] [428/600] Prev 01 CONTR | A Contratar | BR-153 Erechim Passo Fundo| A Contratar (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:52:32]     [CONTRATO] nenhuma opcao retornada
+[09:52:32]     ignorado: Erro: Falha Contrato
+[09:52:32] [429/600] Prev 01 CONTR | A Contratar | BR-230 -  390,87 a 398,95 | A Contratar | Obra (S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ)
+[09:52:50]     [CONTRATO] nenhuma opcao retornada
+[09:52:50]     ignorado: Erro: Falha Contrato
+[09:52:50] [430/600] Prev 01 CONTR | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental (N/A)
+[09:53:05]     [UNIDADE] nenhuma opcao retornada
+[09:53:05]     ignorado: Erro: Falha Unidade
+[09:53:05] [431/600] Prev 01 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Supervisão (N/A)
+[09:53:20]     [UNIDADE] nenhuma opcao retornada
+[09:53:20]     ignorado: Erro: Falha Unidade
+[09:53:20] [432/600] Prev 01 CONTR | A Contratar | BR-235 - 0 à 114,8 | A Contratar | Supervisão (N/A)
+[09:53:34]     [UNIDADE] nenhuma opcao retornada
+[09:53:35]     ignorado: Erro: Falha Unidade
+[09:53:35] [433/600] Prev 01 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Desapropriações (N/A)
+[09:53:49]     [UNIDADE] nenhuma opcao retornada
+[09:53:49]     ignorado: Erro: Falha Unidade
+[09:53:49] [434/600] Prev 01 CONTR | A Contratar | BR-242 - 391 à 394 | A Contratar | Pavimentação (N/A)
+[09:54:03]     [UNIDADE] nenhuma opcao retornada
+[09:54:04]     ignorado: Erro: Falha Unidade
+[09:54:04] [435/600] Prev 01 CONTR | A Contratar | BR-242 | A Contratar | Obra (N/A)
+[09:54:18]     [UNIDADE] nenhuma opcao retornada
+[09:54:18]     ignorado: Erro: Falha Unidade
+[09:54:18] [436/600] Prev 01 CONTR | A Contratar | BR-242 | A Licitar | Pavimentação (N/A)
+[09:54:32]     [UNIDADE] nenhuma opcao retornada
+[09:54:33]     ignorado: Erro: Falha Unidade
+[09:54:33] [437/600] Prev 01 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Duplicação (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[09:54:51]     [CONTRATO] nenhuma opcao retornada
+[09:54:51]     ignorado: Erro: Falha Contrato
+[09:54:51] [438/600] Prev 01 CONTR | A Contratar | BR-285/RS (PREV/FUTURA CONTRATAÇÃO)
+[09:55:05]     [UNIDADE] nenhuma opcao retornada
+[09:55:05]     ignorado: Erro: Falha Unidade
+[09:55:05] [439/600] Prev 01 CONTR | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Gestão Ambiental (N/A)
+[09:55:20]     [UNIDADE] nenhuma opcao retornada
+[09:55:20]     ignorado: Erro: Falha Unidade
+[09:55:20] [440/600] Prev 01 CONTR | A Contratar | BR-308 - km 204,30 a 276,40 | 11 OAE's (N/A)
+[09:55:34]     [UNIDADE] nenhuma opcao retornada
+[09:55:34]     ignorado: Erro: Falha Unidade
+[09:55:34] [441/600] Prev 01 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar | Gestão Ambiental (N/A)
+[09:55:49]     [UNIDADE] nenhuma opcao retornada
+[09:55:49]     ignorado: Erro: Falha Unidade
+[09:55:49] [442/600] Prev 01 CONTR | A Contratar | BR-317 - 289,3 à 299,4 | A Contratar | Construção Oae (N/A)
+[09:56:03]     [UNIDADE] nenhuma opcao retornada
+[09:56:03]     ignorado: Erro: Falha Unidade
+[09:56:03] [443/600] Prev 01 CONTR | A Contratar | BR-319 - 103,5 à 665,7 | A Contratar | Adequação (N/A)
+[09:56:18]     [UNIDADE] nenhuma opcao retornada
+[09:56:18]     ignorado: Erro: Falha Unidade
+[09:56:18] [444/600] Prev 01 CONTR | A Contratar | BR-330 - 1,3 à 115,78 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[09:56:32]     [UNIDADE] nenhuma opcao retornada
+[09:56:32]     ignorado: Erro: Falha Unidade
+[09:56:32] [445/600] Prev 01 CONTR | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Duplicação (PREV/FUTURA CONTRATAÇÃO)
+[09:56:47]     [UNIDADE] nenhuma opcao retornada
+[09:56:47]     ignorado: Erro: Falha Unidade
+[09:56:47] [446/600] Prev 01 CONTR | A Contratar | BR-364 - 752 à 752,3 | A Contratar | Construção Oae (N/A)
+[09:57:01]     [UNIDADE] nenhuma opcao retornada
+[09:57:01]     ignorado: Erro: Falha Unidade
+[09:57:01] [447/600] Prev 01 CONTR | A Contratar | BR-364| Adequação Perímetro Urbano de Ariquemes/RO (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[09:57:20]     [CONTRATO] nenhuma opcao retornada
+[09:57:20]     ignorado: Erro: Falha Contrato
+[09:57:20] [448/600] Prev 01 CONTR | A Contratar | BR-365 - 276,94 à 407,80 | A Contratar | Supervisão (N/A)
+[09:57:34]     [UNIDADE] nenhuma opcao retornada
+[09:57:34]     ignorado: Erro: Falha Unidade
+[09:57:34] [449/600] Prev 01 CONTR | A Contratar | BR-367 - 0 à 0 | A Contratar | Adequação (N/A)
+[09:57:49]     [UNIDADE] nenhuma opcao retornada
+[09:57:49]     ignorado: Erro: Falha Unidade
+[09:57:49] [450/600] Prev 01 CONTR | A Contratar | BR-392 (N/A)
+[09:58:03]     [UNIDADE] nenhuma opcao retornada
+[09:58:03]     ignorado: Erro: Falha Unidade
+[09:58:03] [451/600] Prev 01 CONTR | A Contratar | BR-392 - 0 à 2 | A Contratar | Supervisão (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[09:58:21]     [CONTRATO] nenhuma opcao retornada
+[09:58:22]     ignorado: Erro: Falha Contrato
+[09:58:22] [452/600] Prev 01 CONTR | A Contratar | BR-392/101/RS (PREV/FUTURA CONTRATAÇÃO)
+[09:58:36]     [UNIDADE] nenhuma opcao retornada
+[09:58:36]     ignorado: Erro: Falha Unidade
+[09:58:36] [453/600] Prev 01 CONTR | A Contratar | BR-392/RS (PREV/FUTURA CONTRATAÇÃO)
+[09:58:51]     [UNIDADE] nenhuma opcao retornada
+[09:58:51]     ignorado: Erro: Falha Unidade
+[09:58:51] [454/600] Prev 01 CONTR | A Contratar | BR-401 km 107 a km 142,00| A Contratar | Pavimentação (N/A)
+[09:59:05]     [UNIDADE] nenhuma opcao retornada
+[09:59:05]     ignorado: Erro: Falha Unidade
+[09:59:05] [455/600] Prev 01 CONTR | A Contratar | BR-415 - 7,64 à 11,64 | A Contratar | Pavimentação (N/A)
+[09:59:20]     [UNIDADE] nenhuma opcao retornada
+[09:59:20]     ignorado: Erro: Falha Unidade
+[09:59:20] [456/600] Prev 01 CONTR | A Contratar | BR-418 - 0 à 0 | A Contratar | Pavimentação (N/A)
+[09:59:34]     [UNIDADE] nenhuma opcao retornada
+[09:59:34]     ignorado: Erro: Falha Unidade
+[09:59:34] [457/600] Prev 01 CONTR | A Contratar | BR-419 - 11,30 à 11,50 - Edital 0143/25-19 | A Contratar | Construção (N/A)
+[09:59:49]     [UNIDADE] nenhuma opcao retornada
+[09:59:49]     ignorado: Erro: Falha Unidade
+[09:59:49] [458/600] Prev 01 CONTR | A Contratar | BR-422 - 0 à 59,34 | A Contratar | Supervisão (N/A)
+[10:00:03]     [UNIDADE] nenhuma opcao retornada
+[10:00:03]     ignorado: Erro: Falha Unidade
+[10:00:03] [459/600] Prev 01 CONTR | A Contratar | BR-423 - 18,2 à 86,12 | A Contratar | Supervisão (N/A)
+[10:00:18]     [UNIDADE] nenhuma opcao retornada
+[10:00:18]     ignorado: Erro: Falha Unidade
+[10:00:18] [460/600] Prev 01 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Construção Oae (Edital anulado ju (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[10:00:36]     [CONTRATO] nenhuma opcao retornada
+[10:00:36]     ignorado: Erro: Falha Contrato
+[10:00:36] [461/600] Prev 01 CONTR | A Contratar | BR-448/RS (PREV/FUTURA CONTRATAÇÃO)
+[10:00:50]     [UNIDADE] nenhuma opcao retornada
+[10:00:50]     ignorado: Erro: Falha Unidade
+[10:00:50] [462/600] Prev 01 CONTR | A Contratar | BR-472 - 510,5 à 517,1 | A Contratar | Construção Oae (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:01:09]     [CONTRATO] nenhuma opcao retornada
+[10:01:09]     ignorado: Erro: Falha Contrato
+[10:01:09] [463/600] PREV 01 CONTR| A Contratar | BR-116 - 300,54 – 397,20  | A Contratar | Supervisão (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:01:27]     [CONTRATO] nenhuma opcao retornada
+[10:01:27]     ignorado: Erro: Falha Contrato
+[10:01:27] [464/600] Prev 01 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | A Contratar | Supervisão Lote 1 (N/A)
+[10:01:42]     [UNIDADE] nenhuma opcao retornada
+[10:01:42]     ignorado: Erro: Falha Unidade
+[10:01:42] [465/600] Prev 01 Desapropriações | Diversos | BR-153 - 0 à 1,7 | A Lavrar | Adequação (N/A)
+[10:01:56]     [UNIDADE] nenhuma opcao retornada
+[10:01:56]     ignorado: Erro: Falha Unidade
+[10:01:56] [466/600] Prev 01 Desapropriações | Diversos | BR-158 - 0 à 10,3 | A Lavrar | Adequação (N/A)
+[10:02:11]     [UNIDADE] nenhuma opcao retornada
+[10:02:11]     ignorado: Erro: Falha Unidade
+[10:02:11] [467/600] Prev 01 Desapropriações | Diversos | BR-242 - 11,9 à 185,4 | A Lavrar | Adequação (N/A)
+[10:02:25]     [UNIDADE] nenhuma opcao retornada
+[10:02:25]     ignorado: Erro: Falha Unidade
+[10:02:25] [468/600] Prev 01 Desapropriações | Dnit | 230 - 11,4 à 13,38 | A Lavrar | Desapropriações (N/A)
+[10:02:40]     [UNIDADE] nenhuma opcao retornada
+[10:02:40]     ignorado: Erro: Falha Unidade
+[10:02:40] [469/600] Prev 01 Reconhecimento de Dívida | Arteleste Construtora | BR-364 - 938,9 à 942,76 | A Lavrar | Adeq (N/A)
+[10:02:54]     [UNIDADE] nenhuma opcao retornada
+[10:02:54]     ignorado: Erro: Falha Unidade
+[10:02:54] [470/600] Prev 01 Reconhecimento de Dívida | Construtora Agrienge Ltda - 00 00979/2014 | BR-163 - 537 à 674,56 (N/A)
+[10:03:09]     [UNIDADE] nenhuma opcao retornada
+[10:03:09]     ignorado: Erro: Falha Unidade
+[10:03:09] [471/600] Prev 01 Reconhecimento de Dívida | Ste Serviços Técnicos De Engenharia S.A | BR-116 - 236 à 251,8 | (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:03:27]     [CONTRATO] nenhuma opcao retornada
+[10:03:28]     ignorado: Erro: Falha Contrato
+[10:03:28] [472/600] Prev 02 Condicionantes Ambientais - Ação 161U - PA (N/A)
+[10:03:42]     [UNIDADE] nenhuma opcao retornada
+[10:03:42]     ignorado: Erro: Falha Unidade
+[10:03:42] [473/600] Prev 02 CONTR  | A Contratar | BR-116 - 0 à 9,2 | A Contratar | Gestão Ambiental (N/A)
+[10:03:56]     [UNIDADE] nenhuma opcao retornada
+[10:03:57]     ignorado: Erro: Falha Unidade
+[10:03:57] [474/600] Prev 02 CONTR  | A Contratar | BR-290 - 172,1 à 228 | A Contratar | Supervisão Lote 2 (N/A)
+[10:04:11]     [UNIDADE] nenhuma opcao retornada
+[10:04:11]     ignorado: Erro: Falha Unidade
+[10:04:11] [475/600] Prev 02 CONTR - 090152/2024-03 | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental (N/A)
+[10:04:25]     [UNIDADE] nenhuma opcao retornada
+[10:04:26]     ignorado: Erro: Falha Unidade
+[10:04:26] [476/600] Prev 02 CONTR - Desapropriação - 13YE (N/A)
+[10:04:40]     [UNIDADE] nenhuma opcao retornada
+[10:04:40]     ignorado: Erro: Falha Unidade
+[10:04:40] [477/600] Prev 02 CONTR - km 13,38 ao km 28,00 - Oitizeiro (N/A)
+[10:04:55]     [UNIDADE] nenhuma opcao retornada
+[10:04:55]     ignorado: Erro: Falha Unidade
+[10:04:55] [478/600] Prev 02 CONTR | A Contratar |  - 0 à 0 | A Contratar | Gestão Ambiental (N/A)
+[10:05:09]     [UNIDADE] nenhuma opcao retornada
+[10:05:09]     ignorado: Erro: Falha Unidade
+[10:05:09] [479/600] Prev 02 CONTR | A Contratar |  - 0 à 0 | Compensação Ambiental | Gerenciamento CI-PBA (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[10:05:28]     [CONTRATO] nenhuma opcao retornada
+[10:05:28]     ignorado: Erro: Falha Contrato
+[10:05:28] [480/600] Prev 02 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Licenças e Autorizações (N/A)
+[10:05:42]     [UNIDADE] nenhuma opcao retornada
+[10:05:42]     ignorado: Erro: Falha Unidade
+[10:05:42] [481/600] Prev 02 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Desapropriações (N/A)
+[10:05:57]     [UNIDADE] nenhuma opcao retornada
+[10:05:57]     ignorado: Erro: Falha Unidade
+[10:05:57] [482/600] Prev 02 CONTR | A Contratar | BR-030 - 191,5 à 280,1 | A Contratar |  Desapropriações (N/A)
+[10:06:11]     [UNIDADE] nenhuma opcao retornada
+[10:06:11]     ignorado: Erro: Falha Unidade
+[10:06:11] [483/600] Prev 02 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Estudos Arqueológicos e Ambient (N/A)
+[10:06:26]     [UNIDADE] nenhuma opcao retornada
+[10:06:26]     ignorado: Erro: Falha Unidade
+[10:06:26] [484/600] Prev 02 CONTR | A Contratar | BR-101 - 0,00 à 51,80 | A Contratar | Adequação (S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE)
+[10:06:44]     [CONTRATO] nenhuma opcao retornada
+[10:06:44]     ignorado: Erro: Falha Contrato
+[10:06:44] [485/600] Prev 02 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Supervisão (N/A)
+[10:06:58]     [UNIDADE] nenhuma opcao retornada
+[10:06:59]     ignorado: Erro: Falha Unidade
+[10:06:59] [486/600] Prev 02 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Supervisão (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:07:17]     [CONTRATO] nenhuma opcao retornada
+[10:07:17]     ignorado: Erro: Falha Contrato
+[10:07:17] [487/600] Prev 02 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar |  Despesas com honorários peri (N/A)
+[10:07:31]     [UNIDADE] nenhuma opcao retornada
+[10:07:31]     ignorado: Erro: Falha Unidade
+[10:07:31] [488/600] Prev 02 CONTR | A Contratar | BR-153 - 0 à 0 | Supervisão | Contorno rodoviário Goiânia (N/A)
+[10:07:46]     [UNIDADE] nenhuma opcao retornada
+[10:07:46]     ignorado: Erro: Falha Unidade
+[10:07:46] [489/600] Prev 02 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Obra dos Acessos (N/A)
+[10:08:00]     [UNIDADE] nenhuma opcao retornada
+[10:08:00]     ignorado: Erro: Falha Unidade
+[10:08:00] [490/600] Prev 02 CONTR | A Contratar | BR-230 - 851,11 à 999,80 | A Contratar | Pavimentação - LOTE 2 (N/A)
+[10:08:15]     [UNIDADE] nenhuma opcao retornada
+[10:08:15]     ignorado: Erro: Falha Unidade
+[10:08:15] [491/600] Prev 02 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Licenças e Autorizações (N/A)
+[10:08:29]     [UNIDADE] nenhuma opcao retornada
+[10:08:29]     ignorado: Erro: Falha Unidade
+[10:08:29] [492/600] Prev 02 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Gestão Ambiental (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:08:48]     [CONTRATO] nenhuma opcao retornada
+[10:08:48]     ignorado: Erro: Falha Contrato
+[10:08:48] [493/600] Prev 02 CONTR | A Contratar | BR-304 - 0 à 0 | A Contratar | Compensação Ambiental (N/A)
+[10:09:02]     [UNIDADE] nenhuma opcao retornada
+[10:09:02]     ignorado: Erro: Falha Unidade
+[10:09:02] [494/600] Prev 02 CONTR | A Contratar | BR-316 - 33,5 à 55,6 | A Contratar | Supervisão (PREV/FUTURA CONTRATAÇÃO)
+[10:09:17]     [UNIDADE] nenhuma opcao retornada
+[10:09:17]     ignorado: Erro: Falha Unidade
+[10:09:17] [495/600] Prev 02 CONTR | A Contratar | BR-319 - 103,5 à 103,51 | A Contratar | Supervisão (N/A)
+[10:09:31]     [UNIDADE] nenhuma opcao retornada
+[10:09:32]     ignorado: Erro: Falha Unidade
+[10:09:32] [496/600] Prev 02 CONTR | A Contratar | BR-324 - 512,5 à 519,7 | A Contratar | Licenças e Autorizações (N/A)
+[10:09:46]     [UNIDADE] nenhuma opcao retornada
+[10:09:46]     ignorado: Erro: Falha Unidade
+[10:09:46] [497/600] Prev 02 CONTR | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Construção de OAE (PREV/FUTURA CONTRATAÇÃO)
+[10:10:01]     [UNIDADE] nenhuma opcao retornada
+[10:10:01]     ignorado: Erro: Falha Unidade
+[10:10:01] [498/600] Prev 02 CONTR | A Contratar | BR-364 | A Contratar | Remanejamento de interferências (N/A)
+[10:10:15]     [UNIDADE] nenhuma opcao retornada
+[10:10:15]     ignorado: Erro: Falha Unidade
+[10:10:15] [499/600] Prev 02 CONTR | A Contratar | BR-365 - 407 à 476,20 | A Contratar | Supervisão (N/A)
+[10:10:30]     [UNIDADE] nenhuma opcao retornada
+[10:10:30]     ignorado: Erro: Falha Unidade
+[10:10:30] [500/600] Prev 02 CONTR | A Contratar | BR-367 - 0 à 46,28 | A Contratar | Pavimentação (N/A)
+[10:10:44]     [UNIDADE] nenhuma opcao retornada
+[10:10:44]     ignorado: Erro: Falha Unidade
+[10:10:44] [501/600] Prev 02 CONTR | A Contratar | BR-401 km 142,00 a km 177,50| A Contratar TED | Pavimentação (N/A)
+[10:10:59]     [UNIDADE] nenhuma opcao retornada
+[10:10:59]     ignorado: Erro: Falha Unidade
+[10:10:59] [502/600] Prev 02 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Supervisão (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[10:11:17]     [CONTRATO] nenhuma opcao retornada
+[10:11:17]     ignorado: Erro: Falha Contrato
+[10:11:17] [503/600] Prev 02 CONTR | A Contratar | BR-472 - 510,0 à 511 | A Contratar | Desapropriação (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:11:35]     [CONTRATO] nenhuma opcao retornada
+[10:11:35]     ignorado: Erro: Falha Contrato
+[10:11:35] [504/600] Prev 02 CONTR | A Contratar | BRs 010, 308 e 316 -  680,1 km  | A Contratar | Gestão Ambiental (N/A)
+[10:11:50]     [UNIDADE] nenhuma opcao retornada
+[10:11:50]     ignorado: Erro: Falha Unidade
+[10:11:50] [505/600] Prev 02 CONTR | A Contratar| BR-364|Travessia Urbana de Pimenta Bueno (S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA)
+[10:12:08]     [CONTRATO] nenhuma opcao retornada
+[10:12:08]     ignorado: Erro: Falha Contrato
+[10:12:08] [506/600] Prev 02 CONTR | BR-153/GO/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbiara/GO e seus Aces (PREV/FUTURA CONTRATAÇÃO)
+[10:12:22]     [UNIDADE] nenhuma opcao retornada
+[10:12:22]     ignorado: Erro: Falha Unidade
+[10:12:22] [507/600] PREV 02 CONTR| A Contratar | BR-116 - 300,54 – 511,00  | A Contratar | Aldeias indígenas (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:12:41]     [CONTRATO] nenhuma opcao retornada
+[10:12:41]     ignorado: Erro: Falha Contrato
+[10:12:41] [508/600] Prev 02 CONTR| A Contratar | BR-116-290 - 0 à 15,3 | A Contratar | Supervisão (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:12:59]     [CONTRATO] nenhuma opcao retornada
+[10:12:59]     ignorado: Erro: Falha Contrato
+[10:12:59] [509/600] Prev 02 Desapropriações | Diversos | BR-419 - 189,3 à 244 | A Lavrar | Adequação (N/A)
+[10:13:13]     [UNIDADE] nenhuma opcao retornada
+[10:13:13]     ignorado: Erro: Falha Unidade
+[10:13:13] [510/600] Prev 02 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-407 (N/A)
+[10:13:28]     [UNIDADE] nenhuma opcao retornada
+[10:13:28]     ignorado: Erro: Falha Unidade
+[10:13:28] [511/600] Prev 03 Condicionantes Ambientais - Ação 161U - PA (N/A)
+[10:13:42]     [UNIDADE] nenhuma opcao retornada
+[10:13:42]     ignorado: Erro: Falha Unidade
+[10:13:42] [512/600] Prev 03 Condicionantes Ambientais | Cprh | BR-423 - 18,2 à 60 | A Lavrar | Adequação (N/A)
+[10:13:57]     [UNIDADE] nenhuma opcao retornada
+[10:13:57]     ignorado: Erro: Falha Unidade
+[10:13:57] [513/600] Prev 03 CONTR - Outros - 13YE (N/A)
+[10:14:11]     [UNIDADE] nenhuma opcao retornada
+[10:14:11]     ignorado: Erro: Falha Unidade
+[10:14:11] [514/600] Prev 03 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida (N/A)
+[10:14:26]     [UNIDADE] nenhuma opcao retornada
+[10:14:26]     ignorado: Erro: Falha Unidade
+[10:14:26] [515/600] Prev 03 CONTR | A Contratar | BR-101 - 0 à 938,6 | A Contratar | Assessoria Técnica (N/A)
+[10:14:40]     [UNIDADE] nenhuma opcao retornada
+[10:14:40]     ignorado: Erro: Falha Unidade
+[10:14:40] [516/600] Prev 03 CONTR | A Contratar | BR-135 - 267 à 344,7 | A Contratar | Pavimentação (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:14:59]     [CONTRATO] nenhuma opcao retornada
+[10:14:59]     ignorado: Erro: Falha Contrato
+[10:14:59] [517/600] Prev 03 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar | Supervisão (N/A)
+[10:15:13]     [UNIDADE] nenhuma opcao retornada
+[10:15:13]     ignorado: Erro: Falha Unidade
+[10:15:13] [518/600] Prev 03 CONTR | A Contratar | BR-280 - 3,00 à 17,40 e 25,40 à 28,20 | A Contratar | Duplicação (S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA)
+[10:15:31]     [CONTRATO] nenhuma opcao retornada
+[10:15:32]     ignorado: Erro: Falha Contrato
+[10:15:32] [519/600] Prev 03 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Desapropriação (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:15:50]     [CONTRATO] nenhuma opcao retornada
+[10:15:50]     ignorado: Erro: Falha Contrato
+[10:15:50] [520/600] PREV 03 CONTR | A Contratar | BR-304 km 48,8 a km 106,40| A Contratar | Supervisão (S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE)
+[10:16:08]     [CONTRATO] nenhuma opcao retornada
+[10:16:08]     ignorado: Erro: Falha Contrato
+[10:16:08] [521/600] Prev 03 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar |Supervisão (N/A)
+[10:16:22]     [UNIDADE] nenhuma opcao retornada
+[10:16:23]     ignorado: Erro: Falha Unidade
+[10:16:23] [522/600] Prev 03 CONTR | A Contratar | BR-319 - 655,70 - 655,7 | A Contratar | Outros | CGMRR (N/A)
+[10:16:37]     [UNIDADE] nenhuma opcao retornada
+[10:16:37]     ignorado: Erro: Falha Unidade
+[10:16:37] [523/600] Prev 03 CONTR | A Contratar | BR-365 - 276,94 à 337,40 | A Contratar | Adequação (N/A)
+[10:16:51]     [UNIDADE] nenhuma opcao retornada
+[10:16:52]     ignorado: Erro: Falha Unidade
+[10:16:52] [524/600] Prev 03 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Gestão Ambiental (N/A)
+[10:17:06]     [UNIDADE] nenhuma opcao retornada
+[10:17:06]     ignorado: Erro: Falha Unidade
+[10:17:06] [525/600] Prev 03 CONTR | A Contratar | BR-401 km 107 a km 177,50| A Contratar | Supervisão (N/A)
+[10:17:20]     [UNIDADE] nenhuma opcao retornada
+[10:17:21]     ignorado: Erro: Falha Unidade
+[10:17:21] [526/600] PREV 03 CONTR| A Contratar | BR-116 - 300,54 à 351,34 | A Contratar | Duplicação Lote 1 e 2 Remanesc (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:17:39]     [CONTRATO] nenhuma opcao retornada
+[10:17:39]     ignorado: Erro: Falha Contrato
+[10:17:39] [527/600] Prev 03 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Desapropriação (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:17:57]     [CONTRATO] nenhuma opcao retornada
+[10:17:57]     ignorado: Erro: Falha Contrato
+[10:17:57] [528/600] Prev 03 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | Desapropriação (0)
+[10:18:12]     [UNIDADE] nenhuma opcao retornada
+[10:18:12]     ignorado: Erro: Falha Unidade
+[10:18:12] [529/600] Prev 03 CONTR| A Contratar |BR-101 - 168,60 à 189,00 | Adequação (5.2) (PREV/FUTURA CONTRATAÇÃO)
+[10:18:26]     [UNIDADE] nenhuma opcao retornada
+[10:18:26]     ignorado: Erro: Falha Unidade
+[10:18:26] [530/600] Prev 03 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-423 (N/A)
+[10:18:41]     [UNIDADE] nenhuma opcao retornada
+[10:18:41]     ignorado: Erro: Falha Unidade
+[10:18:41] [531/600] Prev 03 Reconhecimento de Dívida | Vereda Engenharia Ltda | Br-429/R medição final - 0 à 0 | A Lavra (N/A)
+[10:18:55]     [UNIDADE] nenhuma opcao retornada
+[10:18:55]     ignorado: Erro: Falha Unidade
+[10:18:55] [532/600] Prev 04 CONTR - 090075/2025-02 | A Contratar | BR-163 - 676,3 à 788,98 | A Contratar Supervisão (pro (N/A)
+[10:19:10]     [UNIDADE] nenhuma opcao retornada
+[10:19:10]     ignorado: Erro: Falha Unidade
+[10:19:10] [533/600] Prev 04 CONTR - Licenciamento Ambiental - km 0,00 ao km 190,10 (N/A)
+[10:19:24]     [UNIDADE] nenhuma opcao retornada
+[10:19:24]     ignorado: Erro: Falha Unidade
+[10:19:24] [534/600] Prev 04 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida (N/A)
+[10:19:39]     [UNIDADE] nenhuma opcao retornada
+[10:19:39]     ignorado: Erro: Falha Unidade
+[10:19:39] [535/600] Prev 04 CONTR | A Contratar | BR-116 - 0,00 à 387,41  | A Contratar | Despesas com honorários perici (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:19:57]     [CONTRATO] nenhuma opcao retornada
+[10:19:57]     ignorado: Erro: Falha Contrato
+[10:19:57] [536/600] Prev 04 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Supervisão (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:20:15]     [CONTRATO] nenhuma opcao retornada
+[10:20:15]     ignorado: Erro: Falha Contrato
+[10:20:15] [537/600] Prev 04 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar (N/A)
+[10:20:30]     [UNIDADE] nenhuma opcao retornada
+[10:20:30]     ignorado: Erro: Falha Unidade
+[10:20:30] [538/600] Prev 04 CONTR | A Contratar | BR-365 - 407,80 à 476,20 | A Contratar | Duplicação (N/A)
+[10:20:44]     [UNIDADE] nenhuma opcao retornada
+[10:20:44]     ignorado: Erro: Falha Unidade
+[10:20:44] [539/600] Prev 04 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Desapropriações (N/A)
+[10:20:59]     [UNIDADE] nenhuma opcao retornada
+[10:20:59]     ignorado: Erro: Falha Unidade
+[10:20:59] [540/600] PREV 04 CONTR| A Contratar | BR-116 - 351,34 – 397,2  | A Contratar | Duplicação Lote 3 e 4 Remanesc (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:21:17]     [CONTRATO] nenhuma opcao retornada
+[10:21:17]     ignorado: Erro: Falha Contrato
+[10:21:17] [541/600] Prev 04 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Gestão Ambiental (S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL)
+[10:21:36]     [CONTRATO] nenhuma opcao retornada
+[10:21:36]     ignorado: Erro: Falha Contrato
+[10:21:36] [542/600] Prev 04 Reconhecimento de Dívida | Direção Consultoria E Engenharia Ltda | BR-429 - 0 à 0 | A Lavrar (N/A)
+[10:21:50]     [UNIDADE] nenhuma opcao retornada
+[10:21:50]     ignorado: Erro: Falha Unidade
+[10:21:50] [543/600] Prev 05 CONTR - Compensação Ambiental - km 0,00 ao km 190,10 (N/A)
+[10:22:05]     [UNIDADE] nenhuma opcao retornada
+[10:22:05]     ignorado: Erro: Falha Unidade
+[10:22:05] [544/600] Prev 05 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida (N/A)
+[10:22:19]     [UNIDADE] nenhuma opcao retornada
+[10:22:19]     ignorado: Erro: Falha Unidade
+[10:22:19] [545/600] Prev 05 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Desapropriações (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:22:38]     [CONTRATO] nenhuma opcao retornada
+[10:22:38]     ignorado: Erro: Falha Contrato
+[10:22:38] [546/600] Prev 05 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Pavimentação (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:22:56]     [CONTRATO] nenhuma opcao retornada
+[10:22:56]     ignorado: Erro: Falha Contrato
+[10:22:56] [547/600] Prev 05 CONTR | A Contratar | BR-163 - 676,3 à 788,98 | Pavimentação (remanescente do 00 00035/2013) (N/A)
+[10:23:10]     [UNIDADE] nenhuma opcao retornada
+[10:23:10]     ignorado: Erro: Falha Unidade
+[10:23:10] [548/600] Prev 05 CONTR | A Contratar | BR-230 - 851,11 à 899,80 | A Contratar | Supervisão - LOTE 2 (N/A)
+[10:23:25]     [UNIDADE] nenhuma opcao retornada
+[10:23:25]     ignorado: Erro: Falha Unidade
+[10:23:25] [549/600] Prev 05 CONTR | A Contratar | BR-304 - 296,80 à 308 | A Contratar | Adequação (0)
+[10:23:39]     [UNIDADE] nenhuma opcao retornada
+[10:23:39]     ignorado: Erro: Falha Unidade
+[10:23:39] [550/600] Prev 05 CONTR | A Contratar | BR-365 - 277,40 à 476,20 | A Contratar | Desapropriação (N/A)
+[10:23:54]     [UNIDADE] nenhuma opcao retornada
+[10:23:54]     ignorado: Erro: Falha Unidade
+[10:23:54] [551/600] Prev 05 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | OAE (N/A)
+[10:24:08]     [UNIDADE] nenhuma opcao retornada
+[10:24:08]     ignorado: Erro: Falha Unidade
+[10:24:08] [552/600] Prev 05 Desapropriações | Justiça Federal | BR-381 - 458 à 459 | A Lavrar | Adequação (N/A)
+[10:24:23]     [UNIDADE] nenhuma opcao retornada
+[10:24:23]     ignorado: Erro: Falha Unidade
+[10:24:23] [553/600] Prev 06 Condicionantes Ambientais | Semad/Mg | BR-381 - 150 à 453 | A Lavrar | Adequação (N/A)
+[10:24:37]     [UNIDADE] nenhuma opcao retornada
+[10:24:37]     ignorado: Erro: Falha Unidade
+[10:24:37] [554/600] Prev 06 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Licenças e Autorizações (S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA)
+[10:24:56]     [CONTRATO] nenhuma opcao retornada
+[10:24:56]     ignorado: Erro: Falha Contrato
+[10:24:56] [555/600] Prev 06 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar | Desapropriação (N/A)
+[10:25:10]     [UNIDADE] nenhuma opcao retornada
+[10:25:10]     ignorado: Erro: Falha Unidade
+[10:25:10] [556/600] Prev 06 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Pavimentação - LOTE 1 (N/A)
+[10:25:25]     [UNIDADE] nenhuma opcao retornada
+[10:25:25]     ignorado: Erro: Falha Unidade
+[10:25:25] [557/600] Prev 06 CONTR | A Contratar | BR-365 - 405,60 à 476,20 | A Contratar | Gestão ambiental (N/A)
+[10:25:39]     [UNIDADE] nenhuma opcao retornada
+[10:25:39]     ignorado: Erro: Falha Unidade
+[10:25:39] [558/600] Prev 06 CONTR | Reconhecimento de Dívida| Geosolos Consultoria Projetos E Serviços Ltda. | BR-101 - (N/A)
+[10:25:54]     [UNIDADE] nenhuma opcao retornada
+[10:25:54]     ignorado: Erro: Falha Unidade
+[10:25:54] [559/600] Prev 06 TCO/TED - Gestão Ambiental - km 143,00 ao km 169,00 (N/A)
+[10:26:08]     [UNIDADE] nenhuma opcao retornada
+[10:26:08]     ignorado: Erro: Falha Unidade
+[10:26:08] [560/600] Prev 07 CONTR - 090152/2024-03 | Compensação Ambiental - Veículos PBAI (N/A)
+[10:26:23]     [UNIDADE] nenhuma opcao retornada
+[10:26:23]     ignorado: Erro: Falha Unidade
+[10:26:23] [561/600] Prev 07 CONTR | A contratar | BR-101 - 0 à 165,4 | A Lavrar |Desapropriações (N/A)
+[10:26:37]     [UNIDADE] nenhuma opcao retornada
+[10:26:37]     ignorado: Erro: Falha Unidade
+[10:26:37] [562/600] Prev 07 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida (N/A)
+[10:26:52]     [UNIDADE] nenhuma opcao retornada
+[10:26:52]     ignorado: Erro: Falha Unidade
+[10:26:52] [563/600] Prev 07 CONTR | A Contratar | BR-365 - 337,40 à 407,8 | A Contratar | Adequação (N/A)
+[10:27:06]     [UNIDADE] nenhuma opcao retornada
+[10:27:06]     ignorado: Erro: Falha Unidade
+[10:27:06] [564/600] Prev 07 CONTR | A Contratar | BR-381 - 288,4 à 317 | A Contratar | Supervisão (N/A)
+[10:27:21]     [UNIDADE] nenhuma opcao retornada
+[10:27:21]     ignorado: Erro: Falha Unidade
+[10:27:21] [565/600] Prev 07 TCO/TED - Compensação Ambiental - km 133,10 ao km 268,20 (N/A)
+[10:27:35]     [UNIDADE] nenhuma opcao retornada
+[10:27:35]     ignorado: Erro: Falha Unidade
+[10:27:35] [566/600] Prev 08 CONTR | A Contratar | BR-101 - 83,6 à 165,4 | A Contratar | Duplicação (N/A)
+[10:27:50]     [UNIDADE] nenhuma opcao retornada
+[10:27:50]     ignorado: Erro: Falha Unidade
+[10:27:50] [567/600] Prev 08 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Supervisão - LOTE 1 (N/A)
+[10:28:04]     [UNIDADE] nenhuma opcao retornada
+[10:28:04]     ignorado: Erro: Falha Unidade
+[10:28:04] [568/600] Prev 08 Reconhecimento de Dívida | Strata Engenharia Ltda | BR-381 - 389,5 à 427 | A Lavrar | Adequa (N/A)
+[10:28:19]     [UNIDADE] nenhuma opcao retornada
+[10:28:19]     ignorado: Erro: Falha Unidade
+[10:28:19] [569/600] Prev 12 CONTRATO ADM. - 090203/2024-00 (Ata de Registro de Preços nº 26/2024) (N/A)
+[10:28:33]     [UNIDADE] nenhuma opcao retornada
+[10:28:33]     ignorado: Erro: Falha Unidade
+[10:28:33] [570/600] PREV 1| A Contratar |Eliminação de pontos críticos (Passarelas) - km 61 à 65| BR-104/PE | Adequação (N/A)
+[10:28:48]     [UNIDADE] nenhuma opcao retornada
+[10:28:48]     ignorado: Erro: Falha Unidade
+[10:28:48] [571/600] PREV 2 TC | A Contratar |Implantação da Variante do acesso sul de Toritama| BR-104/PE | Adequação (N/A)
+[10:29:02]     [UNIDADE] nenhuma opcao retornada
+[10:29:02]     ignorado: Erro: Falha Unidade
+[10:29:02] [572/600] PREV 3| A Contratar |Vias locais de Toritama - km 27,70 à 30,60| BR-104/PE | Adequação (N/A)
+[10:29:17]     [UNIDADE] nenhuma opcao retornada
+[10:29:17]     ignorado: Erro: Falha Unidade
+[10:29:17] [573/600] PREV a definir - MG - Ação 1304 (N/A)
+[10:29:31]     [UNIDADE] nenhuma opcao retornada
+[10:29:31]     ignorado: Erro: Falha Unidade
+[10:29:31] [574/600] PREV a definir - MG - Ação 13XJ (N/A)
+[10:29:46]     [UNIDADE] nenhuma opcao retornada
+[10:29:46]     ignorado: Erro: Falha Unidade
+[10:29:46] [575/600] PREV a definir - MG - Ação 7G16 (N/A)
+[10:30:00]     [UNIDADE] nenhuma opcao retornada
+[10:30:00]     ignorado: Erro: Falha Unidade
+[10:30:00] [576/600] PREV a definir - MG - Ação 7S59 (N/A)
+[10:30:15]     [UNIDADE] nenhuma opcao retornada
+[10:30:15]     ignorado: Erro: Falha Unidade
+[10:30:15] [577/600] Prev a definir - OAE's do Lote B (não está na NPO ainda) (N/A)
+[10:30:29]     [UNIDADE] nenhuma opcao retornada
+[10:30:29]     ignorado: Erro: Falha Unidade
+[10:30:29] [578/600] PREV a definir - PR - Ação 163I (N/A)
+[10:30:44]     [UNIDADE] nenhuma opcao retornada
+[10:30:44]     ignorado: Erro: Falha Unidade
+[10:30:44] [579/600] PREV a definir - PR - Ação 7U22 (N/A)
+[10:30:58]     [UNIDADE] nenhuma opcao retornada
+[10:30:58]     ignorado: Erro: Falha Unidade
+[10:30:58] [580/600] PREV a definir - RO - Ação 14LY (N/A)
+[10:31:13]     [UNIDADE] nenhuma opcao retornada
+[10:31:13]     ignorado: Erro: Falha Unidade
+[10:31:13] [581/600] PREV a definir - RO - Ação 7X64 (N/A)
+[10:31:27]     [UNIDADE] nenhuma opcao retornada
+[10:31:28]     ignorado: Erro: Falha Unidade
+[10:31:28] [582/600] PREV a definir - RO - Ação 7XS4 (N/A)
+[10:31:42]     [UNIDADE] nenhuma opcao retornada
+[10:31:42]     ignorado: Erro: Falha Unidade
+[10:31:42] [583/600] PREV a definir | 161V | ADEQUACAO DE TRECHO RODOVIARIO - ENTR. BR-155 (P/REDENCAO) - DIV. PA/MT - NA (N/A)
+[10:31:56]     [UNIDADE] nenhuma opcao retornada
+[10:31:56]     ignorado: Erro: Falha Unidade
+[10:31:56] [584/600] Prev a definir | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Desapropriação (N/A)
+[10:32:11]     [UNIDADE] nenhuma opcao retornada
+[10:32:11]     ignorado: Erro: Falha Unidade
+[10:32:11] [585/600] PREV a definir |165L | ADEQUACAO DO COMPLEXO RODOVIARIO DO PERIMETRO URBANO DE MARABA - PA NAS BR-23 (N/A)
+[10:32:25]     [UNIDADE] nenhuma opcao retornada
+[10:32:25]     ignorado: Erro: Falha Unidade
+[10:32:25] [586/600] PREV a definir |165L | BR-222/PA - DUPLICAÇÃO ENTRE MARABÁ E DOM ELISEU (ainda não está na NPO) (N/A)
+[10:32:40]     [UNIDADE] nenhuma opcao retornada
+[10:32:40]     ignorado: Erro: Falha Unidade
+[10:32:40] [587/600] PREV ACT (Não consta no NPO)| A Contratar |Duplicação da BR-232 - São Caetano a Belo Jardim  BR-232/ (N/A)
+[10:32:54]     [UNIDADE] nenhuma opcao retornada
+[10:32:54]     ignorado: Erro: Falha Unidade
+[10:32:54] [588/600] PREV Anel BH (N/A)
+[10:33:09]     [UNIDADE] nenhuma opcao retornada
+[10:33:09]     ignorado: Erro: Falha Unidade
+[10:33:09] [589/600] Prev contorno de patos (ainda não está na NPO) (N/A)
+[10:33:23]     [UNIDADE] nenhuma opcao retornada
+[10:33:23]     ignorado: Erro: Falha Unidade
+[10:33:23] [590/600] Prev CONTR (Não está na NPO) - OAEs do Lote A da BR-242  - km 486,32 ao km 575,23 (S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO)
+[10:33:42]     [CONTRATO] nenhuma opcao retornada
+[10:33:42]     ignorado: Erro: Falha Contrato
+[10:33:42] [591/600] Prev CONTR | A Contratar | BR-316 - 263,5 à 276,1  | A Contratar | Obra 1B (SEDE)
+[10:33:59]     [CONTRATO] nenhuma opcao retornada
+[10:34:00]     ignorado: Erro: Falha Contrato
+[10:34:00] [592/600] Prev CONTR | A Contratar | BR-432 -BR-432| A Contratar | Construção 16 OAEs (S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA)
+[10:34:18]     [CONTRATO] nenhuma opcao retornada
+[10:34:18]     ignorado: Erro: Falha Contrato
+[10:34:18] [593/600] PREV CONTR| A Contratar | BR-290 - 112,3 – 142 | A Contratar | Duplicação Lote 1 Remanescente (N/A)
+[10:34:32]     [UNIDADE] nenhuma opcao retornada
+[10:34:32]     ignorado: Erro: Falha Unidade
+[10:34:32] [594/600] PREV viaduto do gancho (ainda não está na NPO) (N/A)
+[10:34:47]     [UNIDADE] nenhuma opcao retornada
+[10:34:47]     ignorado: Erro: Falha Unidade
+[10:34:47] [595/600] PREV | A Contratar | Duplicação de trecho rodoviário - Entrocamento BR-232 ( Lajedo - Garanhuns) 47, (N/A)
+[10:35:01]     [UNIDADE] nenhuma opcao retornada
+[10:35:01]     ignorado: Erro: Falha Unidade
+[10:35:01] [596/600] PREV | Construção | A Contratar | BR-235 (PEDRO AFONSO - ENTR BR-153) |Construção (S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS)
+[10:35:19]     [CONTRATO] nenhuma opcao retornada
+[10:35:19]     ignorado: Erro: Falha Contrato
+[10:35:19] [597/600] PREV(não está na NPO) - BR-230/PB - Construção do Arco Metropolitano de João Pessoa (N/A)
+[10:35:34]     [UNIDADE] nenhuma opcao retornada
+[10:35:34]     ignorado: Erro: Falha Unidade
+[10:35:34] [598/600] Reconhecimento de dívida (ainda não está na NPO) (N/A)
+[10:35:48]     [UNIDADE] nenhuma opcao retornada
+[10:35:48]     ignorado: Erro: Falha Unidade
+[10:35:48] [599/600] Remanescente Contorno Três Lagoas (PREV/FUTURA CONTRATAÇÃO)
+[10:36:03]     [UNIDADE] nenhuma opcao retornada
+[10:36:03]     ignorado: Erro: Falha Unidade
+[10:36:03] ══════════════════════════════════════
+[10:36:03] [fim] 14381 medicoes inseridas, 299 ignorados, 8159s total

@@ -1,0 +1,5 @@
+{
+    "status": "erro",
+    "etapa": "login",
+    "erro": "Login falhou após 5 tentativas.\nURL final: \nDebug em: C:\\xampp\\htdocs\\sispro_dnit_proj\\app\\public\/importar_siac_jobs\/siac_20261104_114924_47ae2d\/saida\/debug\nVerifique login_falhou_final.png"
+}

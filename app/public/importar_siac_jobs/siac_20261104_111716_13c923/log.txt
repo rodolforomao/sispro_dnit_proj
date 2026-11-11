@@ -1,0 +1,27 @@
+[2026-11-04 11:17:16] INICIANDO JOB siac_20261104_111716_13c923
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_111716_13c923/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_111716_13c923/saida" --job="siac_20261104_111716_13c923" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-04 11:17:16] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[spawn] job siac_20261104_111716_13c923 iniciado, 1 contratos
+[driver] iniciando msedgedriver porta 4531
+[driver] pronto
+[login] autenticando no SIAC...
+[login] tentativa 1
+[login] clicou em Entrar, aguardando URL mudar...
+[login] URL após login: https://sisdnit.dnit.gov.br/sisdnit/jsp/
+[login] FALHOU — URL continua em /jsp/
+[login] screenshot + HTML salvos em C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_111716_13c923/saida/debug
+[login] retentando...
+[login] tentativa 2
+[login] clicou em Entrar, aguardando URL mudar...
+[login] URL após login: https://sisdnit.dnit.gov.br/sisdnit/jsp/
+[login] FALHOU — URL continua em /jsp/
+[login] screenshot + HTML salvos em C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_111716_13c923/saida/debug
+[login] erro tentativa 2: Login não redirecionou após 2 tentativas. URL final: https://sisdnit.dnit.gov.br/sisdnit/jsp/
+Verifique credenciais ou permissões. Screenshot em C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_111716_13c923/saida/debug/login_falha_2.png

@@ -56,6 +56,8 @@ function converterValor($valor) {
 
 $mapa = [
     'Instrumento'                                                => 'instrumento',
+    'Nome Usual'                                                 => 'nome_usual',                 // ← NOVO
+    'Nome empreendimento GOVERNA'                                => 'nome_empreendimento_governa', // ← NOVO
     'Estado'                                                     => 'estado',
     'BR'                                                         => 'br',
     'Lote'                                                       => 'lote',

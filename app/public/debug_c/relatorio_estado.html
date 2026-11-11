@@ -1,0 +1,1614 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br"><head>
+<title>Gerar Relatório De Histórico De Medições</title>
+			
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Google tag (gtag.js) -->
+	<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-2FZT8BH8LH&amp;cx=c&amp;gtm=4e6b21"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-PXZ4BMTF"></script><script let="" gtag="G-2FZT8BH8LH" ;="" async="" src="https://www.googletagmanager.com/gtag/js?id=" +gtag=""></script>
+	<script>
+		gTag = 'G-2FZT8BH8LH';
+		window.dataLayer = window.dataLayer || [];
+		
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', gTag, {'cookie_flags': 'SameSite=None;Secure'});
+	</script>
+	
+	<!-- Google Tag Manager -->
+	<script>
+		let gTM = 'GTM-PXZ4BMTF';
+		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer', gTM);
+	</script>
+	<!-- End Google Tags -->
+
+	<title>(SIAC) Sistema de Acompanhamento de Contratos</title>
+
+	<link type="text/css" href="../default.css" media="screen" rel="stylesheet">
+	<link type="text/css" href="../default_print.css" media="print" rel="stylesheet">
+	<link type="text/css" href="overwrite.css" media="screen" rel="stylesheet">
+	
+<!-- <link type="text/css" href="../bower_components/select2/select2.css" rel="stylesheet" /> -->
+<link type="text/css" href="../bower_components/select2/new/select2.min.css" rel="stylesheet">
+
+	<script type="text/javascript">
+		var objBean = new Object();
+		objBean.idUsuario = "11462";
+		objBean.idUnidadeResponsavel = "16";
+		objBean.descUnidadeResponsavel = "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO  RODOVIÁRIA";
+
+		objBean.idUnidadeUsuario = "16";
+		
+		objBean.idLogado = '11462';
+		objBean.idUnidade = '16';
+		objBean.idUnidadePai = '5';
+		objBean.idTipoUnidade = "1";
+		objBean.idSubtipoUnidade = "2";
+		
+		objBean.contemPerfilAdministradorAF = 'false';
+		
+	</script>	
+	
+	<style type="text/css">
+		table th {width: 15%;}
+		
+		input {padding: 5px;}
+		
+		/* Estilo para tornar os itens da lista com font-weight normal */
+		.select2-results__option {
+			font-weight: normal;}
+		
+		.select2-results__option--highlighted {
+		    background-color: #3875d7;
+		    color: #fff;}
+	</style>
+
+		<script type="text/javascript" language="Javascript1.1"> 
+
+<!-- Begin 
+
+    var bCancel = false; 
+
+    function validateRelatorioHistoricoMedicoesForm(form) { 
+        if (bCancel) { 
+            return true; 
+        } else { 
+            var formValidationResult; 
+            formValidationResult = validarObrigatorio(form); 
+            return (formValidationResult == 1); 
+        } 
+    } 
+
+    function RelatorioHistoricoMedicoesForm_validarObrigatorio () { 
+     this.a0 = new Array("idFiscalizacaoUnidadeResponsavel", "MS2 - O campo 'UNIDADE RESPONSÁVEL PELA FISCALIZAÇÃO DO CONTRATO' é de preenchimento obrigatório.", new Function ("varName", "this.tipoAcao='gerar';  return this[varName];"));
+     this.a1 = new Array("codContrato", "MS2 - O campo 'NÚMERO DO CONTRATO' é de preenchimento obrigatório.", new Function ("varName", "this.tipoAcao='gerar';  return this[varName];"));
+    } 
+
+
+
+
+    /*$RCSfile: ValidadorObrigatorio.js,v $ $Rev: 376673 $ $Date: 2013/10/04 12:56:19 $ */
+    /**
+    *  Check to see if fields must contain a value.
+    * Fields are not checked if they are disabled.
+    * <p>
+    * @param form The form validation is taking place on.
+    */
+
+    function validarObrigatorio(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+		var estaPreenchido;
+        var oRequired = eval('new ' + jcv_retrieveFormName(form) +  '_validarObrigatorio()');
+		
+        for (var x in oRequired) {
+
+			//for(var i = 0; i < form.elements.length; i++) {
+			//	if(form.elements[i].name == oRequired[x][0]) {
+					field = form[oRequired[x][0]];
+					if (typeof field == "undefined" || ( 
+						typeof oRequired[x][2]("tipoAcao") != "undefined" &&
+						!confereTipoAcao(field.length ? field[0] : field, oRequired[x][2]("tipoAcao")))
+						) {
+						// se para o tipoAcao que foi atribuído no formulário a regra de validação 
+						// não se aplica para o campo em questão simplesmente pula para o próximo campo
+						continue;
+					}
+						
+	                // get field's value
+					var value = '';
+	                if (!jcv_isFieldPresent(field)) {
+		                fields[i++] = oRequired[x][1];
+		                isValid=false;
+		            } else if ((field.type == 'hidden' ||
+		                field.type == 'text' ||
+		                field.type == 'textarea' ||
+		                field.type == 'file' ||
+		                field.type == 'radio' ||
+		                field.type == 'checkbox' ||
+		                field.type == 'select-one' ||
+		                field.type == 'password')) {
+		
+		                if (field.type == "select-one") {
+		                    var si = field.selectedIndex;
+		                    if (si >= 0) {
+		                        value = field.options[si].value;
+		                    }
+		                } else if (field.type == 'radio' || field.type == 'checkbox') {
+		                    if (field.checked) {
+		                        value = field.value;
+		                    }
+		                } else {
+		                    value = field.value;
+		                }
+		
+		                if (trim(value).length == 0) {
+		
+		                    if ((i == 0) && (field.type != 'hidden')) {
+		                        focusField = field;
+		                    }
+		                    fields[i++] = oRequired[x][1];
+		                    isValid = false;
+		                }
+		            } else if (field.type == "select-multiple") { 
+		                var numOptions = field.options.length;
+		                lastSelected=-1;
+		                for(var loop=numOptions-1;loop>=0;(loop-=1)) {
+		                    if(field.options[loop].selected) {
+		                        lastSelected = loop;
+		                        value = field.options[loop].value;
+		                        break;
+		                    }
+		                }
+		                if(lastSelected < 0 || trim(value).length == 0) {
+		                    if(i == 0) {
+		                        focusField = field;
+		                    }
+		                    fields[i++] = oRequired[x][1];
+		                    isValid=false;
+		                }
+		            } else if ((field.length && field.length > 0) && (field[0].type == 'radio' || field[0].type == 'checkbox')) {
+		                isChecked=-1;
+		                for (loop=0;loop < field.length;loop++) {
+		                    if (field[loop].checked) {
+		                        isChecked=loop;
+		                        break; // only one needs to be checked
+		                    }
+		                }
+		                if (isChecked < 0) {
+		                    if (i == 0) {
+		                        focusField = field[0];
+		                    }
+		                    fields[i++] = oRequired[x][1];
+		                    isValid=false;
+		                }
+		            } else if(field.length && field.length > 0) {
+						// se for um array (ou seja, existe diversos campos text por exemplo, com o mesmo
+						// no formulario) somente passará na condição de obrigatoriedade caso todos 
+						// os seus "membros" tenham sido preenchidos
+						estaPreenchido = true;
+						for (loop=0;loop < field.length;loop++) {
+		                    if (trim(field[loop].value).length == 0) {
+		                        estaPreenchido=false;
+		                        break; // only one needs to be checked
+		                    }
+		                }
+		                if (!estaPreenchido) {
+		                    if (i == 0) {
+		                        focusField = field[0];
+		                    }
+		                    fields[i++] = oRequired[x][1];
+		                    isValid=false;
+		                }
+					}
+				//}
+			//}
+        }
+        if (fields.length > 0) {
+           registraMensagensErroValidacao(fields, focusField);
+        }
+        return isValid;
+    }
+    
+    // Trim whitespace from left and right sides of s.
+    function trim(s) {
+        return s.replace( /^\s*/, "" ).replace( /\s*$/, "" );
+    }
+
+function validarData(form) {
+	return executarSimplesValidacao(form, "validarData", confereData);
+}
+
+function confereData(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || valData(campo);
+}
+
+function validarPeloMenosUmObrigatorio(form) {
+	return executarSimplesValidacao(form, "validarPeloMenosUmObrigatorio", conferePeloMenosUmObrigatorio, "listaCampos");
+}
+    
+function conferePeloMenosUmObrigatorio(campo, listaCampos) {
+	var value = getValorDoCampoForm(campo);
+	var form = campo.form;
+	arrIdCampos = listaCampos.split(",");
+	for( var i=0; i<arrIdCampos.length; i++ ) {
+		if( typeof form[trim(arrIdCampos[i])] == "undefined" ) {
+			alert( "O campo "+trim(arrIdCampos[i])+" não existe no formulário! Verifique se os campos envolvidos na validação \"pelo menos um obrigatório\" realmente existem no formulário!" );
+			return false;
+		}
+		
+		campo = form[trim(arrIdCampos[i])];
+		if (campo.type == 'hidden' ||
+            campo.type == 'text' ||
+            campo.type == 'textarea' ||
+            campo.type == 'file' ||
+            campo.type == 'password') {
+	    	if (campo.value != 0 && trim(campo.value) !=""){
+				return true;
+			}				
+		} else if (	
+			campo.type == 'radio' ||
+            campo.type == 'checkbox' ) {
+			if (campo.checked) {
+				return true;
+			}
+		} else if (campo.type == 'select-one') {
+	    	if (campo.options[campo.selectedIndex].value != 0 && trim(campo.options[campo.selectedIndex].value) != ""){
+				return true;
+			}				
+		} else if (campo.type == 'select-multiple') {
+			for(var t = 0; t < campo.options.length; t++) {
+				if(campo.options[t].selected) {
+					return true;
+				}
+			}
+		} else if(campo.length) {
+			// se existir o atributo campo.length é sinal de que o campo é um nodeList 
+			// se for um nodeList o tratamento é diferente, pois existe a necessidade de 
+			// dar atenção a cada um dos elementos desse nodeList (esse é o caso de checkbox e radio buttons
+			// com mais de uma opção)
+//			listaNode = form[campo.name];
+			listaNode = campo;
+			if(	listaNode[0].type == 'radio' ||
+            	listaNode[0].type == 'checkbox' ) {
+				var key = null;
+				for(key in listaNode) {
+					if(listaNode[key].checked) {
+						return true;
+					}
+				}
+			} 
+		} 
+	}
+	return (value != 0 && value != "");
+}
+
+function validarCnpj(form) {
+	return executarSimplesValidacao(form, "validarCnpj", confereCnpj);
+}
+
+function confereCnpj(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isValid(valor);
+}
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateFloat.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    * Check to see if fields are a valid float.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateFloat(form) {
+        var bValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+ 
+        var oFloat = eval('new ' + jcv_retrieveFormName(form) +  '_FloatValidations()');
+        for (var x in oFloat) {
+            if (!jcv_verifyArrayElement(x, oFloat[x])) {
+                continue;
+            }
+        	var field = form[oFloat[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+        	
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'textarea' ||
+                field.type == 'select-one' ||
+                field.type == 'radio')) {
+        
+            	var value = '';
+                // get field's value
+                if (field.type == "select-one") {
+                    var si = field.selectedIndex;
+                    if (si >= 0) {
+                        value = field.options[si].value;
+                    }
+                } else {
+                    value = field.value;
+                }
+        
+                if (value.length > 0) {
+                    // remove '.' before checking digits
+                    var tempArray = value.split('.');
+                    //Strip off leading '0'
+                    var zeroIndex = 0;
+                    var joinedString= tempArray.join('');
+                    while (joinedString.charAt(zeroIndex) == '0') {
+                        zeroIndex++;
+                    }
+                    var noZeroString = joinedString.substring(zeroIndex,joinedString.length);
+
+                    if (!jcv_isAllDigits(noZeroString) || tempArray.length > 2) {
+                        bValid = false;
+                        if (i == 0) {
+                            focusField = field;
+                        }
+                        fields[i++] = oFloat[x][1];
+
+                    } else {
+	                var iValue = parseFloat(value);
+	                if (isNaN(iValue)) {
+	                    if (i == 0) {
+	                        focusField = field;
+	                    }
+	                    fields[i++] = oFloat[x][1];
+	                    bValid = false;
+	                }
+                    }
+                }
+            }
+        }
+        if (fields.length > 0) {
+           jcv_handleErrors(fields, focusField);
+        }
+        return bValid;
+    }
+
+function validarSenha(form) {
+	return executarSimplesValidacao(form, "validarSenha", confereSenha);
+}
+
+function confereSenha(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isSenha(valor);
+}
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+  /*$RCSfile: validateUtilities.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+  /**
+  * This is a place holder for common utilities used across the javascript validation
+  *
+  **/
+
+  /**
+   * Retreive the name of the form
+   * @param form The form validation is taking place on.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_retrieveFormName(form) {
+
+      // Please refer to Bugs 31534, 35127, 35294, 37315 & 38159
+      // for the history of the following code
+
+      var formName;
+
+      if (form.getAttributeNode) {
+          if (form.getAttributeNode("id") && form.getAttributeNode("id").value) {
+              formName = form.getAttributeNode("id").value;
+          } else {
+              formName = form.getAttributeNode("name").value;
+          }
+      } else if (form.getAttribute) {
+          if (form.getAttribute("id")) {
+              formName = form.getAttribute("id");
+          } else {
+              formName = form.attributes["name"];
+          }
+      } else {
+          if (form.id) {
+              formName = form.id;
+          } else {
+              formName = form.name;
+          }
+      }
+
+      /* fix for VALIDATOR-224 */
+      formName = formName.replace(/:/gi, "_");
+
+      return formName;
+
+  }  
+
+  /**
+   * Handle error messages.
+   * @param messages Array of error messages.
+   * @param focusField Field to set focus on.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_handleErrors(messages, focusField) {
+      if (focusField && focusField != null) {
+          var doFocus = true;
+          if (focusField.disabled || focusField.type == 'hidden') {
+              doFocus = false;
+          }
+          if (doFocus && 
+              focusField.style && 
+              focusField.style.visibility &&
+              focusField.style.visibility == 'hidden') {
+              doFocus = false;
+          }
+          if (doFocus) {
+              focusField.focus();
+          }
+      }
+      alert(messages.join('\n'));
+  }
+
+  /**
+   * Checks that the array element is a valid
+   * Commons Validator element and not one inserted by
+   * other JavaScript libraries (for example the
+   * prototype library inserts an "extends" into
+   * all objects, including Arrays).
+   * @param name The element name.
+   * @param value The element value.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_verifyArrayElement(name, element) {
+      if (element && element.length && element.length == 3) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+
+  /**
+   * Checks whether the field is present on the form.
+   * @param field The form field.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_isFieldPresent(field) {
+      var fieldPresent = true;
+      if (field == null || (typeof field == 'undefined')) {
+          fieldPresent = false;
+      } else {
+          if (field.disabled) {
+              fieldPresent = false;
+          }
+      }
+      return fieldPresent;
+  }
+
+  /**
+   * Check a value only contains valid numeric digits
+   * @param argvalue The value to check.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_isAllDigits(argvalue) {
+      argvalue = argvalue.toString();
+      var validChars = "0123456789";
+      var startFrom = 0;
+      if (argvalue.substring(0, 2) == "0x") {
+         validChars = "0123456789abcdefABCDEF";
+         startFrom = 2;
+      } else if (argvalue.charAt(0) == "0") {
+         validChars = "01234567";
+         startFrom = 1;
+      } else if (argvalue.charAt(0) == "-") {
+          startFrom = 1;
+      }
+
+      for (var n = startFrom; n < argvalue.length; n++) {
+          if (validChars.indexOf(argvalue.substring(n, n+1)) == -1) return false;
+      }
+      return true;
+  }
+
+  /**
+   * Check a value only contains valid decimal digits
+   * @param argvalue The value to check.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function jcv_isDecimalDigits(argvalue) {
+      argvalue = argvalue.toString();
+      var validChars = "0123456789";
+
+      var startFrom = 0;
+      if (argvalue.charAt(0) == "-") {
+          startFrom = 1;
+      }
+
+      for (var n = startFrom; n < argvalue.length; n++) {
+          if (validChars.indexOf(argvalue.substring(n, n+1)) == -1) return false;
+      }
+      return true;
+  }
+    
+  /**
+   * Trim whitespace from left and right sides of s.
+   * @deprecated The JS part of commons validation is deprecated
+   *   Please consider using http://parsleyjs.org/ or another 
+   *   validation library.
+   */
+  function trim(s) {
+      return s.replace( /^\s*/, "" ).replace( /\s*$/, "" );
+  }
+
+
+  // Log a message to the console which states that this validation library 
+  // is deprecated.
+  if (typeof(console) !== 'undefined' && typeof(console.warn) === 'function') {
+      console.warn('The JS part of commons validation is deprecated. ' +
+          'Please consider using http://parsleyjs.org/ or another ' +
+          'validation library.');
+  }
+
+function validarTamanho(form) {
+	return executarSimplesValidacao(form, "validarTamanho", confereTamanho, "tamanho");
+}
+
+function confereTamanho(campo, tamanho) {
+	var valor = getValorDoCampoForm(campo);
+	return (valor.length == 0 || valor.length == tamanho);
+}
+
+/**
+ * 
+ * @param nomeCampo
+ * @param tamanho
+ * @return
+ */
+function isTamanhoValido(nomeCampo, tamanho) {
+	if ($(nomeCampo).val().length > 0 && $(nomeCampo).val().length < tamanho) {
+		$(nomeCampo).focus();
+		return false;
+	}
+	return true;
+};
+
+function validarTamanhoMinimo(form) {
+	return executarSimplesValidacao(form, "validarTamanhoMinimo", confereTamanhoMinimo, "minimo");
+}
+
+function confereTamanhoMinimo(campo, minimo) {
+	var valor = getValorDoCampoForm(campo);
+	return (valor.length >= minimo || valor.length == 0);
+}
+
+function validarTamanhoMaximo(form) {
+	return executarSimplesValidacao(form, "validarTamanhoMaximo", confereTamanhoMaximo, "maximo");
+}
+
+function confereTamanhoMaximo(campo, maximo) {
+	var valor = getValorDoCampoForm(campo);
+	return (valor.length <= maximo);
+}
+
+function validarCpf(form) {
+	return executarSimplesValidacao(form, "validarCpf", confereCpf);
+}
+
+function confereCpf(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isCpf(valor);
+}
+
+function validarPeloMenosUmObrigatorio(form) {
+	return executarSimplesValidacao(form, "validarPeloMenosUmObrigatorio", conferePeloMenosUmObrigatorio, "listaCampos");
+}
+    
+function conferePeloMenosUmObrigatorio(campo, listaCampos) {
+	var value = getValorDoCampoForm(campo);
+	var form = campo.form;
+	arrIdCampos = listaCampos.split(",");
+	for( var i=0; i<arrIdCampos.length; i++ ) {
+		if( typeof form[trim(arrIdCampos[i])] == "undefined" ) {
+			alert( "O campo "+trim(arrIdCampos[i])+" não existe no formulário! Verifique se os campos envolvidos na validação \"pelo menos um obrigatório\" realmente existem no formulário!" );
+			return false;
+		}
+		
+		campo = form[trim(arrIdCampos[i])];
+		if (campo.type == 'hidden' ||
+            campo.type == 'text' ||
+            campo.type == 'textarea' ||
+            campo.type == 'file' ||
+            campo.type == 'password') {
+	    	if (campo.value != 0 && trim(campo.value) !=""){
+				return true;
+			}				
+		} else if (	
+			campo.type == 'radio' ||
+            campo.type == 'checkbox' ) {
+			if (campo.checked) {
+				return true;
+			}
+		} else if (campo.type == 'select-one') {
+	    	if (campo.options[campo.selectedIndex].value != 0 && trim(campo.options[campo.selectedIndex].value) != ""){
+				return true;
+			}				
+		} else if (campo.type == 'select-multiple') {
+			for(var t = 0; t < campo.options.length; t++) {
+				if(campo.options[t].selected) {
+					return true;
+				}
+			}
+		} else if(campo.length) {
+			// se existir o atributo campo.length é sinal de que o campo é um nodeList 
+			// se for um nodeList o tratamento é diferente, pois existe a necessidade de 
+			// dar atenção a cada um dos elementos desse nodeList (esse é o caso de checkbox e radio buttons
+			// com mais de uma opção)
+//			listaNode = form[campo.name];
+			listaNode = campo;
+			if(	listaNode[0].type == 'radio' ||
+            	listaNode[0].type == 'checkbox' ) {
+				var key = null;
+				for(key in listaNode) {
+					if(listaNode[key].checked) {
+						return true;
+					}
+				}
+			} 
+		} 
+	}
+	return (value != 0 && value != "");
+}
+
+function validarPeloMenosUmObrigatorio(form) {
+	return executarSimplesValidacao(form, "validarPeloMenosUmObrigatorio", conferePeloMenosUmObrigatorio, "listaCampos");
+}
+    
+function conferePeloMenosUmObrigatorio(campo, listaCampos) {
+	var value = getValorDoCampoForm(campo);
+	var form = campo.form;
+	arrIdCampos = listaCampos.split(",");
+	for( var i=0; i<arrIdCampos.length; i++ ) {
+		if( typeof form[trim(arrIdCampos[i])] == "undefined" ) {
+			alert( "O campo "+trim(arrIdCampos[i])+" não existe no formulário! Verifique se os campos envolvidos na validação \"pelo menos um obrigatório\" realmente existem no formulário!" );
+			return false;
+		}
+		
+		campo = form[trim(arrIdCampos[i])];
+		if (campo.type == 'hidden' ||
+            campo.type == 'text' ||
+            campo.type == 'textarea' ||
+            campo.type == 'file' ||
+            campo.type == 'password') {
+	    	if (campo.value != 0 && trim(campo.value) !=""){
+				return true;
+			}				
+		} else if (	
+			campo.type == 'radio' ||
+            campo.type == 'checkbox' ) {
+			if (campo.checked) {
+				return true;
+			}
+		} else if (campo.type == 'select-one') {
+	    	if (campo.options[campo.selectedIndex].value != 0 && trim(campo.options[campo.selectedIndex].value) != ""){
+				return true;
+			}				
+		} else if (campo.type == 'select-multiple') {
+			for(var t = 0; t < campo.options.length; t++) {
+				if(campo.options[t].selected) {
+					return true;
+				}
+			}
+		} else if(campo.length) {
+			// se existir o atributo campo.length é sinal de que o campo é um nodeList 
+			// se for um nodeList o tratamento é diferente, pois existe a necessidade de 
+			// dar atenção a cada um dos elementos desse nodeList (esse é o caso de checkbox e radio buttons
+			// com mais de uma opção)
+//			listaNode = form[campo.name];
+			listaNode = campo;
+			if(	listaNode[0].type == 'radio' ||
+            	listaNode[0].type == 'checkbox' ) {
+				var key = null;
+				for(key in listaNode) {
+					if(listaNode[key].checked) {
+						return true;
+					}
+				}
+			} 
+		} 
+	}
+	return (value != 0 && value != "");
+}
+
+function validarEmail(form) {
+	return executarSimplesValidacao(form, "validarEmail", confereEmail);
+}
+
+function confereEmail(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isEmail(valor);
+}
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateIntRange.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    * Check to see if fields is in a valid integer range.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateIntRange(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+ 
+        var oRange = eval('new ' + jcv_retrieveFormName(form) +  '_intRange()');        
+        for (var x in oRange) {
+            if (!jcv_verifyArrayElement(x, oRange[x])) {
+                continue;
+            }
+            var field = form[oRange[x][0]];
+            if (jcv_isFieldPresent(field)) {
+                var value = '';
+                if (field.type == 'hidden' ||
+                    field.type == 'text' || field.type == 'textarea' ||
+                    field.type == 'radio' ) {
+                    value = field.value;
+                }
+                if (field.type == 'select-one') {
+                    var si = field.selectedIndex;
+                    if (si >= 0) {
+                        value = field.options[si].value;
+                    }
+                }
+                if (value.length > 0) {
+                    var iMin = parseInt(oRange[x][2]("min"));
+                    var iMax = parseInt(oRange[x][2]("max"));
+                    var iValue = parseInt(value, 10);
+                    if (!(iValue >= iMin && iValue <= iMax)) {
+                        if (i == 0) {
+                            focusField = field;
+                        }
+                        fields[i++] = oRange[x][1];
+                        isValid = false;
+                    }
+                }
+            }
+        }
+        if (fields.length > 0) {
+            jcv_handleErrors(fields, focusField);
+        }
+        return isValid;
+    }
+
+function validarRepeticao(form) {
+	return executarSimplesValidacao(form, "validarRepeticao", confereRepeticao, "segundoCampo");
+}
+    
+function confereRepeticao(campo, segundoCampo) {
+	var valor = getValorDoCampoForm(campo);
+	var objSegundoCampo = eval( "campo.form."+segundoCampo );
+	return ((valor.length == 0 && objSegundoCampo.value.length == 0) || valor == objSegundoCampo.value);
+}
+
+function validarObrigatorioCondicional(form) {
+	return executarSimplesValidacao(form, "validarObrigatorioCondicional", confereObrigatorioCondicional, "segundoCampo");
+}
+    
+function confereObrigatorioCondicional(campo, segundoCampo) {
+	var valor = getValorDoCampoForm(campo);
+	var objSegundoCampo = eval( "campo.form."+segundoCampo );
+	return ((objSegundoCampo.value.length == 0 || objSegundoCampo.value == "0")
+			|| !(valor.length == 0 || (valor.length == 1 && valor[0] == "0")));
+}
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+   /*$RCSfile: validateFloatRange.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    * Check to see if fields are in a valid float range.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateFloatRange(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        
+        var oRange = eval('new ' + jcv_retrieveFormName(form) +  '_floatRange()');
+        for (var x in oRange) {
+            if (!jcv_verifyArrayElement(x, oRange[x])) {
+                continue;
+            }
+            var field = form[oRange[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+            
+            if ((field.type == 'hidden' ||
+                field.type == 'text' || field.type == 'textarea') &&
+                (field.value.length > 0)) {
+        
+                var fMin = parseFloat(oRange[x][2]("min"));
+                var fMax = parseFloat(oRange[x][2]("max"));
+                var fValue = parseFloat(field.value);
+                if (!(fValue >= fMin && fValue <= fMax)) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oRange[x][1];
+                    isValid = false;
+                }
+            }
+        }
+        if (fields.length > 0) {
+            jcv_handleErrors(fields, focusField);
+        }
+        return isValid;
+    }
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateByte.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    * Check to see if fields are a valid byte.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateByte(form) {
+        var bValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        
+        var oByte = eval('new ' + jcv_retrieveFormName(form) + '_ByteValidations()');
+
+        for (var x in oByte) {
+            if (!jcv_verifyArrayElement(x, oByte[x])) {
+                continue;
+            }
+            var field = form[oByte[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'textarea' ||
+                field.type == 'select-one' ||
+                field.type == 'radio')) {
+
+                var value = '';
+                // get field's value
+                if (field.type == "select-one") {
+                    var si = field.selectedIndex;
+                    if (si >= 0) {
+                        value = field.options[si].value;
+                    }
+                } else {
+                    value = field.value;
+                }
+
+                if (value.length > 0) {
+                    if (!jcv_isDecimalDigits(value)) {
+                        bValid = false;
+                        if (i == 0) {
+                            focusField = field;
+                        }
+                        fields[i++] = oByte[x][1];
+
+                    } else {
+
+                        var iValue = parseInt(value, 10);
+                        if (isNaN(iValue) || !(iValue >= -128 && iValue <= 127)) {
+                            if (i == 0) {
+                                focusField = field;
+                            }
+                            fields[i++] = oByte[x][1];
+                            bValid = false;
+                        }
+                    }
+                }
+
+            }
+        }
+        if (fields.length > 0) {
+           jcv_handleErrors(fields, focusField);
+        }
+        return bValid;
+    }
+
+function validarDatas(form) {
+	return executarSimplesValidacao(form, "validarDatas", confereDatas, "dataFinal");
+}
+    
+function confereDatas(campo, dataFinal) {
+	var dataInicialStr = getValorDoCampoForm(campo);
+	var dataFinalStr = eval( "campo.form."+dataFinal ).value;
+	if (dataInicialStr == "" && dataFinalStr == "") {
+		return true;
+	} else if (dataInicialStr == "" || dataFinalStr == "") {
+		return false;
+	}
+	var arrayDataInicial = dataInicialStr.split("/");
+	var arrayDataFinal = dataFinalStr.split("/");
+	var dataInicial = Date.parse(arrayDataInicial[1]+"/"+arrayDataInicial[0]+"/"+arrayDataInicial[2]+"/");
+	var dataFinal = Date.parse(arrayDataFinal[1]+"/"+arrayDataFinal[0]+"/"+arrayDataFinal[2]+"/");
+	return parseInt(dataInicial) <= parseInt(dataFinal);
+}
+
+function validarAlfabetico(form) {
+	return executarSimplesValidacao(form, "validarAlfabetico", confereAlfabetico);
+}
+
+function confereAlfabetico(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isAlfabetico(valor);
+}
+
+function validarMaiorQue(form) {
+	return executarSimplesValidacao(form, "validarMaiorQue", confereMaiorQue, "segundoCampo");
+}
+
+function confereMaiorQue(campo, segundoCampo) {
+	var valor1 = getValorDoCampoForm(campo);
+	var valor2 = eval( "campo.form."+segundoCampo ).value;
+	if(valor1 == "" || valor2 ==""){
+		return true;
+	}
+	valor1 = Number(valor1.replace(/\./g, "").replace(",", "."));
+	valor2 = Number(valor2.replace(/\./g, "").replace(",", "."));
+	return Number(valor2) >= Number(valor1);
+}
+
+function validarTipoAcao(form) {
+	return executarSimplesValidacao(form, "validarTipoAcao", confereTipoAcao, "tipoAcao");
+}
+
+function confereTipoAcao(campo, tipoAcao) {
+	var formulario = campo.form;
+	tiposAcaoConfiguradas = tipoAcao;
+	if (tiposAcaoConfiguradas == null || typeof formulario.tipoAcao == "undefined") {
+		return true;
+	}
+	arrTiposAcao = tiposAcaoConfiguradas.split(",");
+	for( var i=0; i<arrTiposAcao.length; i++ ) {
+		if (trim(arrTiposAcao[i]) == trim(formulario.tipoAcao.value)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function validarApenasUmObrigatorio(form) {
+	return executarSimplesValidacao(form, "validarApenasUmObrigatorio", UtilValidadorApenasUmObrigatorio.conferePeloMenosUmObrigatorio, "listaCampos");
+}
+    
+function UtilValidadorApenasUmObrigatorio() {	
+	function conferePeloMenosUmObrigatorio(campo, listaCampos) {
+		var formulario = campo.form;
+        var jaFoiRelacionado = new Object();
+        var valores = new Array();
+        valores[valores.length] = campo.value;
+		jaFoiRelacionado[campo.name] = true;
+		var nomeCampo;
+        for(var key in listaCampos){
+			nomeCampo = trim(listaCampos[key]);
+        	// A seguir eu garanto que todos os campos envolvidos serão considerados apenas uma única vez,
+        	// mesmo quando o programador repete nome de campos na variável listaCampos ou quando o
+        	// usuário repete o nome do campo que deu origem à relação de "apenas um obrigatório".
+        	if(jaFoiRelacionado[nomeCampo] == null) {
+        		valores[valores.length] = formulario[nomeCampo].value;
+        		jaFoiRelacionado[nomeCampo] = true;
+        	}
+        }
+        
+        return UtilValidadorApenasUmObrigatorio.validarLista(valores);
+	}
+	
+	
+	function validarLista(valores) {
+		var quantidadeCamposPreenchidos = 0;
+		var valor;
+		for (var key in valores) {
+			valor = valores[key];
+			if (valor != 0 && valor != "") {
+	    		// Apenas se mais de um dos valores tiver sido preenchido, retorna false.
+				// Caso contrário prossegue com esta interação até o final retornando
+				// true ao final deste método.
+				if(++quantidadeCamposPreenchidos > 1) {
+					return false;
+				}
+			}
+		}
+		// Se o laço for foi executado até o final, quer dizer que realmente apenas um campo 
+		// foi preenchido. Sendo assim, retorna true.
+		return true;
+	}
+}
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateShort.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    *  Check to see if fields are a valid short.
+    * Fields are not checked if they are disabled.
+    *
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateShort(form) {
+        var bValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+ 
+        var oShort = eval('new ' + jcv_retrieveFormName(form) +  '_ShortValidations()');
+
+        for (var x in oShort) {
+            if (!jcv_verifyArrayElement(x, oShort[x])) {
+                continue;
+            }
+            var field = form[oShort[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'textarea' ||
+                field.type == 'select-one' ||
+                field.type == 'radio')) {
+
+                var value = '';
+                // get field's value
+                if (field.type == "select-one") {
+                    var si = field.selectedIndex;
+                    if (si >= 0) {
+                        value = field.options[si].value;
+                    }
+                } else {
+                    value = field.value;
+                }
+
+                if (value.length > 0) {
+                    if (!jcv_isDecimalDigits(value)) {
+                        bValid = false;
+                        if (i == 0) {
+                            focusField = field;
+                        }
+                        fields[i++] = oShort[x][1];
+
+                    } else {
+
+                        var iValue = parseInt(value, 10);
+                        if (isNaN(iValue) || !(iValue >= -32768 && iValue <= 32767)) {
+                            if (i == 0) {
+                                focusField = field;
+                            }
+                            fields[i++] = oShort[x][1];
+                            bValid = false;
+                        }
+                   }
+               }
+            }
+        }
+        if (fields.length > 0) {
+           jcv_handleErrors(fields, focusField);
+        }
+        return bValid;
+    }
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateCreditCard.js,v $ $Rev: 1612066 $ $Date: 2014-07-20 11:23:18 +0200 (So, 20 Jul 2014) $ */
+    /**
+    * Check to see if fields are a valid creditcard number based on Luhn checksum.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    * @deprecated The JS part of commons validation is deprecated
+    *   Please consider using http://parsleyjs.org/ or another 
+    *   validation library.
+    */
+    function validateCreditCard(form) {
+        var bValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+ 
+        var oCreditCard = eval('new ' + jcv_retrieveFormName(form) +  '_creditCard()');
+
+        for (var x in oCreditCard) {
+            if (!jcv_verifyArrayElement(x, oCreditCard[x])) {
+                continue;
+            }
+            var field = form[oCreditCard[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+            if ((field.type == 'text' ||
+                 field.type == 'textarea') &&
+                (field.value.length > 0)) {
+                if (!jcv_luhnCheck(field.value)) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oCreditCard[x][1];
+                    bValid = false;
+                }
+            }
+        }
+        if (fields.length > 0) {
+            jcv_handleErrors(fields, focusField);
+        }
+        return bValid;
+    }
+
+    /**
+     * Checks whether a given credit card number has a valid Luhn checksum.
+     * This allows you to spot most randomly made-up or garbled credit card numbers immediately.
+     * Reference: http://www.speech.cs.cmu.edu/~sburke/pub/luhn_lib.html
+     *
+     * @deprecated The JS part of commons validation is deprecated
+     *   Please consider using http://parsleyjs.org/ or another 
+     *   validation library.
+     */
+    function jcv_luhnCheck(cardNumber) {
+        if (jcv_isLuhnNum(cardNumber)) {
+            var no_digit = cardNumber.length;
+            var oddoeven = no_digit & 1;
+            var sum = 0;
+            for (var count = 0; count < no_digit; count++) {
+                var digit = parseInt(cardNumber.charAt(count));
+                if (!((count & 1) ^ oddoeven)) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                };
+                sum += digit;
+            };
+            if (sum == 0) return false;
+            if (sum % 10 == 0) return true;
+        };
+        return false;
+    }
+
+    /**
+     * @deprecated The JS part of commons validation is deprecated
+     *   Please consider using http://parsleyjs.org/ or another 
+     *   validation library.
+     */
+    function jcv_isLuhnNum(argvalue) {
+        argvalue = argvalue.toString();
+        if (argvalue.length == 0) {
+            return false;
+        }
+        for (var n = 0; n < argvalue.length; n++) {
+            if ((argvalue.substring(n, n+1) < "0") ||
+                (argvalue.substring(n,n+1) > "9")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+function validarMascara(form) {
+	return executarSimplesValidacao(form, "validarMascara", confereMascara, "mascara");
+}
+   
+function confereMascara(campo, mascara) {
+	var valor = getValorDoCampoForm(campo);
+	var exp1 = eval("/"+mascara+"/");
+	return valor.length == 0 || exp1.test( valor );
+}
+
+function validarDecimal(form) {
+	return executarSimplesValidacao(form, "validarDecimal", confereDecimal, "parteInteira", "casasDecimais");
+}
+
+/**
+ * Alterado para que funcione direito.
+ * @since	17/02/2011 
+ * */
+function confereDecimal(campo, parteInteira, casas) {
+	var numero = campo.value;
+	var valor  = numero.replace(/\./g, "").split(",");
+	
+	//verifica se tem mais de uma virgula e se o que foi digitado realmente possui apenas numeros. 
+	if((valor.length != 2) && !isNumerico(valor[0]) && !isNumerico(valor[1])) {
+		return false;
+	}
+	
+	var parteInteiraCampo = valor[0].replace(/-/, "");
+	
+	if (parteInteiraCampo.length <= parteInteira) {
+		return true;	   
+	}
+	
+	return false;
+}
+
+function validarNumerico(form) {
+	return executarSimplesValidacao(form, "validarNumerico", confereNumerico);
+}
+
+function confereNumerico(campo) {
+	var valor = getValorDoCampoForm(campo);
+	return valor.length == 0 || isNumerico(valor);
+}
+
+
+//End --> 
+</script>
+
+
+	</head>
+	
+	<body>
+		<div id="container">
+			
+			
+
+
+<script type="text/javascript" id="infraestruturaJavascript" src="../js/javascript.js?50"></script><script type="text/javascript" id="infraestruturaUtilitarios" src="https://sisdnit.dnit.gov.br/sisdnit/jsp/js/infraEstrutura/infraEstrutura.js?4"></script><script type="text/javascript" src="https://sisdnit.dnit.gov.br/sisdnit/jsp/js/infraEstrutura/infraestrutura_util.min.js?4"></script>
+
+<script type="text/javascript" id="infraestruturaFormularios" src="https://sisdnit.dnit.gov.br/sisdnit/jsp/js/form/form.js?4"></script><script type="text/javascript" src="https://sisdnit.dnit.gov.br/sisdnit/jsp/js/form/form_util.min.js?4"></script>
+
+<script type="text/javascript" id="infraestruturaMascaraForm" src="https://sisdnit.dnit.gov.br/sisdnit/jsp/js/infraEstrutura/jquery.maskedinput-1.3.js?4"></script>
+
+
+			<!-- Menu de navegação rápida do header -->
+			<div id="quicknav_header">
+				<a href="#content" accesskey="c" title="Ir para conteúdo">Ir para conteúdo</a> 
+			</div>
+			
+			<div id="header">
+			
+				<div id="header_top">
+					<div id="header_logo-dnit">
+						<h1><img src="../images/header_logo-dnit.png" alt="DNIT"></h1>
+					</div>
+					
+					<div id="header_detalhes"> 
+						
+						<div class="logo-sistema">
+							<img src="./images/logo_header.png" alt="SIAC - Sistema de Acompanhamento de Contratos">
+						</div>
+				
+						<div class="clearer"></div><!-- clear floats, não remover -->
+				
+					</div>
+					<!-- fim de header_detalhes -->
+				</div>
+				<!-- end of header_top -->
+					
+				
+
+
+
+
+
+
+
+			<div class="user">
+				<p>Usuário: BRUNO</p>
+				<p>Unidade de Lotação: CGCONT</p>
+				
+					<p>Unidades de Atuação:</p>
+					<ul>
+						
+							<li>CGCONT</li>
+						
+					</ul>
+				
+			</div>
+			
+			<div id="menu">
+				<ul id="menulist_siac">
+  <li><a href="./siac.do?tipoAcao=administracao_siac&amp;codItemMenu=4">Administração</a></li>
+  <li><a href="./siac.do?tipoAcao=contratos_siac&amp;codItemMenu=6">Contratos</a></li>
+  <li><a href="./siac.do?tipoAcao=medicoes_siac&amp;codItemMenu=143">Medições</a></li>
+  <li><a href="./siac.do?tipoAcao=oficio_siac&amp;codItemMenu=177">Ofícios Eletrônicos</a></li>
+  <li><a href="ajuda/manual_siac.pdf" target="_blank">Ajuda</a></li>
+  <li><a href="../inicio.do">Início</a></li>
+  <li><a href="../logout.do?tipoAcao=executarLogout">Sair</a></li>
+</ul>
+			</div>
+
+			<div id="breadcrumbs">
+				<ul><li><a href="../inicio.do">Início</a></li><li><a href="siac.do?tipoAcao=siac">SIAC</a></li><li><a href="./siac.do?tipoAcao=medicoes_siac&amp;codItemMenu=143">Medições</a></li><li>Relatórios</li><li class="current">Histórico de Medições</li></ul>
+			</div>
+
+			</div>
+			<!-- end of header -->
+			
+<!-- 			<script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script> -->
+<!-- 			<script type="text/javascript" src="../bower_components/select2/select2.js"></script> -->
+
+			<script type="text/javascript" src="../bower_components/jquery/dist/new/jquery.min.js"></script>
+			<script type="text/javascript" src="../bower_components/select2/new/select2.min.js"></script>
+
+ 			<script type="text/javascript"> 
+				$(document).ready(function () {
+					$('select').select2();
+					
+					$('#unidadeFiscalizadora').on("change", function (e) {
+				    	//$('#numeroContrato').select2("val","");
+						$('#numeroContrato').val("").trigger("change");
+					});
+					
+					$('#idFiscalizacaoUnidadeResponsavel').on("change", function (e) {
+						$('#idContrato').val("").trigger("change");
+						
+						$('#idUnidadeGestora').val("").trigger("change");
+						$('#codContrato').val("").trigger("change");
+						$('#idMedicao').val("");
+					});
+					
+					$('#idUnidFiscContr').on("change", function (e) {
+						$('#idContrato').val("").trigger("change");
+					});
+
+					$('#idUnidade').on("change", function (e) {
+						$('#idContrato').val("").trigger("change");
+						$('#numeroMedicao').val("").trigger("change");
+					});
+					
+					$('#idUnidadeResponsavel').on("change", function (e) {
+				    	$('#idContrato').val("");
+				    	$('#numeroMedicao').val("");
+				    	$('#numMedicao').val("");
+					});
+
+					$('#idContrato').on("change", function (e) {
+				    	$('#numeroMedicao').val("");
+				    	$('#numMedicao').val("");
+					});
+
+					$('#codContrato').on("change", function (e) {
+				    	$('#numeroMedicao').val("");
+				    	$('#idMedicao').val("");
+					});
+				});
+			</script> 
+			
+			<script type="text/javascript" src="js/RelatoriosMedicao.js?50"></script>
+
+			<div id="content">
+				<h2>Gerar Relatório de Histórico de Medições</h2>
+
+				<a href="ajuda/manual_siac.pdf" class="help" target="_blank" title="Ajuda">
+					<span>Ajuda</span>
+				</a>
+				
+				<div class="form-info">
+					<p>Preencha os campos e selecione o botão "Gerar Relatório".</p>
+					<p>* Campos obrigatórios.</p>
+				</div>
+				
+				<form name="RelatorioHistoricoMedicoesForm" method="post" action="/sisdnit/jsp/siac/relatorio_historico_medicoes.do">
+					<input type="hidden" name="tipoAcao" value="gerar">
+					<input type="hidden" id="nomeCampoUnidade" name="nomeCampoUnidade" value="idFiscalizacaoUnidadeResponsavel">
+					<input type="hidden" id="nomeCampoContrato" name="nomeCampoContrato">
+			
+					<table>
+						<tbody>
+							<tr> 
+								<th scope="row">
+									<label for="idFiscalizacaoUnidadeResponsavel">Unidade Responsável pela Fiscalização do Contrato*</label>
+								</th>
+								<td>
+									<select name="idFiscalizacaoUnidadeResponsavel" id="idFiscalizacaoUnidadeResponsavel" objeto="ajaxRelatorioHistoricoMedicoes" style="width: 50%" filho="codContrato" metodo="buscarUnidadesResponsaveisFiscalizacao" ultimaunidadeselecionada="true" onchange="carregarCombo(this, 'codContrato')" data-select2-id="idFiscalizacaoUnidadeResponsavel" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true" valorselecionado="null" selecionarpordescricao="null">
+											<option inicial="true" value="" data-select2-id="2">SELECIONE UMA UNIDADE</option>
+									<option value="262">AHIMOC - ADMINISTRAÇÃO DAS HIDROVIAS DA AMAZÔNIA OCIDENTAL</option><option value="389">AHIMOR - ADMINISTRAÇÃO DAS HIDROVIAS DA AMAZÔNIA ORIENTAL</option><option value="530">AHINOR - ADMINISTRAÇÃO DAS HIDROVIAS DO NORDESTE</option><option value="572">AHIPAR - ADMINISTRACAO DA HIDROVIA DO PARAGUAI</option><option value="453">AHRANA - ADMINISTRAÇÃO DA HIDROVIA DO PARANÁ</option><option value="431">AHSFRA - ADMINISTRACAO DA HIDROVIA DO SAO FRANCISCO</option><option value="48">CGCIT - COORDENAÇÃO-GERAL DE CUSTOS DE INFRA-ESTRUTURA</option><option value="16">CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO  RODOVIÁRIA</option><option value="12">CGDESP - COORDENAÇÃO-GERAL DE DESENVOLVIMENTO DE PROJETOS</option><option value="802">CGDR - COORDENAÇÃO GERAL DE DESAPROPRIAÇÃO E REASSENTAMENTO</option><option value="13">CGESP - COORDENAÇÃO-GERAL DE ESTUDOS E PESQUISA</option><option value="19">CGGOP - COORDENAÇÃO-GERAL DE GESTÃO E OPERAÇÕES AQUAVIÁRIAS</option><option value="46">CGIPT - (IPR) - COORDENAÇÃO-GERAL DO INSTITUTO DE PESQUISAS EM TRANSPORTES</option><option value="9">CGLOG - COORDENAÇÃO-GERAL DE RECURSOS LOGÍSTICOS</option><option value="11">CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE</option><option value="15">CGMRR - COORDENAÇÃO-GERAL DE MANUTENÇÃO E RESTAURAÇÃO  RODOVIÁRIA</option><option value="882">CGOB - COORDENAÇÃO-GERAL DE OBRAS AQUAVIÁRIAS</option><option value="22">CGOFER - COORDENAÇÃO-GERAL DE OBRAS  FERROVIÁRIAS</option><option value="17">CGPERT - COORDENAÇÃO - GERAL DE OPERAÇÕES RODOVIÁRIAS</option><option value="14">CGPLAN - COORDENAÇÃO-GERAL PLANEJAMENTO E PROGRAMAÇÃO DE  INVESTIMENTO</option><option value="21">CGTI - COORDENAÇÃO-GERAL DE TECNOLOGIA DA INFORMAÇÃO</option><option value="3">DAF - DIRETORIA DE ADMINISTRAÇÃO E FINANÇAS</option><option value="2">DG - DIRETORIA-GERAL</option><option value="5">DIR - DIRETORIA DE INFRAESTRUTURA RODOVIÁRIA</option><option value="47">DIREX - DIRETORIA EXECUTIVA</option><option value="6">DPP - DIRETORIA DE PLANEJAMENTO E PESQUISA</option><option value="862">S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE</option><option value="42">S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS</option><option value="23">S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS</option><option value="743">S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ</option><option value="27">S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA</option><option value="25">S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ</option><option value="39">S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO</option><option value="34">S.R.E - GO/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL</option><option value="37">S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO</option><option value="28">S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS</option><option value="41">S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL</option><option value="33">S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO</option><option value="24">S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ</option><option value="35">S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA</option><option value="26">S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO</option><option value="40">S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ</option><option value="31">S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ</option><option value="29">S.R.E - RJ - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO DE JANEIRO</option><option value="36">S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE</option><option value="44">S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA</option><option value="812">S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA</option><option value="32">S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL</option><option value="38">S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA</option><option value="43">S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE</option><option value="30">S.R.E - SP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SÃO PAULO</option><option value="45">S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS</option><option value="1">SEDE - SEDE</option><option value="332">SEPOR/PR - SECRETARIA ESPECIAL DE PORTOS</option><option value="181">SETPUBCON - SETOR DE PUBLICAÇÃO E CONTRATOS</option><option value="666">UGP/DPP - UNIDADE DE GERENCIA DO PROJETO UGP/BID</option></select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="1" style="width: 50%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-idFiscalizacaoUnidadeResponsavel-container"><span class="select2-selection__rendered" id="select2-idFiscalizacaoUnidadeResponsavel-container" role="textbox" aria-readonly="true" title="SELECIONE UMA UNIDADE">SELECIONE UMA UNIDADE</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								</td>
+							</tr>
+							
+							<tr> 
+								<th scope="row">
+									<label for="codContrato">Número do Contrato*</label>
+								</th>
+								<td>
+									<select name="codContrato" id="codContrato" style="width: 50%" objeto="ajaxRelatorioHistoricoMedicoes" metodo="buscarContratos" ultimocontratoselecionado="true" parametros="document.getElementById('idFiscalizacaoUnidadeResponsavel').value" data-select2-id="codContrato" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+										<option inicial="true" value="" data-select2-id="4">SELECIONE UM CONTRATO</option> 
+									</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="3" style="width: 50%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-codContrato-container"><span class="select2-selection__rendered" id="select2-codContrato-container" role="textbox" aria-readonly="true" title="SELECIONE UM CONTRATO">SELECIONE UM CONTRATO</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								</td>
+							</tr>
+						</tbody>
+						
+						<tfoot>	
+							<tr> 
+								<td colspan="2">
+									<input name="gerar" type="button" value="Gerar Relatório" class="button" onclick="relatoriosMedicao.emitirPDF('gerar');">
+									<input name="limpar" type="button" class="button" value="Limpar" onclick="relatoriosMedicao.limparDados();">
+									<input name="cancelar" type="button" class="button" onclick="cancelar('siac.do?tipoAcao=medicoes_siac&amp;codItemMenu=143')" value="Cancelar">
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+				
+				
+			<!-- Menu de navegação rápida do rodapé -->
+			<div id="quicknav_footer">
+				<a id="ftr_print" href="javascript:window.print()" title="Imprimir página">imprimir</a>
+				<a id="ftr_back" href="javascript:history.back()" title="Voltar para página anterior">voltar</a>  
+				<a id="ftr_top" href="#content" title="topo da página">topo</a>
+				<a id="ftr_inicio" href="../inicio.do" title="Ir para página inicial">início</a>
+			</div>
+				
+			</div>
+			<!-- end of content -->
+			
+		</div>
+		<!-- end of container -->
+		
+		
+			
+			<!-- rodapé -->
+			<div id="footer">
+				<div id="footer-info">
+					<a class="gestor" href="mailto:atendimento@dnit.gov.br">
+						Fale com o gestor
+					</a>
+					&nbsp;|&nbsp;
+					<span class="atendimento">
+						Central de Atendimento [(61) 3315-8490]
+					</span>
+					&nbsp;|&nbsp;
+<!-- 				<img src="../jsp/ajuda/cartilha2.png" width="20px" height="20px" class="button" download/> -->
+ 					<a href="../../jsp/ajuda/cartilha-atendimento.pdf" class="button" download=""> 
+    				<b>Cartilha de Atendimento ao Usuário</b>
+    				</a>
+				</div>
+				<!-- fim de informacoes -->
+				
+				<div id="footer-icons">
+					<a href="http://www.serpro.gov.br" target="_blank" id="produto-serpro" title="Produto SERPRO">
+						<img src="../images/footer_serpro.png" alt="Produto SERPRO">
+					</a>
+				</div>
+				
+				<!-- Removido Piwik (Nephila) - Dívida Técnica: https://alm.serpro/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/2617513 -->
+				
+								
+			</div>
+
+		
+	
+
+</body></html>

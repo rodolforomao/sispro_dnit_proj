@@ -1,0 +1,32 @@
+[2026-11-05 14:28:39] INICIANDO JOB siac_20261105_142839_45f48b
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261105_142839_45f48b/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261105_142839_45f48b/saida" --job="siac_20261105_142839_45f48b" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-05 14:28:39] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[14:28:39] [spawn] job siac_20261105_142839_45f48b, 1 contratos (headless=NAO)
+[14:28:39] [driver] iniciando porta 4685
+[14:28:40] [driver] pronto
+[14:28:41] [sess] criada, headless=NAO
+[14:28:41] ══════════════════════════════════════
+[14:28:41] [login] iniciando (3 tentativas se necessario)
+[14:28:41] [login] --- tentativa 1/3 ---
+[14:28:44] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[14:28:45] [login]   encriptarEnviar: OK
+[14:28:46] [login]   OK (conteudo) em ~1s
+[14:28:46] ══════════════════════════════════════
+[14:28:46] [valid] abrindo pagina de relatorio...
+[14:28:49] [valid] pronto em 0s
+[14:28:49] ══════════════════════════════════════
+[14:28:49] [loop] iniciando 1 contratos
+[14:28:49] [0/1] 00 00083/2017 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[14:28:57]     -> gerando PDF...
+[14:29:03]     -> parse PDF...
+[14:29:03]     -> 115 medicoes parseadas
+[14:29:03]     -> 115 medicao(oes) inserida(s)
+[14:29:04] ══════════════════════════════════════
+[14:29:04] [fim] 115 medicoes inseridas, 0 ignorados, 25s total

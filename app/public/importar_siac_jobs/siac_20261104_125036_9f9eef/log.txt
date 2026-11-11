@@ -1,0 +1,28 @@
+[2026-11-04 12:50:36] INICIANDO JOB siac_20261104_125036_9f9eef
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_siac_isabella.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_125036_9f9eef/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_125036_9f9eef/saida" --job="siac_20261104_125036_9f9eef" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-04 12:50:36] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[12:50:36] [Login falhou apos 3 tentativas.
+Detalhes:
+  - t1: timeout URL (https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do;jsessionid=43B47051EB5A595612D76852C98FB191)
+  - t2: timeout URL (https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do)
+  - t3: timeout URL (https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do)
+Screenshots em: C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_siac_jobs/siac_20261104_125036_9f9eef/saida/login_debug
+Dica: SIAC bloqueia login em headless. headless=NAO
+}
+[12:50:43] [login]   encriptarEnviar: OK
+[12:51:04] [login]   falhou. URL: https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do;jsessionid=43B47051EB5A595612D76852C98FB191
+[12:51:04] [login] --- tentativa 2/3 ---
+[12:51:07] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[12:51:09] [login]   encriptarEnviar: OK
+[12:51:30] [login]   falhou. URL: https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do
+[12:51:30] [login] --- tentativa 3/3 ---
+[12:51:32] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[12:51:35] [login]   encriptarEnviar: OK
+[12:51:56] [login]   falhou. URL: https://sisdnit.dnit.gov.br/sisdnit/jsp/login.do

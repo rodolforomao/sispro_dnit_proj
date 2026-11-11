@@ -1,0 +1,122 @@
+[
+  {
+    "i": 0,
+    "name": "",
+    "id": "",
+    "type": "fieldset",
+    "tag": "FIELDSET",
+    "value": "",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 1,
+    "name": "tipoAcao",
+    "id": "tipoAcao",
+    "type": "hidden",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": false
+  },
+  {
+    "i": 2,
+    "name": "senha",
+    "id": "senha",
+    "type": "hidden",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": false
+  },
+  {
+    "i": 3,
+    "name": "novaSenha",
+    "id": "novaSenha",
+    "type": "hidden",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": false
+  },
+  {
+    "i": 4,
+    "name": "novaSenhaRepetida",
+    "id": "novaSenhaRepetida",
+    "type": "hidden",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": false
+  },
+  {
+    "i": 5,
+    "name": "tokenCaptcha",
+    "id": "tokenCaptcha",
+    "type": "hidden",
+    "tag": "INPUT",
+    "value": "CARREGADO",
+    "disabled": false,
+    "visivel": false
+  },
+  {
+    "i": 6,
+    "name": "cpf",
+    "id": "cpf",
+    "type": "text",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 7,
+    "name": "senhaTemp",
+    "id": "senhaTemp",
+    "type": "password",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 8,
+    "name": "novaSenhaTemp",
+    "id": "novaSenhaTemp",
+    "type": "password",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 9,
+    "name": "novaSenhaRepetidaTemp",
+    "id": "novaSenhaRepetidaTemp",
+    "type": "password",
+    "tag": "INPUT",
+    "value": "",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 10,
+    "name": "",
+    "id": "",
+    "type": "button",
+    "tag": "INPUT",
+    "value": "Entrar",
+    "disabled": false,
+    "visivel": true
+  },
+  {
+    "i": 11,
+    "name": "",
+    "id": "",
+    "type": "button",
+    "tag": "INPUT",
+    "value": "Limpar",
+    "disabled": false,
+    "visivel": true
+  }
+]

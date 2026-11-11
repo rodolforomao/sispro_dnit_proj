@@ -1,0 +1,14 @@
+{
+    "status": "concluido",
+    "etapa": "concluido",
+    "progresso": 100,
+    "total": 1,
+    "processados": 1,
+    "empenhos_inseridos": 25,
+    "eventos_inseridos": 165,
+    "contratos_ignorados": 0,
+    "ignorados_detalhe": [],
+    "iniciado_em": "2026-11-11 11:23:45",
+    "finalizado_em": "2026-11-11 11:25:03",
+    "tempo_segundos": 78
+}
