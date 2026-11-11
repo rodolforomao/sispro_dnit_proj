@@ -1,0 +1,13 @@
+{
+    "status": "concluido",
+    "etapa": "concluido",
+    "progresso": 100,
+    "total": 1,
+    "processados": 1,
+    "medicoes_inseridas": 115,
+    "contratos_ignorados": 0,
+    "ignorados_detalhe": [],
+    "iniciado_em": "2026-11-11 15:50:19",
+    "finalizado_em": "2026-11-11 15:50:53",
+    "tempo_segundos": 34
+}

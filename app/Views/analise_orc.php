@@ -270,12 +270,23 @@ $podeScraper = (bool)($podeScraper ?? false);
         .siac-rel-tab { padding:.35rem .85rem; font-size:.78rem; border:1px solid #dee2e6;
             border-radius:20px; background:#fff; color:#495057; cursor:pointer; }
         .siac-rel-tab.ativo { background:#0d3b66; color:#fff; border-color:#0d3b66; }
-        .siac-ultima-badge { background:#f8f9fa; border:1px solid #dee2e6; border-radius:20px;
-            padding:4px 12px; font-size:.72rem; cursor:pointer; color:#495057;
-            display:inline-flex; align-items:center; gap:5px; white-space:nowrap; transition:background .15s; }
-        .siac-ultima-badge:hover { background:#eef5ff; border-color:#b6d4fe; }
+        /* ⬇️ NOVO: badge só ícone, redondo, 30×30 ⬇️ */
+        .siac-ultima-badge {
+            width: 30px; height: 30px; padding: 0;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: .95rem;
+            background: #f8f9fa; border: 1px solid #dee2e6; color: #6c757d;
+            cursor: pointer;
+            transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+        }
+        .siac-ultima-badge:hover {
+            background: #eef5ff; border-color: #b6d4fe; color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13,110,253,.12);
+        }
         .siac-ultima-badge.alerta { background:#fff3cd; border-color:#ffe69c; color:#664d03; }
         .siac-ultima-badge.erro   { background:#f8d7da; border-color:#f1aeb5; color:#842029; }
+        /* ⬆️ FIM */
     </style>
 </head>
 <body>
@@ -308,25 +319,34 @@ $podeScraper = (bool)($podeScraper ?? false);
             </div>
             <div class="d-flex gap-2 align-items-center flex-wrap">
                 <?php if ($podeScraper): ?>
+                <!-- ⬇️ NOVO: relógio antes de cada importador ⬇️ -->
+                <span class="siac-ultima-badge" id="siac-ultima-extracao" hidden
+                      title="Última extração de medições SIAC">
+                    <i class="bi bi-clock-history"></i>
+                </span>
                 <button type="button" id="btn-importar-siac" class="btn btn-outline-success btn-sm"
                         title="Importar medições mensais do SIAC (login necessário)">
                     <i class="bi bi-cloud-download"></i> Importar Medições SIAC
                 </button>
 
-                <span class="siac-ultima-badge" id="siac-ultima-extracao" hidden
-                      title="Clique para abrir o relatório detalhado da última extração completa">
+                <span class="siac-ultima-badge" id="dados-ultima-extracao" hidden
+                      title="Última extração de dados de contratos">
                     <i class="bi bi-clock-history"></i>
-                    <span id="siac-ultima-texto">—</span>
                 </span>
-
                 <button type="button" id="btn-importar-dados" class="btn btn-outline-success btn-sm"
                         title="Importar dados cadastrais dos contratos do SIAC">
                     <i class="bi bi-file-earmark-text"></i> Importar Dados Contratos
                 </button>
+
+                <span class="siac-ultima-badge" id="empenhos-ultima-extracao" hidden
+                      title="Última extração de empenhos">
+                    <i class="bi bi-clock-history"></i>
+                </span>
                 <button type="button" id="btn-importar-empenhos" class="btn btn-outline-success btn-sm"
                         title="Importar empenhos + eventos do SIAC">
                     <i class="bi bi-receipt"></i> Importar Empenhos
                 </button>
+                <!-- ⬆️ FIM -->
                 <?php endif; ?>
 
                 <button type="button" id="btn-atualizar-dataset47" class="btn btn-outline-primary btn-sm"
@@ -1971,47 +1991,67 @@ function baixarCsvRelatorio(d) {
 }
 
 // ================================================================
-// SIAC — última extração completa
+// SIAC — última extração (3 reloginhos: SIAC / Dados / Empenhos)
 // ================================================================
+const IMPORTER_CONFIGS = [
+    { key:'siac',     badgeId:'siac-ultima-extracao',     endpoint:'importar_siac_isabella.php',
+      label:'Medições SIAC',      clicksToReport:true  },
+    { key:'dados',    badgeId:'dados-ultima-extracao',    endpoint:'importar_dados_contratos_isa.php',
+      label:'Dados de Contratos', clicksToReport:false },
+    { key:'empenhos', badgeId:'empenhos-ultima-extracao', endpoint:'importar_empenhos_isa.php',
+      label:'Empenhos',           clicksToReport:false },
+];
+
 async function recarregarBadgeUltimaExtracao() {
     if (!PODE_SCRAPER) return;
-    const badge = $el('#siac-ultima-extracao');
-    const txt   = $el('#siac-ultima-texto');
-    if (!badge || !txt) return;
+    for (const cfg of IMPORTER_CONFIGS) {
+        await atualizarBadgeUltimaExtracao(cfg);
+    }
+}
+
+async function atualizarBadgeUltimaExtracao(cfg) {
+    const badge = document.getElementById(cfg.badgeId);
+    if (!badge) return;
 
     try {
-        const resp = await fetchAuth('importar_siac_isabella.php?acao=ultima_extracao');
+        const resp = await fetchAuth(`${cfg.endpoint}?acao=ultima_extracao`);
         const r = await resp.json();
         const j = r && r.job;
         if (!j || !j.job_id) { badge.hidden = true; return; }
 
+        // Cor por status
         badge.classList.remove('alerta', 'erro');
         if (j.status === 'cancelado') badge.classList.add('alerta');
         else if (j.status === 'erro') badge.classList.add('erro');
 
-        const dataIni = j.iniciado_em ? new Date(j.iniciado_em.replace(' ', 'T')) : null;
-        const dd = dataIni
-            ? dataIni.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' }) + ' ' +
-              dataIni.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })
-            : '—';
         const total = Number(j.total) || 0;
         const meds  = Number(j.inseridos) || 0;
         const medsFmt = meds.toLocaleString('pt-BR');
 
-        txt.textContent = `${dd} · ${total} ct · ${medsFmt} med`;
-
+        // Tooltip com TODOS os dados
         const oldTt = bootstrap.Tooltip.getInstance(badge);
         if (oldTt) oldTt.dispose();
         badge.setAttribute('title',
-            `<strong>Última extração completa</strong><br>` +
+            `<strong>Última extração — ${cfg.label}</strong><br>` +
             `${fmtDataHora(j.iniciado_em)} → ${fmtDataHora(j.finalizado_em)}<br>` +
             `Por: <strong>${escapeHtml(j.usuario || '—')}</strong><br>` +
-            `${total} contratos · ${medsFmt} medições<br>` +
+            `${total} contratos · ${medsFmt} inserido(s)<br>` +
             `Status: <strong>${escapeHtml(j.status || '—')}</strong>`
+            + (cfg.clicksToReport ? '<br><em style="color:#6c757d">Clique para abrir o relatório</em>' : '')
         );
         new bootstrap.Tooltip(badge, { html: true, sanitize: false, placement: 'bottom' });
 
-        badge.onclick = () => abrirRelatorioSiac(j.job_id);
+        // Clique
+        badge.onclick = () => {
+            if (cfg.clicksToReport) {
+                abrirRelatorioSiac(j.job_id);
+            } else {
+                mostrarToast(
+                    `${cfg.label}: ${total} ct · ${medsFmt} inseridos · ${j.status}`,
+                    j.status === 'erro' ? 'erro' : (j.status === 'cancelado' ? 'warning' : 'success')
+                );
+            }
+        };
         badge.hidden = false;
     } catch (e) {
         badge.hidden = true;
@@ -2793,7 +2833,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setProgresso(p, s.etapa || 'Processando…',
                     (s.contrato_atual ? `Processando: ${s.contrato_atual}` : '') +
                     (s.processados != null && s.total ? ` (${s.processados}/${s.total})` : ''));
-                if (s.status === 'concluido') { clearInterval(state.timer); state.timer = null; setProgresso(100, 'Concluído', ''); mostrarResultado(s); }
+                if (s.status === 'concluido') {
+                    clearInterval(state.timer); state.timer = null;
+                    setProgresso(100, 'Concluído', '');
+                    mostrarResultado(s);
+                    recarregarBadgeUltimaExtracao();   // ⬅️ NOVO
+                }
                 else if (s.status === 'erro') { clearInterval(state.timer); state.timer = null; if (s.etapa === 'login' || s.login_ok === 0) voltarForm(s.erro || 'Falha no login.'); else mostrarErro(s.erro || 'Erro no scraper.'); }
             } catch (e) {
                 if (++falhasRede >= 10) { clearInterval(state.timer); state.timer = null; mostrarErro('Sem resposta do servidor.'); }
