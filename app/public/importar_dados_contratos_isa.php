@@ -2,11 +2,14 @@
 // app/public/importar_dados_contratos_isa.php
 //
 // Ações:
-//   ?acao=ambiente_check   → diagnóstico
-//   ?acao=setup_db         → cria tabelas necessárias (executar 1x)
-//   ?acao=executar  (POST) → cria job, insere em siac_import_jobs, dispara script
-//   ?acao=status&job=X     → lê siac_import_jobs
-//   ?acao=historico        → últimos 10 jobs (prefixo dados_)
+//   ?acao=ambiente_check        → diagnóstico
+//   ?acao=setup_db              → cria tabelas necessárias (executar 1x)
+//   ?acao=executar  (POST)      → cria job, insere em siac_import_jobs, dispara script
+//   ?acao=status&job=X          → lê siac_import_jobs
+//   ?acao=historico             → últimos 10 jobs (prefixo dados_)
+//   ?acao=ultima_extracao       → último job (relógio da view)          ← NOVO
+//   ?acao=relatorio&job=X       → resumo + itens por contrato           ← NOVO
+//   ?acao=cancelar&job=X        → marca cancelado + mata processo        ← NOVO
 
 require_once __DIR__ . '/config.php';
 
@@ -32,12 +35,15 @@ if (!is_dir(JOBS_DIR)) {
 $acao = $_REQUEST['acao'] ?? '';
 try {
     switch ($acao) {
-        case 'ambiente_check': ambienteCheck($pdo); break;
-        case 'setup_db':       setupDb($pdo);       break;
-        case 'executar':       executar($pdo);      break;
-        case 'status':         status($pdo);        break;
-        case 'historico':      historico($pdo);     break;
-        default:               falha(400, 'Ação inválida');
+        case 'ambiente_check':  ambienteCheck($pdo);  break;
+        case 'setup_db':        setupDb($pdo);        break;
+        case 'executar':        executar($pdo);       break;
+        case 'status':          status($pdo);         break;
+        case 'historico':       historico($pdo);      break;
+        case 'ultima_extracao': ultimaExtracao($pdo); break;
+        case 'relatorio':       relatorio($pdo);      break;
+        case 'cancelar':        cancelar($pdo);       break;
+        default:                falha(400, "Ação inválida: {$acao}. Esperado: ambiente_check, setup_db, executar, status, historico, ultima_extracao, relatorio, cancelar.");
     }
 } catch (Throwable $e) {
     falha(500, $e->getMessage());
@@ -90,7 +96,6 @@ function setupDb(PDO $pdo): void {
         ");
         $criadas[] = T_DADOS;
 
-        // Adiciona coluna tipo em siac_import_jobs se não existir
         $col = $pdo->query("SHOW COLUMNS FROM `" . T_JOBS . "` LIKE 'tipo'")->fetch();
         if (!$col) {
             $pdo->exec("ALTER TABLE `" . T_JOBS . "` ADD COLUMN `tipo` VARCHAR(20) DEFAULT 'medicoes'");
@@ -147,7 +152,6 @@ function executar(PDO $pdo): void {
     if (!is_file(SCRIPT_DADOS))            falha(500, 'script_dados_contratos.php não encontrado');
     if (!is_file(EDGEDRIVER))              falha(500, 'msedgedriver.exe não encontrado');
 
-    // Contratos do DS38
     try {
         $sql = "
             SELECT instrumento AS Contrato, unidade_manual AS Estado
@@ -173,7 +177,6 @@ function executar(PDO $pdo): void {
             : 'Nenhum contrato no Dataset 38. Atualize-o primeiro.');
     }
 
-    // Job dir
     $jobId  = 'dados_' . date('Ymd_His') . '_' . bin2hex(random_bytes(3));
     $jobDir = JOBS_DIR . '/' . $jobId;
     if (!@mkdir($jobDir, 0775, true) || !is_dir($jobDir)) {
@@ -184,7 +187,6 @@ function executar(PDO $pdo): void {
     $contratosJson = $jobDir . '/contratos.json';
     file_put_contents($contratosJson, json_encode($contratos, JSON_UNESCAPED_UNICODE));
 
-    // Registra o job
     try {
         $pdo->prepare("
             INSERT INTO `" . T_JOBS . "`
@@ -193,7 +195,6 @@ function executar(PDO $pdo): void {
             VALUES (?, 'dados', 'iniciando', 'spawn', 0, ?, 0, 0, 0, NOW(), NOW(), ?)
         ")->execute([$jobId, count($contratos), $usuario]);
     } catch (Throwable $e) {
-        // Se a coluna tipo não existir ainda, tenta sem ela
         try {
             $pdo->prepare("
                 INSERT INTO `" . T_JOBS . "`
@@ -206,7 +207,6 @@ function executar(PDO $pdo): void {
         }
     }
 
-    // php.exe CLI
     $phpBin = 'php';
     foreach (['C:\\xampp\\php\\php.exe', 'C:\\php\\php.exe'] as $c) {
         if (is_file($c)) { $phpBin = $c; break; }
@@ -335,4 +335,184 @@ function historico(PDO $pdo): void {
         ")->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable $e) { $itens = []; }
     echo json_encode(['itens' => $itens], JSON_UNESCAPED_UNICODE);
+}
+
+// =============================================================
+// ÚLTIMA EXTRAÇÃO  (relógio da view)
+// =============================================================
+function ultimaExtracao(PDO $pdo): void {
+    try {
+        $st = $pdo->query("
+            SELECT job_id, status, iniciado_em, finalizado_em, usuario, total, inseridos
+              FROM `" . T_JOBS . "`
+             WHERE job_id LIKE 'dados\\_%'
+             ORDER BY iniciado_em DESC LIMIT 1
+        ");
+        $j = $st->fetch(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        $j = null;
+    }
+
+    if (!$j) {
+        echo json_encode(['job' => null], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    echo json_encode(['job' => [
+        'job_id'        => $j['job_id'],
+        'status'        => $j['status'],
+        'iniciado_em'   => $j['iniciado_em'],
+        'finalizado_em' => $j['finalizado_em'],
+        'usuario'       => $j['usuario'],
+        'total'         => (int)$j['total'],
+        'inseridos'     => (int)$j['inseridos'],
+    ]], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// =============================================================
+// RELATÓRIO DO JOB
+//
+// Reconstrói os itens a partir de:
+//   • siac_contratos_dados  (WHERE importacao_id = job) → OK
+//   • siac_import_jobs.ignorados (JSON)                → IGNORADO
+//   • siac_import_jobs.erro      (string)              → ERRO agregado
+// =============================================================
+function relatorio(PDO $pdo): void {
+    $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
+    if ($jobId === '') falha(422, 'job obrigatório');
+
+    try {
+        $st = $pdo->prepare("SELECT * FROM `" . T_JOBS . "` WHERE job_id = ?");
+        $st->execute([$jobId]);
+        $j = $st->fetch(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        falha(500, 'Erro ao ler job: ' . $e->getMessage());
+    }
+    if (!$j) falha(404, 'job não encontrado');
+
+    $itens = [];
+
+    // --- Itens OK (a partir da tabela de dados) ---
+    try {
+        $st2 = $pdo->prepare("
+            SELECT contrato, estado, empresa_executora, situacao, numero_contrato
+              FROM `" . T_DADOS . "`
+             WHERE importacao_id = ?
+             ORDER BY contrato
+        ");
+        $st2->execute([$jobId]);
+        foreach ($st2->fetchAll(PDO::FETCH_ASSOC) as $r) {
+            $motivo = $r['empresa_executora']
+                ? 'Empresa: ' . $r['empresa_executora']
+                : ($r['situacao'] ?: '');
+            $itens[] = [
+                'contrato'    => (string)$r['contrato'],
+                'estado'      => (string)($r['estado'] ?? ''),
+                'status'      => 'OK',
+                'medicoes'    => 1,
+                'duracao_seg' => 0,
+                'motivo'      => $motivo,
+            ];
+        }
+    } catch (Throwable $e) {
+        // Se a tabela não existir ainda, segue sem os OK
+    }
+
+    // --- Itens IGNORADOS (JSON da coluna ignorados) ---
+    $ign = json_decode((string)($j['ignorados'] ?? ''), true);
+    if (is_array($ign)) {
+        foreach ($ign as $i) {
+            if (is_array($i)) {
+                $itens[] = [
+                    'contrato'    => (string)($i['contrato'] ?? $i['Contrato'] ?? $i['instrumento'] ?? '?'),
+                    'estado'      => (string)($i['estado']   ?? $i['Estado']   ?? $i['unidade_manual'] ?? ''),
+                    'status'      => 'IGNORADO',
+                    'medicoes'    => 0,
+                    'duracao_seg' => 0,
+                    'motivo'      => (string)($i['motivo'] ?? $i['razao'] ?? $i['msg'] ?? $i['mensagem'] ?? ''),
+                ];
+            } else {
+                $itens[] = [
+                    'contrato'    => (string)$i,
+                    'estado'      => '',
+                    'status'      => 'IGNORADO',
+                    'medicoes'    => 0,
+                    'duracao_seg' => 0,
+                    'motivo'      => '',
+                ];
+            }
+        }
+    }
+
+    // --- Erro geral do job (se houver) ---
+    $erroGeral = trim((string)($j['erro'] ?? ''));
+    if ($erroGeral !== '') {
+        $itens[] = [
+            'contrato'    => '—',
+            'estado'      => '',
+            'status'      => 'ERRO',
+            'medicoes'    => 0,
+            'duracao_seg' => 0,
+            'motivo'      => $erroGeral,
+        ];
+    }
+
+    // --- Resumo ---
+    $ok = 0; $ignCount = 0; $err = 0;
+    foreach ($itens as $it) {
+        if ($it['status'] === 'OK')             $ok++;
+        elseif ($it['status'] === 'IGNORADO')   $ignCount++;
+        else                                     $err++;
+    }
+
+    echo json_encode([
+        'ok'            => true,
+        'job'           => $jobId,
+        'status'        => $j['status'],
+        'iniciado_em'   => $j['iniciado_em']   ?? null,
+        'finalizado_em' => $j['finalizado_em'] ?? null,
+        'total'         => (int)$j['total'],
+        'processados'   => (int)$j['processados'],
+        'resumo'        => [
+            'ok'       => $ok,
+            'ignorado' => $ignCount,
+            'erro'     => $err,
+            'medicoes' => (int)$j['inseridos'],
+        ],
+        'itens'         => $itens,
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// =============================================================
+// CANCELAR
+// =============================================================
+function cancelar(PDO $pdo): void {
+    $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
+    if ($jobId === '') falha(422, 'job obrigatório');
+
+    try {
+        $pdo->prepare("UPDATE `" . T_JOBS . "` SET status='cancelado', finalizado_em=NOW(), atualizado_em=NOW()
+                        WHERE job_id=? AND status IN ('iniciando','rodando')")
+            ->execute([$jobId]);
+    } catch (Throwable $e) {
+        falha(500, 'Erro ao cancelar: ' . $e->getMessage());
+    }
+
+    $meta = @json_decode(@file_get_contents(JOBS_DIR . '/' . $jobId . '/meta.json'), true);
+    $pid  = (int)($meta['pid'] ?? 0);
+    if ($pid > 0) {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            @exec('taskkill /PID ' . $pid . ' /F /T 2>NUL');
+        } else {
+            @exec('kill -9 ' . $pid . ' 2>/dev/null');
+        }
+    }
+
+    echo json_encode([
+        'ok'       => true,
+        'mensagem' => 'Cancelamento solicitado. Processos em background foram encerrados.',
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
 }

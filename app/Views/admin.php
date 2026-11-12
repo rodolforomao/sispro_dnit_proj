@@ -25,6 +25,7 @@ $setor_slug    = $_SESSION['setor_slug'] ?? 'assessoria-projetos';
 $setor_nome    = $setor_slug === 'assessoria-projetos' ? 'Assessoria e Projetos' : 'Atlas/Monitoramento';
 
 $isAdmin = in_array($usuario_nivel, ['desenvolvedor', 'admin']);
+$isDev   = ($usuario_nivel === 'desenvolvedor' || !empty($_SESSION['is_desenvolvedor']));
 
 // Contar pendentes (para o badge)
 $total_pendentes = 0;
@@ -154,6 +155,14 @@ $todosAdmin     = (isset($todos)     && is_array($todos))     ? $todos     : [];
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCriar">
                 <i class="bi bi-plus-circle"></i> Novo Usuário
             </button>
+
+            <!-- ⬇️ NOVO BOTÃO: Apenas para Desenvolvedor ⬇️ -->
+            <?php if ($isDev): ?>
+                <a href="extracao" class="btn btn-primary" title="Construtor de Extrações">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Extrações
+                </a>
+            <?php endif; ?>
+            <!-- ⬆️ FIM -->
 
             <a href="debug_supra_json.php" class="btn btn-warning" title="Inspecionar JSON da API do DataSet 36">
                 <i class="bi bi-bug-fill"></i> Debug API

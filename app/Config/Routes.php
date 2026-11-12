@@ -33,6 +33,13 @@ return [
     'admin'     => ['controller' => 'AdminController', 'method' => 'index'],
     'gerencial' => ['controller' => 'AdminController', 'method' => 'gerencial'],
 
+    // >>> CONSTRUTOR DE EXTRAÇÕES (Somente Desenvolvedor)
+    'extracao'           => ['controller' => 'ExtracaoController', 'method' => 'index'],
+    'extracao/gerar'     => ['controller' => 'ExtracaoController', 'method' => 'gerar'],
+    'extracao/historico' => ['controller' => 'ExtracaoController', 'method' => 'historico'],
+    'extracao/baixar'    => ['controller' => 'ExtracaoController', 'method' => 'baixar'],
+    // <<< FIM
+
     // RDCI (Assessoria e Projetos)
     'contratos_rdci'      => ['controller' => 'RdciController', 'method' => 'contratos'],
     'rdci'                => ['controller' => 'RdciController', 'method' => 'atualizacoes'],
@@ -81,7 +88,7 @@ return [
     'analise_orc/planejado_analista/salvar' => ['controller' => 'AnaliseOrcController', 'method' => 'salvarPlanejadoAnalista'],
     'analise_orc/preferencia/salvar'        => ['controller' => 'AnaliseOrcController', 'method' => 'salvarPreferencia'],
 
-    // >>> RANKING (adicionar estas duas)
-    'analise_orc/ranking'                   => ['controller' => 'AnaliseOrcController', 'method' => 'ranking'],
-    'analise_orc/ranking_data'              => ['controller' => 'AnaliseOrcController', 'method' => 'rankingData'],
+    // RANKING
+    'analise_orc_ranking'                   => ['controller' => 'AnaliseOrcController', 'method' => 'ranking'],
+    'analise_orc_ranking/ranking_data'      => ['controller' => 'AnaliseOrcController', 'method' => 'rankingData'],
 ];

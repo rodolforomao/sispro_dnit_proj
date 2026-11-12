@@ -3,24 +3,30 @@
 //
 // FONTES:
 //   - supra_dataset_47_financeiro_orcamentario_atlas  (financeiro/orçamentário)
-//   - supra_dataset_38_todos                          (cadastro: nome usual, BR, empresa)
+//   - supra_dataset_48_loa_janelas                    (LOA atualizada — dotações)
+//   - supra_dataset_38_todos                          (BR, fallback cadastral)
+//   - supra_dataset_36_todos                          (nome usual, empresa construtora, datas de execução)
 //   - siac_medicoes                                   (medições mensais — scraper)
 //   - analise_orc_estimativa                          (valores manuais — estimado)
 //   - analise_orc_planejado_analista                  (valores manuais — planejado analista)
 //   - analise_orc_preferencia                         (NPO vs ANALISTA por contrato)
 //   - alerta_notificacao                              (notificações)
-//   - npo_dotacao (opcional, se existir)              (dotação)
+//   - npo_dotacao (fallback legado)                   (dotação)
 
 class AnaliseOrcModel
 {
-    private const TABELA     = '`supra_dataset_47_financeiro_orcamentario_atlas`';
-    private const TABELA_38  = '`supra_dataset_38_todos`';   // ⬅️ NOVO
-    private const TABELA_MED = '`siac_medicoes`';
+    private const TABELA      = '`supra_dataset_47_financeiro_orcamentario_atlas`';
+    private const TABELA_48   = '`supra_dataset_48_loa_janelas`';
+    private const TABELA_38   = '`supra_dataset_38_todos`';
+    private const TABELA_36   = '`supra_dataset_36_todos`';   // ⬅️ NOVO
+    private const TABELA_MED  = '`siac_medicoes`';
     private const EXERCICIO_PADRAO = 2026;
 
-    private ?array $configCache = null;
-    private array $datasetRowCache = [];
-    private array $ds38RowCache    = [];   // ⬅️ NOVO
+    private ?array $configCache    = null;
+    private array  $datasetRowCache = [];
+    private array  $ds38RowCache    = [];
+    private array  $ds36RowCache    = [];    // ⬅️ NOVO
+    private array  $ds48Cache       = [];
 
     public function __construct(private PDO $pdo) {}
 
@@ -69,19 +75,13 @@ class AnaliseOrcModel
     }
 
     // =============================================================
-    // DATASET 38 — cadastro (nome usual, BR, empresa)  ⬅️ NOVO
+    // DATASET 38 — BR (prioritário), fallback nome/empresa
     // =============================================================
-    /**
-     * Retorna a linha da DS38 para um contrato (instrumento).
-     * Faz cache em memória para evitar N+1 quando listando contratos.
-     */
     public function ds38Row(string $numero): ?array
     {
         if (array_key_exists($numero, $this->ds38RowCache)) return $this->ds38RowCache[$numero];
 
         try {
-            // Pode haver múltiplas linhas do mesmo instrumento (por unidade/estado).
-            // Pegamos a primeira (id ASC) — os 3 campos são os mesmos em todas.
             $st = $this->pdo->prepare(
                 'SELECT instrumento, br, nome_usual, empresa
                    FROM ' . self::TABELA_38 . '
@@ -96,6 +96,104 @@ class AnaliseOrcModel
         return $this->ds38RowCache[$numero] = $r;
     }
 
+    // =============================================================
+    // DATASET 36 — nome usual, empresa construtora, datas de execução
+    // =============================================================
+    /**
+     * Retorna a linha do DS36 para um contrato.
+     *
+     * Estratégia em cascata:
+     *   1) Match exato em `instrumento`.
+     *   2) Match normalizado (remove espaços, hífens, pontos, barras)
+     *      para cobrir diferenças tipo "00 00041/2025" × "0000041/2025".
+     *   3) Match por sufixo "<digitos>/<ano>" (remove zeros à esquerda).
+     *
+     * Cache em memória por número — zero N+1 ao listar contratos.
+     */
+    public function ds36Row(string $numero): ?array
+    {
+        if (array_key_exists($numero, $this->ds36RowCache)) {
+            return $this->ds36RowCache[$numero];
+        }
+
+        $tabelas = [self::TABELA_36, '`supra_dataset_36_todos`'];
+
+        // ---------- 1) Match exato ----------
+        foreach ($tabelas as $tbl) {
+            try {
+                $st = $this->pdo->prepare("SELECT * FROM $tbl WHERE instrumento = :n LIMIT 1");
+                $st->execute([':n' => $numero]);
+                $row = $st->fetch(PDO::FETCH_ASSOC) ?: null;
+                if ($row !== null) return $this->ds36RowCache[$numero] = $row;
+            } catch (Throwable $e) {
+                continue;   // tabela pode não existir com esse nome
+            }
+        }
+
+        // ---------- 2) Match normalizado ----------
+        $numeroNorm = preg_replace('/[\s\-\.\/]+/', '', $numero);
+        if ($numeroNorm !== '' && $numeroNorm !== $numero) {
+            foreach ($tabelas as $tbl) {
+                try {
+                    $st = $this->pdo->prepare("
+                        SELECT *
+                          FROM $tbl
+                         WHERE REPLACE(REPLACE(REPLACE(REPLACE(instrumento, ' ', ''), '-', ''), '.', ''), '/', '') = :n
+                         LIMIT 1
+                    ");
+                    $st->execute([':n' => $numeroNorm]);
+                    $row = $st->fetch(PDO::FETCH_ASSOC) ?: null;
+                    if ($row !== null) return $this->ds36RowCache[$numero] = $row;
+                } catch (Throwable $e) {
+                    continue;
+                }
+            }
+        }
+
+        // ---------- 3) Match por sufixo "<digitos>/<ano>" ----------
+        if (preg_match('/(\d+)\s*\/\s*(\d{4})\s*$/', $numero, $m)) {
+            $ano     = $m[2];
+            $digitos = ltrim($m[1], '0');
+            if ($digitos === '') $digitos = $m[1];
+
+            foreach ($tabelas as $tbl) {
+                try {
+                    $st = $this->pdo->prepare("
+                        SELECT *
+                          FROM $tbl
+                         WHERE instrumento LIKE :sufixo
+                         LIMIT 1
+                    ");
+                    $st->execute([':sufixo' => "%{$digitos}/{$ano}"]);
+                    $row = $st->fetch(PDO::FETCH_ASSOC) ?: null;
+                    if ($row !== null) return $this->ds36RowCache[$numero] = $row;
+                } catch (Throwable $e) {
+                    continue;
+                }
+            }
+        }
+
+        return $this->ds36RowCache[$numero] = null;
+    }
+
+    /**
+     * Retorna o primeiro valor não-vazio entre as chaves indicadas.
+     * Usado para montar a cascata DS36 → DS38 → DS47 sem repetir `??`.
+     */
+    private function pickFirst(?array $row, array $keys): mixed
+    {
+        if (!$row) return null;
+        foreach ($keys as $k) {
+            if (array_key_exists($k, $row) && $row[$k] !== null && $row[$k] !== '') {
+                return $row[$k];
+            }
+        }
+        return null;
+    }
+
+    // =============================================================
+    // AÇÕES E TIPOS
+    // =============================================================
     public function acoes(int $exercicio): array
     {
         try {
@@ -171,18 +269,76 @@ class AnaliseOrcModel
         return ($r && !empty($r['acao'])) ? [(string)$r['acao']] : [];
     }
 
+    // =============================================================
+    // DOTAÇÃO ATUALIZADA — lê do Dataset 48
+    // =============================================================
     public function dotacaoAtualizada(string $acaoId, int $exercicio): float
     {
+        $cacheKey = $acaoId;
+        if (array_key_exists($cacheKey, $this->ds48Cache)) return $this->ds48Cache[$cacheKey];
+
+        // 1) Match exato
         try {
             $st = $this->pdo->prepare(
-                'SELECT COALESCE(SUM(d.valor),0)
+                'SELECT COUNT(*), COALESCE(SUM(loa_atualizada), 0)
+                   FROM ' . self::TABELA_48 . ' WHERE acao = :acao'
+            );
+            $st->execute([':acao' => $acaoId]);
+            $row = $st->fetch(PDO::FETCH_NUM);
+            if ($row && (int)$row[0] > 0) return $this->ds48Cache[$cacheKey] = (float)$row[1];
+        } catch (Throwable $e) { /* DS48 não importado */ }
+
+        // 2) Match normalizado
+        $acaoNorm = preg_replace('/[^0-9A-Za-z]/', '', $acaoId);
+        if ($acaoNorm !== '' && $acaoNorm !== $acaoId) {
+            try {
+                $st = $this->pdo->prepare(
+                    'SELECT COUNT(*), COALESCE(SUM(loa_atualizada), 0)
+                       FROM ' . self::TABELA_48 . '
+                      WHERE REPLACE(REPLACE(REPLACE(acao, ".", ""), "-", ""), " ", "") = :acao'
+                );
+                $st->execute([':acao' => $acaoNorm]);
+                $row = $st->fetch(PDO::FETCH_NUM);
+                if ($row && (int)$row[0] > 0) return $this->ds48Cache[$cacheKey] = (float)$row[1];
+            } catch (Throwable $e) {}
+        }
+
+        // 3) Fallback legado
+        try {
+            $st = $this->pdo->prepare(
+                'SELECT COALESCE(SUM(d.valor), 0)
                    FROM npo_dotacao d
                    JOIN npo_acao_orcamentaria a ON a.id = d.acao_id
                   WHERE a.codigo = :acao AND d.exercicio = :ano'
             );
             $st->execute([':acao' => $acaoId, ':ano' => $exercicio]);
-            return (float)$st->fetchColumn();
-        } catch (Throwable $e) { return 0.0; }
+            return $this->ds48Cache[$cacheKey] = (float)$st->fetchColumn();
+        } catch (Throwable $e) {
+            return $this->ds48Cache[$cacheKey] = 0.0;
+        }
+    }
+
+    // =============================================================
+    // TOTAL LIQUIDADO (TODOS OS ANOS)
+    // =============================================================
+    public function totalLiquidadoContrato(string $numero): ?float
+    {
+        $r = $this->datasetRow($numero);
+        if (!$r) return null;
+
+        if (array_key_exists('total_liquidado', $r) && $r['total_liquidado'] !== null) {
+            return (float)$r['total_liquidado'];
+        }
+
+        $total = 0.0;
+        $achou = false;
+        foreach ($r as $key => $val) {
+            if (str_starts_with((string)$key, 'liquidado_') && $val !== null) {
+                $total += (float)$val;
+                $achou = true;
+            }
+        }
+        return $achou ? $total : null;
     }
 
     // =============================================================
@@ -403,7 +559,7 @@ class AnaliseOrcModel
     }
 
     // =============================================================
-    // PLANEJADO ANALISTA (paralelo ao NPO)
+    // PLANEJADO ANALISTA
     // =============================================================
     public function getPlanejadoAnalistaContrato(string $numero): array
     {
@@ -505,7 +661,7 @@ class AnaliseOrcModel
     }
 
     // =============================================================
-    // HELPERS
+    // MAPEAR CONTRATO — cascata DS36 → DS38 → DS47
     // =============================================================
     private function mapearContrato(array $r): array
     {
@@ -521,8 +677,62 @@ class AnaliseOrcModel
         $saldoRap = (float)($r['saldo_rap_acao']        ?? 0);
         $saldoER  = (float)($r['saldo_empenho_rap_acao'] ?? ($saldoEmp + $saldoRap));
 
-        // ⬇️ NOVO: cadastro da DS38 (nome usual, BR, empresa)
+        // Cadastros externos
         $ds38 = $this->ds38Row($numero);
+        $ds36 = $this->ds36Row($numero);
+
+        // ============================================================
+        // NOME USUAL — DS36 (nome_usual / nome_empreendimento_governa) → DS38 → DS47
+        // ============================================================
+        $nomeUsual = $this->pickFirst($ds36, [
+            'nome_usual',            
+        ]) ?? $this->pickFirst($ds38, [
+            'nome_usual',
+            'nome_empreendimento',
+        ]) ?? ($r['nome_usual'] ?? null);
+
+        // ============================================================
+        // EMPRESA (executora) — DS36 usa `empresa_construtora`
+        // ============================================================
+        $empresa = $this->pickFirst($ds36, [
+            'empresa_construtora',        // ⬅️ campo correto no DS36
+        ]) ?? $this->pickFirst($ds38, [
+            'empresa',
+            'empresa_construtora',
+            'empresa_executora',
+        ]) ?? ($r['empresa'] ?? null);
+
+        // ============================================================
+        // BR — DS38 → DS36 → DS47
+        // ============================================================
+        $br = $this->pickFirst($ds38, ['br', 'rodovia', 'br_rodovia'])
+           ?? $this->pickFirst($ds36, ['br', 'rodovia', 'br_rodovia'])
+           ?? ($r['br'] ?? null);
+
+        // ============================================================
+        // DATAS — DS36 (execução) → DS47 (serviços/vigência)
+        // ============================================================
+        $inicio36 = $this->pickFirst($ds36, [
+            'data_inicio_vigencia',
+            'inicio_vigencia',
+            'data_inicio_execucao',
+            'inicio_servicos',
+        ]);
+
+        $termino36 = $this->pickFirst($ds36, [
+            'data_termino_servicos',                       // término dos serviços (mais específico)
+            'data_termino_execucao',                       // término da execução
+            'data_termino_cronograma_obra_atualizado',     // cronograma atualizado
+            'data_termino_vigencia',                       // vigência
+        ]);
+
+        $dataInicioServ  = $r['inicio_servicos']  ?? null;
+        $dataInicioVig   = $r['inicio_vigencia']  ?? null;
+        $dataTerminoServ = $r['termino_servicos'] ?? null;
+        $dataTerminoVig  = $r['termino_vigencia'] ?? null;
+
+        $dataInicioFinal     = $inicio36  ?? $dataInicioServ  ?? $dataInicioVig;
+        $dataTerminoServicos = $termino36 ?? $dataTerminoServ ?? $dataTerminoVig;
 
         return [
             'id'                      => crc32($numero),
@@ -531,24 +741,36 @@ class AnaliseOrcModel
             'superintendencia'        => $r['estado']          ?? null,
             'acao_id_principal'       => $acao,
             'acoes'                   => $acao ? [$acao] : [],
-            // ⬇️ NOVO
-            'nome_usual'              => $ds38['nome_usual'] ?? null,
-            'br'                      => $ds38['br']         ?? null,
-            'empresa'                 => $ds38['empresa']    ?? null,
-            // ⬆️ NOVO
+
+            // Cadastro consolidado
+            'nome_usual'              => $nomeUsual,
+            'br'                      => $br,
+            'empresa'                 => $empresa,
+
+            // Instrumento
             'valor_pi'                => $pi,
             'valor_aditivo'           => $aditivo,
             'valor_reajuste'          => $reajuste,
             'pi_a_r'                  => isset($r['pi_a_r']) ? (float)$r['pi_a_r'] : null,
             'total_instrumento'       => $pi + $aditivo + $reajuste,
+
+            // Empenho / RAP
             'valor_empenhado'         => $saldoEmp,
             'valor_rap'               => $saldoRap,
             'valor_empenhado_efetivo' => $saldoEmp,
             'valor_rap_efetivo'       => $saldoRap,
             'disponivel_bruto'        => $saldoER,
             'valor_planejado'         => 0.0,
-            'data_inicio'             => null,
-            'data_fim'                => $r['termino_vigencia']       ?? null,
+
+            // Datas
+            'data_inicio'             => $dataInicioFinal,
+            'data_fim'                => $dataTerminoServicos,
+            'termino_servicos'        => $dataTerminoServicos,
+            'termino_vigencia'        => $dataTerminoVig  ?? null,
+            'inicio_servicos'         => $dataInicioServ  ?? null,
+            'inicio_vigencia'         => $dataInicioVig   ?? null,
+
+            // SIAC / status
             'status_siac'             => $r['status_siac']            ?? null,
             'ultimo_mes_medido'       => $r['ultimo_mes_medido']      ?? null,
             'ultimo_mes_liquidado'    => $r['ultimo_mes_liquidado']   ?? null,

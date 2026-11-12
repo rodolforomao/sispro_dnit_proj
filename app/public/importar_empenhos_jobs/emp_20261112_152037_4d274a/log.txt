@@ -1,0 +1,26 @@
+[2026-11-12 15:20:37] INICIANDO JOB emp_20261112_152037_4d274a
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_empenhos_isa.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261112_152037_4d274a/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261112_152037_4d274a/saida" --job="emp_20261112_152037_4d274a" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-12 15:20:37] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[15:20:37] [spawn] job emp_20261112_152037_4d274a, 1 contratos (headless=NAO)
+[15:20:37] [driver] iniciando porta 4579
+[15:20:38] [driver] pronto
+[15:20:39] [sess] criada, headless=NAO
+[15:20:39] ══════════════════════════════════════
+[15:20:39] [login] iniciando (3 tentativas se necessario)
+[15:20:39] [login] --- tentativa 1/3 ---
+[15:20:42] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[15:20:43] [login]   encriptarEnviar: OK
+[15:20:44] [login]   OK (conteudo) em ~1s
+[15:20:44] ══════════════════════════════════════
+[15:20:44] [loop] iniciando 1 contratos
+[15:20:44] [0/1] 00 00083/2017 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[15:21:54]     ignorado: Erro: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'valor_empenho_total' in 'field list'
+[15:21:54] ══════════════════════════════════════
+[15:21:54] [fim] 0 empenhos, 0 eventos, 1 ignorados, 77s total

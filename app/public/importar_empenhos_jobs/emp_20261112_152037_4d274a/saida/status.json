@@ -1,0 +1,20 @@
+{
+    "status": "concluido",
+    "etapa": "concluido",
+    "progresso": 100,
+    "total": 1,
+    "processados": 1,
+    "empenhos_inseridos": 0,
+    "eventos_inseridos": 0,
+    "contratos_ignorados": 1,
+    "ignorados_detalhe": [
+        {
+            "Contrato": "00 00083\/2017",
+            "Estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+            "Motivo": "Erro: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'valor_empenho_total' in 'field list'"
+        }
+    ],
+    "iniciado_em": "2026-11-12 15:20:37",
+    "finalizado_em": "2026-11-12 15:21:54",
+    "tempo_segundos": 77
+}

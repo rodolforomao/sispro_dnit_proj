@@ -1,0 +1,4802 @@
+[
+    {
+        "contrato": "00 00011\/2021",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 61,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00022\/2017",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 23,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00033\/2015",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 98,
+        "motivo": null,
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00035\/2013",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 97,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00041\/2025",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 14,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00049\/2008",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 186,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00 00054\/2023",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 40,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00057\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 30,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 00063\/2025",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00083\/2017",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 115,
+        "motivo": null,
+        "duracao_seg": 23
+    },
+    {
+        "contrato": "00 00093\/2022",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00100\/2022",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 52,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00202\/2025",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 15,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00217\/2014",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 90,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00245\/2025",
+        "estado": "S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE",
+        "status": "OK",
+        "medicoes": 8,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00246\/2024",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 23,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00246\/2025",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 11,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00247\/2025",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "OK",
+        "medicoes": 11,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00262\/2026",
+        "estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00 00263\/2026",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00 00264\/2019",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 87,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00265\/2026",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00 00267\/2026",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00 00277\/2022",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 50,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00287\/2024",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00288\/2024",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00289\/2024",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00290\/2024",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00299\/2026",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00 00320\/2022",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 50,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00326\/2026",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00 00351\/2013",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 108,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00352\/2013",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 108,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00375\/2024",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 00377\/2020",
+        "estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00 00379\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 25,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 00389\/2024",
+        "estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+        "status": "OK",
+        "medicoes": 16,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00390\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 25,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 00391\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00392\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00402\/2024",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 14,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00409\/2014",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 150,
+        "motivo": null,
+        "duracao_seg": 17
+    },
+    {
+        "contrato": "00 00412\/2016",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 89,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00 00412\/2024",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00431\/2025",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 13,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00459\/2024",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00461\/2025",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 13,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00462\/2012",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 102,
+        "motivo": null,
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00463\/2020",
+        "estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00493\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 153,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00 00494\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 151,
+        "motivo": null,
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00508\/2011",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 179,
+        "motivo": null,
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "00 00512\/2022",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 47,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00534\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 146,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00 00544\/2024",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00563\/2024",
+        "estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+        "status": "OK",
+        "medicoes": 25,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00590\/2022",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 23,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00608\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00618\/2021",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 56,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00619\/2024",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 24,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00636\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00676\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00679\/2023",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 32,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00680\/2023",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00692\/2020",
+        "estado": "CGCONT - COORDENAÇÃO-GERAL DE CONSTRUÇÃO RODOVIÁRIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00 00704\/2022",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00719\/2023",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 24,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00726\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 102,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "00 00727\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 151,
+        "motivo": null,
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "00 00755\/2023",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00792\/2018",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 46,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 00793\/2025",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00796\/2025",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00798\/2025",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 7,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00800\/2025",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "OK",
+        "medicoes": 10,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00813\/2012",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00 00817\/2013",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 110,
+        "motivo": null,
+        "duracao_seg": 25
+    },
+    {
+        "contrato": "00 00829\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 19,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00835\/2025",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 7,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 00939\/2015",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "OK",
+        "medicoes": 124,
+        "motivo": null,
+        "duracao_seg": 26
+    },
+    {
+        "contrato": "00 00952\/2024",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "00 00958\/2024",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 12,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "00 01061\/2014",
+        "estado": "S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO",
+        "status": "OK",
+        "medicoes": 135,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00 01070\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "00 01086\/2010",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 171,
+        "motivo": null,
+        "duracao_seg": 17
+    },
+    {
+        "contrato": "00 01126\/2013",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 152,
+        "motivo": null,
+        "duracao_seg": 36
+    },
+    {
+        "contrato": "00000003\/2007",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00000071\/2022",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00000109\/2022",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00000181\/2024",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00000211\/2019",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000266\/2007",
+        "estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000266\/2023",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000366\/2023",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000403\/2022",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00000433\/2023",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00000483\/2024",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00000484\/2024",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000485\/2024",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "00000599\/2020",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "00000656\/2020",
+        "estado": "DELEGADA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00000764\/2011",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "00000870\/2016",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "00000884\/2020",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "01 00198\/2026",
+        "estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "01 00425\/2021",
+        "estado": "S.R.E - AM - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO AMAZONAS",
+        "status": "OK",
+        "medicoes": 43,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "01 00512\/2026",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "02 00007\/2026",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "02 00010\/2018",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 103,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "02 00247\/2023",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 20,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "02 00261\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00263\/2023",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00341\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00342\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00398\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00418\/2018",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 94,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "02 00471\/2021",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 58,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "02 00490\/2022",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 46,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00519\/2023",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 36,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00592\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00731\/2021",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 48,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00762\/2024",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "02 00898\/2020",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "03 00077\/2024",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "OK",
+        "medicoes": 32,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "03 00473\/2021",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "OK",
+        "medicoes": 53,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "03 00537\/2015",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "OK",
+        "medicoes": 128,
+        "motivo": null,
+        "duracao_seg": 27
+    },
+    {
+        "contrato": "03 00912\/2020",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "OK",
+        "medicoes": 65,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "03 00935\/2024",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "OK",
+        "medicoes": 18,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "04 00260\/2021",
+        "estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "04 00276\/2023",
+        "estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+        "status": "OK",
+        "medicoes": 41,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "04 00421\/2024",
+        "estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "04 00520\/2022",
+        "estado": "S.R.E - PE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE PERNAMBUCO",
+        "status": "OK",
+        "medicoes": 48,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00028\/2015",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 112,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "05 00030\/2015",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 124,
+        "motivo": null,
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "05 00059\/2022",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 45,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00068\/2026",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00105\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "05 00114\/2017",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 55,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "05 00130\/2022",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 53,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00133\/2026",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 1,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "05 00135\/2026",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "05 00155\/2023",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "05 00179\/2023",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00189\/2017",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 58,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "05 00286\/2025",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 14,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00287\/2025",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 16,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "05 00291\/2026",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 2,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "05 00312\/2023",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 38,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "05 00402\/2021",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 53,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00523\/2023",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 35,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00540\/2024",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 13,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00604\/2022",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 46,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00629\/2014",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 73,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "05 00664\/2025",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 3,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "05 00858\/2014",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 65,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "05 00875\/2014",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 76,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "05 00879\/2014",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 118,
+        "motivo": null,
+        "duracao_seg": 30
+    },
+    {
+        "contrato": "05 00911\/2016",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "OK",
+        "medicoes": 92,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "06 00111\/2026",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 3,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00120\/2025",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 19,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00298\/2023",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 40,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "06 00331\/2023",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 38,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00343\/2023",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 16,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00416\/2022",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "06 00428\/2023",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 38,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00625\/2021",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 36,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "06 00645\/2025",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "06 00646\/2025",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 8,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00798\/2020",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 8,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "06 00834\/2020",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 48,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "06 00919\/2024",
+        "estado": "S.R.E - MG - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE MINAS GERAIS",
+        "status": "OK",
+        "medicoes": 18,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "09 00047\/2023",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 41,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "09 00070\/2022",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 52,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "09 00397\/2021",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 43,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "09 00498\/2023",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 13,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "09 00705\/2022",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "09 00837\/2014",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "OK",
+        "medicoes": 106,
+        "motivo": null,
+        "duracao_seg": 23
+    },
+    {
+        "contrato": "10 00041\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 44,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00058\/2022",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 56,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "10 00062\/2024",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00094\/2021",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 64,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00136\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00138\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 44,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00169\/2024",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 32,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00230\/2025",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00325\/2026",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 2,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "10 00329\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 39,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00391\/2022",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 51,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00427\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 38,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00547\/2015",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 140,
+        "motivo": null,
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "10 00588\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 34,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00605\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 36,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00631\/2012",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 170,
+        "motivo": null,
+        "duracao_seg": 17
+    },
+    {
+        "contrato": "10 00635\/2012",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 144,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "10 00635\/2015",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 145,
+        "motivo": null,
+        "duracao_seg": 21
+    },
+    {
+        "contrato": "10 00636\/2012",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 166,
+        "motivo": null,
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "10 00650\/2016",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 119,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "10 00717\/2023",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "10 00802\/2020",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 63,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "10 00821\/2019",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 78,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "10 00844\/2020",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "OK",
+        "medicoes": 50,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "11 00031\/2024",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "11 00159\/2022",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 54,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "11 00174\/2017",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 92,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "11 00209\/2025",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "11 00259\/2016",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 40,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "11 00371\/2017",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 82,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "11 00485\/2020",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 55,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "11 00488\/2020",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 53,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "11 00551\/2023",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 36,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "11 00567\/2023",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 30,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "11 00594\/2026",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 1,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "11 00603\/2018",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 77,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "11 00655\/2025",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 11,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "11 00658\/2017",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "11 00824\/2025",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "11 00927\/2015",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 18,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "11 00960\/2015",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "OK",
+        "medicoes": 64,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "12 00089\/2023",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00214\/2019",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 48,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00218\/2022",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 20,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00293\/2021",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 36,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "12 00318\/2025",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "12 00350\/2024",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00368\/2023",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 37,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00384\/2024",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00439\/2024",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00480\/2021",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00568\/2026",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 2,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "12 00575\/2026",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "12 00588\/2024",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 24,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00600\/2025",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 7,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "12 00686\/2020",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 59,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "12 00737\/2025",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "12 00799\/2018",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 46,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "12 00857\/2015",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 66,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "12 00961\/2015",
+        "estado": "S.R.E - GO\/DF - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE GOIÁS E DISTRITO FEDERAL",
+        "status": "OK",
+        "medicoes": 101,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "13 00425\/2018",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 90,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "13 00434\/2023",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 37,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "13 00607\/2022",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 8,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "13 00651\/2025",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 10,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "13 00655\/2023",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 35,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "13 00685\/2023",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 15,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "13 00938\/2017",
+        "estado": "S.R.E - PB - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA PARAÍBA",
+        "status": "OK",
+        "medicoes": 103,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "14 00070\/2026",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "OK",
+        "medicoes": 5,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "14 00335\/2022",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "OK",
+        "medicoes": 51,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "14 00360\/2022",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "OK",
+        "medicoes": 46,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "15 00039\/2023",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 34,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "15 00160\/2026",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 2,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "15 00441\/2014",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 109,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "15 00459\/2022",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 39,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "15 00536\/2022",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "15 00537\/2022",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "15 00626\/2023",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 25,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "15 00627\/2023",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "15 00699\/2025",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 12,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "15 00710\/2020",
+        "estado": "S.R.E - MA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MARANHÃO",
+        "status": "OK",
+        "medicoes": 71,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "16 00180\/2021",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "16 00192\/2019",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 87,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "16 00332\/2023",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 40,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00355\/2014",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 145,
+        "motivo": null,
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "16 00361\/2026",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "16 00381\/2023",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 37,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00503\/2015",
+        "estado": "CGMAB - COORDENAÇÃO-GERAL DE MEIO AMBIENTE",
+        "status": "OK",
+        "medicoes": 130,
+        "motivo": null,
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "16 00534\/2014",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 95,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "16 00574\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 151,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "16 00603\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 122,
+        "motivo": null,
+        "duracao_seg": 21
+    },
+    {
+        "contrato": "16 00606\/2024",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 22,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00614\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 151,
+        "motivo": null,
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "16 00641\/2023",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00654\/2022",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 37,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00674\/2024",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 20,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "16 00703\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 140,
+        "motivo": null,
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "16 00734\/2023",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 29,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00840\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 122,
+        "motivo": null,
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "16 00846\/2025",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 7,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 00929\/2014",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "16 01093\/2013",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "OK",
+        "medicoes": 151,
+        "motivo": null,
+        "duracao_seg": 17
+    },
+    {
+        "contrato": "17 00261\/2022",
+        "estado": "S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "17 00280\/2025",
+        "estado": "S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO",
+        "status": "OK",
+        "medicoes": 16,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "17 00432\/2023",
+        "estado": "S.R.E - ES - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ESPÍRITO SANTO",
+        "status": "OK",
+        "medicoes": 32,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00131\/2022",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00191\/2019",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "18 00255\/2022",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00324\/2026",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 3,
+        "motivo": null,
+        "duracao_seg": 9
+    },
+    {
+        "contrato": "18 00493\/2025",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 13,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00517\/2022",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 39,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00557\/2023",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "18 00569\/2025",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 12,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "18 00679\/2025",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "18 00687\/2024",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 23,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00843\/2019",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 53,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "18 00899\/2019",
+        "estado": "S.R.E - PI - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PIAUÍ",
+        "status": "OK",
+        "medicoes": 72,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00127\/2022",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 50,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00142\/2024",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 28,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "19 00194\/2021",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 60,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00324\/2024",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 23,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "19 00345\/2022",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 48,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "19 00526\/2023",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 35,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "19 00587\/2017",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 70,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00644\/2021",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 51,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00695\/2022",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 45,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "19 00716\/2017",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 76,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "19 00758\/2023",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "19 00934\/2020",
+        "estado": "S.R.E - MS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO DO SUL",
+        "status": "OK",
+        "medicoes": 55,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "20 00074\/2025",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 18,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "20 00101\/2023",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "20 00245\/2026",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 3,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "20 00308\/2022",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "20 00563\/2023",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 19,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "20 00580\/2022",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 15,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "20 00866\/2019",
+        "estado": "S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "21 00087\/2026",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 6,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "21 00241\/2026",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 4,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "21 00259\/2025",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 16,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "21 00409\/2021",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 63,
+        "motivo": null,
+        "duracao_seg": 20
+    },
+    {
+        "contrato": "21 00512\/2024",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "21 00566\/2022",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 27,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "21 00820\/2025",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 9,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "21 00923\/2024",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "22 00111\/2025",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 4,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "22 00513\/2023",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "22 00541\/2021",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 42,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "22 00686\/2023",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "22 00757\/2023",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 19,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "22 00761\/2024",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 17,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "22 00794\/2021",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 58,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "22 00902\/2020",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "OK",
+        "medicoes": 65,
+        "motivo": null,
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "23 00217\/2017",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 70,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "23 00426\/2024",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 12,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "23 00456\/2024",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 26,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "23 00565\/2012",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 75,
+        "motivo": null,
+        "duracao_seg": 13
+    },
+    {
+        "contrato": "23 00658\/2023",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "23 00662\/2025",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "23 00713\/2019",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "OK",
+        "medicoes": 81,
+        "motivo": null,
+        "duracao_seg": 12
+    },
+    {
+        "contrato": "23 00748\/2023",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "24 00516\/2023",
+        "estado": "S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE",
+        "status": "OK",
+        "medicoes": 21,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "24 00517\/2023",
+        "estado": "S.R.E - AC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO ACRE",
+        "status": "OK",
+        "medicoes": 33,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "25 00315\/2025",
+        "estado": "S.R.E - AP - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADOS DO AMAPÁ",
+        "status": "OK",
+        "medicoes": 15,
+        "motivo": null,
+        "duracao_seg": 10
+    },
+    {
+        "contrato": "26 00008\/2024",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "OK",
+        "medicoes": 31,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "26 00504\/2020",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "OK",
+        "medicoes": 59,
+        "motivo": null,
+        "duracao_seg": 11
+    },
+    {
+        "contrato": "A Licitar - BR-158 - Implantação Campo Mourão – Roncador",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "A Licitar - BR-158 - Implantação Roncador – Palmital",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "A Licitar - Construção de trecho rodoviário Entr. TO-020 - Div. TO\/MA (Goiatins)",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "A Licitar - Contorno de Guaíra",
+        "estado": "S.R.E - PR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO PARANÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "A Licitar - Implantação de rodovia Entr. BR-405 - Div. RN\/CE (Estrada do Cajueiro)",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "A Licitar: Construção de 14 OAEs - Trecho do Meio",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Adequação de trecho rodoviário Pecém – São Luís do Curu BR-222\/CE",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Adequação Marmelândia – Barracão - BR - 163",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "BR-020\/CE – Adequação Caucaia – Div. CE\/PI",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "BR-101 - Travessia de Estância",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-104\/RN - Implantação e Adequação de Capacidade",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-116\/CE - Adequação com duplicação Boqueirão do Cesário – Tabuleiro do Norte",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-153\/PR – Implantação Alto do Amparo – Imbituva",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "BR-163\/PR – Adequação de trecho rodoviário – Entroncamento BR-277\/PR (Acesso Cascavel) - Marmelândia",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-230\/361\/PB Adequação e Duplicação\nFarinha – Cajazeiras  - PAC PROJETO",
+        "estado": "DPP - DIRETORIA DE PLANEJAMENTO E PESQUISA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "BR-235\/SE - Duplicação Aracaju – Itabaiana",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "BR-262\/MG- Adequação de trecho rodoviário João Monlevade – Div ES\/MG",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "BR-352\/MG - Construção Div. GO\/MG – Patos de Minas",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-364\/MG - Construção Gurinhatã – Div.GO\/MG",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "BR-365\/MG - Adequação Travessia Urbana Uberlândia",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "BR-476\/PR - Adequação Curitiba – Adrianópolis",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Caiçara do Rio do Vento – Riachuelo - Lote 2C",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Construção de Benfeitorias previsto no PBAI",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Construção Ponte sobre o Rio Mucuim",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Cruzamento Rodoferroviário TLSA MVP 11 x BR-222\/CE – Entr. Acesso ao Porto de Pecém",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-030 -1",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Despesas com honorários periciais | Superintendência Regional Do Dnit No Estado Da Bahia | BR-101 -",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Div. RN\/CE – BR-304 - Mossoró - Lote 1A",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Entr. BR-104 – BR-304 - Angicos - Lote 2A",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Entr. RN-233 – BR-304 - Angicos - Lote 1C",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Futura sem PREV -  A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Pavimentação",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Futura sem PREV -  A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Pavimentação",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Futura sem PREV - Duplicação de Monsenhor Gil até a Estaca Zero",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Futura sem PREV | A Contratar | BR-226 - 124,90 à 227,70 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Futura sem PREV | A Contratar | BR-343 - 260,70 à 271,35 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Futura sem PREV | A Contratar | BR-343 - 303,1 à 312,37 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Futura sem PREV | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Futura sem PREV | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Futura sem PREV- Duplicação de Trecho Rodoviário - Campo Maior - Altos",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC obra Pavimentação Paranã – Divisa TO\/GO?",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC OBRA | BR-242\/BA Construção – Castro Alves– Santo Antônio",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC OBRA | BR-242\/BA Duplicação – Santo Antônio – Nazaré das Farinhas",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC OBRA | BR-242\/BA Duplicação- Barreiras – Luís Eduardo Magalhães",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC OBRA |ESTADUAL BNDES |BR-230\/PB - Construção do Arco Metropolitano de João Pessoa",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO - trecho sul Campina - BR-104 (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC projeto BR-235\/TO – Construção de trecho rodoviário?\nDiv.MA\/TO – Pedro Afonso – Entr. BR-153 (Lo",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | Adequação com Duplicação Farinha - Cajazeiras",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | Adequação Entr.BR-122 – Ourolândia",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | Adequação Lote 4 e 5-Div.GO\/BA – Luís Eduardo Magalhães",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | BR-010\/GO Implantação de trecho rodoviário Entr.GO-118 – Div.GO\/TO",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | BR-020\/GO - Adequação de trecho rodoviário Formosa – Div.GO\/BA",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | BR-070\/MT - Duplicação trevo do Lagarto a Livramento - Adequação da serra do Mangaval",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | BR-101\/BA Duplicação Eunápolis-Mucuri\/Itabatã",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | BR-174\/MT - Implantação porto Santos Antônio das lendas divisa MT\/AM",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | BR-242\/BA Implantação Muquém do São Francisco-Distrito de Javi-BA-172-Ibotirama (BA-16",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | BR-319\/RO Implantação OAE no Trevo do Roque",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | BR-364\/RO Adequação Cacoal – Porto Velho",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | BR-367\/BA Adequação - Entr.BA-001 (Santa Cruz de Cabrália)-Entr.BA-001(B) (Para Tranco",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | Duplicação Piripiri - Campo Maior | BR-343\/PI - 180,4 à 263,6",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PAC PROJETO | Implantação do km 63,80 ao km 189,3 (Lotes 2 e 3)?(125,50 km) (Ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PAC PROJETO | trecho norte BR-104\/PB - Adequação Campina Grande - Divisa RN - Norte",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev  CONTR | A Contratar | BR-280 - 36,70 à 74,58 | A Contratar | Reconhecimento de dívida",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "PREV  LAJES - CERRO CORA (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev (Não está na NPO) - Remanescente do Lote B da BR-242",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Construção Petrolândia - Inajá - 50km| BR-110\/PE",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Variante do Arco Metropolitando de Recife | BR-101\/408-PE",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV (NÃO ESTÁ NA NPO) | A Contratar | Viaduto do Arco Metropolitano de Recife (Viaduto Vitarella) |",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev - Contorno de Balsas - BR-330\/MA",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV - Supervisão da Ponte de Igapó Açu",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 - Desapropriações 135\/MG",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR - 000600\/2023-23 | A Contratar | BR-010 - 541,8 à 541,81 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR - 090480\/2024-12 | BR-153\/GO\/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbia",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR - Adequação de Pacajus - Boqueirão do Cesário - Lotes 2 e 3",
+        "estado": "S.R.E - CE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO CEARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR - Pavimentação - km 0,00 ao km 170,00",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | ADEQUAÇÃO DA TRAVESSIA URBANA DE PETROLINA NAS BR-407\/428-PE| A Contra",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-010 - 408,80 a 448,30 | Adequação",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Licenças e Autorizações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-040 - 0 à 0 | A Contratar |Construção Valparaíso",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-060 - 0 à 0 | A Contratar | Pavimentação Goiânia - Jatai",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-070 - km 65 - km 188 | A Contratar |Adequação de Cocalzinho de Góia",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-080 - Lote 3 | A Contratar | (Não está no NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-116 - 0 à 34,80 | A Contratar | Desapropriação",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Eliminação de Ponto crítico",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-153 - 0 à 0 | A Contratar | Contorno rodoviário Goiânia",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-153 Erechim Passo Fundo| A Contratar",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-230 -  390,87 a 398,95 | A Contratar | Obra",
+        "estado": "S.R.E - PA - SUPERINTENDÊNCIA REGIONAL DO DNIT NOS ESTADOS DO PARÁ",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-235 - 0 à 114,8 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-242 - 391 à 394 | A Contratar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-242 | A Contratar | Obra",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-242 | A Licitar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Duplicação",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-285\/RS",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-308 - km 204,30 a 276,40 | 11 OAE's",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-317 - 289,3 à 299,4 | A Contratar | Construção Oae",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-319 - 103,5 à 665,7 | A Contratar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-330 - 1,3 à 115,78 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-343 - 347,10  à 349,10 | A Contratar | Duplicação",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-364 - 752 à 752,3 | A Contratar | Construção Oae",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-364| Adequação Perímetro Urbano de Ariquemes\/RO",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-365 - 276,94 à 407,80 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-367 - 0 à 0 | A Contratar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-392",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-392 - 0 à 2 | A Contratar | Supervisão",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-392\/101\/RS",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-392\/RS",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-401 km 107 a km 142,00| A Contratar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-415 - 7,64 à 11,64 | A Contratar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-418 - 0 à 0 | A Contratar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-419 - 11,30 à 11,50 - Edital 0143\/25-19 | A Contratar | Construção",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-422 - 0 à 59,34 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-423 - 18,2 à 86,12 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Construção Oae (Edital anulado ju",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-448\/RS",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 CONTR | A Contratar | BR-472 - 510,5 à 517,1 | A Contratar | Construção Oae",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "PREV 01 CONTR| A Contratar | BR-116 - 300,54 – 397,20  | A Contratar | Supervisão",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 01 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | A Contratar | Supervisão Lote 1",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 Desapropriações | Diversos | BR-153 - 0 à 1,7 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 Desapropriações | Diversos | BR-158 - 0 à 10,3 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 Desapropriações | Diversos | BR-242 - 11,9 à 185,4 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 Desapropriações | Dnit | 230 - 11,4 à 13,38 | A Lavrar | Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 Reconhecimento de Dívida | Arteleste Construtora | BR-364 - 938,9 à 942,76 | A Lavrar | Adeq",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 01 Reconhecimento de Dívida | Construtora Agrienge Ltda - 00 00979\/2014 | BR-163 - 537 à 674,56",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 01 Reconhecimento de Dívida | Ste Serviços Técnicos De Engenharia S.A | BR-116 - 236 à 251,8 |",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 02 Condicionantes Ambientais - Ação 161U - PA",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR  | A Contratar | BR-116 - 0 à 9,2 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR  | A Contratar | BR-290 - 172,1 à 228 | A Contratar | Supervisão Lote 2",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR - 090152\/2024-03 | A Contratar | BR-230 - 0 à 984 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR - Desapropriação - 13YE",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR - km 13,38 ao km 28,00 - Oitizeiro",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar |  - 0 à 0 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar |  - 0 à 0 | Compensação Ambiental | Gerenciamento CI-PBA",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 CONTR | A contratar | BR-020 - 775,5 à 787,3 | Licenças e Autorizações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-030 - 0 à 190,8 | A Contratar |Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-030 - 191,5 à 280,1 | A Contratar |  Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-030 - 845,5 à 894,4 | A Contratar | Estudos Arqueológicos e Ambient",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-101 - 0,00 à 51,80 | A Contratar | Adequação",
+        "estado": "S.R.E - SE - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SERGIPE",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-101 - 503 à 509 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-116 - 211 à 338 | A Licitar | Supervisão",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar |  Despesas com honorários peri",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-153 - 0 à 0 | Supervisão | Contorno rodoviário Goiânia",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-230 - 569,6 à 572,28 | Obra dos Acessos",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-230 - 851,11 à 999,80 | A Contratar | Pavimentação - LOTE 2",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Lavrar | Licenças e Autorizações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Gestão Ambiental",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-304 - 0 à 0 | A Contratar | Compensação Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-316 - 33,5 à 55,6 | A Contratar | Supervisão",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-319 - 103,5 à 103,51 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-324 - 512,5 à 519,7 | A Contratar | Licenças e Autorizações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-343 - 346,70 à 347,08 | A Contratar | Construção de OAE",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-364 | A Contratar | Remanejamento de interferências",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-365 - 407 à 476,20 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-367 - 0 à 46,28 | A Contratar | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-401 km 142,00 a km 177,50| A Contratar TED | Pavimentação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-432 - 168 à 168,1 | A Contratar | Supervisão",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BR-472 - 510,0 à 511 | A Contratar | Desapropriação",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar | BRs 010, 308 e 316 -  680,1 km  | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 CONTR | A Contratar| BR-364|Travessia Urbana de Pimenta Bueno",
+        "estado": "S.R.E - RO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RONDÔNIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 02 CONTR | BR-153\/GO\/MG - Construção de Ponte sobre o Rio Paranaíba em Itumbiara\/GO e seus Aces",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV 02 CONTR| A Contratar | BR-116 - 300,54 – 511,00  | A Contratar | Aldeias indígenas",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 02 CONTR| A Contratar | BR-116-290 - 0 à 15,3 | A Contratar | Supervisão",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 02 Desapropriações | Diversos | BR-419 - 189,3 à 244 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 02 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-407",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 03 Condicionantes Ambientais - Ação 161U - PA",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 Condicionantes Ambientais | Cprh | BR-423 - 18,2 à 60 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 03 CONTR - Outros - 13YE",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-101 - 0 à 938,6 | A Contratar | Assessoria Técnica",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-135 - 267 à 344,7 | A Contratar | Pavimentação",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 03 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-280 - 3,00 à 17,40 e 25,40 à 28,20 | A Contratar | Duplicação",
+        "estado": "S.R.E - SC - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE SANTA CATARINA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-285 - 0,0 à 8,80| A Contratar |Desapropriação",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "PREV 03 CONTR | A Contratar | BR-304 km 48,8 a km 106,40| A Contratar | Supervisão",
+        "estado": "S.R.E - RN - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO NORTE",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-316 - 67,6 à 112,6 | A Contratar |Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-319 - 655,70 - 655,7 | A Contratar | Outros | CGMRR",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-365 - 276,94 à 337,40 | A Contratar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Gestão Ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR | A Contratar | BR-401 km 107 a km 177,50| A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV 03 CONTR| A Contratar | BR-116 - 300,54 à 351,34 | A Contratar | Duplicação Lote 1 e 2 Remanesc",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 03 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Desapropriação",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 03 CONTR| A Contratar | BR-290 - 112,3 à 172,08 | Desapropriação",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 CONTR| A Contratar |BR-101 - 168,60 à 189,00 | Adequação (5.2)",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 03 Desapropriações | Superintendência Regional No Estado De Pernambuco | BR-423",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 03 Reconhecimento de Dívida | Vereda Engenharia Ltda | Br-429\/R medição final - 0 à 0 | A Lavra",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 04 CONTR - 090075\/2025-02 | A Contratar | BR-163 - 676,3 à 788,98 | A Contratar Supervisão (pro",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 04 CONTR - Licenciamento Ambiental - km 0,00 ao km 190,10",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 04 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 04 CONTR | A Contratar | BR-116 - 0,00 à 387,41  | A Contratar | Despesas com honorários perici",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev 04 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Supervisão",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 04 CONTR | A contratar | BR-235 - 318,4 à 322,4 | A Contratar",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 04 CONTR | A Contratar | BR-365 - 407,80 à 476,20 | A Contratar | Duplicação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 04 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV 04 CONTR| A Contratar | BR-116 - 351,34 – 397,2  | A Contratar | Duplicação Lote 3 e 4 Remanesc",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 04 CONTR| A Contratar | BR-290 - 0 à 15,3 | A Contratar | Gestão Ambiental",
+        "estado": "S.R.E - RS - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO RIO GRANDE DO SUL",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 04 Reconhecimento de Dívida | Direção Consultoria E Engenharia Ltda | BR-429 - 0 à 0 | A Lavrar",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 05 CONTR - Compensação Ambiental - km 0,00 ao km 190,10",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Desapropriações",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-135 - 340 à 378 | A Contratar | Pavimentação",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-163 - 676,3 à 788,98 | Pavimentação (remanescente do 00 00035\/2013)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-230 - 851,11 à 899,80 | A Contratar | Supervisão - LOTE 2",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-304 - 296,80 à 308 | A Contratar | Adequação",
+        "estado": "0",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-365 - 277,40 à 476,20 | A Contratar | Desapropriação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 05 CONTR | A Contratar | BR-367 - 0 à 61,6 | A Contratar | OAE",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 05 Desapropriações | Justiça Federal | BR-381 - 458 à 459 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 06 Condicionantes Ambientais | Semad\/Mg | BR-381 - 150 à 453 | A Lavrar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 06 CONTR | A Contratar | BR-116 - 0 à 427,75 | A Contratar | Licenças e Autorizações",
+        "estado": "S.R.E - BA - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DA BAHIA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "Prev 06 CONTR | A Contratar | BR-135 -  267,00 a 466,8 | A Contratar | Desapropriação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 06 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Pavimentação - LOTE 1",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 06 CONTR | A Contratar | BR-365 - 405,60 à 476,20 | A Contratar | Gestão ambiental",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 06 CONTR | Reconhecimento de Dívida| Geosolos Consultoria Projetos E Serviços Ltda. | BR-101 -",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 06 TCO\/TED - Gestão Ambiental - km 143,00 ao km 169,00",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 07 CONTR - 090152\/2024-03 | Compensação Ambiental - Veículos PBAI",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 07 CONTR | A contratar | BR-101 - 0 à 165,4 | A Lavrar |Desapropriações",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 07 CONTR | A Contratar | BR-101 - 0 à 248| A Contratar | Reconhecimento de dívida",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 07 CONTR | A Contratar | BR-365 - 337,40 à 407,8 | A Contratar | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 16
+    },
+    {
+        "contrato": "Prev 07 CONTR | A Contratar | BR-381 - 288,4 à 317 | A Contratar | Supervisão",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev 07 TCO\/TED - Compensação Ambiental - km 133,10 ao km 268,20",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 08 CONTR | A Contratar | BR-101 - 83,6 à 165,4 | A Contratar | Duplicação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 08 CONTR | A Contratar | BR-230 - 728 à 851,11 | A Contratar | Supervisão - LOTE 1",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 08 Reconhecimento de Dívida | Strata Engenharia Ltda | BR-381 - 389,5 à 427 | A Lavrar | Adequa",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev 12 CONTRATO ADM. - 090203\/2024-00 (Ata de Registro de Preços nº 26\/2024)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV 1| A Contratar |Eliminação de pontos críticos (Passarelas) - km 61 à 65| BR-104\/PE | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV 2 TC | A Contratar |Implantação da Variante do acesso sul de Toritama| BR-104\/PE | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV 3| A Contratar |Vias locais de Toritama - km 27,70 à 30,60| BR-104\/PE | Adequação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir - MG - Ação 1304",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV a definir - MG - Ação 13XJ",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir - MG - Ação 7G16",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir - MG - Ação 7S59",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev a definir - OAE's do Lote B (não está na NPO ainda)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV a definir - PR - Ação 163I",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir - PR - Ação 7U22",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV a definir - RO - Ação 14LY",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir - RO - Ação 7X64",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV a definir - RO - Ação 7XS4",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir | 161V | ADEQUACAO DE TRECHO RODOVIARIO - ENTR. BR-155 (P\/REDENCAO) - DIV. PA\/MT - NA",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev a definir | A Contratar | BR-308 - 203,3 à 318,9 | A Contratar | Desapropriação",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV a definir |165L | ADEQUACAO DO COMPLEXO RODOVIARIO DO PERIMETRO URBANO DE MARABA - PA NAS BR-23",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV a definir |165L | BR-222\/PA - DUPLICAÇÃO ENTRE MARABÁ E DOM ELISEU (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV ACT (Não consta no NPO)| A Contratar |Duplicação da BR-232 - São Caetano a Belo Jardim  BR-232\/",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV Anel BH",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Prev contorno de patos (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Prev CONTR (Não está na NPO) - OAEs do Lote A da BR-242  - km 486,32 ao km 575,23",
+        "estado": "S.R.E - MT - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO MATO GROSSO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev CONTR | A Contratar | BR-316 - 263,5 à 276,1  | A Contratar | Obra 1B",
+        "estado": "SEDE",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "Prev CONTR | A Contratar | BR-432 -BR-432| A Contratar | Construção 16 OAEs",
+        "estado": "S.R.E - RR - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE RORAIMA",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 18
+    },
+    {
+        "contrato": "PREV CONTR| A Contratar | BR-290 - 112,3 – 142 | A Contratar | Duplicação Lote 1 Remanescente",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV viaduto do gancho (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "PREV | A Contratar | Duplicação de trecho rodoviário - Entrocamento BR-232 ( Lajedo - Garanhuns) 47,",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "PREV | Construção | A Contratar | BR-235 (PEDRO AFONSO - ENTR BR-153) |Construção",
+        "estado": "S.R.E - TO - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DO TOCANTINS",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Contrato",
+        "duracao_seg": 19
+    },
+    {
+        "contrato": "PREV(não está na NPO) - BR-230\/PB - Construção do Arco Metropolitano de João Pessoa",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    },
+    {
+        "contrato": "Reconhecimento de dívida (ainda não está na NPO)",
+        "estado": "N\/A",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 15
+    },
+    {
+        "contrato": "Remanescente Contorno Três Lagoas",
+        "estado": "PREV\/FUTURA CONTRATAÇÃO",
+        "status": "ERRO",
+        "medicoes": 0,
+        "motivo": "Erro: Falha Unidade",
+        "duracao_seg": 14
+    }
+]

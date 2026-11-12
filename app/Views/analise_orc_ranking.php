@@ -127,10 +127,7 @@ $h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                 <button type="button" id="btn-recarregar" class="btn btn-outline-primary btn-sm">
                     <i class="bi bi-arrow-clockwise"></i> Recarregar
                 </button>
-                <a href="analise_orc" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-cash-stack"></i> Análise
-                </a>
-                <a href="home_atlas" class="btn btn-secondary btn-sm">
+                <a href="analise_orc" class="btn btn-secondary btn-sm">
                     <i class="bi bi-arrow-left"></i> Voltar
                 </a>
             </div>

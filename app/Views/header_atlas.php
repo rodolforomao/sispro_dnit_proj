@@ -2,16 +2,28 @@
 // header_atlas.php - Barra superior fixa para o setor Atlas/Monitoramento
 // Sem scripts próprios, apenas HTML/CSS; scripts carregados pela página principal
 
+// Função para obter iniciais (usada no avatar) - CORRIGIDA
 if (!function_exists('obterIniciais')) {
     function obterIniciais($nome) {
         $partes = explode(' ', trim($nome));
-        $iniciais = '';
-        foreach ($partes as $parte) {
-            if (!empty($parte)) {
-                $iniciais .= strtoupper(substr($parte, 0, 1));
-            }
-        }
-        return substr($iniciais, 0, 2);
+        $partes = array_filter($partes); // remove vazios
+        
+        // Remove preposições comuns
+        $ignorar = ['de', 'da', 'do', 'das', 'dos', 'e'];
+        $partes = array_filter($partes, function($p) use ($ignorar) {
+            return !in_array(strtolower($p), $ignorar);
+        });
+        
+        $partes = array_values($partes); // re-indexa
+        $total = count($partes);
+        
+        if ($total == 0) return '';
+        if ($total == 1) return strtoupper(substr($partes[0], 0, 1));
+        
+        $primeira = strtoupper(substr($partes[0], 0, 1));
+        $ultima = strtoupper(substr($partes[$total - 1], 0, 1));
+        
+        return $primeira . $ultima;
     }
 }
 
@@ -83,7 +95,7 @@ if (empty($setores_usuario)) {
         <!-- Clima/Relógio -->
         <div class="info-clima">
             <span id="dataHora" class="d-none d-md-inline me-2" style="font-size:0.9rem; color:#6c757d;">
-                <i class="bi bi-clock"></i> <span id="clockDisplay">00:00:00</span>
+                <i class="bi bi-clock"></i> <span id="clockDisplay">00:00</span>
                 <i class="bi bi-calendar3 ms-2"></i> <span id="dataDisplay">--/--/----</span>
             </span>
             <span id="climaInfo" class="d-none d-md-inline" style="font-size:0.9rem; color:#6c757d;">
@@ -106,7 +118,13 @@ if (empty($setores_usuario)) {
                         <i class="bi bi-diagram-2"></i> Comparativo Bancos 16×40
                     </a>
                 </li>
-                <li><a class="dropdown-item" href="avanco_fisico"><i class="bi bi-bar-chart-line"></i> Avanço Físico por Serviço</a></li>
+                
+                <!-- ⬇️ ALTERAÇÃO AQUI ⬇️ -->
+                <li><a class="dropdown-item" href="analise_orc"><i class="bi bi-cash-stack"></i> Análise Orçamentária e Financeira</a></li>
+                
+                <!-- Ocultado temporariamente conforme solicitação -->
+                <!-- <li><a class="dropdown-item" href="avanco_fisico"><i class="bi bi-bar-chart-line"></i> Avanço Físico por Serviço</a></li> -->
+                <!-- ⬆️ FIM DA ALTERAÇÃO ⬆️ -->
             </ul>
         </div>
         
@@ -200,8 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const agora = new Date();
         document.getElementById('clockDisplay').textContent = 
             String(agora.getHours()).padStart(2,'0') + ':' + 
-            String(agora.getMinutes()).padStart(2,'0') + ':' + 
-            String(agora.getSeconds()).padStart(2,'0');
+            String(agora.getMinutes()).padStart(2,'0');
         document.getElementById('dataDisplay').textContent = 
             String(agora.getDate()).padStart(2,'0') + '/' + 
             String(agora.getMonth()+1).padStart(2,'0') + '/' + 

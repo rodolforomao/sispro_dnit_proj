@@ -42,15 +42,10 @@ class AnaliseOrcController
         }
     }
 
-    /**
-     * Verifica se o usuário logado é admin/desenvolvedor (para o botão do scraper).
-     */
     private function usuarioPodeScraper(): bool
     {
         if (session_status() === PHP_SESSION_NONE) @session_start();
-
         if (!empty($_SESSION['is_desenvolvedor']) || !empty($_SESSION['is_admin'])) return true;
-
         $nivel = strtolower(trim((string)($_SESSION['usuario_nivel'] ?? '')));
         $niveis = [
             'admin', 'administrador', 'administrator',
@@ -67,23 +62,16 @@ class AnaliseOrcController
     public function index(): void
     {
         $this->requireLoginPage();
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         $acoes = $this->model->acoes($exercicio);
         $podeScraper = $this->usuarioPodeScraper();
         require APP_PATH . '/Views/analise_orc.php';
     }
 
-    // =============================================================
-    // VIEW — RANKING
-    // =============================================================
     public function ranking(): void
     {
         $this->requireLoginPage();
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         $acoes = $this->model->acoes($exercicio);
         require APP_PATH . '/Views/analise_orc_ranking.php';
     }
@@ -94,9 +82,7 @@ class AnaliseOrcController
     public function acoes(): void
     {
         $this->requireLoginAjax();
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         $this->json($this->model->acoes($exercicio));
     }
 
@@ -113,9 +99,7 @@ class AnaliseOrcController
         $acaoId    = (string)($_GET['acao_id'] ?? '');
         $tipo      = $_GET['tipo']  ?? '';
         $super     = $_GET['super'] ?? null;
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
 
         $lista = $this->model->contratosDaAcao($acaoId, $tipo, $super ?: null);
 
@@ -134,9 +118,7 @@ class AnaliseOrcController
     {
         $this->requireLoginAjax();
         $numero    = (string)($_GET['numero'] ?? '');
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         $c = $this->model->contratoPorNumero($numero);
         if (!$c) { $this->json(['erro' => 'Contrato não encontrado'], 404); return; }
         $this->json($this->calcularIndicadores($c, $exercicio));
@@ -153,28 +135,19 @@ class AnaliseOrcController
         $this->json($this->medicoesComEstatistica($numero, $limite));
     }
 
-    // =============================================================
-    // API — RANKING (dados agregados de todos os contratos)
-    // =============================================================
     public function rankingData(): void
     {
         $this->requireLoginAjax();
-        $exercicio = (int)($_GET['exercicio']
-            ?? $this->model->exercicioDisponivel()
-            ?? date('Y'));
-
+        $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         try {
             $acoes = $this->model->acoes($exercicio);
-            $todos = [];
-            $vistos = [];
-
+            $todos = []; $vistos = [];
             foreach ($acoes as $a) {
                 $lista = $this->model->contratosDaAcao((string)$a['id'], null, null);
                 foreach ($lista as $c) {
                     $num = $c['numero'] ?? null;
                     if (!$num || isset($vistos[$num])) continue;
                     $vistos[$num] = true;
-
                     $ind = $this->calcularIndicadores($c, $exercicio);
                     $ind['acao_id']        = (string)$a['id'];
                     $ind['acao_codigo']    = (string)$a['codigo'];
@@ -182,7 +155,6 @@ class AnaliseOrcController
                     $todos[] = $ind;
                 }
             }
-
             $this->json([
                 'exercicio' => $exercicio,
                 'acoes'     => $acoes,
@@ -194,7 +166,7 @@ class AnaliseOrcController
     }
 
     // =============================================================
-    // DATASET 38
+    // DATASET 38 e SIAC
     // =============================================================
     public function contratosDisponiveis(): void
     {
@@ -207,9 +179,7 @@ class AnaliseOrcController
                    AND unidade_manual IS NOT NULL AND unidade_manual <> ''
             ");
             $total = (int)$st->fetchColumn();
-        } catch (Throwable $e) {
-            $total = 0;
-        }
+        } catch (Throwable $e) { $total = 0; }
         $this->json(['total' => $total]);
     }
 
@@ -220,7 +190,6 @@ class AnaliseOrcController
         @ini_set('max_execution_time', '0');
 
         $appPath = defined('APP_PATH') ? APP_PATH : dirname(__DIR__);
-
         $candidatos = [
             $appPath . '/public/importar_supra_dataset_38_todos.php',
             dirname($appPath) . '/public/importar_supra_dataset_38_todos.php',
@@ -230,84 +199,40 @@ class AnaliseOrcController
         ];
         $arquivo = null;
         foreach ($candidatos as $c) { if (is_file($c)) { $arquivo = realpath($c); break; } }
-
         if (!$arquivo) {
-            $this->json([
-                'ok'   => false,
-                'erro' => 'Importador do Dataset 38 não encontrado. Coloque o arquivo em '
-                        . $appPath . '/public/ com o nome importar_supra_dataset_38_todos.php',
-            ], 404);
+            $this->json(['ok' => false, 'erro' => 'Importador do Dataset 38 não encontrado.'], 404);
             return;
         }
-
         $dir    = dirname($arquivo);
         $file   = basename($arquivo);
         $phpBin = $this->phpCliBinary();
+        $cmd    = '"' . $phpBin . '" "' . $file . '"';
 
-        $cmd = '"' . $phpBin . '" "' . $file . '"';
-
-        $proc = @proc_open(
-            $cmd,
-            [
-                1 => ['pipe', 'w'],
-                2 => ['pipe', 'w'],
-            ],
-            $pipes,
-            $dir,
-            null,
-            ['bypass_shell' => true]
-        );
-
+        $proc = @proc_open($cmd, [1 => ['pipe','w'], 2 => ['pipe','w']], $pipes, $dir, null, ['bypass_shell' => true]);
         if (!is_resource($proc)) {
-            $this->json([
-                'ok'   => false,
-                'erro' => 'Não foi possível iniciar o processo PHP CLI. '
-                        . 'Verifique se `proc_open` está habilitado no php.ini '
-                        . '(disable_functions).',
-            ], 500);
+            $this->json(['ok' => false, 'erro' => 'Não foi possível iniciar o processo PHP CLI.'], 500);
             return;
         }
-
         $stdout = stream_get_contents($pipes[1]);
         $stderr = stream_get_contents($pipes[2]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
+        fclose($pipes[1]); fclose($pipes[2]);
         $rc = proc_close($proc);
-
         $texto = trim($stdout . "\n" . $stderr);
 
         $inseridos = null;
-        if (preg_match('/Inseridos:\s*(\d+)/i', $texto, $m)) {
-            $inseridos = (int)$m[1];
-        }
+        if (preg_match('/Inseridos:\s*(\d+)/i', $texto, $m)) $inseridos = (int)$m[1];
 
         $sucesso = ($inseridos !== null && $inseridos >= 0)
                 || str_contains($texto, 'Sincronização do Dataset 38 finalizada')
                 || str_contains($texto, 'Importação concluída');
 
         if ($sucesso) {
-            $this->json([
-                'ok'        => true,
-                'inseridos' => $inseridos,
-                'mensagem'  => 'Dataset 38 atualizado com sucesso.',
-            ]);
+            $this->json(['ok' => true, 'inseridos' => $inseridos, 'mensagem' => 'Dataset 38 atualizado com sucesso.']);
             return;
         }
-
-        $this->json([
-            'ok'   => false,
-            'erro' => 'Importador executou mas não retornou sucesso. Saída: '
-                    . mb_substr($texto, -1500),
-            'rc'   => $rc,
-            'php'  => $phpBin,
-            'dir'  => $dir,
-            'cmd'  => $cmd,
-        ], 500);
+        $this->json(['ok' => false, 'erro' => 'Importador executou mas não retornou sucesso. Saída: ' . mb_substr($texto, -1500)], 500);
     }
 
-    // =============================================================
-    // SCRAPER SIAC
-    // =============================================================
     public function executarSiac(): void
     {
         $this->requireLoginAjax();
@@ -315,32 +240,26 @@ class AnaliseOrcController
             $this->json(['erro' => 'Acesso negado. Apenas administradores/desenvolvedores.'], 403);
             return;
         }
-
         $usuario = trim((string)($_POST['usuario'] ?? ''));
         $senha   = (string)($_POST['senha'] ?? '');
-
         if ($usuario === '' || $senha === '') {
             $this->json(['erro' => 'Usuário e senha são obrigatórios'], 422);
             return;
         }
-
         $scriptPath = $this->scriptSiacPath();
         if (!is_file($scriptPath)) {
             $this->json(['erro' => 'script_siac_isabella.php não encontrado em ' . $scriptPath], 500);
             return;
         }
-
         if (!is_file(dirname(__DIR__) . '/vendor/autoload.php')) {
             $this->json(['erro' => 'vendor/autoload.php ausente. Instale smalot/pdfparser.'], 500);
             return;
         }
-
         $edgedriver = $this->edgedriverPath();
         if ($edgedriver === null) {
             $this->json(['erro' => 'msedgedriver.exe não encontrado em app/public/.'], 500);
             return;
         }
-
         try {
             $sql = "SELECT instrumento AS Contrato, unidade_manual AS Estado
                       FROM `supra_dataset_38_todos`
@@ -380,7 +299,6 @@ class AnaliseOrcController
         }
 
         $phpBin = $this->phpCliBinary();
-
         $cmd = '"' . $phpBin . '" "' . $scriptPath . '"'
              . ' --contratos="' . $contratosJson . '"'
              . ' --output-dir="' . $jobDir . '/saida"'
@@ -388,7 +306,6 @@ class AnaliseOrcController
              . ' --config="' . $baseDir . '/config.php"';
 
         $logFile = $jobDir . '/log.txt';
-
         $env = [
             'SIAC_USER'    => $usuario,
             'SIAC_PASS'    => $senha,
@@ -402,24 +319,11 @@ class AnaliseOrcController
             'PROGRAMFILES' => getenv('PROGRAMFILES') ?: 'C:\\Program Files',
         ];
 
-        $proc = @proc_open(
-            $cmd,
-            [
-                0 => ['pipe', 'r'],
-                1 => ['file', $logFile, 'a'],
-                2 => ['file', $logFile, 'a'],
-            ],
-            $pipes,
-            $baseDir,
-            $env,
-            ['bypass_shell' => true]
-        );
-
+        $proc = @proc_open($cmd, [0 => ['pipe','r'], 1 => ['file',$logFile,'a'], 2 => ['file',$logFile,'a']], $pipes, $baseDir, $env, ['bypass_shell' => true]);
         if (!is_resource($proc)) {
             try {
-                $this->model->pdo()->prepare(
-                    "UPDATE `siac_import_jobs` SET status='erro', erro=?, atualizado_em=NOW() WHERE job_id=?"
-                )->execute(['proc_open falhou. Veja ' . $logFile, $jobId]);
+                $this->model->pdo()->prepare("UPDATE `siac_import_jobs` SET status='erro', erro=?, atualizado_em=NOW() WHERE job_id=?")
+                     ->execute(['proc_open falhou. Veja ' . $logFile, $jobId]);
             } catch (Throwable $e) {}
             $this->json(['erro' => 'Falha ao iniciar o processo PHP. Veja ' . $logFile], 500);
             return;
@@ -428,33 +332,19 @@ class AnaliseOrcController
         $pid = proc_get_status($proc)['pid'] ?? null;
 
         @file_put_contents($jobDir . '/meta.json', json_encode([
-            'job_id'          => $jobId,
-            'pid'             => $pid,
-            'php'             => $phpBin,
-            'usuario'         => $usuario,
-            'iniciado_em'     => date('Y-m-d H:i:s'),
-            'total_contratos' => count($contratos),
-            'comando'         => $cmd,
+            'job_id' => $jobId, 'pid' => $pid, 'php' => $phpBin, 'usuario' => $usuario,
+            'iniciado_em' => date('Y-m-d H:i:s'), 'total_contratos' => count($contratos), 'comando' => $cmd,
         ], JSON_UNESCAPED_UNICODE));
 
-        $this->json([
-            'ok'    => true,
-            'job'   => $jobId,
-            'pid'   => $pid,
-            'total' => count($contratos),
-        ]);
+        $this->json(['ok' => true, 'job' => $jobId, 'pid' => $pid, 'total' => count($contratos)]);
     }
 
-    // =============================================================
-    // NOTIFICAÇÕES
-    // =============================================================
     public function notificacoes(): void
     {
         $this->requireLoginAjax();
         $numero = $_GET['numero'] ?? null;
         $lida   = isset($_GET['lida']) ? ((int)$_GET['lida'] === 1) : null;
-
-        $itens = $this->model->listarNotificacoes($numero, $lida);
+        $itens  = $this->model->listarNotificacoes($numero, $lida);
 
         $exercicio  = $this->model->exercicioDisponivel() ?? (int)date('Y');
         $acoesList  = $this->model->acoes($exercicio);
@@ -465,7 +355,7 @@ class AnaliseOrcController
             $c = $this->model->contratoPorNumero($n['contrato_numero']);
             if (!$c) continue;
             $acoesIds = $c['acoes'] ?? [];
-            $n['acoes']          = $acoesIds;
+            $n['acoes'] = $acoesIds;
             $n['acao_principal'] = $acoesIds[0] ?? null;
             if ($n['acao_principal'] && isset($acoesPorId[$n['acao_principal']])) {
                 $acao = $acoesPorId[$n['acao_principal']];
@@ -474,14 +364,11 @@ class AnaliseOrcController
             }
             $plan        = $this->model->supraPlanejamento($n['contrato_numero'], $exercicio);
             $mesesAtivos = $this->mesesAtivosNoAno($c, $exercicio);
-            $n['meses_faltantes'] = $this->mesesFaltantes($plan, $mesesAtivos);
+            $n['meses_faltantes']  = $this->mesesFaltantes($plan, $mesesAtivos);
             $n['superintendencia'] = $c['superintendencia'] ?? ($n['superintendencia'] ?? null);
         }
 
-        $this->json([
-            'nao_lidas' => $this->model->contarNaoLidas($numero),
-            'itens'     => $itens,
-        ]);
+        $this->json(['nao_lidas' => $this->model->contarNaoLidas($numero), 'itens' => $itens]);
     }
 
     public function marcarLida(): void
@@ -501,9 +388,6 @@ class AnaliseOrcController
         $this->json(['ok' => true]);
     }
 
-    // =============================================================
-    // ESTIMATIVA MANUAL
-    // =============================================================
     public function salvarEstimativa(): void
     {
         $this->requireLoginAjax();
@@ -514,52 +398,27 @@ class AnaliseOrcController
         $justificativa = trim((string)($_POST['justificativa'] ?? ''));
         $usuario       = $_SESSION['usuario_nome'] ?? 'sistema';
 
-        if ($contrato === '' || $mes === '') {
-            $this->json(['erro' => 'contrato e mes são obrigatórios'], 422);
-            return;
-        }
-
+        if ($contrato === '' || $mes === '') { $this->json(['erro' => 'contrato e mes são obrigatórios'], 422); return; }
         try {
-            if ($acao === 'reset') {
-                $this->model->removerEstimativaManual($contrato, $mes);
-                $this->json(['ok' => true]);
-                return;
-            }
-            if ($valor === null || $valor < 0) {
-                $this->json(['erro' => 'Valor inválido.'], 422);
-                return;
-            }
-            if ($justificativa === '') {
-                $this->json(['erro' => 'Justificativa é obrigatória para alterar o valor estimado.'], 422);
-                return;
-            }
-            if (mb_strlen($justificativa) > 500) {
-                $this->json(['erro' => 'Justificativa deve ter no máximo 500 caracteres.'], 422);
-                return;
-            }
+            if ($acao === 'reset') { $this->model->removerEstimativaManual($contrato, $mes); $this->json(['ok' => true]); return; }
+            if ($valor === null || $valor < 0) { $this->json(['erro' => 'Valor inválido.'], 422); return; }
+            if ($justificativa === '') { $this->json(['erro' => 'Justificativa é obrigatória.'], 422); return; }
+            if (mb_strlen($justificativa) > 500) { $this->json(['erro' => 'Justificativa deve ter no máximo 500 caracteres.'], 422); return; }
+            
             $c = $this->model->contratoPorNumero($contrato);
             if (!$c) { $this->json(['erro' => 'Contrato não encontrado'], 404); return; }
 
-            // Valor calculado = média das últimas 3 medições NÃO zeradas
             $medicoes = $this->model->siacMedicoes($contrato);
             $mediaNZ  = $this->mediaUltimasNaoZeradas($medicoes, 3)['media'];
             if ($mediaNZ <= 0) {
                 $ds = $this->model->datasetRow($contrato);
                 $mediaNZ = (float)($ds['media_ult_3_medicoes'] ?? 0);
             }
-
-            $this->model->setEstimativaManual(
-                $contrato, $mes, $valor, $usuario, $mediaNZ, $justificativa
-            );
+            $this->model->setEstimativaManual($contrato, $mes, $valor, $usuario, $mediaNZ, $justificativa);
             $this->json(['ok' => true, 'valor_calculado' => $mediaNZ]);
-        } catch (Throwable $e) {
-            $this->json(['erro' => $e->getMessage()], 500);
-        }
+        } catch (Throwable $e) { $this->json(['erro' => $e->getMessage()], 500); }
     }
 
-    // =============================================================
-    // PLANEJADO ANALISTA
-    // =============================================================
     public function salvarPlanejadoAnalista(): void
     {
         $this->requireLoginAjax();
@@ -570,121 +429,69 @@ class AnaliseOrcController
         $justificativa = trim((string)($_POST['justificativa'] ?? ''));
         $usuario       = $_SESSION['usuario_nome'] ?? 'sistema';
 
-        if ($contrato === '' || $mes === '') {
-            $this->json(['erro' => 'contrato e mes são obrigatórios'], 422);
-            return;
-        }
+        if ($contrato === '' || $mes === '') { $this->json(['erro' => 'contrato e mes são obrigatórios'], 422); return; }
         try {
-            if ($acao === 'reset') {
-                $this->model->removerPlanejadoAnalista($contrato, $mes);
-                $this->json(['ok' => true]);
-                return;
-            }
-            if ($valor === null || $valor < 0) {
-                $this->json(['erro' => 'Valor inválido.'], 422);
-                return;
-            }
-            if ($justificativa === '') {
-                $this->json(['erro' => 'Justificativa é obrigatória para alterar o Planejado Analista.'], 422);
-                return;
-            }
-            if (mb_strlen($justificativa) > 500) {
-                $this->json(['erro' => 'Justificativa deve ter no máximo 500 caracteres.'], 422);
-                return;
-            }
+            if ($acao === 'reset') { $this->model->removerPlanejadoAnalista($contrato, $mes); $this->json(['ok' => true]); return; }
+            if ($valor === null || $valor < 0) { $this->json(['erro' => 'Valor inválido.'], 422); return; }
+            if ($justificativa === '') { $this->json(['erro' => 'Justificativa é obrigatória.'], 422); return; }
+            if (mb_strlen($justificativa) > 500) { $this->json(['erro' => 'Justificativa deve ter no máximo 500 caracteres.'], 422); return; }
+            
             $c = $this->model->contratoPorNumero($contrato);
             if (!$c) { $this->json(['erro' => 'Contrato não encontrado'], 404); return; }
 
-            // valor_calculado = medição do mês (se houver) OU média não-zerada
             $medicoes  = $this->model->siacMedicoes($contrato);
             $medidoMes = 0.0;
             foreach ($medicoes as $r) {
-                if (($r['mes_referencia'] ?? '') === $mes) {
-                    $medidoMes = (float)$r['valor_medido'];
-                    break;
-                }
+                if (($r['mes_referencia'] ?? '') === $mes) { $medidoMes = (float)$r['valor_medido']; break; }
             }
-            $valorCalculado = $medidoMes > 0
-                ? $medidoMes
-                : $this->mediaUltimasNaoZeradas($medicoes, 3)['media'];
-
-            $this->model->setPlanejadoAnalista(
-                $contrato, $mes, $valor, $usuario, $valorCalculado, $justificativa
-            );
+            $valorCalculado = $medidoMes > 0 ? $medidoMes : $this->mediaUltimasNaoZeradas($medicoes, 3)['media'];
+            $this->model->setPlanejadoAnalista($contrato, $mes, $valor, $usuario, $valorCalculado, $justificativa);
             $this->json(['ok' => true, 'valor_calculado' => $valorCalculado]);
-        } catch (Throwable $e) {
-            $this->json(['erro' => $e->getMessage()], 500);
-        }
+        } catch (Throwable $e) { $this->json(['erro' => $e->getMessage()], 500); }
     }
 
-    // =============================================================
-    // PREFERÊNCIA (NPO vs ANALISTA)
-    // =============================================================
     public function salvarPreferencia(): void
     {
         $this->requireLoginAjax();
         $contrato = trim((string)($_POST['contrato'] ?? ''));
         $campo    = (string)($_POST['campo'] ?? 'NPO');
         $usuario  = $_SESSION['usuario_nome'] ?? 'sistema';
-
         if ($contrato === '') { $this->json(['erro' => 'contrato obrigatório'], 422); return; }
-        if (!in_array($campo, ['NPO','ANALISTA'], true)) {
-            $this->json(['erro' => 'campo inválido'], 422); return;
-        }
+        if (!in_array($campo, ['NPO','ANALISTA'], true)) { $this->json(['erro' => 'campo inválido'], 422); return; }
         $this->model->setPreferencia($contrato, $campo, $usuario);
         $this->json(['ok' => true, 'campo' => $campo]);
     }
 
     // =============================================================
-    // HELPERS — BINÁRIOS
+    // HELPERS
     // =============================================================
     private function phpCliBinary(): string
     {
         $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-
         if ($isWindows) {
-            $candidatos = ['C:\\xampp\\php\\php.exe', 'C:\\php\\php.exe'];
-            foreach ($candidatos as $c) if (is_file($c)) return $c;
+            foreach (['C:\\xampp\\php\\php.exe', 'C:\\php\\php.exe'] as $c) if (is_file($c)) return $c;
             if (preg_match('/php\.exe$/i', PHP_BINARY) && is_file(PHP_BINARY)) return PHP_BINARY;
         } else {
-            foreach (['/usr/bin/php', '/usr/local/bin/php'] as $c) {
-                if (is_file($c)) return $c;
-            }
+            foreach (['/usr/bin/php', '/usr/local/bin/php'] as $c) if (is_file($c)) return $c;
             if (preg_match('/php$/i', PHP_BINARY) && is_file(PHP_BINARY)) return PHP_BINARY;
         }
-
         return 'php';
     }
-
     private function scriptSiacPath(): string
     {
         $appPath = defined('APP_PATH') ? APP_PATH : dirname(__DIR__);
-        $cands = [
-            $appPath . '/public/script_siac_isabella.php',
-            dirname($appPath) . '/public/script_siac_isabella.php',
-        ];
+        $cands = [ $appPath . '/public/script_siac_isabella.php', dirname($appPath) . '/public/script_siac_isabella.php' ];
         foreach ($cands as $c) if (is_file($c)) return realpath($c);
         return $cands[0];
     }
-
     private function edgedriverPath(): ?string
     {
         $appPath = defined('APP_PATH') ? APP_PATH : dirname(__DIR__);
-        $cands = [
-            $appPath . '/public/msedgedriver.exe',
-            dirname($appPath) . '/public/msedgedriver.exe',
-        ];
+        $cands = [ $appPath . '/public/msedgedriver.exe', dirname($appPath) . '/public/msedgedriver.exe' ];
         foreach ($cands as $c) if (is_file($c)) return realpath($c);
         return null;
     }
 
-    // =============================================================
-    // MÉDIA DAS ÚLTIMAS MEDIÇÕES NÃO ZERADAS
-    // =============================================================
-    /**
-     * Média das últimas $n medições com valor > 0.
-     * Retorna também os valores usados para exibição/tooltip.
-     */
     private function mediaUltimasNaoZeradas(array $medicoes, int $n = 3): array
     {
         $validas = [];
@@ -697,10 +504,7 @@ class AnaliseOrcController
         }
         $validas = array_reverse($validas);
         $soma = array_sum(array_column($validas, 'valor'));
-        return [
-            'valores' => $validas,
-            'media'   => count($validas) > 0 ? $soma / count($validas) : 0.0,
-        ];
+        return ['valores' => $validas, 'media' => count($validas) > 0 ? $soma / count($validas) : 0.0];
     }
 
     // =============================================================
@@ -718,35 +522,28 @@ class AnaliseOrcController
         $valorAditivo        = (float)($contrato['valor_aditivo']  ?? 0);
         $valorReajuste       = (float)($contrato['valor_reajuste'] ?? 0);
         $totalInstrumento    = $valorPi + $valorAditivo + $valorReajuste;
-        $totalInstrumentoCol = (isset($contrato['pi_a_r']) && $contrato['pi_a_r'] !== null)
-            ? (float)$contrato['pi_a_r']
-            : null;
+        $totalInstrumentoCol = (isset($contrato['pi_a_r']) && $contrato['pi_a_r'] !== null) ? (float)$contrato['pi_a_r'] : null;
 
-        $disponivelBruto = (float)($contrato['disponivel_bruto']
-            ?? ((float)($contrato['valor_rap_efetivo'] ?? $contrato['valor_rap'])
-              + (float)($contrato['valor_empenhado_efetivo'] ?? $contrato['valor_empenhado'])));
+        $disponivelBruto = (float)($contrato['disponivel_bruto'] ?? ((float)($contrato['valor_rap_efetivo'] ?? $contrato['valor_rap']) + (float)($contrato['valor_empenhado_efetivo'] ?? $contrato['valor_empenhado'])));
 
         $medicoes    = $this->model->siacMedicoes($numero);
         $liquidacoes = $this->model->supraLiquidacao($numero);
         $hojeMes     = (new DateTimeImmutable('first day of this month'))->format('Y-m-01');
 
-        // Lookup: medições por mês (inclui zero)
         $medidoPorMes = [];
         foreach ($medicoes as $r) {
             $mr = $r['mes_referencia'] ?? null;
             if ($mr) $medidoPorMes[$mr] = (float)$r['valor_medido'];
         }
 
-        $medicoesAno = array_filter($medicoes, fn($r) =>
-            str_starts_with($r['mes_referencia'] ?? '', (string)$exercicio)
-            && $r['mes_referencia'] <= $hojeMes
-        );
-        $liqAno = array_filter($liquidacoes, function($k) use ($exercicio, $hojeMes) {
-            return str_starts_with($k, (string)$exercicio) && $k <= $hojeMes;
-        }, ARRAY_FILTER_USE_KEY);
+        $medicoesAno = array_filter($medicoes, fn($r) => str_starts_with($r['mes_referencia'] ?? '', (string)$exercicio) && $r['mes_referencia'] <= $hojeMes);
+        $liqAno = array_filter($liquidacoes, function($k) use ($exercicio, $hojeMes) { return str_starts_with($k, (string)$exercicio) && $k <= $hojeMes; }, ARRAY_FILTER_USE_KEY);
 
         $medidoAcum    = array_sum(array_map(fn($r) => (float)$r['valor_medido'], $medicoesAno));
         $liquidadoAcum = array_sum(array_map(fn($r) => (float)$r['valor'], $liqAno));
+
+        $totalLiquidadoGeral = $this->model->totalLiquidadoContrato($numero);
+        $diferencaIL = $totalLiquidadoGeral !== null ? round($totalInstrumento - $totalLiquidadoGeral, 2) : null;
 
         $pendenteNaoLiq  = max(0.0, $medidoAcum - $liquidadoAcum);
         $valorDisponivel = $disponivelBruto;
@@ -760,19 +557,12 @@ class AnaliseOrcController
         $mesesFaltantes    = $this->mesesFaltantes($planejamentoSupra, $mesesAtivos);
 
         $mediaDs = (float)($ds['media_ult_3_medicoes'] ?? 0);
-
-        // Média das últimas 3 medições NÃO ZERADAS
         $mediaNZ = $this->mediaUltimasNaoZeradas($medicoes, 3)['media'];
-        $mediaHistorica = $mediaNZ > 0
-            ? $mediaNZ
-            : ($mediaDs > 0
-                ? $mediaDs
-                : ($this->estatisticaMedicoes($medicoesAno)['media'] ?? 0));
+        $mediaHistorica = $mediaNZ > 0 ? $mediaNZ : ($mediaDs > 0 ? $mediaDs : ($this->estatisticaMedicoes($medicoesAno)['media'] ?? 0));
 
         $planejadosAnalista = $this->model->getPlanejadoAnalistaContrato($numero);
         $campoPref          = $this->model->getPreferencia($numero);
 
-        // Última liquidação + última medição do ANO
         $ultimaLiq = null;
         foreach (array_reverse($liquidacoes, true) as $m => $liq) {
             if (!str_starts_with($m, (string)$exercicio)) continue;
@@ -794,9 +584,6 @@ class AnaliseOrcController
         $totalPlanejadoRestante = 0.0;
         $mesesParaProjetar      = [];
 
-        // Cascata:
-        //   ANALISTA: Analista > 0 → NPO > 0 → Medição (mesmo 0) → Estimativa (manual → média NZ)
-        //   NPO:      NPO > 0 → Medição (mesmo 0) → Estimativa (manual → média NZ)
         foreach ($mesesAtivos as $mes) {
             if ($startAfter && $mes <= $startAfter) continue;
             $mesesParaProjetar[] = $mes;
@@ -804,18 +591,9 @@ class AnaliseOrcController
             $npo = $planejamentoSupra[$mes]           ?? null;
             $ana = $planejadosAnalista[$mes]['valor'] ?? null;
 
-            if ($campoPref === 'ANALISTA' && $ana !== null && $ana > 0) {
-                $totalPlanejadoRestante += $ana;
-                continue;
-            }
-            if ($npo !== null && $npo > 0) {
-                $totalPlanejadoRestante += $npo;
-                continue;
-            }
-            if (array_key_exists($mes, $medidoPorMes)) {
-                $totalPlanejadoRestante += $medidoPorMes[$mes];
-                continue;
-            }
+            if ($campoPref === 'ANALISTA' && $ana !== null && $ana > 0) { $totalPlanejadoRestante += $ana; continue; }
+            if ($npo !== null && $npo > 0) { $totalPlanejadoRestante += $npo; continue; }
+            if (array_key_exists($mes, $medidoPorMes)) { $totalPlanejadoRestante += $medidoPorMes[$mes]; continue; }
             if (isset($estimativas[$mes])) {
                 $totalPlanejadoRestante += $estimativas[$mes]['valor'];
             } else {
@@ -856,29 +634,19 @@ class AnaliseOrcController
             $farol          = null;
         } else {
             $saldoRestante = $valorDisponivel;
-
             if (count($mesesParaProjetar) > 0) {
                 $mesesPagosInteiros = 0;
                 $fracaoMes = 0;
-
                 foreach ($mesesParaProjetar as $mesProj) {
                     $npo = $planejamentoSupra[$mesProj]           ?? null;
                     $ana = $planejadosAnalista[$mesProj]['valor'] ?? null;
-
-                    if ($campoPref === 'ANALISTA' && $ana !== null && $ana > 0) {
-                        $valorMes = $ana;
-                    } elseif ($npo !== null && $npo > 0) {
-                        $valorMes = $npo;
-                    } elseif (array_key_exists($mesProj, $medidoPorMes)) {
-                        $valorMes = $medidoPorMes[$mesProj];
-                    } elseif (isset($estimativas[$mesProj])) {
-                        $valorMes = $estimativas[$mesProj]['valor'];
-                    } else {
-                        $valorMes = $mediaHistorica;
-                    }
+                    if ($campoPref === 'ANALISTA' && $ana !== null && $ana > 0) $valorMes = $ana;
+                    elseif ($npo !== null && $npo > 0)                          $valorMes = $npo;
+                    elseif (array_key_exists($mesProj, $medidoPorMes))          $valorMes = $medidoPorMes[$mesProj];
+                    elseif (isset($estimativas[$mesProj]))                      $valorMes = $estimativas[$mesProj]['valor'];
+                    else                                                        $valorMes = $mediaHistorica;
 
                     if ($valorMes <= 0) continue;
-
                     if ($saldoRestante >= $valorMes) {
                         $saldoRestante -= $valorMes;
                         $mesesPagosInteiros++;
@@ -891,9 +659,9 @@ class AnaliseOrcController
             } else {
                 $coberturaMesesRaw = $saldoRestante / $previsaoMensal;
             }
-
             $coberturaMeses = (int)floor($coberturaMesesRaw);
-            $farol          = ($statusSiac === 'CONCLUIDO') ? null : $this->farol($coberturaMesesRaw);
+            $farol = $this->farol($coberturaMesesRaw);
+            if ($statusSiac === 'CONCLUIDO') $farol = 'CONCLUIDO';
         }
 
         $valorNecessarioAno = $totalPlanejadoRestante + $pendenteNaoLiq;
@@ -904,24 +672,40 @@ class AnaliseOrcController
             $estimativas, $planejadosAnalista, $campoPref, $temMedicao
         );
 
+        $nomeUsual      = $contrato['nome_usual']      ?? ($ds['nome_usual'] ?? null);
+        $br             = $contrato['br']              ?? ($ds['br']         ?? null);
+        $empresa        = $contrato['empresa']         ?? ($ds['empresa']    ?? null);
+        $dataInicio     = $contrato['data_inicio']      ?? null;
+        $dataFim        = $contrato['data_fim']         ?? null;
+        $terminoServicos= $contrato['termino_servicos'] ?? null;
+        $terminoVigencia= $contrato['termino_vigencia'] ?? null;
+
         return [
             'numero'                   => $numero,
             'tipo'                     => $contrato['tipo'],
             'superintendencia'         => $contrato['superintendencia'],
-            'nome_usual'               => $ds['nome_usual'] ?? null,
-            'br'                       => $ds['br']         ?? null,
-            'empresa'                  => $ds['empresa']    ?? null,
+            'nome_usual'               => $nomeUsual,
+            'br'                       => $br,
+            'empresa'                  => $empresa,
             'acoes'                    => $contrato['acoes'] ?? [],
             'status'                   => $statusSiac,
             'concluido'                => $statusSiac === 'CONCLUIDO',
             'status_medicao'           => $statusMedicao,
             'dotacao_atualizada'       => round($dotacaoAtualizada, 2),
 
+            'data_inicio'              => $dataInicio,
+            'data_fim'                 => $dataFim,
+            'termino_servicos'         => $terminoServicos,
+            'termino_vigencia'         => $terminoVigencia,
+
             'valor_pi'                 => round($valorPi, 2),
             'valor_aditivo'            => round($valorAditivo, 2),
             'valor_reajuste'           => round($valorReajuste, 2),
             'total_instrumento'        => round($totalInstrumento, 2),
             'total_instrumento_coluna' => $totalInstrumentoCol !== null ? round($totalInstrumentoCol, 2) : null,
+
+            'total_liquidado'                 => $totalLiquidadoGeral !== null ? round($totalLiquidadoGeral, 2) : null,
+            'diferenca_instrumento_liquidado' => $diferencaIL,
 
             'disponivel_bruto'         => round($disponivelBruto, 2),
             'saldo_medido_nao_liq'     => round($medidoAcum - $liquidadoAcum, 2),
@@ -946,8 +730,7 @@ class AnaliseOrcController
             'media_nao_zero'           => round($mediaNZ, 2),
 
             'calculo_previsao'         => $calculo,
-            'performance'              => $this->performance($medicoesAno, $planejamentoSupra, $exercicio,
-                                                             $previsaoMensal, $previsaoCompleta, $medidoAcum),
+            'performance'              => $this->performance($medicoesAno, $planejamentoSupra, $exercicio, $previsaoMensal, $previsaoCompleta, $medidoAcum),
             'serie_mensal'             => $serie['rows'],
             'anomalias_saldo'          => $serie['anomalias'],
         ];
@@ -956,33 +739,50 @@ class AnaliseOrcController
     private function medicoesComEstatistica(string $numero, int $limite = 12): array
     {
         $medicoes = $this->model->siacMedicoes($numero);
-        $hojeMes  = (new DateTimeImmutable('first day of this month'))->format('Y-m-01');
+        $hoje = new DateTimeImmutable('first day of this month');
+        $anoAtual = (int)$hoje->format('Y');
+        $anoAnterior = $anoAtual - 1;
 
-        $medicoes = array_filter($medicoes, fn($r) => ($r['mes_referencia'] ?? '') <= $hojeMes);
-        $ultimas  = array_slice($medicoes, -max(1, $limite));
+        $regua = [];
+        for ($m = 1; $m <= 12; $m++) $regua[] = sprintf('%04d-%02d-01', $anoAnterior, $m);
+        for ($m = 1; $m <= 12; $m++) $regua[] = sprintf('%04d-%02d-01', $anoAtual, $m);
 
-        if ($ultimas === []) {
-            $ds     = $this->model->datasetRow($numero);
-            $media  = (float)($ds['media_ult_3_medicoes'] ?? 0);
+        $mapMed = [];
+        foreach ($medicoes as $r) $mapMed[$r['mes_referencia']] = $r;
+
+        $serieCompleta = [];
+        $valoresReais = [];
+
+        foreach ($regua as $mes) {
+            if (isset($mapMed[$mes])) {
+                $serieCompleta[] = $mapMed[$mes];
+                $valoresReais[] = (float)$mapMed[$mes]['valor_medido'];
+            } else {
+                $serieCompleta[] = [
+                    'mes_referencia' => $mes,
+                    'valor_medido'   => null,
+                    'data_medicao'   => null
+                ];
+            }
+        }
+
+        if (empty($valoresReais)) {
             return [
                 'contrato'     => $numero,
-                'serie'        => [],
-                'media'        => round($media, 2),
-                'mediana'      => round($media, 2),
-                'desvio'       => 0.0,
-                'cv'           => null,
-                'outliers'     => [],
-                'alerta'       => false,
-                'faixa_1sigma' => ['inf' => $media, 'sup' => $media],
-                'sem_serie'    => true,
-                'mensagem'     => 'Nenhuma medição mensal importada ainda. Use "Importar Medições SIAC" para trazer os dados.',
+                'serie'        => $serieCompleta,
+                'media'        => 0, 'mediana' => 0, 'desvio' => 0.0, 'cv' => null, 'outliers' => [], 'alerta' => false,
+                'faixa_1sigma' => ['inf' => 0, 'sup' => 0],
+                'sem_serie'    => false,
+                'mensagem'     => 'Nenhuma medição registrada neste período.'
             ];
         }
 
-        $stats = $this->estatisticaMedicoes($ultimas);
+        $apenasReais = array_values($mapMed);
+        $stats = $this->estatisticaMedicoes($apenasReais);
+
         return [
             'contrato' => $numero,
-            'serie'    => $ultimas,
+            'serie'    => $serieCompleta,
             'media'    => round($stats['media'], 2),
             'mediana'  => round($stats['mediana'], 2),
             'desvio'   => round($stats['desvio'], 2),
@@ -993,6 +793,7 @@ class AnaliseOrcController
                 'inf' => round($stats['media'] - $stats['desvio'], 2),
                 'sup' => round($stats['media'] + $stats['desvio'], 2),
             ],
+            'sem_serie' => false,
         ];
     }
 
@@ -1001,12 +802,14 @@ class AnaliseOrcController
     // =============================================================
     private function mesesAtivosNoAno(array $contrato, int $ano): array
     {
+        $fimContrato = $contrato['termino_servicos'] ?? $contrato['data_fim'] ?? $contrato['termino_vigencia'] ?? null;
         $ini = !empty($contrato['data_inicio']) ? new DateTimeImmutable($contrato['data_inicio']) : new DateTimeImmutable("$ano-01-01");
-        $fim = !empty($contrato['data_fim'])    ? new DateTimeImmutable($contrato['data_fim'])    : new DateTimeImmutable("$ano-12-31");
+        $fim = !empty($fimContrato)             ? new DateTimeImmutable($fimContrato)             : new DateTimeImmutable("$ano-12-31");
         $jan = new DateTimeImmutable("$ano-01-01");
         $dez = new DateTimeImmutable("$ano-12-31");
         if ($ini < $jan) $ini = $jan;
         if ($fim > $dez) $fim = $dez;
+        if ($ini > $fim) return [];
         $out = [];
         for ($m = $ini->modify('first day of this month'); $m <= $fim; $m = $m->modify('+1 month')) {
             $out[] = $m->format('Y-m-01');
@@ -1030,10 +833,7 @@ class AnaliseOrcController
 
     private function estatisticaMedicoes(array $medicoes): array
     {
-        if ($medicoes === []) {
-            return ['media'=>0.0,'mediana'=>0.0,'desvio'=>0.0,'cv'=>null,
-                    'n'=>0,'valores'=>[],'outliers'=>[],'alerta'=>false];
-        }
+        if ($medicoes === []) return ['media'=>0.0,'mediana'=>0.0,'desvio'=>0.0,'cv'=>null, 'n'=>0,'valores'=>[],'outliers'=>[],'alerta'=>false];
         $nJanela = max(1, $this->model->configInt('media_meses_estimativa', 3));
         $ultimas = array_slice($medicoes, -$nJanela);
         $valores = array_map(fn($r) => (float)$r['valor_medido'], $ultimas);
@@ -1046,17 +846,13 @@ class AnaliseOrcController
             $desvio = sqrt($soma / ($n - 1));
         }
         $ord = $valores; sort($ord);
-        $mediana = ($n % 2 === 1)
-            ? (float)$ord[intdiv($n, 2)]
-            : ($ord[$n/2 - 1] + $ord[$n/2]) / 2.0;
+        $mediana = ($n % 2 === 1) ? (float)$ord[intdiv($n, 2)] : ($ord[$n/2 - 1] + $ord[$n/2]) / 2.0;
         $cv = $media > 0 ? ($desvio / $media) * 100 : null;
         $k = $this->model->configFloat('media_outlier_sigma', 2.0);
         $outliers = [];
         foreach ($ultimas as $r) {
             $v = (float)$r['valor_medido'];
-            if ($desvio > 0 && abs($v - $media) > $k * $desvio) {
-                $outliers[] = ['mes' => $r['mes_referencia'], 'valor' => $v];
-            }
+            if ($desvio > 0 && abs($v - $media) > $k * $desvio) $outliers[] = ['mes' => $r['mes_referencia'], 'valor' => $v];
         }
         $alerta = $cv !== null && $cv > $this->model->configFloat('media_cv_alerta', 30);
         return compact('media','mediana','desvio','cv','n','valores','outliers','alerta');
@@ -1069,9 +865,7 @@ class AnaliseOrcController
         return 'VERMELHO';
     }
 
-    private function performance(array $medicoes, array $plan, int $ano,
-                                 float $mediaEstimada, bool $completa,
-                                 ?float $medidoAcumDs = null): array
+    private function performance(array $medicoes, array $plan, int $ano, float $mediaEstimada, bool $completa, ?float $medidoAcumDs = null): array
     {
         $mesCorrente = (new DateTimeImmutable('first day of this month'))->format('Y-m-01');
         $previstoAcum = 0.0;
@@ -1082,10 +876,7 @@ class AnaliseOrcController
         if ($medicoes === [] && $medidoAcumDs !== null) {
             $medidoAcum = $medidoAcumDs;
         } else {
-            $medidoAcum = array_sum(array_map(
-                fn($r) => (float)$r['valor_medido'],
-                array_filter($medicoes, fn($r) => $r['mes_referencia'] <= $mesCorrente)
-            ));
+            $medidoAcum = array_sum(array_map(fn($r) => (float)$r['valor_medido'], array_filter($medicoes, fn($r) => $r['mes_referencia'] <= $mesCorrente)));
         }
         $dif    = $previstoAcum - $medidoAcum;
         $difPct = $previstoAcum > 0 ? round($dif / $previstoAcum * 100, 2) : null;
@@ -1099,6 +890,9 @@ class AnaliseOrcController
         ];
     }
 
+    // ============================================================
+    // ✅ CORREÇÃO CRÍTICA: DIFERENÇA SIMPLES (MÊS A MÊS) AO INVÉS DE ACUMULADO
+    // ============================================================
     private function serieMensal(array $medicoes, array $liquidacoes, array $plan,
                                  array $mesesAtivos, bool $completa, float $media,
                                  array $estimativas = [],
@@ -1113,11 +907,16 @@ class AnaliseOrcController
         $hojeMes    = $hoje->format('Y-m-01');
         $tolerancia = $this->model->configFloat('saldo_tolerancia_anomalia', 100.0);
 
-        $saldoAcum = 0.0;
         $anomalias = 0;
         $rows = [];
 
-        foreach ($mesesAtivos as $m) {
+        $ano = (int)explode('-', $hojeMes)[0];
+        $reguaMeses = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $reguaMeses[] = sprintf('%04d-%02d-01', $ano, $m);
+        }
+
+        foreach ($reguaMeses as $m) {
             $isFuturo = ($m > $hojeMes);
 
             $temRegistroMes = !$isFuturo && array_key_exists($m, $medIdx);
@@ -1127,7 +926,6 @@ class AnaliseOrcController
             $planReal = array_key_exists($m, $plan) ? (float)$plan[$m] : null;
             $temPlano = $planReal !== null;
 
-            // ===== Estimativa = média das últimas medições NÃO zeradas (sempre que houver) =====
             $estCalc = $media > 0 ? $media : null;
             $estExib = $estCalc;
             $estManual = null;
@@ -1137,26 +935,16 @@ class AnaliseOrcController
             }
             $planExib = $temPlano ? $planReal : $estExib;
 
-            // Planejado Analista (manual → medido do mês → estimativa → null)
             $anaManual = $planejadosAnalista[$m] ?? null;
-            if ($anaManual !== null) {
-                $planejadoAnalistaValor = $anaManual['valor'];
-            } elseif ($temRegistroMes && $medido !== null) {
-                $planejadoAnalistaValor = $medido;
-            } elseif ($estExib !== null) {
-                $planejadoAnalistaValor = $estExib;
-            } else {
-                $planejadoAnalistaValor = null;
-            }
+            if ($anaManual !== null)                                      $planejadoAnalistaValor = $anaManual['valor'];
+            elseif ($temRegistroMes && $medido !== null)                  $planejadoAnalistaValor = $medido;
+            elseif ($estExib !== null)                                    $planejadoAnalistaValor = $estExib;
+            else                                                          $planejadoAnalistaValor = null;
 
-            // COR DO NPO DESATIVADA TEMPORARIAMENTE
-            $corNpo = null;
-
-            if ($temRegistroMes) {
-                $saldoAcum += $medido - $liquidado;
-                $saldo = $saldoAcum;
-            } else {
-                $saldo = null;
+            // ✅ CORREÇÃO: Não acumula. Faz a diferença exata do mês.
+            $difMes = null;
+            if ($temRegistroMes && $medido !== null) {
+                $difMes = $medido - $liquidado;
             }
 
             $mesRef         = new DateTimeImmutable($m);
@@ -1165,25 +953,17 @@ class AnaliseOrcController
             $diasDesdeFim   = $mesEncerrado ? (int)$hoje->diff($fimMes)->days : 0;
             $muitoEncerrado = $diasDesdeFim > 30;
 
-            $difMes      = ($medido !== null) ? $medido - $liquidado : null;
             $statusSaldo = 'ok';
             $avisoSaldo  = null;
 
             if ($temRegistroMes && $difMes !== null && abs($difMes) > $tolerancia) {
                 if ($muitoEncerrado) {
                     $statusSaldo = 'anomalia';
-                    $avisoSaldo  = sprintf(
-                        'Mês encerrado há %d dias com medição (R$ %s) diferente da liquidação (R$ %s).',
-                        $diasDesdeFim,
-                        number_format((float)$medido, 2, ',', '.'),
-                        number_format($liquidado, 2, ',', '.')
-                    );
+                    $avisoSaldo  = sprintf('Mês encerrado há %d dias com medição (R$ %s) diferente da liquidação (R$ %s).', $diasDesdeFim, number_format((float)$medido, 2, ',', '.'), number_format($liquidado, 2, ',', '.'));
                     $anomalias++;
                 } else {
                     $statusSaldo = 'pendente';
-                    $avisoSaldo  = $mesEncerrado
-                        ? 'Mês recém-encerrado: liquidação aguardando processamento (normal até 30 dias).'
-                        : 'Mês em andamento: medição aguardando liquidação.';
+                    $avisoSaldo  = $mesEncerrado ? 'Mês recém-encerrado: liquidação aguardando processamento.' : 'Mês em andamento: medição aguardando liquidação.';
                 }
             }
 
@@ -1199,13 +979,12 @@ class AnaliseOrcController
                 'liquidado'                 => round($liquidado, 2),
                 'data_ref_medicao'          => $medDat[$m]              ?? null,
                 'data_ref_liquidacao'       => $liquidacoes[$m]['data'] ?? null,
-                'saldo_medido_nao_liq'      => $saldo !== null ? round($saldo, 2) : null,
+                'saldo_medido_nao_liq'      => $difMes !== null ? round($difMes, 2) : null, // ✅ Retorna apenas a diferença simples
                 'diferenca_mes'             => $difMes !== null ? round($difMes, 2) : null,
                 'status_saldo'              => $statusSaldo,
                 'aviso_saldo'               => $avisoSaldo,
                 'planejado_analista'        => $planejadoAnalistaValor !== null ? round($planejadoAnalistaValor, 2) : null,
                 'planejado_analista_manual' => $anaManual,
-                'cor_npo'                   => $corNpo,
                 'campo_preferencia'         => $campoPref,
             ];
         }

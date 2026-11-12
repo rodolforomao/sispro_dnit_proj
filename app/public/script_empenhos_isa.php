@@ -1,9 +1,5 @@
 <?php
 // app/public/script_empenhos_isa.php
-//
-// Worker: extrai empenhos + eventos (consulta_situacao_empenho.do + abas de detalhe)
-// Tabelas destino: siac_empenhos, siac_empenho_eventos
-// Baseado no scr_emp_det_paralelos.py
 
 @set_time_limit(0);
 @ini_set('max_execution_time', '0');
@@ -278,6 +274,25 @@ function extrairLinhasTabela($b, $sid, string $tabelaId): array {
     return json_decode((string)($r['value'] ?? '[]'), true) ?: [];
 }
 
+// ⬇️ NOVA FUNÇÃO: Extrai os valores do tfoot (Totais)
+function extrairTotaisTabela($b, $sid, string $tabelaId): array {
+    $r = execJs($b, $sid, "
+        var t = document.getElementById(arguments[0]);
+        if (!t) return '[]';
+        var tfoot = t.querySelector('tfoot');
+        if (!tfoot) return '[]';
+        
+        var tds = tfoot.querySelectorAll('td, th');
+        var row = [];
+        for (var i = 0; i < tds.length; i++) {
+            row.push((tds[i].innerText || '').trim());
+        }
+        return JSON.stringify(row);
+    ", [$tabelaId]);
+    return json_decode((string)($r['value'] ?? '[]'), true) ?: [];
+}
+// ⬆️ FIM
+
 function extrairNotaEmpenho($b, $sid): string {
     $r = execJs($b, $sid, "
         try {
@@ -343,7 +358,7 @@ wdPost($driverUrl, "/session/{$sid}/chromium/send_command", [
 logPhase("[sess] criada, headless=" . ($headless ? 'SIM' : 'NAO'));
 
 // ============================================================
-// LOGIN (idêntico)
+// LOGIN
 // ============================================================
 logPhase("══════════════════════════════════════");
 logPhase("[login] iniciando (3 tentativas se necessario)");
@@ -462,7 +477,7 @@ if (!$loginOk) {
 dbUpdate($pdo, $jobId, ['login_ok'=>1,'etapa'=>'extraindo','progresso'=>5]);
 
 // ============================================================
-// PREPARA INSERT
+// PREPARA INSERT (COM AS NOVAS COLUNAS)
 // ============================================================
 $sqlDelEmp = $pdo->prepare('DELETE FROM `siac_empenhos` WHERE contrato = ?');
 $sqlDelEvt = $pdo->prepare('DELETE FROM `siac_empenho_eventos` WHERE contrato = ?');
@@ -470,8 +485,9 @@ $sqlInsEmp = $pdo->prepare('
     INSERT INTO `siac_empenhos`
         (importacao_id, contrato, unidade_gestora, numero_documento,
          natureza_despesa, vinc_pagamento, valor_empenho,
-         valor_ajustes, valor_consumido, saldo)
-    VALUES (?,?,?,?,?,?,?,?,?,?)
+         valor_ajustes, valor_consumido, saldo,
+         valor_empenho_total, valor_ajustes_total, valor_consumido_total, saldo_total)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 ');
 $sqlInsEvt = $pdo->prepare('
     INSERT INTO `siac_empenho_eventos`
@@ -509,6 +525,9 @@ foreach ($contratos as $i => $item) {
     logPhase("[$i/$total] $contrato ($estado)");
     $ignorar = false; $motivo = '';
     $empenhos = []; $eventos = [];
+    
+    // Variáveis de totais zeradas para este contrato
+    $totEmp = 0; $totAju = 0; $totCon = 0; $totSal = 0;
 
     try {
         navTo($driverUrl, $sid, $urlConsulta);
@@ -565,8 +584,28 @@ foreach ($contratos as $i => $item) {
         }
         if (!$temEmp) throw new Exception('Tabela de empenhos nao apareceu');
 
-        // Coleta linhas de empenhos
+        // ⬇️ EXTRAI AS LINHAS DO CORPO (TBODY) ⬇️
         $linhas = extrairLinhasTabela($driverUrl, $sid, 'empenhos');
+        
+        // ⬇️ EXTRAI OS TOTAIS DO RODAPÉ (TFOOT) ⬇️
+        $totaisFoot = extrairTotaisTabela($driverUrl, $sid, 'empenhos');
+        if (!empty($totaisFoot)) {
+            // Limpa textos como "Total:" e vazios
+            $valoresValidos = [];
+            foreach ($totaisFoot as $v) {
+                $v = trim($v);
+                if ($v !== '' && strtolower($v) !== 'total:') {
+                    $valoresValidos[] = $v;
+                }
+            }
+            // A ordem no rodapé é: Valor Empenho, Valor Ajustes, Valor Consumido, Saldo
+            if (count($valoresValidos) >= 4) {
+                $totEmp = valorMonetario($valoresValidos[0]);
+                $totAju = valorMonetario($valoresValidos[1]);
+                $totCon = valorMonetario($valoresValidos[2]);
+                $totSal = valorMonetario($valoresValidos[3]);
+            }
+        }
 
         // Coleta os hrefs dos links de cada linha de empenho (para detalhes)
         $rLinks = execJs($driverUrl, $sid, "
@@ -582,9 +621,14 @@ foreach ($contratos as $i => $item) {
         ");
         $hrefs = json_decode((string)($rLinks['value'] ?? '[]'), true) ?: [];
 
-        // Guarda os empenhos (ainda em memória; insere depois de coletar eventos)
+        // Guarda os empenhos
         foreach ($linhas as $linha) {
             $empenhos[] = $linha;
+        }
+        
+        // Se não houver empenhos no tbody, mas houver totais no tfoot, insere uma linha dummy para guardar os totais
+        if (empty($empenhos) && ($totEmp > 0 || $totAju != 0 || $totCon > 0 || $totSal != 0)) {
+            $empenhos[] = [null, null, null, null, null, null, null, null];
         }
 
         // Para cada empenho: abre nova aba, extrai eventos, fecha
@@ -648,9 +692,8 @@ foreach ($contratos as $i => $item) {
         $sqlDelEvt->execute([$contrato]);
         $nEmp = 0;
         foreach ($empenhos as $linha) {
-            // linha = [unidade_gestora, numero_documento, natureza_despesa, vinc_pagamento,
-            //          valor_empenho, valor_ajustes, valor_consumido, saldo]
             $valores = array_pad($linha, 8, null);
+            // ⬇️ INSERE OS DADOS COM OS TOTAIS ⬇️
             $sqlInsEmp->execute([
                 $jobId, $contrato,
                 $valores[0] ?: null,
@@ -661,12 +704,13 @@ foreach ($contratos as $i => $item) {
                 valorMonetario($valores[5]),
                 valorMonetario($valores[6]),
                 valorMonetario($valores[7]),
+                // NOVAS COLUNAS:
+                $totEmp, $totAju, $totCon, $totSal
             ]);
             $nEmp++;
         }
         $nEvt = 0;
         foreach ($eventos as $evt) {
-            // evt['dados'] = [data, evento, valor_incluido, valor_gasto]
             $vals = array_pad($evt['dados'], 4, null);
             $sqlInsEvt->execute([
                 $jobId, $contrato, $evt['nota'] ?: null,
@@ -680,7 +724,7 @@ foreach ($contratos as $i => $item) {
         $pdo->commit();
         $totalEmp += $nEmp;
         $totalEvt += $nEvt;
-        logPhase("    -> $nEmp empenho(s), $nEvt evento(s) salvos");
+        logPhase("    -> $nEmp empenho(s), $nEvt evento(s) salvos. Totais: Emp=$totEmp, Aju=$totAju, Cons=$totCon, Sal=$totSal");
 
     } catch (Throwable $e) {
         if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();

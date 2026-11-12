@@ -1,12 +1,5 @@
 <?php
 // app/public/importar_empenhos_isa.php
-//
-// Ações:
-//   ?acao=ambiente_check   → diagnóstico
-//   ?acao=setup_db         → cria tabelas necessárias (executar 1x)
-//   ?acao=executar  (POST) → cria job, insere em siac_import_jobs, dispara script
-//   ?acao=status&job=X     → lê siac_import_jobs
-//   ?acao=historico        → últimos 10 jobs (prefixo emp_)
 
 require_once __DIR__ . '/config.php';
 
@@ -68,12 +61,25 @@ function setupDb(PDO $pdo): void {
                 valor_ajustes DECIMAL(18,2) DEFAULT NULL,
                 valor_consumido DECIMAL(18,2) DEFAULT NULL,
                 saldo DECIMAL(18,2) DEFAULT NULL,
+                valor_empenho_total DECIMAL(18,2) DEFAULT NULL,
+                valor_ajustes_total DECIMAL(18,2) DEFAULT NULL,
+                valor_consumido_total DECIMAL(18,2) DEFAULT NULL,
+                saldo_total DECIMAL(18,2) DEFAULT NULL,
                 criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
                 KEY idx_contrato (contrato),
                 KEY idx_documento (numero_documento),
                 KEY idx_importacao (importacao_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ");
+
+        // Garante que as colunas existam (caso a tabela já existisse sem elas)
+        $novasColunas = ['valor_empenho_total', 'valor_ajustes_total', 'valor_consumido_total', 'saldo_total'];
+        foreach ($novasColunas as $col) {
+            $check = $pdo->query("SHOW COLUMNS FROM `" . T_EMP . "` LIKE '$col'")->fetch();
+            if (!$check) {
+                $pdo->exec("ALTER TABLE `" . T_EMP . "` ADD COLUMN `$col` DECIMAL(18,2) DEFAULT NULL");
+            }
+        }
 
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS `" . T_EVT . "` (
