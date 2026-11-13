@@ -1,14 +1,20 @@
 <?php
+require_once __DIR__ . '/../Config/version.php';
 // ============================================================
-// Tela de sincronização COMPLETA do banco (Produção → Dev)
-// ⚠️ Rodar APENAS no seu XAMPP
+// Tela de merge do banco — puxa a produção e mescla no DEV
+// ⚠️ Rodar APENAS no XAMPP (dev)
+//
+// Atualiza a linha cuja chave já existe, insere a que só existe
+// na produção e mantém a linha que só existe localmente.
 // ============================================================
 require_once 'config.php';
 
-if (session_status() === PHP_SESSION_NONE) session_start();
+@ini_set('memory_limit', '1024M');
+@set_time_limit(0);
 
-@ini_set('memory_limit', '512M');
-@set_time_limit(300);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // ============================================================
 // ⚙️ CONFIGURAÇÕES
@@ -19,34 +25,75 @@ $BACKUP_DIR = __DIR__ . '/backups';
 $PREVIEW_FILE = $BACKUP_DIR . '/banco_sync_preview.json';
 $META_FILE    = $BACKUP_DIR . '/banco_sync_meta.json';
 
-$PREVIEW_FILE = $BACKUP_DIR . '/sync_banco_preview.json';
+$BLACKLIST = array('logs_auditoria');
+$BLACKLIST_PATTERNS = array('/_bkp_/i', '/_backup_/i', '/_preview_/i');
 
-if (!is_dir($BACKUP_DIR)) @mkdir($BACKUP_DIR, 0755, true);
+if (!is_dir($BACKUP_DIR)) {
+    @mkdir($BACKUP_DIR, 0755, true);
+}
 
 // ============================================================
-// FUNÇÕES AUXILIARES
+// FUNÇÕES
 // ============================================================
-function consultarApi($url, $token) {
+function sqlIdent($nome)
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', (string)$nome)) {
+        throw new Exception('Identificador inválido: ' . $nome);
+    }
+    return '`' . $nome . '`';
+}
+
+function tabelaPermitida($nome, $blacklist, $patterns)
+{
+    if (in_array($nome, $blacklist, true)) {
+        return false;
+    }
+    foreach ($patterns as $p) {
+        if (preg_match($p, $nome)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function nomesTabelasInformados($csv)
+{
+    $out = array();
+    foreach (explode(',', (string)$csv) as $nome) {
+        $nome = trim($nome);
+        if ($nome === '') {
+            continue;
+        }
+        if (!preg_match('/^[A-Za-z0-9_]+$/', $nome)) {
+            throw new Exception('Nome de tabela inválido: ' . $nome);
+        }
+        $out[] = $nome;
+    }
+    return $out;
+}
+
+function consultarApi($url, $token)
+{
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-Sync-Token: ' . $token,
-        'Accept: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+        'Accept: application/json',
+    ));
+    curl_setopt($ch, CURLOPT_TIMEOUT, 600);
+    curl_setopt($ch, CURLOPT_ENCODING, '');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-    $resp = curl_exec($ch);
-    $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $resposta = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $erro = curl_error($ch);
     curl_close($ch);
 
-    if ($resp === false) throw new Exception("Falha na conexão: $erro");
-    if ($http !== 200)   throw new Exception("HTTP $http — " . substr($resp, 0, 300));
-    return $resp;
+    if ($resposta === false) {
+        throw new Exception('Falha na conexão: ' . $erro);
     }
     if (strncmp($resposta, "\x1f\x8b", 2) === 0) {
         $dec = gzdecode($resposta);
@@ -61,59 +108,117 @@ function consultarApi($url, $token) {
     return $resposta;
 }
 
-function tabelaExiste(PDO $pdo, string $t): bool {
-    $stmt = $pdo->prepare("SHOW TABLES LIKE ?");
-    $stmt->execute([$t]);
-    return (bool)$stmt->fetchColumn();
+function checksumLinhas($linhas)
+{
+    $json = json_encode($linhas, JSON_UNESCAPED_UNICODE);
+    if ($json === false) {
+        throw new Exception('Falha ao calcular checksum: ' . json_last_error_msg());
     }
     return hash('sha256', $json);
 }
 
-function colunasLocais(PDO $pdo, string $t): array {
-    if (!tabelaExiste($pdo, $t)) return [];
-    return $pdo->query("SHOW COLUMNS FROM `$t`")->fetchAll(PDO::FETCH_COLUMN);
+function tabelaExiste($pdo, $nome)
+{
+    $stmt = $pdo->prepare(
+        'SELECT COUNT(*) FROM information_schema.TABLES
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND TABLE_TYPE = \'BASE TABLE\''
+    );
+    $stmt->execute(array($nome));
+    return (int)$stmt->fetchColumn() > 0;
 }
 
-// ============================================================
-// AÇÕES
-// ============================================================
-$mensagem = ''; $tipo = ''; $preview = null; $resultado = null;
-$action = $_POST['action'] ?? '';
+function contarLinhas($pdo, $tabela)
+{
+    return (int)$pdo->query('SELECT COUNT(*) FROM ' . sqlIdent($tabela))->fetchColumn();
+}
 
-// ---- PREVIEW ----
-if ($action === 'preview') {
-    try {
-        $json  = consultarApi($SYNC_URL, $SYNC_TOKEN);
-        $dados = json_decode($json, true);
+function colunasLocais($pdo, $tabela)
+{
+    $cols = array();
+    $stmt = $pdo->query('SHOW COLUMNS FROM ' . sqlIdent($tabela));
+    while ($c = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $cols[] = $c['Field'];
+    }
+    return $cols;
+}
 
-        if (!is_array($dados) || empty($dados['success'])) {
-            throw new Exception("Resposta inválida: " . substr($json, 0, 300));
+function temIndiceUnico($pdo, $tabela)
+{
+    $stmt = $pdo->query('SHOW INDEX FROM ' . sqlIdent($tabela));
+    while ($idx = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ((int)$idx['Non_unique'] === 0) {
+            return true;
         }
     }
     return false;
 }
 
-        file_put_contents($PREVIEW_FILE, json_encode($dados, JSON_UNESCAPED_UNICODE));
-        $preview = $dados;
+function ddlColuna($pdo, $c)
+{
+    $tipo = isset($c['tipo']) ? $c['tipo'] : '';
+    if (!preg_match('/^[a-zA-Z0-9(),\s\'._-]+$/', $tipo)) {
+        throw new Exception('Tipo de coluna inválido: ' . $tipo);
+    }
 
-        $mensagem = "Prévia carregada: {$dados['total_tabelas']} tabelas recebidas. "
-                  . "Total de linhas: " . array_sum(array_column($dados['resumo'], 'linhas')) . ".";
-        $tipo = 'success';
+    $sql = sqlIdent($c['nome']) . ' ' . $tipo;
+    $notNull = strtoupper((string)$c['null']) === 'NO';
+    $sql .= $notNull ? ' NOT NULL' : ' NULL';
 
-    } catch (Exception $e) {
-        $mensagem = "Erro na prévia: " . $e->getMessage();
-        $tipo = 'danger';
+    $extra = strtolower(trim((string)(isset($c['extra']) ? $c['extra'] : '')));
+    $ehAuto = strpos($extra, 'auto_increment') !== false;
+
+    if (!$ehAuto) {
+        if ($c['default'] !== null) {
+            $d = (string)$c['default'];
+            if (preg_match('/^current_timestamp(\(\))?$/i', $d)) {
+                $sql .= ' DEFAULT CURRENT_TIMESTAMP';
+            } elseif (preg_match('/^-?\d+(\.\d+)?$/', $d)) {
+                $sql .= ' DEFAULT ' . $d;
+            } else {
+                $sql .= ' DEFAULT ' . $pdo->quote($d);
             }
         } elseif (!$notNull) {
             $sql .= ' DEFAULT NULL';
         }
     }
 
-// ---- IMPORT ----
-if ($action === 'import') {
+    if ($extra !== '') {
+        if (!preg_match('/^[a-z0-9_ ()]+$/', $extra)) {
+            throw new Exception('Extra inválido na coluna ' . $c['nome']);
+        }
+        $sql .= ' ' . $extra;
+    }
+    return $sql;
+}
+
+function aplicarCreate($pdo, $createSql, $tabela)
+{
+    $sql = trim((string)$createSql);
+    if (!preg_match('/^CREATE TABLE\s+/i', $sql)) {
+        throw new Exception('DDL inesperada para ' . $tabela);
+    }
+    if (strpos($sql, ';') !== false) {
+        throw new Exception('DDL com mais de um comando: ' . $tabela);
+    }
+    $pdo->exec($sql);
+}
+
+function backupTabela($pdo, $dir, $tabela)
+{
+    $path = $dir . '/' . $tabela . '.json';
+    $fh = fopen($path, 'wb');
+    if ($fh === false) {
+        throw new Exception('Não foi possível gravar o backup de ' . $tabela);
+    }
+
     try {
-        if (!file_exists($PREVIEW_FILE)) {
-            throw new Exception("Nenhuma prévia encontrada. Faça a busca novamente.");
+        $stmt = $pdo->query('SELECT * FROM ' . sqlIdent($tabela));
+        fwrite($fh, "[\n");
+        $first = true;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $json = json_encode($row, JSON_UNESCAPED_UNICODE);
+            if ($json === false) {
+                throw new Exception('Falha ao serializar backup de ' . $tabela);
             }
             if (!$first) {
                 fwrite($fh, ",\n");
@@ -127,58 +232,90 @@ if ($action === 'import') {
         throw $e;
     }
 
-        $dados = json_decode(file_get_contents($PREVIEW_FILE), true);
-        if (!is_array($dados) || empty($dados['success'])) {
-            throw new Exception("Prévia inválida. Faça a busca novamente.");
+    fclose($fh);
+    return basename($path);
 }
 
-        $selecionadas = $_POST['tabelas'] ?? [];
-        if (empty($selecionadas)) {
-            throw new Exception("Nenhuma tabela selecionada para sincronizar.");
+function chavesPrimarias($colunas)
+{
+    $pk = array();
+    foreach ($colunas as $c) {
+        if (isset($c['key']) && $c['key'] === 'PRI') {
+            $pk[] = $c['nome'];
         }
     }
     return $pk;
 }
 
-        $ordem = $dados['ordem'] ?? array_keys($dados['tabelas']);
-        // Filtra a ordem pelas tabelas selecionadas
-        $ordem = array_values(array_filter($ordem, fn($t) => in_array($t, $selecionadas, true)));
+function montarPlano($pdo, $dados, $blacklist, $patterns)
+{
+    $plano = array();
+    $tabelas = isset($dados['tabelas']) && is_array($dados['tabelas']) ? $dados['tabelas'] : array();
 
-        // ---- Backup do estado atual (por tabela, em pasta datada) ----
-        $stamp      = date('Y-m-d_His');
-        $backupDir  = $BACKUP_DIR . '/banco_backup_' . $stamp;
-        if (!is_dir($backupDir)) @mkdir($backupDir, 0755, true);
+    foreach ($tabelas as $nome => $info) {
+        if (!tabelaPermitida($nome, $blacklist, $patterns)) {
+            continue;
+        }
+        sqlIdent($nome);
 
-        foreach ($ordem as $t) {
-            if (!tabelaExiste($pdo, $t)) continue;
-            $linhas = $pdo->query("SELECT * FROM `$t`")->fetchAll(PDO::FETCH_ASSOC);
-            file_put_contents(
-                $backupDir . '/' . $t . '.json',
-                json_encode($linhas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
+        $existe = tabelaExiste($pdo, $nome);
+        $locais = $existe ? contarLinhas($pdo, $nome) : null;
+        $colunasNovas = array();
+        $checksumOk = false;
+
+        if (isset($info['linhas']) && is_array($info['linhas'])) {
+            $checksumOk = isset($info['checksum']) && hash_equals(
+                (string)$info['checksum'],
+                checksumLinhas($info['linhas'])
             );
         }
 
-        // ---- Transação ----
-        $pdo->beginTransaction();
-        $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+        if ($existe && isset($info['colunas']) && is_array($info['colunas'])) {
+            $jaTem = colunasLocais($pdo, $nome);
+            foreach ($info['colunas'] as $c) {
+                if (!in_array($c['nome'], $jaTem, true)) {
+                    $colunasNovas[] = $c['nome'];
+                }
+            }
+        }
 
-        $relatorio = [];
+        $plano[] = array(
+            'tabela'         => $nome,
+            'remotas'        => isset($info['total']) ? (int)$info['total'] : 0,
+            'locais'         => $locais,
+            'existe'         => $existe,
+            'colunas_novas'  => $colunasNovas,
+            'checksum_ok'    => $checksumOk,
+            'auto_increment' => isset($info['auto_increment']) ? (int)$info['auto_increment'] : 0,
+        );
+    }
 
-        foreach ($ordem as $t) {
-            $info = $dados['tabelas'][$t] ?? null;
-            if (!$info) continue;
+    return $plano;
+}
 
-            $colsProd = array_column($info['colunas'], 'nome');
-            $linhas   = $info['linhas'] ?? [];
+function mesclarTabela($pdo, $nome, $info)
+{
+    $colunasMeta = isset($info['colunas']) && is_array($info['colunas']) ? $info['colunas'] : array();
+    $linhas = isset($info['linhas']) && is_array($info['linhas']) ? $info['linhas'] : array();
+    $pk = chavesPrimarias($colunasMeta);
 
-            // ---- Cria a tabela se não existir localmente ----
+    if (!isset($info['checksum']) || !hash_equals((string)$info['checksum'], checksumLinhas($linhas))) {
+        throw new Exception('Checksum não confere. A prévia foi recarregada ou está incompleta.');
+    }
+
     $criada = false;
-            if (!tabelaExiste($pdo, $t)) {
-                if (!empty($info['create_sql'])) {
-                    $pdo->exec($info['create_sql']);
+    if (!tabelaExiste($pdo, $nome)) {
+        if (empty($info['create_sql'])) {
+            throw new Exception('Tabela não existe localmente e a API não enviou o CREATE TABLE.');
+        }
+        aplicarCreate($pdo, $info['create_sql'], $nome);
         $criada = true;
-                } else {
-                    $relatorio[] = "$t: sem CREATE TABLE, ignorada.";
+    }
+
+    $locais = colunasLocais($pdo, $nome);
+    $adicionadas = array();
+    foreach ($colunasMeta as $c) {
+        if (in_array($c['nome'], $locais, true)) {
             continue;
         }
         if (isset($c['key']) && $c['key'] === 'PRI') {
@@ -189,32 +326,162 @@ if ($action === 'import') {
         $locais[] = $c['nome'];
     }
 
-            $colsDev = colunasLocais($pdo, $t);
-            $cols    = array_values(array_intersect($colsProd, $colsDev));
+    if (empty($pk) && !temIndiceUnico($pdo, $nome)) {
+        throw new Exception('Sem chave única. O merge duplicaria as linhas a cada execução.');
+    }
+    if (!temIndiceUnico($pdo, $nome)) {
+        throw new Exception('A tabela local não tem chave única. O merge não consegue atualizar pelo id.');
+    }
 
-            $faltandoLocal = array_values(array_diff($colsProd, $colsDev));
-            $sobrandoLocal = array_values(array_diff($colsDev, $colsProd));
+    $colunasInserir = array();
+    foreach ($colunasMeta as $c) {
+        if (in_array($c['nome'], $locais, true)) {
+            $colunasInserir[] = $c['nome'];
+        }
+    }
+    if (empty($colunasInserir)) {
+        throw new Exception('Nenhuma coluna em comum para gravar.');
+    }
+    foreach ($pk as $colPk) {
+        if (!in_array($colPk, $colunasInserir, true)) {
+            throw new Exception('A chave ' . $colPk . ' não pôde ser gravada.');
+        }
+    }
 
-            // ---- Limpa tabela local ----
-            $pdo->exec("DELETE FROM `$t`");
+    $resultado = array(
+        'tabela'        => $nome,
+        'criada'        => $criada,
+        'colunas_novas' => $adicionadas,
+        'processadas'   => 0,
+        'ok'            => false,
+        'erro'          => '',
+    );
 
-            // ---- Insere linhas ----
-            $inseridas = 0;
-            if (!empty($linhas) && !empty($cols)) {
-                $placeholders = '(' . implode(',', array_fill(0, count($cols), '?')) . ')';
-                $sql = "INSERT INTO `$t` (`" . implode('`,`', $cols) . "`) VALUES $placeholders";
-                $stmt = $pdo->prepare($sql);
+    if (!empty($linhas)) {
+        $colsSql = array();
+        $updates = array();
+        foreach ($colunasInserir as $c) {
+            $colsSql[] = sqlIdent($c);
+            if (!in_array($c, $pk, true)) {
+                $updates[] = sqlIdent($c) . ' = VALUES(' . sqlIdent($c) . ')';
+            }
+        }
+        if (empty($updates)) {
+            $updates[] = sqlIdent($pk[0]) . ' = ' . sqlIdent($pk[0]);
+        }
+
+        $sql = 'INSERT INTO ' . sqlIdent($nome)
+            . ' (' . implode(',', $colsSql) . ') VALUES ('
+            . implode(',', array_fill(0, count($colunasInserir), '?'))
+            . ') ON DUPLICATE KEY UPDATE ' . implode(',', $updates);
 
         $stmt = $pdo->prepare($sql);
         $pdo->beginTransaction();
         try {
             foreach ($linhas as $linha) {
-                    $vals = [];
-                    foreach ($cols as $c) {
-                        $vals[] = $linha[$c] ?? null;
+                if (!is_array($linha)) {
+                    throw new Exception('Linha inválida no payload.');
+                }
+                $vals = array();
+                foreach ($colunasInserir as $c) {
+                    $vals[] = array_key_exists($c, $linha) ? $linha[$c] : null;
                 }
                 $stmt->execute($vals);
-                    $inseridas++;
+                $resultado['processadas']++;
+            }
+            $pdo->commit();
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
+        }
+    }
+
+    $ai = isset($info['auto_increment']) ? (int)$info['auto_increment'] : 0;
+    if ($ai > 1) {
+        $pdo->exec('ALTER TABLE ' . sqlIdent($nome) . ' AUTO_INCREMENT = ' . $ai);
+    }
+
+    $resultado['ok'] = true;
+    $resultado['locais_depois'] = contarLinhas($pdo, $nome);
+    return $resultado;
+}
+
+// ============================================================
+// AÇÕES
+// ============================================================
+$mensagem     = '';
+$tipoMensagem = '';
+$meta         = null;
+$resultado    = null;
+
+if (file_exists($META_FILE)) {
+    $metaLida = json_decode((string)file_get_contents($META_FILE), true);
+    if (is_array($metaLida)) {
+        $meta = $metaLida;
+    }
+}
+
+$action = isset($_POST['action']) ? $_POST['action'] : '';
+
+if ($action === 'preview') {
+    try {
+        $filtro = nomesTabelasInformados(isset($_POST['tables']) ? $_POST['tables'] : '');
+        $url = $SYNC_URL . '?gzip=1';
+        if (!empty($filtro)) {
+            $url .= '&tables=' . rawurlencode(implode(',', $filtro));
+        }
+
+        $json = consultarApi($url, $SYNC_TOKEN);
+        $dados = json_decode($json, true);
+        if (!is_array($dados) || empty($dados['success'])) {
+            $trecho = substr($json, 0, 300);
+            throw new Exception('Resposta inválida: ' . $trecho);
+        }
+        if (!isset($dados['tabelas']) || !is_array($dados['tabelas'])) {
+            throw new Exception('A API não devolveu a lista de tabelas.');
+        }
+
+        $plano = montarPlano($pdo, $dados, $BLACKLIST, $BLACKLIST_PATTERNS);
+
+        if (file_put_contents($PREVIEW_FILE, $json) === false) {
+            throw new Exception('Não foi possível gravar a prévia.');
+        }
+
+        $meta = array(
+            'gerado_em'     => isset($dados['gerado_em']) ? $dados['gerado_em'] : '',
+            'banco'         => isset($dados['banco']) ? $dados['banco'] : '',
+            'mysql_version' => isset($dados['mysql_version']) ? $dados['mysql_version'] : '',
+            'versao_api'    => isset($dados['versao_api']) ? $dados['versao_api'] : '',
+            'filtro'        => $filtro,
+            'excluidas'     => isset($dados['excluidas']) && is_array($dados['excluidas']) ? array_values($dados['excluidas']) : array(),
+            'plano'         => $plano,
+            'salvo_em'      => date('c'),
+        );
+        file_put_contents($META_FILE, json_encode($meta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+
+        $mensagem = 'Prévia carregada: ' . count($plano) . ' tabelas recebidas da produção.';
+        $tipoMensagem = 'success';
+    } catch (Exception $e) {
+        $mensagem = 'Erro na prévia: ' . $e->getMessage();
+        $tipoMensagem = 'danger';
+    }
+}
+
+if ($action === 'merge') {
+    $modeAnterior = null;
+    try {
+        if (!file_exists($PREVIEW_FILE)) {
+            throw new Exception('Nenhuma prévia encontrada. Busque de novo.');
+        }
+        $conteudo = file_get_contents($PREVIEW_FILE);
+        if ($conteudo === false || trim($conteudo) === '') {
+            throw new Exception('Arquivo de prévia está vazio. Busque de novo.');
+        }
+        $dados = json_decode($conteudo, true);
+        if (!is_array($dados) || empty($dados['success']) || empty($dados['tabelas']) || !is_array($dados['tabelas'])) {
+            throw new Exception('Arquivo de prévia está inválido. Busque de novo.');
         }
 
         $ordem = isset($dados['ordem']) && is_array($dados['ordem'])
@@ -226,28 +493,64 @@ if ($action === 'import') {
             throw new Exception('Não foi possível criar a pasta de backup.');
         }
 
-            $relatorio[] = [
-                'tabela'         => $t,
-                'criada'         => $criada,
-                'inseridas'      => $inseridas,
-                'faltando_local' => $faltandoLocal,
-                'sobrando_local' => $sobrandoLocal,
-            ];
+        foreach ($ordem as $nome) {
+            if (!isset($dados['tabelas'][$nome]) || !tabelaPermitida($nome, $BLACKLIST, $BLACKLIST_PATTERNS)) {
+                continue;
+            }
+            if (tabelaExiste($pdo, $nome)) {
+                backupTabela($pdo, $dirBackup, $nome);
+            }
         }
 
-        $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
-        $pdo->commit();
+        $modeAnterior = $pdo->query('SELECT @@SESSION.sql_mode')->fetchColumn();
+        $pdo->exec('SET SESSION sql_mode = \'\'');
+        $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 
-        @unlink($PREVIEW_FILE);
+        $porTabela = array();
+        foreach ($ordem as $nome) {
+            if (!isset($dados['tabelas'][$nome])) {
+                continue;
+            }
+            if (!tabelaPermitida($nome, $BLACKLIST, $BLACKLIST_PATTERNS)) {
+                $porTabela[] = array(
+                    'tabela' => $nome,
+                    'ok'     => false,
+                    'erro'   => 'Tabela bloqueada. Não entra no merge.',
+                );
+                continue;
+            }
 
-        $resultado = [
-            'relatorio'   => $relatorio,
-            'backupDir'   => basename($backupDir),
-        ];
+            try {
+                $porTabela[] = mesclarTabela($pdo, $nome, $dados['tabelas'][$nome]);
+            } catch (Exception $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $porTabela[] = array(
+                    'tabela'      => $nome,
+                    'ok'          => false,
+                    'erro'        => $e->getMessage(),
+                    'processadas' => 0,
+                );
+            }
+        }
 
-        $total = array_sum(array_column($relatorio, 'inseridas'));
-        $mensagem = "Sincronização concluída! {$total} linhas inseridas em " . count($relatorio) . " tabelas.";
-        $tipo = 'success';
+        $ok = 0;
+        $falhas = 0;
+        foreach ($porTabela as $item) {
+            if (!empty($item['ok'])) {
+                $ok++;
+            } else {
+                $falhas++;
+            }
+        }
+
+        $resultado = array(
+            'por_tabela' => $porTabela,
+            'ok'         => $ok,
+            'falhas'     => $falhas,
+            'backup'     => basename($dirBackup),
+        );
 
         if ($falhas === 0) {
             $mensagem = 'Merge concluído. ' . $ok . ' tabelas gravadas. Linhas que só existem aqui foram mantidas.';
@@ -258,11 +561,16 @@ if ($action === 'import') {
         }
     } catch (Exception $e) {
         if ($pdo->inTransaction()) {
-            try { $pdo->exec("SET FOREIGN_KEY_CHECKS = 1"); } catch (Exception $x) {}
             $pdo->rollBack();
         }
-        $mensagem = "Erro na importação: " . $e->getMessage();
-        $tipo = 'danger';
+        $mensagem = 'Erro no merge: ' . $e->getMessage();
+        $tipoMensagem = 'danger';
+    }
+
+    if ($modeAnterior !== null) {
+        $pdo->exec('SET SESSION sql_mode = ' . $pdo->quote((string)$modeAnterior));
+    }
+    $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 }
 
 $filtroAtual = '';
@@ -276,92 +584,91 @@ if ($action === 'preview' && isset($_POST['tables'])) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Sincronizar Banco Completo - DEV</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Mesclar banco - DEV</title>
+    <link href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= sispro_asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css') ?>">
     <style>
-        body { background:#f8f9fc; padding:40px 20px; }
-        .container { max-width:1100px; }
-        .card { border:none; border-radius:16px; box-shadow:0 8px 30px rgba(0,0,0,0.08); padding:30px; }
-        .aviso { background:#fff3cd; border-left:5px solid #ffc107; padding:15px 20px; border-radius:8px; margin-bottom:20px; }
-        .diag-box { background:#f1f5fb; border-radius:12px; padding:20px; margin-bottom:20px; }
-        code { font-size:0.85em; }
+        body { background: #f8f9fc; padding: 40px 20px; }
+        .container { max-width: 1100px; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); padding: 30px; }
+        .aviso { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
-        <h3><i class="bi bi-database-down"></i> Sincronizar Banco Completo (Produção → Dev)</h3>
+        <h3><i class="bi bi-intersect"></i> Mesclar banco (Produção → Dev)</h3>
 
         <div class="aviso">
-            <strong>⚠️ Isto substitui dados de várias tabelas locais.</strong><br>
-            Um backup por tabela é salvo em <code>backups/banco_backup_&lt;data&gt;/</code> antes.
+            <strong>Ambiente de desenvolvimento.</strong><br>
+            Esta ferramenta <strong>não apaga</strong> linha que só existe no banco local.
+            Quando a chave já existe, a linha fica com os valores da produção.
+            Quando a chave só existe na produção, a linha é inserida.
+            <code>logs_auditoria</code> não entra. Um backup é gravado em <code>backups/</code> antes de escrever.
         </div>
 
         <?php if ($mensagem): ?>
-            <div class="alert alert-<?= $tipo ?>"><?= htmlspecialchars($mensagem) ?></div>
+            <div class="alert alert-<?= htmlspecialchars($tipoMensagem) ?>"><?= htmlspecialchars($mensagem) ?></div>
         <?php endif; ?>
 
         <?php if (file_exists($PREVIEW_FILE)): ?>
             <div class="alert alert-secondary small">
                 <i class="bi bi-file-earmark-text"></i>
-                Prévia salva em <code>backups/sync_banco_preview.json</code>
-                (<?= date('d/m/Y H:i:s', filemtime($PREVIEW_FILE)) ?>)
+                Prévia em <code>backups/banco_sync_preview.json</code>
+                (modificada em <?= date('d/m/Y H:i:s', filemtime($PREVIEW_FILE)) ?>)
+            </div>
+        <?php else: ?>
+            <div class="alert alert-secondary small">
+                <i class="bi bi-file-earmark-x"></i>
+                Nenhuma prévia salva. Busque a produção antes de mesclar.
             </div>
         <?php endif; ?>
 
-        <form method="POST" class="mb-3">
+        <form method="POST" class="mb-4">
             <input type="hidden" name="action" value="preview">
-            <button class="btn btn-primary"><i class="bi bi-search"></i> 1. Buscar prévia do banco</button>
+            <label class="form-label" for="tables">Tabelas (opcional)</label>
+            <input class="form-control mb-2" id="tables" name="tables" value="<?= htmlspecialchars($filtroAtual) ?>" placeholder="vazio = banco inteiro. Ex.: processos,contratos_rdci">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i> 1. Buscar prévia da produção
+            </button>
         </form>
 
-        <?php if ($preview): ?>
-            <div class="diag-box">
-                <h5>📦 Tabelas recebidas (<?= $preview['total_tabelas'] ?>)</h5>
-                <?php if (!empty($preview['excluidas'])): ?>
+        <?php if (is_array($meta) && !empty($meta['plano'])): ?>
+            <div class="mb-3">
+                <h5>Prévia</h5>
                 <p class="text-muted small mb-2">
-                        Excluídas pela API: <code><?= htmlspecialchars(implode(', ', $preview['excluidas'])) ?></code>
+                    Banco <code><?= htmlspecialchars((string)$meta['banco']) ?></code>
+                    · MySQL <?= htmlspecialchars((string)$meta['mysql_version']) ?>
+                    · API <?= htmlspecialchars((string)$meta['versao_api']) ?>
+                    · gerado em <?= htmlspecialchars((string)$meta['gerado_em']) ?>
                 </p>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (file_exists($PREVIEW_FILE)):
-            $dadosPreview = json_decode(file_get_contents($PREVIEW_FILE), true);
-            if (!empty($dadosPreview['resumo'])):
-        ?>
-            <form method="POST" onsubmit="return confirm('Confirma substituir os dados das tabelas marcadas?')">
-                <input type="hidden" name="action" value="import">
-
-                <h5>2. Selecione as tabelas a sincronizar</h5>
-
-                <div class="mb-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAll(true)">Marcar todas</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAll(false)">Desmarcar todas</button>
-                </div>
-
-                <div class="table-responsive mb-3" style="max-height:420px; border:1px solid #dee2e6; border-radius:8px;">
-                    <table class="table table-sm table-hover mb-0 align-middle">
-                        <thead class="table-light" style="position:sticky; top:0;">
+                <div class="table-responsive" style="max-height: 420px;">
+                    <table class="table table-sm table-hover">
+                        <thead>
                             <tr>
-                                <th style="width:40px;"></th>
                                 <th>Tabela</th>
-                                <th class="text-end">Linhas (produção)</th>
+                                <th class="text-end">Produção</th>
+                                <th class="text-end">Local agora</th>
+                                <th>No merge</th>
+                                <th>Checksum</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($dadosPreview['resumo'] as $r): ?>
+                        <?php foreach ($meta['plano'] as $item): ?>
                             <tr>
                                 <td><code><?= htmlspecialchars($item['tabela']) ?></code></td>
                                 <td class="text-end"><?= (int)$item['remotas'] ?></td>
                                 <td class="text-end"><?= $item['locais'] === null ? '—' : (int)$item['locais'] ?></td>
                                 <td>
-                                    <input class="form-check-input chk-tab" type="checkbox"
-                                           name="tabelas[]"
-                                           value="<?= htmlspecialchars($r['tabela']) ?>" checked>
+                                    <?php if (empty($item['existe'])): ?>
+                                        criar tabela
+                                    <?php elseif (!empty($item['colunas_novas'])): ?>
+                                        acrescentar <?= htmlspecialchars(implode(', ', $item['colunas_novas'])) ?>
+                                    <?php else: ?>
+                                        atualizar e inserir
+                                    <?php endif; ?>
                                 </td>
-                                <td><code><?= htmlspecialchars($r['tabela']) ?></code></td>
-                                <td class="text-end"><?= (int)$r['linhas'] ?></td>
+                                <td><?= !empty($item['checksum_ok']) ? 'ok' : 'divergente' ?></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -386,50 +693,42 @@ if ($action === 'preview' && isset($_POST['tables'])) {
             <form method="POST" onsubmit="if (!confirm('Mesclar a prévia no banco local? Linhas que só existem aqui permanecem. Linhas com a mesma chave passam a valer o que veio da produção.')) return false; this.querySelector('button[type=submit]').disabled = true;">
                 <input type="hidden" name="action" value="merge">
                 <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-arrow-repeat"></i> 3. Confirmar e importar
+                    <i class="bi bi-intersect"></i> 2. Confirmar e mesclar
                 </button>
             </form>
-
-            <script>
-            function toggleAll(v) {
-                document.querySelectorAll('.chk-tab').forEach(c => c.checked = v);
-            }
-            </script>
-        <?php endif; endif; ?>
+        <?php endif; ?>
 
         <?php if ($resultado): ?>
             <hr>
             <h5>Resultado</h5>
-            <p>Backup: <code>backups/<?= htmlspecialchars($resultado['backupDir']) ?>/</code></p>
-
+            <p>
+                <strong><?= (int)$resultado['ok'] ?></strong> tabelas gravadas,
+                <strong><?= (int)$resultado['falhas'] ?></strong> com erro.<br>
+                Backup: <code>backups/<?= htmlspecialchars($resultado['backup']) ?></code>
+            </p>
+            <div class="table-responsive">
                 <table class="table table-sm">
                     <thead>
                         <tr>
                             <th>Tabela</th>
-                        <th class="text-center">Criada?</th>
-                        <th class="text-end">Inseridas</th>
-                        <th>Colunas faltando local</th>
-                        <th>Colunas sobrando local</th>
+                            <th>Situação</th>
+                            <th class="text-end">Linhas da produção</th>
+                            <th class="text-end">Local depois</th>
                         </tr>
                     </thead>
                     <tbody>
-                <?php foreach ($resultado['relatorio'] as $r): ?>
-                    <tr>
-                        <td><code><?= htmlspecialchars($r['tabela']) ?></code></td>
-                        <td class="text-center"><?= $r['criada'] ? '✔' : '—' ?></td>
-                        <td class="text-end"><?= (int)$r['inseridas'] ?></td>
+                    <?php foreach ($resultado['por_tabela'] as $item): ?>
+                        <tr class="<?= !empty($item['ok']) ? '' : 'table-warning' ?>">
+                            <td><code><?= htmlspecialchars($item['tabela']) ?></code></td>
                             <td>
-                            <?php if (!empty($r['faltando_local'])): ?>
-                                <span class="badge bg-warning text-dark"><?= htmlspecialchars(implode(', ', $r['faltando_local'])) ?></span>
-                            <?php else: ?>
-                                <span class="text-muted">—</span>
+                                <?php if (!empty($item['ok'])): ?>
+                                    <?php if (!empty($item['criada'])): ?>criada · <?php endif; ?>
+                                    <?php if (!empty($item['colunas_novas'])): ?>
+                                        colunas <?= htmlspecialchars(implode(', ', $item['colunas_novas'])) ?> ·
                                     <?php endif; ?>
-                        </td>
-                        <td>
-                            <?php if (!empty($r['sobrando_local'])): ?>
-                                <span class="badge bg-info text-dark"><?= htmlspecialchars(implode(', ', $r['sobrando_local'])) ?></span>
+                                    mesclada
                                 <?php else: ?>
-                                <span class="text-muted">—</span>
+                                    <?= htmlspecialchars(isset($item['erro']) ? $item['erro'] : 'erro') ?>
                                 <?php endif; ?>
                             </td>
                             <td class="text-end"><?= isset($item['processadas']) ? (int)$item['processadas'] : 0 ?></td>

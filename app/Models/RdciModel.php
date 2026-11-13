@@ -98,9 +98,7 @@ class RdciModel {
                        valor_pi_a_r, valor_projetos, data_atualizacao
                 FROM contratos_rdci $where
                 ORDER BY instrumento ASC
-                LIMIT ? OFFSET ?";
-        $params[] = $filtros['limit'];
-        $params[] = $filtros['offset'];
+                LIMIT " . (int)$filtros['limit'] . " OFFSET " . (int)$filtros['offset'];
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $registros = $stmt->fetchAll();

@@ -35,7 +35,7 @@ echo "<pre class='field'>Unidade: " . htmlspecialchars($unidade) . "</pre>";
 echo "<pre class='field'>Contrato: " . htmlspecialchars($contrato) . "</pre>";
 
 $t0 = microtime(true);
-function logMsg(string $msg, string $cls = ''): void {
+function logMsg(string $msg, string $cls = '') {
     global $t0;
     $e = number_format(microtime(true) - $t0, 2);
     echo "<pre class='$cls'>[{$e}s] " . htmlspecialchars($msg) . "</pre>";
@@ -84,24 +84,24 @@ function wdDelete($b,$p){return wdCall($b,'DELETE',$p);}
 
 const ELEM_KEY = 'element-6066-11e4-a52e-4f735466cecf';
 
-function findEl($b,$sid,$using,$value): ?string {
+function findEl($b,$sid,$using,$value) {
     $r = wdPost($b, "/session/{$sid}/element", ['using'=>$using,'value'=>$value]);
     return $r['value'][ELEM_KEY] ?? null;
 }
-function clickEl($b,$sid,$elId): void { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
+function clickEl($b,$sid,$elId) { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
 function execJs($b,$sid,$script,$args=[]): array {
     return wdPost($b, "/session/{$sid}/execute/sync", ['script'=>$script,'args'=>$args]);
 }
-function navTo($b,$sid,$url): void { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
+function navTo($b,$sid,$url) { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
 function currentUrl($b,$sid): string {
     $r = wdGet($b, "/session/{$sid}/url");
     return is_string($r['value'] ?? null) ? $r['value'] : '';
 }
-function saveScreenshot($b,$sid,$path): void {
+function saveScreenshot($b,$sid,$path) {
     $r = wdGet($b, "/session/{$sid}/screenshot");
     if (!empty($r['value']) && is_string($r['value'])) @file_put_contents($path, base64_decode($r['value']));
 }
-function aguardarDownload(string $pasta, int $timeout = 30): ?string {
+function aguardarDownload(string $pasta, int $timeout = 30) {
     $antes = array_flip(@scandir($pasta) ?: []);
     $end = time() + $timeout;
     while (time() < $end) {
@@ -122,7 +122,7 @@ function aguardarDownload(string $pasta, int $timeout = 30): ?string {
 /**
  * Envia tecla via WebDriver Actions (dispara eventos nativos que o Select2 escuta)
  */
-function pressKey(string $b, string $sid, string $key): void {
+function pressKey(string $b, string $sid, string $key) {
     $map = [
         'Enter'  => "\u{E007}",
         'Tab'    => "\u{E004}",
@@ -355,7 +355,7 @@ execJs($driverUrl, $sid, "index.encriptarEnviar(document.forms[0]); return 'ok';
 for ($i = 0; $i < 40; $i++) {
     usleep(500000);
     $path = parse_url(currentUrl($driverUrl, $sid), PHP_URL_PATH) ?? '';
-    if ($path !== '/sisdnit/jsp/' && $path !== '/sisdnit/jsp/index.jsp' && !str_contains($path, 'login.do')) {
+    if ($path !== '/sisdnit/jsp/' && $path !== '/sisdnit/jsp/index.jsp' && !(strpos($path, 'login.do') !== false)) {
         logMsg("  ✓ Login OK em " . ($i * 0.5) . "s → $path", 'ok');
         break;
     }

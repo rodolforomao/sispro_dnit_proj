@@ -3,10 +3,10 @@
 
 class ExtracaoController
 {
-    private PDO $pdo;
+    private  $pdo;
     
     // Tabelas que NÃO devem aparecer na extração
-    private array $tabelasIgnoradas = [
+    private  $tabelasIgnoradas = [
         'extracao_historico',
         'siac_import_jobs',
         'logs_auditoria',
@@ -21,7 +21,7 @@ class ExtracaoController
         $this->requireDesenvolvedor();
     }
 
-    private function requireDesenvolvedor(): void
+    private function requireDesenvolvedor()
     {
         if (empty($_SESSION['usuario_id']) && empty($_SESSION['usuario_nivel'])) {
             header('Location: login'); exit;
@@ -80,13 +80,13 @@ class ExtracaoController
         return $catalogo;
     }
 
-    public function index(): void
+    public function index()
     {
         $catalogo = $this->catalogoColunas();
         require APP_PATH . '/Views/extracao.php';
     }
 
-    public function gerar(): void
+    public function gerar()
     {
         header('Content-Type: application/json; charset=utf-8');
 
@@ -256,14 +256,14 @@ class ExtracaoController
         echo json_encode(['ok' => true, 'arquivo' => $nomeArquivo]);
     }
 
-    public function historico(): void
+    public function historico()
     {
         header('Content-Type: application/json; charset=utf-8');
         $st = $this->pdo->query("SELECT id, usuario, data_extracao, nome_arquivo, total_linhas FROM extracao_historico ORDER BY id DESC LIMIT 50");
         echo json_encode(['ok' => true, 'itens' => $st->fetchAll(PDO::FETCH_ASSOC)]);
     }
 
-    public function baixar(): void
+    public function baixar()
     {
         $arquivo = preg_replace('/[^a-zA-Z0-9_.-]/', '', $_GET['f'] ?? '');
         $filepath = APP_PATH . '/public/extratos/' . $arquivo;

@@ -146,6 +146,11 @@ EXCLUDE=(
   --exclude 'config.local.php'
   --exclude 'config.local.php.example'
   --exclude 'app/public/backups/'
+  --exclude 'app/public/importar_siac_jobs/'
+  --exclude 'app/public/importar_empenhos_jobs/'
+  --exclude 'app/public/importar_dados_jobs/'
+  --exclude 'app/public/teste_saida/'
+  --exclude 'app/public/delta_produção_completo.php'
   --exclude 'app/public/debug_supra_json.php'
   --exclude 'app/public/diag_import.php'
   --exclude 'dashboard/'
@@ -158,7 +163,9 @@ EXCLUDE=(
   --exclude '*.log'
 )
 
-RSYNC_FLAGS=(-az --human-readable --itemize-changes)
+# -a tenta chown/chmod no remoto (falha se o dono for www-data). Conteúdo vai;
+# permissões ficam com o chown/sudo depois do rsync.
+RSYNC_FLAGS=(-rlDz --human-readable --itemize-changes --no-owner --no-group --no-perms)
 if [[ "$DO_DELETE" -eq 1 ]]; then
   echo "==> --delete ligado: arquivos só do servidor (exceto os excluídos) serão removidos."
   RSYNC_FLAGS+=(--delete)

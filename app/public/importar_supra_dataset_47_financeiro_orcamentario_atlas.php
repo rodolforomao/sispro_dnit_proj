@@ -56,13 +56,13 @@ function consumirApi(string $url, string $token): string
 function tratarArray($valor)
 {
     if (is_array($valor)) {
-        $filtrado = array_filter($valor, fn($v) => $v !== '' && $v !== null);
+        $filtrado = array_filter($valor, function($v) { return $v !== '' && $v !== null; });
         return $filtrado ? implode(' | ', $filtrado) : null;
     }
     return $valor;
 }
 
-function converterData($valor): ?string
+function converterData($valor)
 {
     if ($valor === null || $valor === '') return null;
     $valor = trim((string)$valor);
@@ -70,7 +70,7 @@ function converterData($valor): ?string
 
     if (preg_match('/^\d{4}-\d{2}-\d{2}/', $valor)) return substr($valor, 0, 10);
     if (preg_match('#^\d{2}/\d{2}/\d{4}#', $valor)) {
-        [$d, $m, $a] = explode('/', substr($valor, 0, 10));
+        list($d, $m, $a) = explode('/', substr($valor, 0, 10));
         return "$a-$m-$d";
     }
     if (preg_match('/^\d{4,5}$/', $valor)) {
@@ -79,7 +79,7 @@ function converterData($valor): ?string
     return null;
 }
 
-function converterValor($valor): ?float
+function converterValor($valor)
 {
     if ($valor === null) return null;
     if (is_int($valor) || is_float($valor)) return (float)$valor;
@@ -105,7 +105,7 @@ function converterValor($valor): ?float
 }
 
 /** Converte inteiro "0" / "8" / 4 para ?int */
-function converterInt($valor): ?int
+function converterInt($valor)
 {
     if ($valor === null || $valor === '') return null;
     if (is_int($valor)) return $valor;
@@ -114,17 +114,17 @@ function converterInt($valor): ?int
 }
 
 /** JSON array para a coluna `sugestao_valor_previsto_ano` */
-function converterJson($valor): ?string
+function converterJson($valor)
 {
     if ($valor === null) return null;
     if (is_array($valor)) {
-        $filtrado = array_values(array_filter($valor, fn($v) => $v !== null && $v !== ''));
+        $filtrado = array_values(array_filter($valor, function($v) { return $v !== null && $v !== ''; }));
         return $filtrado ? json_encode($filtrado, JSON_UNESCAPED_UNICODE) : null;
     }
     if (is_string($valor) && $valor !== '') {
         $dec = json_decode($valor, true);
         if (is_array($dec)) {
-            $filtrado = array_values(array_filter($dec, fn($v) => $v !== null && $v !== ''));
+            $filtrado = array_values(array_filter($dec, function($v) { return $v !== null && $v !== ''; }));
             return $filtrado ? json_encode($filtrado, JSON_UNESCAPED_UNICODE) : null;
         }
     }

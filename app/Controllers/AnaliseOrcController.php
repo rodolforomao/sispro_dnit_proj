@@ -5,7 +5,7 @@ require_once APP_PATH . '/Models/AnaliseOrcModel.php';
 
 class AnaliseOrcController
 {
-    private AnaliseOrcModel $model;
+    private  $model;
 
     public function __construct(PDO $pdo)
     {
@@ -15,7 +15,7 @@ class AnaliseOrcController
     // =============================================================
     // AUTENTICAÇÃO
     // =============================================================
-    private function requireLoginAjax(): void
+    private function requireLoginAjax()
     {
         if (session_status() === PHP_SESSION_NONE) @session_start();
         $logado = !empty($_SESSION['usuario_id']) || !empty($_SESSION['usuario_nivel']);
@@ -31,7 +31,7 @@ class AnaliseOrcController
         }
     }
 
-    private function requireLoginPage(): void
+    private function requireLoginPage()
     {
         if (session_status() === PHP_SESSION_NONE) @session_start();
         if (empty($_SESSION['usuario_id']) && empty($_SESSION['usuario_nivel'])) {
@@ -59,7 +59,7 @@ class AnaliseOrcController
     // =============================================================
     // VIEW
     // =============================================================
-    public function index(): void
+    public function index()
     {
         $this->requireLoginPage();
         $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
@@ -68,7 +68,7 @@ class AnaliseOrcController
         require APP_PATH . '/Views/analise_orc.php';
     }
 
-    public function ranking(): void
+    public function ranking()
     {
         $this->requireLoginPage();
         $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
@@ -79,21 +79,21 @@ class AnaliseOrcController
     // =============================================================
     // API — LISTAGENS
     // =============================================================
-    public function acoes(): void
+    public function acoes()
     {
         $this->requireLoginAjax();
         $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
         $this->json($this->model->acoes($exercicio));
     }
 
-    public function tipos(): void
+    public function tipos()
     {
         $this->requireLoginAjax();
         $acaoId = (string)($_GET['acao_id'] ?? '');
         $this->json($this->model->tiposPorAcao($acaoId));
     }
 
-    public function contratos(): void
+    public function contratos()
     {
         $this->requireLoginAjax();
         $acaoId    = (string)($_GET['acao_id'] ?? '');
@@ -114,7 +114,7 @@ class AnaliseOrcController
         $this->json($out);
     }
 
-    public function detalhe(): void
+    public function detalhe()
     {
         $this->requireLoginAjax();
         $numero    = (string)($_GET['numero'] ?? '');
@@ -124,7 +124,7 @@ class AnaliseOrcController
         $this->json($this->calcularIndicadores($c, $exercicio));
     }
 
-    public function medicoes(): void
+    public function medicoes()
     {
         $this->requireLoginAjax();
         $numero = (string)($_GET['numero'] ?? '');
@@ -135,7 +135,7 @@ class AnaliseOrcController
         $this->json($this->medicoesComEstatistica($numero, $limite));
     }
 
-    public function rankingData(): void
+    public function rankingData()
     {
         $this->requireLoginAjax();
         $exercicio = (int)($_GET['exercicio'] ?? $this->model->exercicioDisponivel() ?? date('Y'));
@@ -168,7 +168,7 @@ class AnaliseOrcController
     // =============================================================
     // DATASET 38 e SIAC
     // =============================================================
-    public function contratosDisponiveis(): void
+    public function contratosDisponiveis()
     {
         $this->requireLoginAjax();
         try {
@@ -183,7 +183,7 @@ class AnaliseOrcController
         $this->json(['total' => $total]);
     }
 
-    public function atualizarDataset38(): void
+    public function atualizarDataset38()
     {
         $this->requireLoginAjax();
         set_time_limit(0);
@@ -223,8 +223,8 @@ class AnaliseOrcController
         if (preg_match('/Inseridos:\s*(\d+)/i', $texto, $m)) $inseridos = (int)$m[1];
 
         $sucesso = ($inseridos !== null && $inseridos >= 0)
-                || str_contains($texto, 'Sincronização do Dataset 38 finalizada')
-                || str_contains($texto, 'Importação concluída');
+                || (strpos($texto, 'Sincronização do Dataset 38 finalizada') !== false)
+                || (strpos($texto, 'Importação concluída') !== false);
 
         if ($sucesso) {
             $this->json(['ok' => true, 'inseridos' => $inseridos, 'mensagem' => 'Dataset 38 atualizado com sucesso.']);
@@ -233,7 +233,7 @@ class AnaliseOrcController
         $this->json(['ok' => false, 'erro' => 'Importador executou mas não retornou sucesso. Saída: ' . mb_substr($texto, -1500)], 500);
     }
 
-    public function executarSiac(): void
+    public function executarSiac()
     {
         $this->requireLoginAjax();
         if (!$this->usuarioPodeScraper()) {
@@ -339,7 +339,7 @@ class AnaliseOrcController
         $this->json(['ok' => true, 'job' => $jobId, 'pid' => $pid, 'total' => count($contratos)]);
     }
 
-    public function notificacoes(): void
+    public function notificacoes()
     {
         $this->requireLoginAjax();
         $numero = $_GET['numero'] ?? null;
@@ -371,7 +371,7 @@ class AnaliseOrcController
         $this->json(['nao_lidas' => $this->model->contarNaoLidas($numero), 'itens' => $itens]);
     }
 
-    public function marcarLida(): void
+    public function marcarLida()
     {
         $this->requireLoginAjax();
         $id = (int)($_POST['id'] ?? 0);
@@ -380,7 +380,7 @@ class AnaliseOrcController
         $this->json(['ok' => true]);
     }
 
-    public function marcarTodasLidas(): void
+    public function marcarTodasLidas()
     {
         $this->requireLoginAjax();
         $numero = $_POST['numero'] ?? null;
@@ -388,7 +388,7 @@ class AnaliseOrcController
         $this->json(['ok' => true]);
     }
 
-    public function salvarEstimativa(): void
+    public function salvarEstimativa()
     {
         $this->requireLoginAjax();
         $contrato      = trim((string)($_POST['contrato']      ?? ''));
@@ -419,7 +419,7 @@ class AnaliseOrcController
         } catch (Throwable $e) { $this->json(['erro' => $e->getMessage()], 500); }
     }
 
-    public function salvarPlanejadoAnalista(): void
+    public function salvarPlanejadoAnalista()
     {
         $this->requireLoginAjax();
         $contrato      = trim((string)($_POST['contrato']      ?? ''));
@@ -450,7 +450,7 @@ class AnaliseOrcController
         } catch (Throwable $e) { $this->json(['erro' => $e->getMessage()], 500); }
     }
 
-    public function salvarPreferencia(): void
+    public function salvarPreferencia()
     {
         $this->requireLoginAjax();
         $contrato = trim((string)($_POST['contrato'] ?? ''));
@@ -484,7 +484,7 @@ class AnaliseOrcController
         foreach ($cands as $c) if (is_file($c)) return realpath($c);
         return $cands[0];
     }
-    private function edgedriverPath(): ?string
+    private function edgedriverPath()
     {
         $appPath = defined('APP_PATH') ? APP_PATH : dirname(__DIR__);
         $cands = [ $appPath . '/public/msedgedriver.exe', dirname($appPath) . '/public/msedgedriver.exe' ];
@@ -536,11 +536,11 @@ class AnaliseOrcController
             if ($mr) $medidoPorMes[$mr] = (float)$r['valor_medido'];
         }
 
-        $medicoesAno = array_filter($medicoes, fn($r) => str_starts_with($r['mes_referencia'] ?? '', (string)$exercicio) && $r['mes_referencia'] <= $hojeMes);
-        $liqAno = array_filter($liquidacoes, function($k) use ($exercicio, $hojeMes) { return str_starts_with($k, (string)$exercicio) && $k <= $hojeMes; }, ARRAY_FILTER_USE_KEY);
+        $medicoesAno = array_filter($medicoes, function($r) use ($exercicio, $hojeMes) { return (strpos($r['mes_referencia'] ?? '', (string)$exercicio) === 0) && $r['mes_referencia'] <= $hojeMes; });
+        $liqAno = array_filter($liquidacoes, function($k) use ($exercicio, $hojeMes) { return (strpos($k, (string)$exercicio) === 0) && $k <= $hojeMes; }, ARRAY_FILTER_USE_KEY);
 
-        $medidoAcum    = array_sum(array_map(fn($r) => (float)$r['valor_medido'], $medicoesAno));
-        $liquidadoAcum = array_sum(array_map(fn($r) => (float)$r['valor'], $liqAno));
+        $medidoAcum    = array_sum(array_map(function($r) { return (float)$r['valor_medido']; }, $medicoesAno));
+        $liquidadoAcum = array_sum(array_map(function($r) { return (float)$r['valor']; }, $liqAno));
 
         $totalLiquidadoGeral = $this->model->totalLiquidadoContrato($numero);
         $diferencaIL = $totalLiquidadoGeral !== null ? round($totalInstrumento - $totalLiquidadoGeral, 2) : null;
@@ -565,13 +565,13 @@ class AnaliseOrcController
 
         $ultimaLiq = null;
         foreach (array_reverse($liquidacoes, true) as $m => $liq) {
-            if (!str_starts_with($m, (string)$exercicio)) continue;
+            if (!(strpos($m, (string)$exercicio) === 0)) continue;
             if (($liq['valor'] ?? 0) > 0) { $ultimaLiq = $m; break; }
         }
         $ultimaMed = null;
         foreach (array_reverse($medicoes, false) as $r) {
             $mr = $r['mes_referencia'] ?? null;
-            if ($mr && str_starts_with($mr, (string)$exercicio)) { $ultimaMed = $mr; break; }
+            if ($mr && (strpos($mr, (string)$exercicio) === 0)) { $ultimaMed = $mr; break; }
         }
 
         $startAfter = null;
@@ -836,7 +836,7 @@ class AnaliseOrcController
         if ($medicoes === []) return ['media'=>0.0,'mediana'=>0.0,'desvio'=>0.0,'cv'=>null, 'n'=>0,'valores'=>[],'outliers'=>[],'alerta'=>false];
         $nJanela = max(1, $this->model->configInt('media_meses_estimativa', 3));
         $ultimas = array_slice($medicoes, -$nJanela);
-        $valores = array_map(fn($r) => (float)$r['valor_medido'], $ultimas);
+        $valores = array_map(function($r) { return (float)$r['valor_medido']; }, $ultimas);
         $n       = count($valores);
         $media   = array_sum($valores) / $n;
         $desvio  = 0.0;
@@ -865,7 +865,7 @@ class AnaliseOrcController
         return 'VERMELHO';
     }
 
-    private function performance(array $medicoes, array $plan, int $ano, float $mediaEstimada, bool $completa, ?float $medidoAcumDs = null): array
+    private function performance(array $medicoes, array $plan, int $ano, float $mediaEstimada, bool $completa, $medidoAcumDs = null): array
     {
         $mesCorrente = (new DateTimeImmutable('first day of this month'))->format('Y-m-01');
         $previstoAcum = 0.0;
@@ -876,7 +876,7 @@ class AnaliseOrcController
         if ($medicoes === [] && $medidoAcumDs !== null) {
             $medidoAcum = $medidoAcumDs;
         } else {
-            $medidoAcum = array_sum(array_map(fn($r) => (float)$r['valor_medido'], array_filter($medicoes, fn($r) => $r['mes_referencia'] <= $mesCorrente)));
+            $medidoAcum = array_sum(array_map(function($r) { return (float)$r['valor_medido']; }, array_filter($medicoes, function($r) use ($mesCorrente) { return $r['mes_referencia'] <= $mesCorrente; })));
         }
         $dif    = $previstoAcum - $medidoAcum;
         $difPct = $previstoAcum > 0 ? round($dif / $previstoAcum * 100, 2) : null;
@@ -991,7 +991,7 @@ class AnaliseOrcController
         return ['rows' => $rows, 'anomalias' => $anomalias];
     }
 
-    private function json(mixed $data, int $status = 200): void
+    private function json($data, int $status = 200)
     {
         http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');

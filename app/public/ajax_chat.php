@@ -202,19 +202,10 @@ if ($action === 'carregar_mensagens') {
             LEFT JOIN responsaveis r ON u.id = r.usuario_id
             WHERE $where
             ORDER BY m.data_envio DESC
-            LIMIT ? OFFSET ?";
+            LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
     
     $stmt = $pdo->prepare($sql);
-    
-    $idx = 1;
-    foreach ($params as $p) {
-        $stmt->bindValue($idx, $p);
-        $idx++;
-    }
-    $stmt->bindValue($idx, $limit, PDO::PARAM_INT);
-    $stmt->bindValue($idx+1, $offset, PDO::PARAM_INT);
-    
-    $stmt->execute();
+    $stmt->execute($params);
     $mensagens = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $mensagens = array_reverse($mensagens);
     

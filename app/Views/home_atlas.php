@@ -8,7 +8,7 @@ $isAdmin       = $isAdmin   ?? false;
 $pendentes     = $pendentes ?? 0;
 $podeEditar    = $podeEditar ?? false;
 
-$h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+$h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 ?>
 <!DOCTYPE html>
 <html lang="pt">

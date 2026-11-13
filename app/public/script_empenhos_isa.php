@@ -53,10 +53,10 @@ $inicio = time();
 // ============================================================
 // HELPERS
 // ============================================================
-function setStatus(string $file, array $data): void {
+function setStatus(string $file, array $data) {
     @file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }
-function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
+function dbUpdate(PDO $pdo, string $jobId, array $campos) {
     if (!$campos) return;
     $set = []; $p = [];
     foreach ($campos as $k => $v) { $set[] = "`$k` = ?"; $p[] = $v; }
@@ -67,7 +67,7 @@ function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
             ->execute($p);
     } catch (Throwable $e) { fwrite(STDERR, "[dbUpdate] " . $e->getMessage() . "\n"); }
 }
-function logPhase(string $msg): void {
+function logPhase(string $msg) {
     fwrite(STDOUT, "[" . date('H:i:s') . "] $msg\n");
     @flush();
 }
@@ -149,24 +149,24 @@ function wdDelete($b,$p){return wdCall($b,'DELETE',$p);}
 
 const ELEM_KEY = 'element-6066-11e4-a52e-4f735466cecf';
 
-function findEl($b,$sid,$using,$value): ?string {
+function findEl($b,$sid,$using,$value) {
     $r = wdPost($b, "/session/{$sid}/element", ['using'=>$using,'value'=>$value]);
     return $r['value'][ELEM_KEY] ?? null;
 }
-function clickEl($b,$sid,$elId): void { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
+function clickEl($b,$sid,$elId) { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
 function execJs($b,$sid,$script,$args=[]): array {
     return wdPost($b, "/session/{$sid}/execute/sync", ['script'=>$script,'args'=>$args]);
 }
-function navTo($b,$sid,$url): void { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
+function navTo($b,$sid,$url) { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
 function currentUrl($b,$sid): string {
     $r = wdGet($b, "/session/{$sid}/url");
     return is_string($r['value'] ?? null) ? $r['value'] : '';
 }
-function saveScreenshot($b,$sid,$path): void {
+function saveScreenshot($b,$sid,$path) {
     $r = wdGet($b, "/session/{$sid}/screenshot");
     if (!empty($r['value']) && is_string($r['value'])) @file_put_contents($path, base64_decode($r['value']));
 }
-function pressKey($b,$sid,$key): void {
+function pressKey($b,$sid,$key) {
     $map = ['Enter'=>"\u{E007}", 'Tab'=>"\u{E004}", 'Escape'=>"\u{E00C}", 'Space'=>"\u{E00D}"];
     $code = $map[$key] ?? $key;
     wdPost($b, "/session/{$sid}/actions", ['actions'=>[[
@@ -306,7 +306,7 @@ function extrairNotaEmpenho($b, $sid): string {
     return (string)($r['value'] ?? '');
 }
 
-function valorMonetario(?string $s): ?float {
+function valorMonetario($s) {
     if ($s === null) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
@@ -318,7 +318,7 @@ function valorMonetario(?string $s): ?float {
     return null;
 }
 
-function dataBR(?string $s): ?string {
+function dataBR($s) {
     if (!$s) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
@@ -428,7 +428,7 @@ for ($tentativa = 1; $tentativa <= 3 && !$loginOk; $tentativa++) {
             usleep(500000);
             $path = parse_url(currentUrl($driverUrl, $sid), PHP_URL_PATH) ?? '';
             if ($path !== '/sisdnit/jsp/' && $path !== '/sisdnit/jsp/index.jsp'
-                && !str_contains($path, 'login.do')) {
+                && !(strpos($path, 'login.do') !== false)) {
                 $loginOk = true;
                 logPhase("[login]   OK (URL) em ~" . (($i + 1) * 0.5) . "s -> $path");
                 break;

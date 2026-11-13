@@ -12,7 +12,7 @@ if (!isset($_SESSION['setor_slug'])) {
 
 /** @var array $acoes */
 $exercicio  = (int)($exercicio  ?? date('Y'));
-$h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+$h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 $limitePerformance = (int)($limitePerformance ?? 30);
 
 $podeScraper = (bool)($podeScraper ?? false);
