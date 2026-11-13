@@ -58,18 +58,18 @@ if (!function_exists('_jobs_dir')) {
             $meta['_mtime'] = @filemtime($metaFile) ?: 0;
             $out[] = $meta;
         }
-        usort($out, fn($a, $b) => $b['_mtime'] - $a['_mtime']);
+        usort($out, function($a, $b) { return $b['_mtime'] - $a['_mtime']; });
         return $out;
     }
 
     /** Retorna o job mais recente do tipo (ou null). */
-    function _jobs_ultimo(string $tipo): ?array
+    function _jobs_ultimo(string $tipo)
     {
         return _jobs_listar($tipo)[0] ?? null;
     }
 
     /** Carrega um job específico (meta + status + relatorio). */
-    function _jobs_carregar(string $tipo, string $jobId): ?array
+    function _jobs_carregar(string $tipo, string $jobId)
     {
         if (!preg_match('/^[a-z]+_[0-9]{8}_[0-9]{6}_[a-z0-9]+$/i', $jobId)) return null;
         $dir = _jobs_dir($tipo) . '/' . $jobId;

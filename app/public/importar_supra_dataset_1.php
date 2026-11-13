@@ -21,7 +21,7 @@ function normalizarChave($k) {
 }
 function tratarValor($v) {
     if (is_array($v)) {
-        $limpos = array_filter($v, fn($x) => $x !== '' && $x !== null);
+        $limpos = array_filter($v, function($x) { return $x !== '' && $x !== null; });
         return $limpos ? implode(' | ', $limpos) : null;
     }
     return $v;
@@ -96,7 +96,7 @@ $mapa = [
 
 // Colunas únicas para o INSERT
 $colunasInsert = [];
-foreach ($mapa as [$apiKey, $dbField, $tipo]) {
+foreach ($mapa as list($apiKey, $dbField, $tipo)) {
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -162,7 +162,7 @@ try {
         $valores = [];
         $porColuna = [];
 
-        foreach ($mapa as [$apiKey, $dbField, $tipo]) {
+        foreach ($mapa as list($apiKey, $dbField, $tipo)) {
             if ($tipo === 'fallback' && !empty($porColuna[$dbField])) continue;
 
             $v = $itemNorm[normalizarChave($apiKey)] ?? null;

@@ -49,7 +49,7 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void {
+function falha(int $code, string $msg) {
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
@@ -58,7 +58,7 @@ function falha(int $code, string $msg): void {
 // =============================================================
 // SETUP DB
 // =============================================================
-function setupDb(PDO $pdo): void {
+function setupDb(PDO $pdo) {
     $criadas = [];
     try {
         $pdo->exec("
@@ -111,7 +111,7 @@ function setupDb(PDO $pdo): void {
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void {
+function ambienteCheck(PDO $pdo) {
     $tabelas = [];
     foreach ([T_DADOS, T_JOBS, T_DS38] as $t) {
         try { $tabelas[$t] = (bool)$pdo->query('SHOW TABLES LIKE ' . $pdo->quote($t))->fetchColumn(); }
@@ -143,7 +143,7 @@ function ambienteCheck(PDO $pdo): void {
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void {
+function executar(PDO $pdo) {
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
     $contratoUnico = trim((string)($_POST['contrato_unico'] ?? ''));
@@ -273,7 +273,7 @@ function executar(PDO $pdo): void {
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void {
+function status(PDO $pdo) {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
 
@@ -324,7 +324,7 @@ function status(PDO $pdo): void {
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void {
+function historico(PDO $pdo) {
     try {
         $itens = $pdo->query("
             SELECT job_id, status, etapa, login_ok, total, processados, inseridos,
@@ -340,7 +340,7 @@ function historico(PDO $pdo): void {
 // =============================================================
 // ÚLTIMA EXTRAÇÃO  (relógio da view)
 // =============================================================
-function ultimaExtracao(PDO $pdo): void {
+function ultimaExtracao(PDO $pdo) {
     try {
         $st = $pdo->query("
             SELECT job_id, status, iniciado_em, finalizado_em, usuario, total, inseridos
@@ -378,7 +378,7 @@ function ultimaExtracao(PDO $pdo): void {
 //   • siac_import_jobs.ignorados (JSON)                → IGNORADO
 //   • siac_import_jobs.erro      (string)              → ERRO agregado
 // =============================================================
-function relatorio(PDO $pdo): void {
+function relatorio(PDO $pdo) {
     $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($jobId === '') falha(422, 'job obrigatório');
 
@@ -488,7 +488,7 @@ function relatorio(PDO $pdo): void {
 // =============================================================
 // CANCELAR
 // =============================================================
-function cancelar(PDO $pdo): void {
+function cancelar(PDO $pdo) {
     $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($jobId === '') falha(422, 'job obrigatório');
 

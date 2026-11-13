@@ -13,7 +13,7 @@ if (!isset($_SESSION['setor_slug'])) {
 
 /** @var array $acoes */
 $exercicio = (int)($exercicio ?? date('Y'));
-$h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+$h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -417,9 +417,9 @@ $(function () {
     carregarTudo();
 });
 
-function debounce(fn, ms) {
+function debounce(callback, ms) {
     let t;
-    return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+    return (...a) => { clearTimeout(t); t = setTimeout(function(){ callback.apply(null, a); }, ms); };
 }
 
 async function carregarTudo() {

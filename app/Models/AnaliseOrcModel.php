@@ -15,20 +15,24 @@
 
 class AnaliseOrcModel
 {
-    private const TABELA      = '`supra_dataset_47_financeiro_orcamentario_atlas`';
-    private const TABELA_48   = '`supra_dataset_48_loa_janelas`';
-    private const TABELA_38   = '`supra_dataset_38_todos`';
-    private const TABELA_36   = '`supra_dataset_36_todos`';   // ⬅️ NOVO
-    private const TABELA_MED  = '`siac_medicoes`';
-    private const EXERCICIO_PADRAO = 2026;
+    const TABELA      = '`supra_dataset_47_financeiro_orcamentario_atlas`';
+    const TABELA_48   = '`supra_dataset_48_loa_janelas`';
+    const TABELA_38   = '`supra_dataset_38_todos`';
+    const TABELA_36   = '`supra_dataset_36_todos`';   // ⬅️ NOVO
+    const TABELA_MED  = '`siac_medicoes`';
+    const EXERCICIO_PADRAO = 2026;
 
-    private ?array $configCache    = null;
-    private array  $datasetRowCache = [];
-    private array  $ds38RowCache    = [];
-    private array  $ds36RowCache    = [];    // ⬅️ NOVO
-    private array  $ds48Cache       = [];
+    private  $configCache    = null;
+    private   $datasetRowCache = [];
+    private   $ds38RowCache    = [];
+    private   $ds36RowCache    = [];    // ⬅️ NOVO
+    private   $ds48Cache       = [];
+    private $pdo;
 
-    public function __construct(private PDO $pdo) {}
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
 
     public function pdo(): PDO { return $this->pdo; }
 
@@ -63,7 +67,7 @@ class AnaliseOrcModel
     // =============================================================
     // DATASET 47
     // =============================================================
-    public function datasetRow(string $numero): ?array
+    public function datasetRow(string $numero)
     {
         if (array_key_exists($numero, $this->datasetRowCache)) return $this->datasetRowCache[$numero];
         try {
@@ -77,7 +81,7 @@ class AnaliseOrcModel
     // =============================================================
     // DATASET 38 — BR (prioritário), fallback nome/empresa
     // =============================================================
-    public function ds38Row(string $numero): ?array
+    public function ds38Row(string $numero)
     {
         if (array_key_exists($numero, $this->ds38RowCache)) return $this->ds38RowCache[$numero];
 
@@ -110,7 +114,7 @@ class AnaliseOrcModel
      *
      * Cache em memória por número — zero N+1 ao listar contratos.
      */
-    public function ds36Row(string $numero): ?array
+    public function ds36Row(string $numero)
     {
         if (array_key_exists($numero, $this->ds36RowCache)) {
             return $this->ds36RowCache[$numero];
@@ -180,7 +184,7 @@ class AnaliseOrcModel
      * Retorna o primeiro valor não-vazio entre as chaves indicadas.
      * Usado para montar a cascata DS36 → DS38 → DS47 sem repetir `??`.
      */
-    private function pickFirst(?array $row, array $keys): mixed
+    private function pickFirst($row, array $keys)
     {
         if (!$row) return null;
         foreach ($keys as $k) {
@@ -218,7 +222,7 @@ class AnaliseOrcModel
         return $out;
     }
 
-    public function exercicioDisponivel(): ?int { return self::EXERCICIO_PADRAO; }
+    public function exercicioDisponivel() { return self::EXERCICIO_PADRAO; }
 
     public function tiposPorAcao(string $acaoId): array
     {
@@ -236,7 +240,7 @@ class AnaliseOrcModel
         return $out;
     }
 
-    public function contratosDaAcao(string $acaoId, ?string $tipo, ?string $super): array
+    public function contratosDaAcao(string $acaoId, $tipo, $super): array
     {
         $sql = 'SELECT * FROM ' . self::TABELA . ' WHERE acao = :a';
         $p = [':a' => $acaoId];
@@ -257,7 +261,7 @@ class AnaliseOrcModel
         return $out;
     }
 
-    public function contratoPorNumero(string $numero): ?array
+    public function contratoPorNumero(string $numero)
     {
         $r = $this->datasetRow($numero);
         return $r ? $this->mapearContrato($r) : null;
@@ -321,7 +325,7 @@ class AnaliseOrcModel
     // =============================================================
     // TOTAL LIQUIDADO (TODOS OS ANOS)
     // =============================================================
-    public function totalLiquidadoContrato(string $numero): ?float
+    public function totalLiquidadoContrato(string $numero)
     {
         $r = $this->datasetRow($numero);
         if (!$r) return null;
@@ -333,7 +337,7 @@ class AnaliseOrcModel
         $total = 0.0;
         $achou = false;
         foreach ($r as $key => $val) {
-            if (str_starts_with((string)$key, 'liquidado_') && $val !== null) {
+            if ((strpos((string)$key, 'liquidado_') === 0) && $val !== null) {
                 $total += (float)$val;
                 $achou = true;
             }
@@ -344,17 +348,20 @@ class AnaliseOrcModel
     // =============================================================
     // SIAC
     // =============================================================
-    public function siacCabecalho(string $numero): ?array
+    public function siacCabecalho(string $numero)
     {
         $r = $this->datasetRow($numero);
         if (!$r) return null;
         $raw = strtoupper((string)($r['status_siac'] ?? ''));
-        $status = match (true) {
-            str_contains($raw, 'CONCLU')  => 'CONCLUIDO',
-            str_contains($raw, 'PARALI')  => 'PARALISADO',
-            str_contains($raw, 'RESCIND') => 'RESCINDIDO',
-            default                        => 'EM_EXECUCAO',
-        };
+        if ((strpos($raw, 'CONCLU') !== false)) {
+            $status = 'CONCLUIDO';
+        } elseif ((strpos($raw, 'PARALI') !== false)) {
+            $status = 'PARALISADO';
+        } elseif ((strpos($raw, 'RESCIND') !== false)) {
+            $status = 'RESCINDIDO';
+        } else {
+            $status = 'EM_EXECUCAO';
+        }
         return [
             'numero'                => $numero,
             'status'                => $status,
@@ -426,7 +433,7 @@ class AnaliseOrcModel
     // =============================================================
     // NOTIFICAÇÕES
     // =============================================================
-    public function registrarNotificacao(string $numero, string $tipo, string $mes, ?string $obs = null): void
+    public function registrarNotificacao(string $numero, string $tipo, string $mes, $obs = null)
     {
         try {
             $this->pdo->prepare(
@@ -437,7 +444,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) {}
     }
 
-    public function listarNotificacoes(?string $numero = null, ?bool $lida = null, int $limit = 100): array
+    public function listarNotificacoes($numero = null, $lida = null, int $limit = 100): array
     {
         try {
             $sql = 'SELECT n.id, n.contrato_numero, n.tipo, n.mes_referencia,
@@ -456,7 +463,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) { return []; }
     }
 
-    public function contarNaoLidas(?string $numero = null): int
+    public function contarNaoLidas($numero = null): int
     {
         try {
             $sql = 'SELECT COUNT(*) FROM alerta_notificacao WHERE lida = 0';
@@ -468,7 +475,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) { return 0; }
     }
 
-    public function marcarNotificacaoLida(int $id): void
+    public function marcarNotificacaoLida(int $id)
     {
         try {
             $this->pdo->prepare('UPDATE alerta_notificacao SET lida = 1, lida_em = NOW() WHERE id = :id')
@@ -476,7 +483,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) {}
     }
 
-    public function marcarTodasNotificacoesLidas(?string $numero = null): void
+    public function marcarTodasNotificacoesLidas($numero = null)
     {
         try {
             $sql = 'UPDATE alerta_notificacao SET lida = 1, lida_em = NOW() WHERE lida = 0';
@@ -512,7 +519,7 @@ class AnaliseOrcModel
             $all = $_SESSION['analise_orc_estimativas'] ?? [];
             $out = [];
             foreach ($all as $k => $v) {
-                if (str_starts_with($k, $numero . '|')) {
+                if ((strpos($k, $numero . '|') === 0)) {
                     $out[substr($k, strlen($numero) + 1)] = $v;
                 }
             }
@@ -522,7 +529,7 @@ class AnaliseOrcModel
 
     public function setEstimativaManual(string $numero, string $mes, float $valor,
                                         string $usuario, float $valorCalculado,
-                                        string $justificativa = ''): void
+                                        string $justificativa = '')
     {
         try {
             $this->pdo->prepare(
@@ -548,7 +555,7 @@ class AnaliseOrcModel
         }
     }
 
-    public function removerEstimativaManual(string $numero, string $mes): void
+    public function removerEstimativaManual(string $numero, string $mes)
     {
         try {
             $this->pdo->prepare('DELETE FROM analise_orc_estimativa WHERE contrato = :c AND mes = :m')
@@ -585,7 +592,7 @@ class AnaliseOrcModel
 
     public function setPlanejadoAnalista(string $numero, string $mes, float $valor,
                                           string $usuario, float $valorCalculado,
-                                          string $justificativa = ''): void
+                                          string $justificativa = '')
     {
         try {
             $this->pdo->prepare(
@@ -605,7 +612,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) {}
     }
 
-    public function removerPlanejadoAnalista(string $numero, string $mes): void
+    public function removerPlanejadoAnalista(string $numero, string $mes)
     {
         try {
             $this->pdo->prepare(
@@ -629,7 +636,7 @@ class AnaliseOrcModel
         } catch (Throwable $e) { return 'NPO'; }
     }
 
-    public function setPreferencia(string $numero, string $campo, string $usuario): void
+    public function setPreferencia(string $numero, string $campo, string $usuario)
     {
         $campo = in_array($campo, ['NPO','ANALISTA'], true) ? $campo : 'NPO';
         try {
@@ -647,7 +654,7 @@ class AnaliseOrcModel
     // =============================================================
     // CLASSIFICAÇÃO DE COR DO NPO vs MÉDIA
     // =============================================================
-    public function classificarCorNpo(?float $npo, ?float $media): ?string
+    public function classificarCorNpo($npo, $media)
     {
         if ($npo === null || $media === null || $media <= 0 || $npo <= 0) return null;
         $ratio   = $npo / $media;
@@ -782,10 +789,10 @@ class AnaliseOrcModel
     private function mapearTipo(string $raw): string
     {
         $u = mb_strtoupper($raw, 'UTF-8');
-        if (str_contains($u, 'SUPERV')) return 'SUPERVISAO';
-        if (str_contains($u, 'AMBIENT')) return 'MEIO_AMBIENTE';
-        if (str_contains($u, 'DESAPRO')) return 'DESAPROPRIACAO';
-        if (str_contains($u, 'OBRA'))    return 'OBRA';
+        if ((strpos($u, 'SUPERV') !== false)) return 'SUPERVISAO';
+        if ((strpos($u, 'AMBIENT') !== false)) return 'MEIO_AMBIENTE';
+        if ((strpos($u, 'DESAPRO') !== false)) return 'DESAPROPRIACAO';
+        if ((strpos($u, 'OBRA') !== false))    return 'OBRA';
         return 'OUTROS';
     }
 

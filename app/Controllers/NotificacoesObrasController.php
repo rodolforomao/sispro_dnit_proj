@@ -100,11 +100,11 @@ class NotificacoesObrasController
 
         if ($filtros['status_cronograma'] !== '') {
             $contratos = array_values(array_filter($contratos,
-                fn($x) => $x['_status_crono']['categoria'] === $filtros['status_cronograma']));
+                function($x) use ($filtros) { return $x['_status_crono']['categoria'] === $filtros['status_cronograma']; }));
         }
         if ($filtros['status_notificacao'] !== '') {
             $contratos = array_values(array_filter($contratos,
-                fn($x) => $x['_status_notif']['categoria'] === $filtros['status_notificacao']));
+                function($x) use ($filtros) { return $x['_status_notif']['categoria'] === $filtros['status_notificacao']; }));
         }
 
         // ⚠️ Sem usort — mantém a ordem do banco (id ASC)
@@ -283,7 +283,7 @@ class NotificacoesObrasController
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        $h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+        $h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 
         echo '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
         echo '<head><meta charset="UTF-8">';
@@ -421,7 +421,7 @@ class NotificacoesObrasController
         return $base;
     }
 
-    private function buscarContrato(int $id): ?array
+    private function buscarContrato(int $id)
     {
         foreach ($this->todosContratos() as $c) {
             if ((int)$c['id'] === $id) return $c;
@@ -432,7 +432,7 @@ class NotificacoesObrasController
     /* =====================================================
        REGRAS DE NEGÓCIO
        ===================================================== */
-    private function calcStatusCronograma(?string $sei, ?string $dataTermino): array
+    private function calcStatusCronograma($sei, $dataTermino): array
     {
         $hoje = new DateTimeImmutable('today');
         if (empty($sei) && empty($dataTermino)) return $this->badge('sem_cronograma', 'Sem cronograma');
@@ -515,7 +515,7 @@ class NotificacoesObrasController
         return ['categoria' => $categoria, 'texto' => $texto, 'class' => $class];
     }
 
-    private function parseData(?string $data): ?DateTimeImmutable
+    private function parseData($data)
     {
         if (empty($data)) return null;
         $dt = DateTimeImmutable::createFromFormat('Y-m-d', substr($data, 0, 10));

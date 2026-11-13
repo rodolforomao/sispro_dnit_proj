@@ -33,7 +33,7 @@ function normalizarChave($chave) {
 
 function tratarArray($valor) {
     if (is_array($valor)) {
-        return implode(' | ', array_filter($valor, fn($v) => $v !== '' && $v !== null));
+        return implode(' | ', array_filter($valor, function($v) { return $v !== '' && $v !== null; }));
     }
     return $valor;
 }
@@ -91,7 +91,7 @@ $campos = [
 ];
 
 $colunasInsert = [];
-foreach ($campos as [$apiKey, $dbField, $tipo]) {
+foreach ($campos as list($apiKey, $dbField, $tipo)) {
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -128,7 +128,7 @@ try {
         }
 
         $valoresPorColuna = [];
-        foreach ($campos as [$apiKey, $dbField, $tipo]) {
+        foreach ($campos as list($apiKey, $dbField, $tipo)) {
             if (isset($valoresPorColuna[$dbField]) && $valoresPorColuna[$dbField] !== null && $valoresPorColuna[$dbField] !== '') {
                 continue;
             }

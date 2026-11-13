@@ -34,8 +34,8 @@ class ProcessoModel {
     private $logModel;
 
     // ✅ NOVO: constantes para contratos extras
-    private const OFFSET_EXTRA  = 99000000;
-    private const TABELA_EXTRAS = 'supra_dataset_36_todos';
+    const OFFSET_EXTRA  = 99000000;
+    const TABELA_EXTRAS = 'supra_dataset_36_todos';
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
@@ -407,9 +407,9 @@ class ProcessoModel {
         $extras = $this->getContratosExtras();
         if (!empty($uf) && $uf !== '-') {
             if ($uf === 'GO/DF') {
-                $extras = array_filter($extras, fn($c) => in_array($c['uf'], ['GO','DF']));
+                $extras = array_filter($extras, function($c) { return in_array($c['uf'], ['GO','DF']); });
             } else {
-                $extras = array_filter($extras, fn($c) => $c['uf'] === $uf);
+                $extras = array_filter($extras, function($c) use ($uf) { return $c['uf'] === $uf; });
             }
         }
         $contratos = array_merge($contratos, array_values($extras));

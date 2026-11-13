@@ -47,7 +47,7 @@ function normalizarChave($chave) {
 
 function tratarArray($valor) {
     if (is_array($valor)) {
-        return implode(' | ', array_filter($valor, fn($v) => $v !== '' && $v !== null));
+        return implode(' | ', array_filter($valor, function($v) { return $v !== '' && $v !== null; }));
     }
     return $valor;
 }
@@ -70,7 +70,7 @@ function limparPortarias($valor) {
     if ($valor === null) return null;
     $linhas = preg_split('/\R/', (string)$valor);
     $linhas = array_map('trim', $linhas);
-    $linhas = array_filter($linhas, fn($l) => $l !== '');
+    $linhas = array_filter($linhas, function($l) { return $l !== ''; });
     return implode("\n", $linhas);
 }
 
@@ -177,7 +177,7 @@ try {
         $linha = [];
         $achouAlgumaChave = false;
 
-        foreach ($campos as [$apiKey, $dbField, $tipo]) {
+        foreach ($campos as list($apiKey, $dbField, $tipo)) {
             $chaveNorm = normalizarChave($apiKey);
             if (array_key_exists($chaveNorm, $itemNorm)) $achouAlgumaChave = true;
 

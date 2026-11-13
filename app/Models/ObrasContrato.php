@@ -3,7 +3,7 @@
 
 class ObrasContrato
 {
-    private PDO $pdo;
+    private  $pdo;
 
     public function __construct(PDO $pdo)
     {
@@ -11,7 +11,7 @@ class ObrasContrato
     }
 
     /** Busca um contrato pelo ID. */
-    public function buscarPorId(int $id): ?array
+    public function buscarPorId(int $id)
     {
         $sql = "SELECT * FROM obras_contratos WHERE id = :id LIMIT 1";
         $stmt = $this->pdo->prepare($sql);

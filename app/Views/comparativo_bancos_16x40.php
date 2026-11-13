@@ -187,8 +187,9 @@ if (!empty($base40Full)) {
 }
 if (empty($camposId40Opcoes)) $camposId40Opcoes = ['fid_geo' => 'FID GEO (padrão)'];
 
-$defaultId16 = array_key_exists('fid_principal', $camposId16Opcoes) ? 'fid_principal' : array_key_first($camposId16Opcoes);
-$defaultId40 = array_key_exists('fid', $camposId40Opcoes)            ? 'fid'            : array_key_first($camposId40Opcoes);
+// array_key_first() é PHP 7.3+; produção é 7.0.32
+$defaultId16 = array_key_exists('fid_principal', $camposId16Opcoes) ? 'fid_principal' : (string) key($camposId16Opcoes);
+$defaultId40 = array_key_exists('fid', $camposId40Opcoes)            ? 'fid'            : (string) key($camposId40Opcoes);
 
 $filtroCampoId16 = $_GET['campo_id_16'] ?? $defaultId16;
 $filtroCampoId40 = $_GET['campo_id_40'] ?? $defaultId40;

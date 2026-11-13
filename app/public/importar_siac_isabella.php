@@ -47,7 +47,7 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void
+function falha(int $code, string $msg)
 {
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
@@ -57,7 +57,7 @@ function falha(int $code, string $msg): void
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void
+function ambienteCheck(PDO $pdo)
 {
     $autoload  = __DIR__ . '/../vendor/autoload.php';
     $temParser = false;
@@ -99,7 +99,7 @@ function ambienteCheck(PDO $pdo): void
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void
+function executar(PDO $pdo)
 {
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
@@ -245,7 +245,7 @@ function executar(PDO $pdo): void
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void
+function status(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -302,7 +302,7 @@ function status(PDO $pdo): void
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void
+function historico(PDO $pdo)
 {
     try {
         $itens = $pdo->query("
@@ -318,7 +318,7 @@ function historico(PDO $pdo): void
 // =============================================================
 // CANCELAR (mata o processo via taskkill /F /T /PID)
 // =============================================================
-function cancelar(PDO $pdo): void
+function cancelar(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_REQUEST['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -396,7 +396,7 @@ function cancelar(PDO $pdo): void
 // =============================================================
 // RELATÓRIO POR CONTRATO (lê saida/relatorio.json)
 // =============================================================
-function relatorio(PDO $pdo): void
+function relatorio(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -444,7 +444,7 @@ function relatorio(PDO $pdo): void
 // =============================================================
 // ÚLTIMA EXTRAÇÃO COMPLETA (total > 1 = não é teste)
 // =============================================================
-function ultimaExtracao(PDO $pdo): void
+function ultimaExtracao(PDO $pdo)
 {
     try {
         $st = $pdo->query("

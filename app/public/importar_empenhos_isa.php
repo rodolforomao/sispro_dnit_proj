@@ -37,7 +37,7 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void {
+function falha(int $code, string $msg) {
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
@@ -46,7 +46,7 @@ function falha(int $code, string $msg): void {
 // =============================================================
 // SETUP DB
 // =============================================================
-function setupDb(PDO $pdo): void {
+function setupDb(PDO $pdo) {
     try {
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS `" . T_EMP . "` (
@@ -112,7 +112,7 @@ function setupDb(PDO $pdo): void {
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void {
+function ambienteCheck(PDO $pdo) {
     $tabelas = [];
     foreach ([T_EMP, T_EVT, T_JOBS, T_DS38] as $t) {
         try { $tabelas[$t] = (bool)$pdo->query('SHOW TABLES LIKE ' . $pdo->quote($t))->fetchColumn(); }
@@ -144,7 +144,7 @@ function ambienteCheck(PDO $pdo): void {
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void {
+function executar(PDO $pdo) {
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
     $contratoUnico = trim((string)($_POST['contrato_unico'] ?? ''));
@@ -274,7 +274,7 @@ function executar(PDO $pdo): void {
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void {
+function status(PDO $pdo) {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
 
@@ -325,7 +325,7 @@ function status(PDO $pdo): void {
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void {
+function historico(PDO $pdo) {
     try {
         $itens = $pdo->query("
             SELECT job_id, status, etapa, login_ok, total, processados, inseridos,

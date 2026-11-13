@@ -61,9 +61,7 @@ $sql = "SELECT id, instrumento, uf, br, regiao, lote, nome_usual, empresa, super
                valor_pi_a_r, valor_projetos, data_atualizacao
         FROM contratos_rdci $where
         ORDER BY instrumento ASC
-        LIMIT ? OFFSET ?";
-$params[] = $limit;
-$params[] = $offset;
+        LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -77,9 +75,9 @@ $situacoesCronograma = $pdo->query("SELECT DISTINCT situacao_cronograma FROM con
 // Função para formatar status com cores
 function getStatusBadge($status) {
     $status = strtoupper($status);
-    if (str_contains($status, 'VERDE')) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
-    if (str_contains($status, 'AMARELO') || str_contains($status, 'AMAREL')) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
-    if (str_contains($status, 'VERMELHO') || str_contains($status, 'VERMEL')) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
+    if ((strpos($status, 'VERDE') !== false)) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
+    if ((strpos($status, 'AMARELO') !== false) || (strpos($status, 'AMAREL') !== false)) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
+    if ((strpos($status, 'VERMELHO') !== false) || (strpos($status, 'VERMEL') !== false)) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
     return '<span class="badge bg-secondary">' . htmlspecialchars($status) . '</span>';
 }
 
