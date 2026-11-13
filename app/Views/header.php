@@ -1,32 +1,5 @@
 <?php
 // header.php - Barra superior fixa (idêntica à home)
-// Este arquivo deve ser incluído em todas as views, logo após o <body>.
-// Ele obtém automaticamente os dados da sessão e do banco.
-
-// Função para obter iniciais (usada no avatar) - CORRIGIDA
-if (!function_exists('obterIniciais')) {
-    function obterIniciais($nome) {
-        $partes = explode(' ', trim($nome));
-        $partes = array_filter($partes); // remove vazios
-        
-        // Remove preposições comuns
-        $ignorar = ['de', 'da', 'do', 'das', 'dos', 'e'];
-        $partes = array_filter($partes, function($p) use ($ignorar) {
-            return !in_array(strtolower($p), $ignorar);
-        });
-        
-        $partes = array_values($partes); // re-indexa
-        $total = count($partes);
-        
-        if ($total == 0) return '';
-        if ($total == 1) return strtoupper(substr($partes[0], 0, 1));
-        
-        $primeira = strtoupper(substr($partes[0], 0, 1));
-        $ultima = strtoupper(substr($partes[$total - 1], 0, 1));
-        
-        return $primeira . $ultima;
-    }
-}
 
 // Obtém dados da sessão
 $usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
@@ -140,7 +113,28 @@ if (empty($setores_usuario)) {
         <!-- Avatar / Minha Conta -->
         <div class="dropdown">
             <button class="btn-avatar" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="avatar-icon"><?= htmlspecialchars(obterIniciais($usuario_nome)) ?></span>
+                <!-- LÓGICA DE INICIAIS INLINE PARA EVITAR CONFLITO COM CONFIG.PHP -->
+                <span class="avatar-icon" title="<?= htmlspecialchars($usuario_nome) ?>">
+                    <?php
+                        $partes = preg_split('/\s+/', trim($usuario_nome));
+                        $ignorar = ['de', 'da', 'do', 'das', 'dos', 'e'];
+                        $partes = array_filter($partes, function($p) use ($ignorar) {
+                            return !in_array(strtolower($p), $ignorar);
+                        });
+                        $partes = array_values($partes);
+                        $total = count($partes);
+                        
+                        if ($total == 0) {
+                            echo 'US';
+                        } elseif ($total == 1) {
+                            echo mb_strtoupper(mb_substr($partes[0], 0, 1, 'UTF-8'), 'UTF-8');
+                        } else {
+                            $primeira = mb_substr($partes[0], 0, 1, 'UTF-8');
+                            $ultima = mb_substr($partes[$total - 1], 0, 1, 'UTF-8');
+                            echo mb_strtoupper($primeira . $ultima, 'UTF-8');
+                        }
+                    ?>
+                </span>
                 <?php if ($pendentes > 0): ?>
                     <span class="badge-notificacao"><?= $pendentes ?></span>
                 <?php endif; ?>

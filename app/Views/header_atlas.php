@@ -1,31 +1,5 @@
 <?php
 // header_atlas.php - Barra superior fixa para o setor Atlas/Monitoramento
-// Sem scripts próprios, apenas HTML/CSS; scripts carregados pela página principal
-
-// Função para obter iniciais (usada no avatar) - CORRIGIDA
-if (!function_exists('obterIniciais')) {
-    function obterIniciais($nome) {
-        $partes = explode(' ', trim($nome));
-        $partes = array_filter($partes); // remove vazios
-        
-        // Remove preposições comuns
-        $ignorar = ['de', 'da', 'do', 'das', 'dos', 'e'];
-        $partes = array_filter($partes, function($p) use ($ignorar) {
-            return !in_array(strtolower($p), $ignorar);
-        });
-        
-        $partes = array_values($partes); // re-indexa
-        $total = count($partes);
-        
-        if ($total == 0) return '';
-        if ($total == 1) return strtoupper(substr($partes[0], 0, 1));
-        
-        $primeira = strtoupper(substr($partes[0], 0, 1));
-        $ultima = strtoupper(substr($partes[$total - 1], 0, 1));
-        
-        return $primeira . $ultima;
-    }
-}
 
 $usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
 $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
@@ -118,20 +92,35 @@ if (empty($setores_usuario)) {
                         <i class="bi bi-diagram-2"></i> Comparativo Bancos 16×40
                     </a>
                 </li>
-                
-                <!-- ⬇️ ALTERAÇÃO AQUI ⬇️ -->
                 <li><a class="dropdown-item" href="analise_orc"><i class="bi bi-cash-stack"></i> Análise Orçamentária e Financeira</a></li>
-                
-                <!-- Ocultado temporariamente conforme solicitação -->
-                <!-- <li><a class="dropdown-item" href="avanco_fisico"><i class="bi bi-bar-chart-line"></i> Avanço Físico por Serviço</a></li> -->
-                <!-- ⬆️ FIM DA ALTERAÇÃO ⬆️ -->
             </ul>
         </div>
         
         <!-- Avatar -->
         <div class="dropdown">
             <button class="btn-avatar" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="avatar-icon"><?= htmlspecialchars(obterIniciais($usuario_nome)) ?></span>
+                <!-- LÓGICA DE INICIAIS INLINE PARA EVITAR CONFLITO COM CONFIG.PHP -->
+                <span class="avatar-icon" title="<?= htmlspecialchars($usuario_nome) ?>">
+                    <?php
+                        $partes = preg_split('/\s+/', trim($usuario_nome));
+                        $ignorar = ['de', 'da', 'do', 'das', 'dos', 'e'];
+                        $partes = array_filter($partes, function($p) use ($ignorar) {
+                            return !in_array(strtolower($p), $ignorar);
+                        });
+                        $partes = array_values($partes);
+                        $total = count($partes);
+                        
+                        if ($total == 0) {
+                            echo 'US';
+                        } elseif ($total == 1) {
+                            echo mb_strtoupper(mb_substr($partes[0], 0, 1, 'UTF-8'), 'UTF-8');
+                        } else {
+                            $primeira = mb_substr($partes[0], 0, 1, 'UTF-8');
+                            $ultima = mb_substr($partes[$total - 1], 0, 1, 'UTF-8');
+                            echo mb_strtoupper($primeira . $ultima, 'UTF-8');
+                        }
+                    ?>
+                </span>
                 <?php if ($pendentes > 0): ?>
                     <span class="badge-notificacao"><?= $pendentes ?></span>
                 <?php endif; ?>

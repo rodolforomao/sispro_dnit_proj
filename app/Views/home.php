@@ -226,7 +226,7 @@ if (!empty($filtros['providencia'])) $filtrosAplicados[] = ['param' => 'providen
         .icone-alerta { color: #FFC107; font-size: 1.1rem; margin-left: 5px; cursor: help; }
         .prazo-amarelo { color: #FFC107 !important; font-weight: bold !important; }
         .tipo-badge { background: #eef2ff; color: #3730a3; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 500; white-space: nowrap; display: inline-block; }
-        .col-contrato { max-width: 220px; white-space: normal; word-break: break-word; overflow-wrap: break-word; }
+        .col-contrato { min-width: 130px; white-space: nowrap; }
         .comentario-bolha { background: #f1f3f5; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid #0d6efd; position: relative; }
         .comentario-bolha .comentario-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
         .comentario-bolha .comentario-usuario { font-weight: 700; color: #0d6efd; }
@@ -486,7 +486,7 @@ if (!empty($filtros['providencia'])) $filtrosAplicados[] = ['param' => 'providen
                 <colgroup>
                     <col class="col-min-width"><col class="col-min-width"><col class="col-min-width-sm">
                     <col class="col-min-width-lg"><col style="min-width: 100px;"><col style="min-width: 100px;">
-                    <col style="min-width: 200px;"><col class="col-min-width"><col style="min-width: 60px;">
+                    <col style="min-width: 200px;"><col style="min-width: 120px;"><col style="min-width: 60px;">
                     <col style="min-width: 80px;"><col style="min-width: 110px;"><col style="min-width: 110px;">
                     <col style="min-width: 90px;"><col style="min-width: 70px;"><col style="min-width: 140px;">
                 </colgroup>
