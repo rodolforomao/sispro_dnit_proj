@@ -157,7 +157,7 @@
         border-radius: 30px;
         font-weight: 500;
         font-size: 0.92rem;
-        z-index: 99999;
+        z-index: 2147483647;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         opacity: 0;
         visibility: hidden;
@@ -245,7 +245,7 @@ $(document).ready(function() {
                '</div>';
     }
 
-    // ✅ Divide uma string de processos em vários itens
+    // Divide uma string de processos em vários itens
     // Aceita separadores: ; , | ou quebra de linha
     // (não usa / porque SEI tem / dentro do número)
     function dividirProcessos(valor) {
@@ -253,15 +253,12 @@ $(document).ready(function() {
         var s = String(valor).trim();
         if (!s) return [];
 
-        // Split por ; , | ou \n
         var partes = s.split(/\s*[;|]\s*|\s*\n\s*/);
 
-        // Se não achou separador mas tem vírgula seguida de padrão SEI, também divide
         if (partes.length === 1) {
             partes = s.split(/,\s*(?=\d)/);
         }
 
-        // Limpa
         partes = partes
             .map(function(p) { return p.trim(); })
             .filter(function(p) { return p.length > 0; });
@@ -269,7 +266,7 @@ $(document).ready(function() {
         return partes;
     }
 
-    // ✅ Renderiza chips de processos com botão de copiar
+    // Renderiza chips de processos com botão de copiar
     function renderizarProcessos(valor, iconeVazio) {
         var lista = dividirProcessos(valor);
         if (lista.length === 0) {
@@ -289,21 +286,103 @@ $(document).ready(function() {
         return html;
     }
 
-    // ✅ Copiar ao clicar no chip
-    $(document).on('click', '.btn-copiar-chip', function(e) {
-        e.stopPropagation();
-        var texto = $(this).data('copiar');
-        if (!texto) return;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(texto).then(function() {
-                mostrarToastCopia('Copiado: ' + texto);
-            }).catch(function() {
-                fallbackCopiar(texto);
-            });
-        } else {
-            fallbackCopiar(texto);
+    // ============================================================
+    // ✅ CÓPIA — projeto para HTTP (sem Clipboard API)
+    // ============================================================
+    // Em HTTP o navegador desabilita navigator.clipboard. A única
+    // via é document.execCommand('copy'). Para ele funcionar de
+    // forma confiável precisamos de:
+    //   1) Um <textarea> (não <span>) — elemento nativamente
+    //      focável, com seleção suportada em todos os browsers.
+    //   2) opacity: 1 (não 0.01) — em HTTP alguns browsers
+    //      recusam copiar de elementos "invisíveis".
+    //   3) Posicionamento off-screen (left: -9999px) para
+    //      esconder visualmente sem parecer "oculto".
+    //   4) Interceptação do evento 'copy' para escrever direto
+    //      em e.clipboardData (evita depender do valor nativo).
+    // ============================================================
+    function copiarComEvento(texto) {
+        var activeEl = document.activeElement;
+
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.setAttribute('readonly', '');
+        ta.setAttribute('aria-hidden', 'true');
+
+        ta.style.cssText =
+            'position:fixed !important;' +
+            'top:0 !important;' +
+            'left:-9999px !important;' +
+            'width:200px !important;' +
+            'height:50px !important;' +
+            'padding:0 !important;' +
+            'border:0 !important;' +
+            'outline:0 !important;' +
+            'box-shadow:none !important;' +
+            'background:transparent !important;' +
+            'color:transparent !important;' +
+            'opacity:1 !important;' +
+            'font-size:16px !important;' +
+            'z-index:2147483647 !important;';
+
+        // Anexa DENTRO do modal aberto (FocusTrap do Bootstrap
+        // só permite foco/seleção dentro do modal)
+        var modalEl = document.getElementById('modalInfoContrato');
+        var container = (modalEl && modalEl.classList.contains('show')) ? modalEl : document.body;
+        container.appendChild(ta);
+
+        // Força reflow (alguns engines precisam "ver" o elemento
+        // antes de permitir select())
+        void ta.offsetHeight;
+
+        var copiou = false;
+        var handlerRodou = false;
+
+        var handler = function(e) {
+            handlerRodou = true;
+            if (!e.clipboardData) {
+                console.warn('[copiar] e.clipboardData está null — abortando');
+                return;
+            }
+            try {
+                e.clipboardData.setData('text/plain', texto);
+                e.preventDefault();
+                copiou = true;
+                console.log('[copiar] setData OK para:', JSON.stringify(texto));
+            } catch (err) {
+                console.error('[copiar] setData falhou:', err);
+            }
+        };
+
+        document.addEventListener('copy', handler, true);
+
+        try {
+            ta.focus({ preventScroll: true });
+            ta.select();
+            ta.setSelectionRange(0, ta.value.length);
+
+            var execResult = document.execCommand('copy');
+            console.log('[copiar] execCommand:', execResult,
+                        '| handler rodou:', handlerRodou,
+                        '| copiou:', copiou);
+
+            if (execResult && !handlerRodou) {
+                console.log('[copiar] confiando no execCommand nativo');
+                copiou = true;
+            }
+        } catch (e) {
+            console.error('[copiar] execCommand lançou exceção:', e);
+        } finally {
+            document.removeEventListener('copy', handler, true);
+            ta.remove();
+
+            if (activeEl && typeof activeEl.focus === 'function' && activeEl !== document.body) {
+                try { activeEl.focus({ preventScroll: true }); } catch (e) {}
+            }
         }
-    });
+
+        return copiou;
+    }
 
     var toastTimer = null;
     function mostrarToastCopia(msg) {
@@ -315,22 +394,45 @@ $(document).ready(function() {
         toastTimer = setTimeout(function() { t.classList.remove('show'); }, 2000);
     }
 
-    function fallbackCopiar(texto) {
-        var ta = document.createElement('textarea');
-        ta.value = texto;
-        ta.style.position = 'fixed';
-        ta.style.top = '-9999px';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-            document.execCommand('copy');
+    // ============================================================
+    // Handler único do botão de copiar chip
+    // ============================================================
+    $(document).on('click', '.btn-copiar-chip', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // .attr() em vez de .data(): .data() faz cache e converte
+        // strings numéricas para number, cortando zeros à esquerda
+        var texto = $(this).attr('data-copiar');
+        if (texto === null || texto === undefined) return;
+        texto = String(texto).trim();
+        if (!texto) return;
+
+        console.log('========================================');
+        console.log('[copiar] texto:', JSON.stringify(texto));
+        console.log('[copiar] secureContext:', window.isSecureContext);
+        console.log('[copiar] has clipboard API:', !!(navigator.clipboard && navigator.clipboard.writeText));
+
+        // 1ª tentativa: execCommand + copy event (única via em HTTP)
+        if (copiarComEvento(texto)) {
             mostrarToastCopia('Copiado: ' + texto);
-        } catch (e) {
-            mostrarToastCopia('Erro ao copiar');
+            return;
         }
-        document.body.removeChild(ta);
-    }
+
+        // 2ª tentativa: Clipboard API (só se estiver em HTTPS)
+        if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(texto).then(function() {
+                mostrarToastCopia('Copiado: ' + texto);
+            }).catch(function(err) {
+                console.error('[copiar] clipboard API falhou:', err);
+                mostrarToastCopia('Erro ao copiar — veja o console');
+            });
+            return;
+        }
+
+        console.error('[copiar] todos os métodos falharam');
+        mostrarToastCopia('Erro ao copiar — veja o console');
+    });
 
     // ============================================================
     // MONTA O HTML EM BLOCOS
@@ -362,19 +464,16 @@ $(document).ready(function() {
         html += '<div class="info-bloco processos">';
         html += '  <div class="info-bloco-titulo"><i class="bi bi-diagram-3 text-warning"></i> Bloco Processos</div>';
 
-        // Processo Base
         html += '<div class="processo-grupo">';
         html += '  <div class="processo-grupo-titulo"><i class="bi bi-folder"></i> Processo Base</div>';
         html +=    renderizarProcessos(d.processo_base);
         html += '</div>';
 
-        // Processo de Projetos (geralmente múltiplos)
         html += '<div class="processo-grupo">';
         html += '  <div class="processo-grupo-titulo"><i class="bi bi-diagram-2"></i> Processo de Projetos</div>';
         html +=    renderizarProcessos(d.processo_projeto);
         html += '</div>';
 
-        // Processo Notificações
         html += '<div class="processo-grupo">';
         html += '  <div class="processo-grupo-titulo"><i class="bi bi-bell"></i> Processo Notificações SR/UF</div>';
         html +=    renderizarProcessos(d.processo_notificacao_sr_uf || d.n_sei_oficio_cobranca_cronograma);

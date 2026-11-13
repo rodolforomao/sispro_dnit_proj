@@ -50,10 +50,9 @@ $ultimaAtualizacao = '—';
 $arquivoSync = APP_PATH . '/public/.sync_ultima_execucao';
 
 if (file_exists($arquivoSync)) {
-    $ts = filemtime($arquivoSync);   // timestamp de quando o arquivo foi escrito
+    $ts = filemtime($arquivoSync);
     $ultimaAtualizacao = date('d/m/Y H:i', $ts);
 } else {
-    // Fallback: tenta o log
     $arquivoLog = APP_PATH . '/public/importacao_cron.log';
     if (file_exists($arquivoLog)) {
         $ultimaAtualizacao = date('d/m/Y H:i', filemtime($arquivoLog));
@@ -248,7 +247,7 @@ if (!empty($filtroAcao))         $filtrosAplicados[] = ['param' => 'acao', 'labe
         .sei-link { cursor: pointer; color: #0d6efd; text-decoration: underline; font-size: 0.85rem; }
         .sei-link:hover { color: #0a58ca; }
 
-        #toastCopiado { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 24px; border-radius: 30px; font-weight: 500; font-size: 0.95rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none; }
+        #toastCopiado { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 24px; border-radius: 30px; font-weight: 500; font-size: 0.95rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 2147483647; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none; }
         #toastCopiado.show { opacity: 1; visibility: visible; }
         #toastCopiado i { margin-right: 8px; }
 
@@ -601,6 +600,18 @@ $(document).ready(function() {
         });
     });
 
+    // ============================================================
+    // ✅ CÓPIA PARA O CLIPBOARD — VERSAO DEFINITIVA
+    // ============================================================
+    // Estratégia:
+    //   1) Tenta SEMPRE o execCommand SÍNCRONO primeiro (dentro do
+    //      próprio clique, preservando o "user gesture" — isso é
+    //      essencial; se o execCommand for chamado depois de um
+    //      microtask/await, ele retorna true mas NÃO copia).
+    //   2) Só usa navigator.clipboard.writeText como fallback real
+    //      caso o execCommand tenha falhado (ex.: iOS muito novo).
+    // ============================================================
+
     var toastTimer = null;
     function mostrarToast(mensagem) {
         var toast = document.getElementById('toastCopiado');
@@ -610,20 +621,93 @@ $(document).ready(function() {
         clearTimeout(toastTimer);
         toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
     }
-    window.copiarTexto = function(texto) {
-        if (!texto || texto === '—') return;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(texto).then(function() { mostrarToast('Copiado: ' + texto); }).catch(function() { fallbackCopiar(texto); });
-        } else { fallbackCopiar(texto); }
-    };
-    function fallbackCopiar(texto) {
-        var ta = document.createElement('textarea'); ta.value = texto;
-        ta.style.position = 'fixed'; ta.style.top = '-9999px'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy') ? mostrarToast('Copiado: ' + texto) : mostrarToast('Erro ao copiar'); }
-        catch (e) { mostrarToast('Erro ao copiar'); }
-        document.body.removeChild(ta);
+
+    function copiarSincrono(texto) {
+        var activeEl = document.activeElement;
+
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.setAttribute('readonly', '');
+        ta.setAttribute('aria-hidden', 'true');
+
+        // opacity 0.01 (NUNCA 0 — alguns browsers recusam copiar de
+        // elementos invisíveis). font-size 16px evita zoom no iOS.
+        ta.style.cssText =
+            'position:fixed !important;' +
+            'top:0 !important;' +
+            'left:0 !important;' +
+            'width:2em !important;' +
+            'height:2em !important;' +
+            'padding:0 !important;' +
+            'border:0 !important;' +
+            'outline:0 !important;' +
+            'box-shadow:none !important;' +
+            'background:transparent !important;' +
+            'color:transparent !important;' +
+            'opacity:0.01 !important;' +
+            'font-size:16px !important;' +
+            'z-index:2147483647 !important;' +
+            'pointer-events:none !important;';
+
+        // Anexa DENTRO do modal de topo (o FocusTrap do Bootstrap
+        // só permite foco em elementos dentro do modal aberto).
+        var modais = document.querySelectorAll('.modal.show');
+        var container = modais.length ? modais[modais.length - 1] : document.body;
+        container.appendChild(ta);
+
+        // Força reflow — sem isso, em alguns browsers o select()
+        // roda antes do elemento ser de fato "visível" ao engine.
+        void ta.offsetHeight;
+
+        var sucesso = false;
+        try {
+            ta.focus({ preventScroll: true });
+            ta.select();
+            ta.setSelectionRange(0, ta.value.length);
+            sucesso = document.execCommand('copy');
+        } catch (e) {
+            console.error('[copiarTexto] execCommand falhou:', e);
+            sucesso = false;
+        }
+
+        ta.remove();
+
+        // Restaura foco — sem isso, o focus trap do modal pode
+        // roubar o foco de volta para o botão e travar a UI.
+        if (activeEl && typeof activeEl.focus === 'function' && activeEl !== document.body) {
+            try { activeEl.focus({ preventScroll: true }); } catch (e) {}
+        }
+
+        return sucesso;
     }
+
+    window.copiarTexto = function(texto) {
+        if (texto === null || texto === undefined) return;
+        texto = String(texto).trim();
+        if (!texto || texto === '—') return;
+
+        // 1ª tentativa: SÍNCRONA, ainda dentro do user gesture
+        var ok = false;
+        try { ok = copiarSincrono(texto); } catch (e) { ok = false; }
+
+        if (ok) {
+            mostrarToast('Copiado: ' + texto);
+            return;
+        }
+
+        // 2ª tentativa: Clipboard API moderna (fallback)
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(texto).then(function() {
+                mostrarToast('Copiado: ' + texto);
+            }).catch(function(err) {
+                console.error('[copiarTexto] clipboard API falhou:', err);
+                mostrarToast('Erro ao copiar');
+            });
+            return;
+        }
+
+        mostrarToast('Erro ao copiar');
+    };
 
     var STORAGE_KEY = 'rdci_contratos_marcados';
     var marcadosSet = new Set();

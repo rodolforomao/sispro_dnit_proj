@@ -1,12 +1,12 @@
 -- =============================================================
 -- delta_producao_completo.sql
--- Delta aditivo, idempotente e condicional: Dev (28/10) -> Produção
+-- Delta aditivo, idempotente e condicional: Dev -> Produção
 -- =============================================================
 -- O QUE ESTE SCRIPT FAZ:
--- 1. Cria as 10 tabelas novas se não existirem.
--- 2. Altera a tabela contratos_rdci (ajusta a coluna subtrecho).
--- 3. Adiciona a coluna instrumento_atlas na supra_dataset_16.
--- 4. Cria as FKs nas tabelas antigas (se os dados permitirem).
+-- 1. Cria todas as tabelas novas se não existirem.
+-- 2. Altera tabelas existentes (adiciona colunas com segurança).
+-- 3. Cria as FKs nas tabelas antigas (se os dados permitirem).
+-- 4. Limpa a tabela de notificações para substituição dos dados.
 -- =============================================================
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 SET NAMES utf8mb4;
 
 -- =============================================================
--- PARTE 1: CRIAÇÃO DAS TABELAS NOVAS
+-- PARTE 1: CRIAÇÃO DAS TABELAS NOVAS (Estrutura base)
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS `tipos` (
@@ -298,25 +298,317 @@ CREATE TABLE IF NOT EXISTS `supra_log_importacao` (
 
 
 -- =============================================================
+-- PARTE 1.1: NOVAS TABELAS (ANÁLISE ORÇAMENTÁRIA E SIAC)
+-- =============================================================
+
+CREATE TABLE IF NOT EXISTS `analise_orc_estimativa` (
+  `contrato` varchar(50) NOT NULL,
+  `mes` date NOT NULL,
+  `valor` decimal(15,2) NOT NULL,
+  `valor_calculado` decimal(15,2) DEFAULT NULL,
+  `justificativa` text DEFAULT NULL,
+  `usuario` varchar(100) DEFAULT NULL,
+  `alterado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`contrato`,`mes`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `analise_orc_planejado_analista` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato` varchar(50) NOT NULL,
+  `mes` date NOT NULL,
+  `valor` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `valor_calculado` decimal(15,2) DEFAULT 0.00,
+  `usuario` varchar(100) DEFAULT NULL,
+  `justificativa` varchar(500) DEFAULT NULL,
+  `alterado_em` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_contrato_mes` (`contrato`,`mes`),
+  KEY `idx_contrato` (`contrato`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `analise_orc_preferencia` (
+  `contrato` varchar(50) NOT NULL,
+  `campo_planejamento` enum('NPO','ANALISTA') NOT NULL DEFAULT 'NPO',
+  `alterado_em` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `usuario` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`contrato`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `extracao_historico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(100) NOT NULL,
+  `data_extracao` datetime DEFAULT current_timestamp(),
+  `nome_arquivo` varchar(255) NOT NULL,
+  `parametros_json` text DEFAULT NULL COMMENT 'Filtros e colunas usados',
+  `total_linhas` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `siac_contratos_dados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `importacao_id` varchar(100) NOT NULL,
+  `contrato` varchar(50) NOT NULL,
+  `estado` varchar(50) DEFAULT NULL,
+  `numero_contrato` varchar(50) DEFAULT NULL,
+  `empresa_executora` varchar(255) DEFAULT NULL,
+  `tipo_contrato` varchar(100) DEFAULT NULL,
+  `situacao` varchar(100) DEFAULT NULL,
+  `processo_base` varchar(100) DEFAULT NULL,
+  `empresa_supervisora` varchar(255) DEFAULT NULL,
+  `modalidade` varchar(100) DEFAULT NULL,
+  `tipo_licitacao` varchar(100) DEFAULT NULL,
+  `edital` varchar(100) DEFAULT NULL,
+  `tipo_intervencao` varchar(255) DEFAULT NULL,
+  `objeto` text DEFAULT NULL,
+  `preco_inicial` decimal(18,2) DEFAULT NULL,
+  `total_aditivos` decimal(18,2) DEFAULT NULL,
+  `pi_vigente` decimal(18,2) DEFAULT NULL,
+  `total_reajustamento` decimal(18,2) DEFAULT NULL,
+  `total_pi_r` decimal(18,2) DEFAULT NULL,
+  `data_assinatura` date DEFAULT NULL,
+  `inicio_vigencia` date DEFAULT NULL,
+  `inicio_servicos` date DEFAULT NULL,
+  `termino_servicos` date DEFAULT NULL,
+  `termino_vigencia` date DEFAULT NULL,
+  `data_base` date DEFAULT NULL,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_contrato` (`contrato`),
+  KEY `idx_importacao` (`importacao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `siac_empenhos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `importacao_id` varchar(100) NOT NULL,
+  `contrato` varchar(50) NOT NULL,
+  `unidade_gestora` varchar(255) DEFAULT NULL,
+  `numero_documento` varchar(100) DEFAULT NULL,
+  `natureza_despesa` varchar(255) DEFAULT NULL,
+  `vinc_pagamento` varchar(100) DEFAULT NULL,
+  `valor_empenho` decimal(18,2) DEFAULT NULL,
+  `valor_ajustes` decimal(18,2) DEFAULT NULL,
+  `valor_consumido` decimal(18,2) DEFAULT NULL,
+  `saldo` decimal(18,2) DEFAULT NULL,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  `valor_empenho_total` decimal(18,2) DEFAULT NULL,
+  `valor_ajustes_total` decimal(18,2) DEFAULT NULL,
+  `valor_consumido_total` decimal(18,2) DEFAULT NULL,
+  `saldo_total` decimal(18,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_contrato` (`contrato`),
+  KEY `idx_documento` (`numero_documento`),
+  KEY `idx_importacao` (`importacao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `siac_empenho_eventos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `importacao_id` varchar(100) NOT NULL,
+  `contrato` varchar(50) NOT NULL,
+  `nota_empenho` varchar(100) DEFAULT NULL,
+  `data_evento` date DEFAULT NULL,
+  `evento` varchar(255) DEFAULT NULL,
+  `valor_incluido` decimal(18,2) DEFAULT NULL,
+  `valor_gasto` decimal(18,2) DEFAULT NULL,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_contrato` (`contrato`),
+  KEY `idx_nota` (`nota_empenho`),
+  KEY `idx_importacao` (`importacao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `siac_import_jobs` (
+  `job_id` varchar(40) NOT NULL,
+  `tipo` varchar(20) DEFAULT 'medicoes',
+  `status` varchar(20) NOT NULL DEFAULT 'iniciando',
+  `etapa` varchar(30) DEFAULT NULL,
+  `login_ok` tinyint(4) DEFAULT NULL,
+  `progresso` decimal(5,1) NOT NULL DEFAULT 0.0,
+  `total` int(11) NOT NULL DEFAULT 0,
+  `processados` int(11) NOT NULL DEFAULT 0,
+  `contrato_atual` varchar(60) DEFAULT NULL,
+  `inseridos` int(11) NOT NULL DEFAULT 0,
+  `contratos_afetados` int(11) NOT NULL DEFAULT 0,
+  `ignorados` mediumtext DEFAULT NULL,
+  `erro` text DEFAULT NULL,
+  `usuario` varchar(100) DEFAULT NULL,
+  `iniciado_em` datetime NOT NULL,
+  `atualizado_em` datetime NOT NULL,
+  `finalizado_em` datetime DEFAULT NULL,
+  PRIMARY KEY (`job_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `siac_medicoes` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `importacao_id` varchar(50) NOT NULL,
+  `contrato` varchar(50) NOT NULL,
+  `numero_medicao` varchar(30) DEFAULT NULL,
+  `data_inicio` date DEFAULT NULL,
+  `data_termino` date DEFAULT NULL,
+  `mes_referencia` date DEFAULT NULL,
+  `processo_suporte` varchar(100) DEFAULT NULL,
+  `processo_pagamento` varchar(100) DEFAULT NULL,
+  `valor_pi_liquido` decimal(15,2) DEFAULT NULL,
+  `valor_pi_acumulado` decimal(15,2) DEFAULT NULL,
+  `reajustamento_liquido` decimal(15,2) DEFAULT NULL,
+  `ajuste_contratual_liquido` decimal(15,2) DEFAULT NULL,
+  `reajustamento_acumulado_consolidado` decimal(15,2) DEFAULT NULL,
+  `total_liquido` decimal(15,2) DEFAULT NULL,
+  `total_acumulado` decimal(15,2) DEFAULT NULL,
+  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_contrato` (`contrato`),
+  KEY `idx_mes` (`mes_referencia`),
+  KEY `idx_contrato_mes` (`contrato`,`mes_referencia`),
+  KEY `idx_import` (`importacao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `supra_dataset_47_financeiro_orcamentario_atlas` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `contrato` varchar(50) NOT NULL,
+  `estado` char(2) DEFAULT NULL,
+  `br` varchar(15) DEFAULT NULL,
+  `tipo_atlas` varchar(50) DEFAULT NULL,
+  `acao` varchar(20) DEFAULT NULL,
+  `empreendimento` varchar(500) DEFAULT NULL,
+  `tipo_contratacao` varchar(100) DEFAULT NULL,
+  `incluir_na_lista` varchar(10) DEFAULT NULL,
+  `status_siac` varchar(30) DEFAULT NULL,
+  `termino_vigencia` date DEFAULT NULL,
+  `data_base` date DEFAULT NULL,
+  `data_ref_ultima_medicao` date DEFAULT NULL,
+  `valor_pi_dnit` decimal(15,2) DEFAULT NULL,
+  `valor_total_aditivo` decimal(15,2) DEFAULT NULL,
+  `reajuste` decimal(15,2) DEFAULT NULL,
+  `pi_a_r` decimal(15,2) DEFAULT NULL,
+  `total_empenhado_ini` decimal(15,2) DEFAULT NULL,
+  `empenhado_no_ano` decimal(15,2) DEFAULT NULL,
+  `empenhado_no_ano_acao` decimal(15,2) DEFAULT NULL,
+  `saldo_empenho_rap_acao` decimal(15,2) DEFAULT NULL,
+  `saldo_rap_acao` decimal(15,2) DEFAULT NULL,
+  `saldo_empenho_acao` decimal(15,2) DEFAULT NULL,
+  `ultima_medicao` int(11) DEFAULT NULL,
+  `media_ult_3_medicoes` decimal(15,2) DEFAULT NULL,
+  `total_medido` decimal(15,2) DEFAULT NULL,
+  `medido_no_ano` decimal(15,2) DEFAULT NULL,
+  `total_liquidado` decimal(15,2) DEFAULT NULL,
+  `liquidado_no_ano` decimal(15,2) DEFAULT NULL,
+  `liquidado_janeiro_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_fevereiro_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_marco_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_abril_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_maio_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_junho_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_julho_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_agosto_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_setembro_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_outubro_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_novembro_2026` decimal(15,2) DEFAULT NULL,
+  `liquidado_dezembro_2026` decimal(15,2) DEFAULT NULL,
+  `rap_inscrito_npo` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_janeiro_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_fevereiro_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_marco_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_abril_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_maio_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_junho_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_julho_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_agosto_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_setembro_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_outubro_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_novembro_2026` decimal(15,2) DEFAULT NULL,
+  `planejado_npo_dezembro_2026` decimal(15,2) DEFAULT NULL,
+  `a_empenhar_ate_fim_contrato` decimal(15,2) DEFAULT NULL,
+  `total_medicoes_atrasadas` int(11) DEFAULT NULL,
+  `somatorio_liquidado_acao` decimal(15,2) DEFAULT NULL,
+  `total_planejado_npo_ano_acao` decimal(15,2) DEFAULT NULL,
+  `diferenca_planejado_liquidado_acao` decimal(15,2) DEFAULT NULL,
+  `a_medir_ate_fim_contrato` decimal(15,2) DEFAULT NULL,
+  `a_liquidar_ate_fim_contrato` decimal(15,2) DEFAULT NULL,
+  `numero_reajustes` decimal(10,4) DEFAULT NULL,
+  `prev_reajust` decimal(15,2) DEFAULT NULL,
+  `ultimo_mes_medido` tinyint(4) DEFAULT NULL,
+  `ultimo_mes_liquidado` tinyint(4) DEFAULT NULL,
+  `soma_med_atrasadas_pagar_ano` decimal(15,2) DEFAULT NULL,
+  `sugestao_valor_previsto_ano` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_ctr` (`contrato`),
+  KEY `idx_acao` (`acao`),
+  KEY `idx_estado` (`estado`),
+  KEY `idx_tipo` (`tipo_atlas`),
+  KEY `idx_status` (`status_siac`),
+  KEY `idx_acao_ano` (`acao`,`status_siac`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `supra_dataset_48_loa_janelas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uf` varchar(2) DEFAULT NULL,
+  `acao` varchar(20) DEFAULT NULL,
+  `descritor` text DEFAULT NULL,
+  `loa_sancionada` decimal(18,2) DEFAULT NULL,
+  `portarias` mediumtext DEFAULT NULL,
+  `janela_1` decimal(18,2) DEFAULT NULL,
+  `janela_2` decimal(18,2) DEFAULT NULL,
+  `janela_3` decimal(18,2) DEFAULT NULL,
+  `janela_4` decimal(18,2) DEFAULT NULL,
+  `janela_extraordinaria` decimal(18,2) DEFAULT NULL,
+  `loa_atualizada` decimal(18,2) DEFAULT NULL,
+  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_uf_acao` (`uf`,`acao`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `rdci_notificacoes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `notificado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_contrato` (`contrato_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- =============================================================
 -- PARTE 2: ALTERAÇÕES EM TABELAS EXISTENTES
 -- =============================================================
 
 -- 2.1) Ajuste da coluna subtrecho na tabela contratos_rdci
--- Primeiro, preenchemos com vazio onde estiver nulo para não dar erro no MODIFY
 UPDATE `contratos_rdci` SET `subtrecho` = '' WHERE `subtrecho` IS NULL;
 ALTER TABLE `contratos_rdci` MODIFY COLUMN `subtrecho` varchar(255) NOT NULL DEFAULT '';
 
--- 2.2) Adicionar a nova coluna instrumento_atlas e seu índice
-ALTER TABLE `supra_dataset_16_base_controle_geo` 
-ADD COLUMN IF NOT EXISTS `instrumento_atlas` varchar(100) DEFAULT NULL AFTER `situacao_obra_mes`;
+-- 2.2) Adicionar a nova coluna instrumento_atlas e seu índice (com verificação para MySQL 5.5)
+-- MySQL 5.5 não suporta ADD COLUMN IF NOT EXISTS nativo, então usamos procedure dinâmica.
+DROP PROCEDURE IF EXISTS add_column_if_not_exists;
+DELIMITER //
+CREATE PROCEDURE add_column_if_not_exists(IN tbl VARCHAR(64), IN col VARCHAR(64), IN def TEXT)
+BEGIN
+    IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = tbl AND COLUMN_NAME = col) THEN
+        SET @s = CONCAT('ALTER TABLE ', tbl, ' ADD COLUMN ', col, ' ', def);
+        PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    END IF;
+END //
+DELIMITER ;
+CALL add_column_if_not_exists('supra_dataset_16_base_controle_geo', 'instrumento_atlas', 'VARCHAR(100) DEFAULT NULL');
+DROP PROCEDURE IF EXISTS add_column_if_not_exists;
 
-ALTER TABLE `supra_dataset_16_base_controle_geo` 
-ADD INDEX IF NOT EXISTS `idx_instrumento_atlas` (`instrumento_atlas`);
+-- 2.3) Adicionar a coluna tipo na tabela siac_import_jobs
+DROP PROCEDURE IF EXISTS add_column_if_not_exists_2;
+DELIMITER //
+CREATE PROCEDURE add_column_if_not_exists_2(IN tbl VARCHAR(64), IN col VARCHAR(64), IN def TEXT)
+BEGIN
+    IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = tbl AND COLUMN_NAME = col) THEN
+        SET @s = CONCAT('ALTER TABLE ', tbl, ' ADD COLUMN ', col, ' ', def);
+        PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    END IF;
+END //
+DELIMITER ;
+CALL add_column_if_not_exists_2('siac_import_jobs', 'tipo', 'VARCHAR(20) DEFAULT ''medicoes''');
+DROP PROCEDURE IF EXISTS add_column_if_not_exists_2;
 
 
 -- =============================================================
 -- PARTE 3: CRIAÇÃO DAS CHAVES ESTRANGEIRAS (FKs)
--- (Só cria se não existirem. Se houver dados inconsistentes, dará erro e a FK não será criada)
 -- =============================================================
 
 -- 3.1) FKs na tabela comentarios
@@ -351,3 +643,19 @@ PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rdci_notificacoes' AND CONSTRAINT_NAME = 'rdci_notificacoes_ibfk_2');
 SET @sql = IF(@fk_exists = 0, 'ALTER TABLE rdci_notificacoes ADD CONSTRAINT rdci_notificacoes_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+
+-- =============================================================
+-- PARTE 4: ATUALIZAÇÃO DOS DADOS DE NOTIFICAÇÕES
+-- =============================================================
+
+-- Limpa a tabela atual para receber os novos dados da produção
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE `rdci_notificacoes`;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ⚠️ COLE AQUI OS INSERTS (INSERT INTO `rdci_notificacoes` ...) QUE VOCÊ TEM DA PRODUÇÃO, SE HOUVER.
+-- Exemplo:
+-- INSERT INTO `rdci_notificacoes` (`id`, `contrato_id`, `usuario_id`, `notificado_em`) VALUES
+-- (1, 10, 5, '2026-11-13 10:00:00'),
+-- (2, 11, 5, '2026-11-13 10:05:00');

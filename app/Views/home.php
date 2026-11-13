@@ -95,6 +95,8 @@ if (!empty($filtros['tipo'])) {
 }
 if (!empty($filtros['uf'])) $filtrosAplicados[] = ['param' => 'uf', 'label' => 'UF', 'valor' => $filtros['uf']];
 if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => 'BR', 'valor' => $filtros['br']];
+// NOVO FILTRO: PROVIDÊNCIA
+if (!empty($filtros['providencia'])) $filtrosAplicados[] = ['param' => 'providencia', 'label' => 'Providência', 'valor' => $filtros['providencia']];
 ?>
 <!DOCTYPE html>
 <html lang="pt" data-theme="light">
@@ -112,7 +114,7 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
     (function() {
         var STORAGE_KEY = 'sispro_processos_filtros';
         var params = new URLSearchParams(window.location.search);
-        var filterKeys = ['equipe','responsavel','status','contrato','assunto','processo','tipo','uf','br','pagina'];
+        var filterKeys = ['equipe','responsavel','status','contrato','assunto','processo','tipo','uf','br','providencia','pagina'];
 
         // 1) Limpeza explícita (botão "Limpar Filtros" / "Limpar" do modal)
         if (params.get('clear') === '1') {
@@ -250,7 +252,7 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
             .processo-titulo { font-size: 1.3rem; }
             .btn-filtros { padding: 6px 16px; font-size: 0.9rem; }
         }
-        .modal-confirm-export .modal-dialog { max-width: 420px; }
+        .modal-confirm-export .modal-dialog { max-width: 460px; }
         .modal-confirm-export .modal-icon { font-size: 3rem; color: #28a745; text-align: center; margin-bottom: 10px; }
         .modal-confirm-export .modal-title-confirm { text-align: center; font-weight: 600; }
         .modal-confirm-export .modal-body { text-align: center; padding: 25px 30px; }
@@ -289,6 +291,12 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
                 <?php if ($podeEditar): ?>
                     <a href="create" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Novo Processo</a>
                 <?php endif; ?>
+                
+                <!-- BOTÃO EXPORTAR -->
+                <button type="button" class="btn btn-success btn-filtros" data-bs-toggle="modal" data-bs-target="#modalConfirmExport">
+                    <i class="bi bi-file-earmark-excel"></i> Exportar
+                </button>
+
                 <button type="button" class="btn btn-outline-secondary btn-filtros" data-bs-toggle="modal" data-bs-target="#modalFiltros">
                     <i class="bi bi-funnel"></i> Filtros
                 </button>
@@ -308,11 +316,8 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
                     $idDefaults = ['equipe', 'responsavel'];
 
                     if (array_key_exists($f['param'], $_GET)) {
-                        // Filtro explícito na URL — apenas remove
                         unset($novosGET[$f['param']]);
                     } else {
-                        // É um default → usa sentinela -1 para impedir o controller
-                        // de reaplicar o default do usuário
                         if (in_array($f['param'], $idDefaults)) {
                             $novosGET[$f['param']] = '-1';
                         } else {
@@ -438,6 +443,14 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
                                     </select>
                                 </div>
                             </div>
+                            <!-- NOVO FILTRO: PROVIDÊNCIA -->
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Providência</label>
+                                    <input type="text" name="providencia" class="form-control" value="<?= htmlspecialchars($filtros['providencia'] ?? '') ?>" placeholder="Busque pela providência...">
+                                </div>
+                            </div>
+                            
                             <input type="hidden" name="pagina" value="1">
                         </div>
                         <div class="modal-footer">
@@ -449,16 +462,18 @@ if (!empty($filtros['br'])) $filtrosAplicados[] = ['param' => 'br', 'label' => '
             </div>
         </div>
 
+        <!-- MODAL DE EXPORTAÇÃO -->
         <div class="modal fade modal-confirm-export" id="modalConfirmExport" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="modal-icon"><i class="bi bi-file-earmark-spreadsheet"></i></div>
                         <h5 class="modal-title-confirm">Exportar CSV</h5>
-                        <p class="mt-2">Deseja realmente exportar todos os processos com os filtros atuais?</p>
-                        <div class="d-flex justify-content-center gap-3 mt-4">
+                        <p class="mt-2">Como você deseja exportar os processos?</p>
+                        <div class="d-flex justify-content-center gap-2 mt-4">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="#" id="btnConfirmarExportar" class="btn btn-success">Confirmar</a>
+                            <button type="button" id="btnExportarFiltrado" class="btn btn-primary">Apenas Filtrados</button>
+                            <button type="button" id="btnExportarTodos" class="btn btn-success">Todos os Processos</button>
                         </div>
                     </div>
                 </div>
@@ -657,7 +672,6 @@ $(document).ready(function() {
     });
 
     // Ao limpar via ícone X do select2, envia -1 para equipe/responsavel
-    // (evita que o controller reaplique o default do usuário)
     $('.select2-filtro').on('select2:clear', function() {
         var name = $(this).attr('name');
         if (name === 'equipe' || name === 'responsavel') {
@@ -672,12 +686,31 @@ $(document).ready(function() {
         }, 200);
     });
 
-    var urlExportar = 'exportar_csv?<?= http_build_query($_GET) ?>';
+    // CONTROLE DA EXPORTAÇÃO APRIMORADO
+    $('#btnExportarFiltrado').on('click', function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        urlParams.delete('clear'); 
+        urlParams.delete('pagina'); 
+        urlParams.set('_t', new Date().getTime()); 
+        
+        var qs = urlParams.toString();
+        window.location.href = 'exportar_csv?' + qs;
+    });
+
+    $('#btnExportarTodos').on('click', function() {
+        // Limpa qualquer memória de filtros salvos no navegador
+        sessionStorage.removeItem('sispro_processos_filtros');
+        
+        var timestamp = new Date().getTime();
+        // Força uma URL limpa
+        window.location.href = 'exportar_csv?todos=1&_t=' + timestamp;
+    });
+
+    // Mantém compatibilidade com o link do menu topbar (header.php)
     $('#btnExportarCSV').on('click', function(e) {
         e.preventDefault();
         var modalConfirm = new bootstrap.Modal(document.getElementById('modalConfirmExport'));
         modalConfirm.show();
-        $('#btnConfirmarExportar').attr('href', urlExportar);
     });
 
     var toastTimer = null;
