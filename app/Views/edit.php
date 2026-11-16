@@ -82,14 +82,15 @@ $mostrar_revisao = (strcasecmp(trim($status_nome_atual), 'Revisado') === 0);
 $mostrar_assinatura = (strcasecmp(trim($status_nome_atual), 'Assinado') === 0);
 $mostrar_sima = $mostrar_revisao || $mostrar_assinatura;
 
-// ✅ Datas: se já tiver valor salvo usa, senão usa HOJE (podendo alterar)
+// Datas: se já tiver valor salvo usa, senão usa HOJE (podendo alterar)
 $dataAtual = date('Y-m-d');
 $dataRevisao    = !empty($processo['data_revisao'])    ? $processo['data_revisao']    : $dataAtual;
 $dataAssinatura = !empty($processo['data_assinatura']) ? $processo['data_assinatura'] : $dataAtual;
 
-// ✅ CORREÇÃO: descobrir o instrumento do contrato vinculado ao processo
-//    (o contrato_id pode apontar para um subtrecho que não é o MIN(id) retornado pelo select)
-//    Também trata contratos EXTRA (offset 99.000.000) da tabela supra_dataset_36_todos
+// ─────────────────────────────────────────────────────────────
+// Descobrir o instrumento do contrato vinculado
+// Também trata contratos EXTRA (offset 99.000.000)
+// ─────────────────────────────────────────────────────────────
 $contratoInstrumentoAtual = '';
 $contratoNomeUsualAtual = '';
 if (!empty($processo['contrato_id'])) {
@@ -118,6 +119,13 @@ if (!empty($processo['contrato_id'])) {
         // silencioso
     }
 }
+
+// ─────────────────────────────────────────────────────────────
+// FIX: detecta "sem contrato" (contrato_id NULL no banco).
+// Como o schema não distingue "nunca escolheu" de "escolheu -",
+// tratamos os dois como "sem contrato" e marcamos a opção "-".
+// ─────────────────────────────────────────────────────────────
+$semContrato = empty($processo['contrato_id']);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -182,9 +190,7 @@ if (!empty($processo['contrato_id'])) {
         .dropdown-menu-avatar .dropdown-header { padding: 10px 20px; font-weight: 600; color: #2c3e50; border-bottom: 1px solid #dce1e8; margin-bottom: 4px; }
         .dropdown-menu-avatar .dropdown-header small { display: block; font-weight: 400; font-size: 0.85rem; color: #6c757d; margin-top: 2px; }
 
-        /* ============================================================
-           CORREÇÃO: contrato com nome longo + botão Info Contrato
-           ============================================================ */
+        /* CORREÇÃO: contrato com nome longo + botão Info Contrato */
         .contrato-flex {
             display: flex;
             gap: 8px;
@@ -344,13 +350,14 @@ if (!empty($processo['contrato_id'])) {
                         <div class="d-flex gap-2 align-items-center contrato-flex">
                             <select name="contrato_id" id="contrato_id" class="form-select select2">
                                 <option value="">Selecione</option>
-                                <option value="-">-</option>
+                                <?php /* FIX: marca a opção "-" quando o processo está sem contrato */ ?>
+                                <option value="-" <?= $semContrato ? 'selected' : '' ?>>-</option>
                                 <?php foreach ($contratos as $c): ?>
                                     <option value="<?= $c['id'] ?>" 
                                             data-uf="<?= htmlspecialchars($c['uf'] ?? '') ?>" 
                                             data-br="<?= htmlspecialchars($c['br'] ?? '') ?>" 
                                             data-nome-usual="<?= htmlspecialchars($c['nome_usual'] ?? '') ?>"
-                                            <?= ($c['numero'] == $contratoInstrumentoAtual) ? 'selected' : '' ?>>
+                                            <?= (!empty($contratoInstrumentoAtual) && $c['numero'] == $contratoInstrumentoAtual) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($c['numero']) ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -621,7 +628,6 @@ $(document).ready(function() {
                 var contratoSelect = $('#contrato_id');
                 contratoSelect.empty().append('<option value="">Selecione</option><option value="-">-</option>');
                 $.each(data.contratos, function(i, c) {
-                    // ✅ CORREÇÃO: compara pelo instrumento, não pelo ID
                     var selected = (instrumentoSelecionado && c.numero == instrumentoSelecionado) ? 'selected' : '';
                     contratoSelect.append('<option value="' + c.id + '" data-uf="' + (c.uf || '') + '" data-br="' + (c.br || '') + '" data-nome-usual="' + (c.nome_usual || '') + '" ' + selected + '>' + c.numero + '</option>');
                 });
@@ -693,10 +699,13 @@ $(document).ready(function() {
         }
     });
 
-    // ✅ Inicialização: carrega contratos da UF atual e pré-seleciona pelo INSTRUMENTO
+    // ============================
+    // INICIALIZAÇÃO DO ESTADO
+    // ============================
     var ufInicial = $('#uf_hidden').val();
     var brInicial = $('#br_hidden').val();
     var instrumentoSelecionado = '<?= htmlspecialchars($contratoInstrumentoAtual) ?>';
+    var semContrato = <?= $semContrato ? 'true' : 'false' ?>;
 
     if (ufInicial === '-') {
         $('#contrato_id').val('-').prop('disabled', true).trigger('change');
@@ -707,23 +716,30 @@ $(document).ready(function() {
         $('#br_manual').trigger('change.select2');
     } else {
         carregarContratosBR(ufInicial, function(success) {
-            if (success) {
-                // Seleciona pelo instrumento (já marcado como selected no HTML)
+            if (!success) return;
+            // FIX: se o processo está sem contrato, re-marca "-" após recarregar
+            if (semContrato) {
+                $('#contrato_id').val('-').trigger('change');
+            } else {
                 var $option = $('#contrato_id option:selected');
                 if ($option.length && $option.val() !== '' && $option.val() !== '-') {
                     $('#contrato_id').trigger('change');
                 }
-                if (brInicial && brInicial !== '') {
-                    $('#br_manual').val(brInicial).trigger('change');
-                    $('#br_hidden').val(brInicial);
-                }
+            }
+            if (brInicial && brInicial !== '') {
+                $('#br_manual').val(brInicial).trigger('change');
+                $('#br_hidden').val(brInicial);
             }
         }, instrumentoSelecionado);
     }
 
     if (!ufInicial || ufInicial === '') {
         carregarContratosBR('', function(success) {
-            if (success && instrumentoSelecionado) {
+            if (!success) return;
+            // FIX: mesma coisa quando uf vazia
+            if (semContrato) {
+                $('#contrato_id').val('-').trigger('change');
+            } else if (instrumentoSelecionado) {
                 $('#contrato_id').trigger('change');
             }
         }, instrumentoSelecionado);

@@ -137,20 +137,21 @@ class AuthController {
                 // ─────────────────────────────────────────────────────
                 // URL de redefinição — DETECÇÃO DINÂMICA DO AMBIENTE
                 //
-                // Em DEV  : http://host/sispro_dnit_proj/redefinir_senha?token=...
+                // Em DEV  : http://host/sispro/redefinir_senha?token=...
                 // Em PROD : http://10.100.11.235/sispro/redefinir_senha?token=...
                 //
-                // A detecção é feita pelo REQUEST_URI (URL real acessada),
-                // que é mais confiável que SCRIPT_NAME quando há rewrite
-                // do .htaccess. Default = /sispro/ (produção).
+                // Após renomear a pasta da dev para /sispro/, os dois
+                // ambientes ficam no mesmo path. A detecção dinâmica
+                // continua como rede de segurança caso algo volte a
+                // rodar em /sispro_dnit_proj/.
                 // ─────────────────────────────────────────────────────
                 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
                 $host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
                 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 
-                $basePath = '/sispro/'; // default = produção
+                $basePath = '/sispro/';
                 if (strpos($requestUri, '/sispro_dnit_proj/') !== false) {
-                    $basePath = '/sispro_dnit_proj/'; // dev
+                    $basePath = '/sispro_dnit_proj/';
                 }
 
                 $link = $scheme . '://' . $host . $basePath . 'redefinir_senha?token=' . $token;

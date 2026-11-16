@@ -556,7 +556,7 @@ if (!empty($filtros['providencia'])) $filtrosAplicados[] = ['param' => 'providen
                             <?php else: ?>—<?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($p['assunto'] ?? '') ?></td>
-                        <td class="col-contrato"><?= htmlspecialchars($p['contrato_num'] ?? '') ?></td>
+                        <td class="col-contrato"><?= !empty($p['contrato_num']) ? htmlspecialchars($p['contrato_num']) : '-' ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['uf'] ?? '') ?></td>
                         <td class="text-nowrap"><?= htmlspecialchars($p['br'] ?? '') ?></td>
                         <td class="text-nowrap"><?= isset($p['data_entrada']) ? date('d/m/Y', strtotime($p['data_entrada'])) : '-' ?></td>

@@ -1,12 +1,76 @@
 <?php
-/**
- * Exemplo de config de produção.
- * No servidor: copie para app/public/config.local.php (não versionado).
- * O script de deploy NÃO sobrescreve config.local.php existente.
- */
-return [
-    'host' => '172.17.0.1',
-    'dbname' => 'controle_processos',
-    'user' => 'sispro',
-    'pass' => 'ALTERE_AQUI',
-];
+// app/public/config.php
+//
+// Carrega config.local.php se existir.
+// O config.local.php de produção retorna um ARRAY:
+//   return [
+//       'host'   => '172.17.0.1',
+//       'dbname' => 'controle_processos',
+//       'user'   => 'sispro',
+//       'pass'   => '...',
+//   ];
+//
+// Defaults (DEV — XAMPP) usados se config.local.php não existir
+// ou não definir alguma chave.
+//
+// Produção: host 172.17.0.1 + user sispro
+// XAMPP:    host localhost  + user root sem senha
+//
+// PHP 7.0-safe.
+
+// Inicia sessão se não estiver ativa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ─────────────────────────────────────────────────────────────
+// Defaults (DEV — XAMPP). Em produção, config.local.php sobrescreve.
+// ─────────────────────────────────────────────────────────────
+$host   = 'localhost';
+$dbname = 'controle_processos';
+$user   = 'root';
+$pass   = '';
+$port   = 3306;
+
+// ─────────────────────────────────────────────────────────────
+// Carrega config.local.php (produção) — NÃO commitar este arquivo.
+// Formato esperado: return ['host' => ..., 'dbname' => ..., ...];
+// ─────────────────────────────────────────────────────────────
+$configLocal = __DIR__ . '/config.local.php';
+if (is_file($configLocal)) {
+    $cfg = require $configLocal;
+    if (is_array($cfg)) {
+        if (isset($cfg['host'])   && $cfg['host']   !== '') $host   = $cfg['host'];
+        if (isset($cfg['dbname']) && $cfg['dbname'] !== '') $dbname = $cfg['dbname'];
+        if (isset($cfg['user'])   && $cfg['user']   !== '') $user   = $cfg['user'];
+        if (array_key_exists('pass', $cfg))                 $pass   = $cfg['pass'];
+        if (isset($cfg['port'])   && $cfg['port']   !== '') $port   = (int)$cfg['port'];
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Conexão PDO — charset utf8 (NÃO utf8mb4 em produção MySQL 5.5)
+// ─────────────────────────────────────────────────────────────
+try {
+    $dsn = "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8";
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Não expor detalhes em produção — mensagem genérica + log interno
+    error_log('[config.php] Falha na conexão PDO: ' . $e->getMessage());
+    die("Erro na conexão com o banco de dados. Contate o administrador.");
+}
+
+// ─────────────────────────────────────────────────────────────
+// Atualiza última atividade do usuário logado
+// ─────────────────────────────────────────────────────────────
+if (isset($_SESSION['usuario_id'])) {
+    try {
+        $stmt = $pdo->prepare("UPDATE usuarios SET last_activity = NOW() WHERE id = ?");
+        $stmt->execute([$_SESSION['usuario_id']]);
+    } catch (Exception $e) {
+        // Silencioso — last_activity não é crítico
+        error_log('[config.php] Falha ao atualizar last_activity: ' . $e->getMessage());
+    }
+}
