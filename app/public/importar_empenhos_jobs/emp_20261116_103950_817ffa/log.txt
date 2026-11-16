@@ -1,0 +1,13 @@
+[2026-11-16 10:39:50] INICIANDO JOB emp_20261116_103950_817ffa
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_empenhos_isa.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261116_103950_817ffa/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261116_103950_817ffa/saida" --job="emp_20261116_103950_817ffa" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-16 10:39:50] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Parse error: Unclosed '(' on line 296 in C:\xampp\htdocs\sispro_dnit_proj\app\public\script_empenhos_isa.php on line 297
+php on line 297

@@ -12,7 +12,7 @@ if (!isset($_SESSION['setor_slug'])) {
 
 /** @var array $acoes */
 $exercicio  = (int)($exercicio  ?? date('Y'));
-$h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+$h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 $limitePerformance = (int)($limitePerformance ?? 30);
 
 $podeScraper = (bool)($podeScraper ?? false);
@@ -1314,7 +1314,7 @@ $el('#btn-atualizar-dataset47').addEventListener('click', async () => {
 
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Sincronizando 48...';
     try {
-        const resp = await fetchAuth('importar_supra_dataset_48_loa_atualizada.php?ajax=1',
+        const resp = await fetchAuth('importar_supra_dataset_48_loa_janelas.php?ajax=1',
             { headers: { 'X-Requested-With': 'XMLHttpRequest' }, redirect: 'manual' });
         if (resp.type === 'opaqueredirect' || resp.status === 0 || resp.redirected) throw new Error('Servidor redirecionou a requisição.');
         const ct = resp.headers.get('Content-Type') || '';

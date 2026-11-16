@@ -1,16 +1,7 @@
 <?php
 // app/public/importar_siac_isabella.php
-//
-// Ações:
-//   ?acao=ambiente_check     → diagnóstico
-//   ?acao=executar   (POST)  → cria job, insere em siac_import_jobs, dispara script
-//   ?acao=status&job=X       → lê siac_import_jobs
-//   ?acao=historico          → últimos 10
-//   ?acao=cancelar&job=X     → mata o processo (taskkill /F /T)
-//   ?acao=relatorio&job=X    → lê relatorio.json (por contrato)
-//   ?acao=ultima_extracao    → última job completo (total > 1)
 
-require_once __DIR__ . '/config.php';   // fornece $pdo
+require_once __DIR__ . '/config.php';
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 session_write_close();
@@ -47,7 +38,7 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void
+function falha(int $code, string $msg)
 {
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
@@ -57,7 +48,7 @@ function falha(int $code, string $msg): void
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void
+function ambienteCheck(PDO $pdo)
 {
     $autoload  = __DIR__ . '/../vendor/autoload.php';
     $temParser = false;
@@ -99,7 +90,7 @@ function ambienteCheck(PDO $pdo): void
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void
+function executar(PDO $pdo)
 {
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
@@ -245,7 +236,7 @@ function executar(PDO $pdo): void
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void
+function status(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -276,7 +267,6 @@ function status(PDO $pdo): void
     $ign = json_decode((string)($j['ignorados'] ?? ''), true);
     $ign = is_array($ign) ? $ign : [];
 
-    // Relatório detalhado disponível?
     $relFile = JOBS_DIR . '/' . $job . '/saida/relatorio.json';
     $relOk   = is_file($relFile);
 
@@ -302,7 +292,7 @@ function status(PDO $pdo): void
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void
+function historico(PDO $pdo)
 {
     try {
         $itens = $pdo->query("
@@ -316,9 +306,10 @@ function historico(PDO $pdo): void
 }
 
 // =============================================================
-// CANCELAR (mata o processo via taskkill /F /T /PID)
+// CANCELAR
+// PHP 7.0: PHP_OS_FAMILY não existe → usar substr(PHP_OS,0,3)
 // =============================================================
-function cancelar(PDO $pdo): void
+function cancelar(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_REQUEST['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -338,7 +329,6 @@ function cancelar(PDO $pdo): void
         return;
     }
 
-    // PID fica salvo em meta.json pelo executar()
     $jobDir   = JOBS_DIR . '/' . $job;
     $metaFile = $jobDir . '/meta.json';
     $pid = null;
@@ -351,13 +341,12 @@ function cancelar(PDO $pdo): void
         falha(500, 'PID do processo não encontrado em ' . $metaFile . '. Use o Gerenciador de Tarefas.');
     }
 
-    // Mata a árvore inteira (worker + msedgedriver + msedge)
+    $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     $matou = false;
     $exit  = -1;
     $out   = [];
-    if (PHP_OS_FAMILY === 'Windows') {
+    if ($isWindows) {
         @exec('taskkill /F /T /PID ' . $pid . ' 2>&1', $out, $exit);
-        // Código 0 = sucesso; 128 = "não encontrado" (já morreu)
         $matou = in_array($exit, [0, 128], true);
     } else {
         @exec('kill -9 ' . $pid . ' 2>&1', $out, $exit);
@@ -394,9 +383,9 @@ function cancelar(PDO $pdo): void
 }
 
 // =============================================================
-// RELATÓRIO POR CONTRATO (lê saida/relatorio.json)
+// RELATÓRIO POR CONTRATO
 // =============================================================
-function relatorio(PDO $pdo): void
+function relatorio(PDO $pdo)
 {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
@@ -442,9 +431,9 @@ function relatorio(PDO $pdo): void
 }
 
 // =============================================================
-// ÚLTIMA EXTRAÇÃO COMPLETA (total > 1 = não é teste)
+// ÚLTIMA EXTRAÇÃO COMPLETA
 // =============================================================
-function ultimaExtracao(PDO $pdo): void
+function ultimaExtracao(PDO $pdo)
 {
     try {
         $st = $pdo->query("

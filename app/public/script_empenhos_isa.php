@@ -52,11 +52,12 @@ $inicio = time();
 
 // ============================================================
 // HELPERS
+// PHP 7.0: sem : void
 // ============================================================
-function setStatus(string $file, array $data): void {
+function setStatus(string $file, array $data) {
     @file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }
-function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
+function dbUpdate(PDO $pdo, string $jobId, array $campos) {
     if (!$campos) return;
     $set = []; $p = [];
     foreach ($campos as $k => $v) { $set[] = "`$k` = ?"; $p[] = $v; }
@@ -67,7 +68,7 @@ function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
             ->execute($p);
     } catch (Throwable $e) { fwrite(STDERR, "[dbUpdate] " . $e->getMessage() . "\n"); }
 }
-function logPhase(string $msg): void {
+function logPhase(string $msg) {
     fwrite(STDOUT, "[" . date('H:i:s') . "] $msg\n");
     @flush();
 }
@@ -149,24 +150,26 @@ function wdDelete($b,$p){return wdCall($b,'DELETE',$p);}
 
 const ELEM_KEY = 'element-6066-11e4-a52e-4f735466cecf';
 
-function findEl($b,$sid,$using,$value): ?string {
+// PHP 7.0: sem ?string no retorno
+function findEl($b,$sid,$using,$value) {
     $r = wdPost($b, "/session/{$sid}/element", ['using'=>$using,'value'=>$value]);
     return $r['value'][ELEM_KEY] ?? null;
 }
-function clickEl($b,$sid,$elId): void { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
+// PHP 7.0: sem : void
+function clickEl($b,$sid,$elId) { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
 function execJs($b,$sid,$script,$args=[]): array {
     return wdPost($b, "/session/{$sid}/execute/sync", ['script'=>$script,'args'=>$args]);
 }
-function navTo($b,$sid,$url): void { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
+function navTo($b,$sid,$url) { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
 function currentUrl($b,$sid): string {
     $r = wdGet($b, "/session/{$sid}/url");
     return is_string($r['value'] ?? null) ? $r['value'] : '';
 }
-function saveScreenshot($b,$sid,$path): void {
+function saveScreenshot($b,$sid,$path) {
     $r = wdGet($b, "/session/{$sid}/screenshot");
     if (!empty($r['value']) && is_string($r['value'])) @file_put_contents($path, base64_decode($r['value']));
 }
-function pressKey($b,$sid,$key): void {
+function pressKey($b,$sid,$key) {
     $map = ['Enter'=>"\u{E007}", 'Tab'=>"\u{E004}", 'Escape'=>"\u{E00C}", 'Space'=>"\u{E00D}"];
     $code = $map[$key] ?? $key;
     wdPost($b, "/session/{$sid}/actions", ['actions'=>[[
@@ -274,7 +277,6 @@ function extrairLinhasTabela($b, $sid, string $tabelaId): array {
     return json_decode((string)($r['value'] ?? '[]'), true) ?: [];
 }
 
-// ⬇️ NOVA FUNÇÃO: Extrai os valores do tfoot (Totais)
 function extrairTotaisTabela($b, $sid, string $tabelaId): array {
     $r = execJs($b, $sid, "
         var t = document.getElementById(arguments[0]);
@@ -291,7 +293,6 @@ function extrairTotaisTabela($b, $sid, string $tabelaId): array {
     ", [$tabelaId]);
     return json_decode((string)($r['value'] ?? '[]'), true) ?: [];
 }
-// ⬆️ FIM
 
 function extrairNotaEmpenho($b, $sid): string {
     $r = execJs($b, $sid, "
@@ -306,7 +307,8 @@ function extrairNotaEmpenho($b, $sid): string {
     return (string)($r['value'] ?? '');
 }
 
-function valorMonetario(?string $s): ?float {
+// PHP 7.0: sem ?string/?float
+function valorMonetario($s) {
     if ($s === null) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
@@ -318,7 +320,8 @@ function valorMonetario(?string $s): ?float {
     return null;
 }
 
-function dataBR(?string $s): ?string {
+// PHP 7.0: sem ?string/?string
+function dataBR($s) {
     if (!$s) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
@@ -427,8 +430,9 @@ for ($tentativa = 1; $tentativa <= 3 && !$loginOk; $tentativa++) {
         for ($i = 0; $i < 30; $i++) {
             usleep(500000);
             $path = parse_url(currentUrl($driverUrl, $sid), PHP_URL_PATH) ?? '';
+            // PHP 7.0: strpos === false no lugar de str_contains
             if ($path !== '/sisdnit/jsp/' && $path !== '/sisdnit/jsp/index.jsp'
-                && !str_contains($path, 'login.do')) {
+                && strpos($path, 'login.do') === false) {
                 $loginOk = true;
                 logPhase("[login]   OK (URL) em ~" . (($i + 1) * 0.5) . "s -> $path");
                 break;
@@ -477,7 +481,7 @@ if (!$loginOk) {
 dbUpdate($pdo, $jobId, ['login_ok'=>1,'etapa'=>'extraindo','progresso'=>5]);
 
 // ============================================================
-// PREPARA INSERT (COM AS NOVAS COLUNAS)
+// PREPARA INSERT
 // ============================================================
 $sqlDelEmp = $pdo->prepare('DELETE FROM `siac_empenhos` WHERE contrato = ?');
 $sqlDelEvt = $pdo->prepare('DELETE FROM `siac_empenho_eventos` WHERE contrato = ?');
@@ -525,8 +529,7 @@ foreach ($contratos as $i => $item) {
     logPhase("[$i/$total] $contrato ($estado)");
     $ignorar = false; $motivo = '';
     $empenhos = []; $eventos = [];
-    
-    // Variáveis de totais zeradas para este contrato
+
     $totEmp = 0; $totAju = 0; $totCon = 0; $totSal = 0;
 
     try {
@@ -561,7 +564,6 @@ foreach ($contratos as $i => $item) {
             continue;
         }
 
-        // Clica em Consultar
         $clickConsultar = execJs($driverUrl, $sid, "
             var botoes = document.querySelectorAll('form table tfoot input[type=button], form table tfoot input[type=submit]');
             for (var i = 0; i < botoes.length; i++) {
@@ -575,7 +577,6 @@ foreach ($contratos as $i => $item) {
         if (($clickConsultar['value'] ?? '') !== 'OK') throw new Exception('Botao Consultar nao encontrado');
         usleep(1500000);
 
-        // Aguarda tabela de empenhos
         $temEmp = false;
         for ($j = 0; $j < 20; $j++) {
             usleep(500000);
@@ -584,13 +585,9 @@ foreach ($contratos as $i => $item) {
         }
         if (!$temEmp) throw new Exception('Tabela de empenhos nao apareceu');
 
-        // ⬇️ EXTRAI AS LINHAS DO CORPO (TBODY) ⬇️
         $linhas = extrairLinhasTabela($driverUrl, $sid, 'empenhos');
-        
-        // ⬇️ EXTRAI OS TOTAIS DO RODAPÉ (TFOOT) ⬇️
         $totaisFoot = extrairTotaisTabela($driverUrl, $sid, 'empenhos');
         if (!empty($totaisFoot)) {
-            // Limpa textos como "Total:" e vazios
             $valoresValidos = [];
             foreach ($totaisFoot as $v) {
                 $v = trim($v);
@@ -598,7 +595,6 @@ foreach ($contratos as $i => $item) {
                     $valoresValidos[] = $v;
                 }
             }
-            // A ordem no rodapé é: Valor Empenho, Valor Ajustes, Valor Consumido, Saldo
             if (count($valoresValidos) >= 4) {
                 $totEmp = valorMonetario($valoresValidos[0]);
                 $totAju = valorMonetario($valoresValidos[1]);
@@ -607,7 +603,6 @@ foreach ($contratos as $i => $item) {
             }
         }
 
-        // Coleta os hrefs dos links de cada linha de empenho (para detalhes)
         $rLinks = execJs($driverUrl, $sid, "
             var t = document.getElementById('empenhos');
             if (!t) return '[]';
@@ -621,17 +616,14 @@ foreach ($contratos as $i => $item) {
         ");
         $hrefs = json_decode((string)($rLinks['value'] ?? '[]'), true) ?: [];
 
-        // Guarda os empenhos
         foreach ($linhas as $linha) {
             $empenhos[] = $linha;
         }
-        
-        // Se não houver empenhos no tbody, mas houver totais no tfoot, insere uma linha dummy para guardar os totais
+
         if (empty($empenhos) && ($totEmp > 0 || $totAju != 0 || $totCon > 0 || $totSal != 0)) {
             $empenhos[] = [null, null, null, null, null, null, null, null];
         }
 
-        // Para cada empenho: abre nova aba, extrai eventos, fecha
         foreach ($hrefs as $href) {
             try {
                 $mainHandle = wdGet($driverUrl, "/session/{$sid}/window")['value'] ?? null;
@@ -646,7 +638,6 @@ foreach ($contratos as $i => $item) {
                 wdPost($driverUrl, "/session/{$sid}/window", ['handle' => $newHandle]);
                 usleep(500000);
 
-                // Aguarda tabela de eventos
                 $temEvt = false;
                 for ($j = 0; $j < 20; $j++) {
                     usleep(500000);
@@ -670,7 +661,6 @@ foreach ($contratos as $i => $item) {
                 usleep(300000);
             } catch (Throwable $e) {
                 logPhase("    [detalhe] falha em $href: " . mb_substr($e->getMessage(), 0, 100));
-                // Tenta voltar para a janela principal
                 try {
                     $handles = wdGet($driverUrl, "/session/{$sid}/window/handles")['value'] ?? [];
                     if (count($handles) > 1) {
@@ -686,14 +676,12 @@ foreach ($contratos as $i => $item) {
             }
         }
 
-        // Persiste (transação)
         $pdo->beginTransaction();
         $sqlDelEmp->execute([$contrato]);
         $sqlDelEvt->execute([$contrato]);
         $nEmp = 0;
         foreach ($empenhos as $linha) {
             $valores = array_pad($linha, 8, null);
-            // ⬇️ INSERE OS DADOS COM OS TOTAIS ⬇️
             $sqlInsEmp->execute([
                 $jobId, $contrato,
                 $valores[0] ?: null,
@@ -704,7 +692,6 @@ foreach ($contratos as $i => $item) {
                 valorMonetario($valores[5]),
                 valorMonetario($valores[6]),
                 valorMonetario($valores[7]),
-                // NOVAS COLUNAS:
                 $totEmp, $totAju, $totCon, $totSal
             ]);
             $nEmp++;

@@ -75,11 +75,12 @@ $statusGerais = $pdo->query("SELECT DISTINCT status_geral FROM contratos_rdci WH
 $situacoesCronograma = $pdo->query("SELECT DISTINCT situacao_cronograma FROM contratos_rdci WHERE situacao_cronograma IS NOT NULL AND situacao_cronograma != '' ORDER BY situacao_cronograma")->fetchAll(PDO::FETCH_COLUMN);
 
 // Função para formatar status com cores
+// PHP 7.0: strpos() !== false no lugar de str_contains()
 function getStatusBadge($status) {
     $status = strtoupper($status);
-    if (str_contains($status, 'VERDE')) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
-    if (str_contains($status, 'AMARELO') || str_contains($status, 'AMAREL')) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
-    if (str_contains($status, 'VERMELHO') || str_contains($status, 'VERMEL')) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'VERDE') !== false) return '<span class="badge bg-success">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'AMARELO') !== false || strpos($status, 'AMAREL') !== false) return '<span class="badge bg-warning text-dark">' . htmlspecialchars($status) . '</span>';
+    if (strpos($status, 'VERMELHO') !== false || strpos($status, 'VERMEL') !== false) return '<span class="badge bg-danger">' . htmlspecialchars($status) . '</span>';
     return '<span class="badge bg-secondary">' . htmlspecialchars($status) . '</span>';
 }
 

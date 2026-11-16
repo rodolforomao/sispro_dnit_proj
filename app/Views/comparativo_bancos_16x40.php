@@ -7,6 +7,8 @@
 //   4) FID (GEO) declarado no 40
 //   5) comparação compacta (sem espaços)
 //   6) fallback para O_INSTRUM / S_INSTRUM do 16
+//
+// PHP 7.0: sem array_key_first() (PHP 7.3+).
 
 if (!function_exists('obterIniciais')) {
     function obterIniciais($nome) {
@@ -27,7 +29,6 @@ if (!function_exists('obterUltimaSincronizacao')) {
     }
 }
 
-// NOVO: helper para acessar um campo com fallback seguro
 if (!function_exists('obterCampoComFallback')) {
     function obterCampoComFallback($row, $campo, $fallbacks = []) {
         $val = trim((string)($row[$campo] ?? ''));
@@ -95,7 +96,7 @@ $filtroUF             = $_GET['uf']             ?? '';
 $filtroBR             = $_GET['br']             ?? '';
 $filtroBusca          = $_GET['busca']          ?? '';
 $filtroMapaGerencial  = $_GET['mapa_gerencial'] ?? '';
-$filtroMetodo         = $_GET['metodo']         ?? ''; // '' = todos, 'exato', 'fallback', 'ausente'
+$filtroMetodo         = $_GET['metodo']         ?? '';
 
 $filtrosAplicados = [];
 if (!empty($filtroUF))            $filtrosAplicados[] = ['param' => 'uf',             'label' => 'UF',              'valor' => $filtroUF];
@@ -160,8 +161,9 @@ if (!isset($base40Full)) {
 }
 
 // ============================================================
-// NOVO: Seletores de campo ID — base 16 (default fid_principal)
-//                                  e base 40 (default fid)
+// Seletores de campo ID — base 16 (default fid_principal)
+//                        e base 40 (default fid)
+// PHP 7.0: array_key_first() não existe → usamos array_keys()[0]
 // ============================================================
 $camposId16Opcoes = [];
 if (!empty($base16)) {
@@ -187,15 +189,24 @@ if (!empty($base40Full)) {
 }
 if (empty($camposId40Opcoes)) $camposId40Opcoes = ['fid_geo' => 'FID GEO (padrão)'];
 
-$defaultId16 = array_key_exists('fid_principal', $camposId16Opcoes) ? 'fid_principal' : array_key_first($camposId16Opcoes);
-$defaultId40 = array_key_exists('fid', $camposId40Opcoes)            ? 'fid'            : array_key_first($camposId40Opcoes);
+// PHP 7.0: substitui array_key_first() por reset(array_keys(...))
+$defaultId16 = 'fid_principal';
+if (!array_key_exists($defaultId16, $camposId16Opcoes)) {
+    $chaves16 = array_keys($camposId16Opcoes);
+    $defaultId16 = isset($chaves16[0]) ? $chaves16[0] : 'fid';
+}
+
+$defaultId40 = 'fid';
+if (!array_key_exists($defaultId40, $camposId40Opcoes)) {
+    $chaves40 = array_keys($camposId40Opcoes);
+    $defaultId40 = isset($chaves40[0]) ? $chaves40[0] : 'fid_geo';
+}
 
 $filtroCampoId16 = $_GET['campo_id_16'] ?? $defaultId16;
 $filtroCampoId40 = $_GET['campo_id_40'] ?? $defaultId40;
 if (!array_key_exists($filtroCampoId16, $camposId16Opcoes)) $filtroCampoId16 = $defaultId16;
 if (!array_key_exists($filtroCampoId40, $camposId40Opcoes)) $filtroCampoId40 = $defaultId40;
 
-// Adiciona aos "filtros aplicados" só quando o usuário muda o padrão
 if ($filtroCampoId16 !== $defaultId16) {
     $filtrosAplicados[] = ['param' => 'campo_id_16', 'label' => 'Campo ID (16)', 'valor' => $camposId16Opcoes[$filtroCampoId16] ?? $filtroCampoId16];
 }
@@ -219,7 +230,6 @@ $idx16         = [];
 $idx16Compacto = [];
 $idx16Fid      = [];
 foreach ($base16 as $r) {
-    // ALTERADO: usa o campo ID selecionado pelo usuário (default fid_principal)
     $fid = obterCampoComFallback($r, $filtroCampoId16, ['fid_principal', 'fid']);
     if ($fid !== '' && !isset($idx16Fid[$fid])) $idx16Fid[$fid] = $r;
 
@@ -244,7 +254,6 @@ if ($filtroMapaGerencial !== '') {
     }));
 }
 
-// NOVO: contagem de registros da base 40 com incluir_mapa_gerencial = SIM
 $mapaGerencialSim40 = 0;
 foreach ($base40 as $r) {
     if (strcasecmp(trim($r['incluir_mapa_gerencial'] ?? ''), 'SIM') === 0) $mapaGerencialSim40++;
@@ -257,17 +266,14 @@ $buscarGEO = function($instr40, $fidGeo = '') use (
 ) {
     $k0 = $normalizar($instr40);
 
-    // 1) alias (valor inteiro)
     if ($k0 !== '' && isset($aliases[$k0])) {
         $kA = $aliases[$k0];
         if (isset($idx16[$kA]))         return ['geo' => $idx16[$kA],         'metodo' => 'alias'];
         if (isset($idx16Compacto[$kA])) return ['geo' => $idx16Compacto[$kA], 'metodo' => 'alias'];
     }
 
-    // 2) exato
     if ($k0 !== '' && isset($idx16[$k0])) return ['geo' => $idx16[$k0], 'metodo' => 'exato'];
 
-    // 3) partes do composto "|"
     foreach ($extrairPartes($instr40) as $p) {
         $kp = $normalizar($p);
         if ($kp !== '' && isset($idx16[$kp])) return ['geo' => $idx16[$kp], 'metodo' => 'parte'];
@@ -279,10 +285,8 @@ $buscarGEO = function($instr40, $fidGeo = '') use (
         }
     }
 
-    // 4) FID (GEO) declarado no slide
     if ($fidGeo !== '' && isset($idx16Fid[$fidGeo])) return ['geo' => $idx16Fid[$fidGeo], 'metodo' => 'fid'];
 
-    // 5) compacto (sem espaços)
     $kc = $normalizarCompacto($instr40);
     if ($kc !== '' && isset($idx16Compacto[$kc])) return ['geo' => $idx16Compacto[$kc], 'metodo' => 'compacto'];
     foreach ($extrairPartes($instr40) as $p) {
@@ -300,7 +304,6 @@ $contagemMetodos   = ['exato' => 0, 'parte' => 0, 'fid' => 0, 'compacto' => 0, '
 
 foreach ($base40 as $r) {
     $instr40 = $r['instrumento'] ?? '';
-    // ALTERADO: FID vem do campo selecionado pelo usuário (default 'fid')
     $fidGeo  = obterCampoComFallback($r, $filtroCampoId40, ['fid', 'fid_geo']);
     $res     = $buscarGEO($instr40, $fidGeo);
     $metodo  = $res['metodo'] ?? 'ausente';
@@ -323,7 +326,6 @@ $totalCandidatos  = $ausentesGEO;
 $presentesExato   = $contagemMetodos['exato'];
 $presentesFallbk  = $contagemMetodos['parte'] + $contagemMetodos['fid'] + $contagemMetodos['compacto'] + $contagemMetodos['alias'];
 
-// ---------- Filtro por método (só afeta a tabela de validação) ----------
 if ($filtroMetodo !== '') {
     $validacao = array_values(array_filter($validacao, function($v) use ($filtroMetodo) {
         if ($filtroMetodo === 'exato')    return $v['metodo'] === 'exato';
@@ -361,7 +363,6 @@ foreach (array_merge($base16, $base40Full) as $r) {
 $ufs = array_keys($ufsSet); sort($ufs);
 $brs = array_keys($brsSet); sort($brs);
 
-// ---------- Rótulos/cores por método ----------
 $metodoLabel = [
     'exato'    => ['label' => 'Exato',      'cls' => 'bg-success'],
     'parte'    => ['label' => 'Parte do |', 'cls' => 'bg-primary'],
@@ -403,7 +404,6 @@ $metodoLabel = [
         .card-kpi.verde    { border-left-color: #198754; }
         .card-kpi.amarelo  { border-left-color: #ffc107; }
         .card-kpi.vermelho { border-left-color: #dc3545; }
-        /* NOVO: KPI Mapa Gerencial SIM */
         .card-kpi.ciano    { border-left-color: #0891b2; }
         .kpi-numero { font-size: 1.6rem; font-weight: 700; color: #2c3e50; line-height: 1.1; }
         .kpi-label  { font-size: 0.8rem; color: #6c757d; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
@@ -429,7 +429,6 @@ $metodoLabel = [
         .badge-metodo { font-size: 0.72rem; font-weight: 500; padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
         .bg-purple { background-color: #6f42c1 !important; }
 
-        /* NOVO: badges para o campo incluir_mapa_gerencial */
         .badge-mapa-sim { background: #d1fae5; color: #065f46; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
         .badge-mapa-nao { background: #f3f4f6; color: #6b7280; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
 
@@ -477,7 +476,6 @@ $metodoLabel = [
             (padrões: <code>fid_principal</code> na 16 e <code>fid</code> na 40).
         </p>
 
-        <!-- NOVO: inclui o KPI de Mapa Gerencial SIM -->
         <div class="row row-cols-2 row-cols-md-3 row-cols-xl-6 g-3 mb-4">
             <div class="col"><div class="card-kpi roxo"><div class="kpi-numero"><?= $total40 ?></div><div class="kpi-label"><i class="bi bi-easel"></i> Slides Atlas (40)</div></div></div>
             <div class="col"><div class="card-kpi azul"><div class="kpi-numero"><?= $total16 ?></div><div class="kpi-label"><i class="bi bi-geo-alt"></i> Base GEO (16)</div></div></div>
@@ -567,7 +565,6 @@ $metodoLabel = [
                 </div>
             </div>
 
-            <!-- NOVO: seletores de Campo ID (16 e 40) -->
             <div class="row g-2 align-items-end mt-1">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                     <label class="form-label" style="font-size:0.75rem;"><i class="bi bi-key"></i> Campo ID — Base 16 (GEO)</label>
@@ -613,7 +610,6 @@ $metodoLabel = [
 
         <div class="tab-content" id="tabsComparativoContent">
 
-            <!-- ABA VALIDAÇÃO -->
             <div class="tab-pane fade show active" id="tab-validacao" role="tabpanel">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle tabela-compacta">
@@ -640,11 +636,9 @@ $metodoLabel = [
                                 $rowCls = !$presente ? 'linha-divergente' : ($isFallback ? 'linha-fallback' : '');
                                 $label = $metodoLabel[$m] ?? ['label' => $m, 'cls' => 'bg-secondary'];
 
-                                // NOVO: FID exibido respeita os seletores de Campo ID
                                 $fidSlides = obterCampoComFallback($a, $filtroCampoId40, ['fid', 'fid_geo']);
                                 $fidGeoGEO = $g ? obterCampoComFallback($g, $filtroCampoId16, ['fid_principal', 'fid']) : '';
 
-                                // NOVO: status do mapa gerencial
                                 $mg      = trim((string)($a['incluir_mapa_gerencial'] ?? ''));
                                 $mgIsSim = strcasecmp($mg, 'SIM') === 0;
                             ?>
@@ -680,7 +674,6 @@ $metodoLabel = [
                 </p>
             </div>
 
-            <!-- ABA SLIDES SEM GEO -->
             <div class="tab-pane fade" id="tab-candidatos" role="tabpanel">
                 <div class="alert alert-danger">
                     <i class="bi bi-exclamation-triangle"></i>
@@ -707,9 +700,7 @@ $metodoLabel = [
                             <?php if (empty($candidatos)): ?>
                                 <tr><td colspan="10" class="text-center text-muted py-4">Nenhum slide sem GEO encontrado.</td></tr>
                             <?php else: foreach ($candidatos as $a):
-                                // NOVO: FID declarado respeita o seletor
                                 $fidDeclarado = obterCampoComFallback($a, $filtroCampoId40, ['fid', 'fid_geo']);
-                                // NOVO: status do mapa gerencial
                                 $mg      = trim((string)($a['incluir_mapa_gerencial'] ?? ''));
                                 $mgIsSim = strcasecmp($mg, 'SIM') === 0;
                             ?>
@@ -769,7 +760,6 @@ $metodoLabel = [
     </div>
 </div>
 
-<!-- Modal: criar alias manual -->
 <div class="modal fade" id="modalVincular" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <form method="POST" class="modal-content">
@@ -790,7 +780,6 @@ $metodoLabel = [
                     <?php foreach ($base16 as $r16):
                         $val = !empty($r16['instrumento_atlas']) ? $r16['instrumento_atlas'] : ($r16['o_instrum'] ?? '');
                         if ($val === '') continue;
-                        // ALTERADO: label exibe o campo ID selecionado (default fid_principal)
                         $fidExibir = obterCampoComFallback($r16, $filtroCampoId16, ['fid_principal', 'fid']);
                         $lbl = $val
                              . ' | FID ' . ($fidExibir !== '' ? $fidExibir : '?')

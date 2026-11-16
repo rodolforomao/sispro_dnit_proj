@@ -1,20 +1,27 @@
 -- =============================================================
 -- delta_producao_completo.sql
 -- Delta aditivo, idempotente e condicional: Dev -> Produção
--- =============================================================
+--
+-- Compatível com:
+--   MySQL 5.5 / MariaDB 10.x
+--   utf8 (não utf8mb4 em tabelas — seguir restrição do prompt)
+--   apenas 1 TIMESTAMP automático por tabela
+--   sem DATETIME DEFAULT CURRENT_TIMESTAMP
+--   sem DEFAULT em TEXT/MEDIUMTEXT/LONGTEXT
+--
 -- O QUE ESTE SCRIPT FAZ:
 -- 1. Cria todas as tabelas novas se não existirem.
 -- 2. Altera tabelas existentes (adiciona colunas com segurança).
 -- 3. Cria as FKs nas tabelas antigas (se os dados permitirem).
--- 4. Limpa a tabela de notificações para substituição dos dados.
+-- 4. NÃO limpa a tabela de notificações por padrão (ver seção 4).
 -- =============================================================
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-SET NAMES utf8mb4;
+SET NAMES utf8;
 
 -- =============================================================
--- PARTE 1: CRIAÇÃO DAS TABELAS NOVAS (Estrutura base)
+-- PARTE 1: CRIAÇÃO DAS TABELAS NOVAS
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS `tipos` (
@@ -24,6 +31,9 @@ CREATE TABLE IF NOT EXISTS `tipos` (
   UNIQUE KEY `nome` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-- Nota: `equipes` e `setores` NÃO são criadas por este script.
+-- Se elas já existem em produção, o FK abaixo funciona.
+-- Se NÃO existirem, descomente o bloco no fim desta seção.
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
@@ -31,24 +41,23 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `senha` varchar(255) NOT NULL,
   `nivel` enum('leitor','usuario','admin','desenvolvedor') NOT NULL DEFAULT 'usuario',
   `status` enum('ativo','inativo','pendente') DEFAULT 'pendente',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `last_activity` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `last_activity` datetime DEFAULT NULL,
   `reset_token` varchar(255) DEFAULT NULL,
   `reset_expires` datetime DEFAULT NULL,
   `equipe_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `equipe_id` (`equipe_id`),
-  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`equipe_id`) REFERENCES `equipes` (`id`) ON DELETE SET NULL
+  KEY `equipe_id` (`equipe_id`)
+  -- FK para `equipes` adicionada condicionalmente na PARTE 3
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `usuario_setor` (
   `usuario_id` int(11) NOT NULL,
   `setor_id` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`,`setor_id`),
-  KEY `setor_id` (`setor_id`),
-  CONSTRAINT `usuario_setor_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `usuario_setor_ibfk_2` FOREIGN KEY (`setor_id`) REFERENCES `setores` (`id`) ON DELETE CASCADE
+  KEY `setor_id` (`setor_id`)
+  -- FKs para `usuarios`/`setores` adicionadas condicionalmente na PARTE 3
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
@@ -62,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
   `tipo` varchar(100) DEFAULT NULL,
   `o_instrum` varchar(100) DEFAULT NULL,
   `o_empresa` varchar(255) DEFAULT NULL,
-  `o_obj_resu` text DEFAULT NULL,
+  `o_obj_resu` text,
   `o_km_inici` decimal(15,4) DEFAULT NULL,
   `o_km_final` decimal(15,4) DEFAULT NULL,
   `o_extensao` decimal(15,4) DEFAULT NULL,
@@ -84,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
   `s_proc_lic` varchar(100) DEFAULT NULL,
   `id_sup` varchar(50) DEFAULT NULL,
   `o_termino` date DEFAULT NULL,
-  `dez_2024` text DEFAULT NULL,
+  `dez_2024` text,
   `trecho` varchar(255) DEFAULT NULL,
   `o_inicio` date DEFAULT NULL,
   `o_pi_a_r` decimal(20,4) DEFAULT NULL,
@@ -96,31 +105,31 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_16_base_controle_geo` (
   `cs_cad` varchar(20) DEFAULT NULL,
   `cs_est` varchar(20) DEFAULT NULL,
   `cs_est_ok` varchar(20) DEFAULT NULL,
-  `fev_2025` text DEFAULT NULL,
+  `fev_2025` text,
   `rp` varchar(50) DEFAULT NULL,
-  `maio_2025` text DEFAULT NULL,
-  `jun_2025` text DEFAULT NULL,
-  `jul_2025` text DEFAULT NULL,
-  `ago_2025` text DEFAULT NULL,
-  `set_2025` text DEFAULT NULL,
+  `maio_2025` text,
+  `jun_2025` text,
+  `jul_2025` text,
+  `ago_2025` text,
+  `set_2025` text,
   `rdci` varchar(20) DEFAULT NULL,
   `em_projeto` varchar(100) DEFAULT NULL,
-  `out_2025` text DEFAULT NULL,
-  `dez_2025` text DEFAULT NULL,
-  `jan_26` text DEFAULT NULL,
+  `out_2025` text,
+  `dez_2025` text,
+  `jan_26` text,
   `qfid` varchar(50) DEFAULT NULL,
-  `fev_2026` text DEFAULT NULL,
-  `marco_26` text DEFAULT NULL,
-  `abril_2026` text DEFAULT NULL,
-  `situacao_obra_mes` text DEFAULT NULL,
+  `fev_2026` text,
+  `marco_26` text,
+  `abril_2026` text,
+  `situacao_obra_mes` text,
   `instrumento_atlas` varchar(100) DEFAULT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `criado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_id_pac` (`id_pac`),
   KEY `idx_fid` (`fid`),
   KEY `idx_uf_br` (`uf`,`br`),
   KEY `idx_instrumento_atlas` (`instrumento_atlas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_36_todos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -182,14 +191,14 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_36_todos` (
   `data_termino_cronograma_obra_atualizado` date DEFAULT NULL,
   `valor_previsto` decimal(15,2) DEFAULT NULL,
   `valor_executado` decimal(15,2) DEFAULT NULL,
-  `atualizado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `atualizado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_instrumento` (`instrumento`),
   KEY `idx_uf` (`uf`),
   KEY `idx_br` (`br`),
   KEY `idx_tipo_contratacao` (`tipo_contratacao`),
   KEY `idx_tipo_execucao` (`tipo_execucao`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_38_todos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -202,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_38_todos` (
   `acao` varchar(50) DEFAULT NULL,
   `outras_acoes` varchar(20) DEFAULT NULL,
   `todas_acoes` varchar(255) DEFAULT NULL,
-  `empreendimento_npo` text DEFAULT NULL,
+  `empreendimento_npo` text,
   `unidade_manual` varchar(255) DEFAULT NULL,
   `entrar_lista_atlas` varchar(20) DEFAULT NULL,
   `tipo_contratacao` varchar(100) DEFAULT NULL,
@@ -212,36 +221,36 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_38_todos` (
   `termino_vigencia` date DEFAULT NULL,
   `valor_pi_r_a` decimal(15,2) DEFAULT NULL,
   `saldo_a_executar` decimal(15,2) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_instrumento` (`instrumento`),
   KEY `idx_uf` (`uf`),
   KEY `idx_br` (`br`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_39_meio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) NOT NULL,
-  `analise_meio_ambiente` longtext DEFAULT NULL,
-  `atualizado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `analise_meio_ambiente` longtext,
+  `atualizado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_instrumento` (`instrumento`),
   KEY `idx_instrumento_prefix` (`instrumento`(80))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_40_resumos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `instrumento` varchar(255) NOT NULL,
-  `situacao_geo` longtext DEFAULT NULL,
-  `texto_mapa_capa` longtext DEFAULT NULL,
-  `resumo_geral_lote` longtext DEFAULT NULL,
-  `situacao_empreendimento_atlas` longtext DEFAULT NULL,
-  `atualizado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `situacao_geo` longtext,
+  `texto_mapa_capa` longtext,
+  `resumo_geral_lote` longtext,
+  `situacao_empreendimento_atlas` longtext,
+  `atualizado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_instrumento` (`instrumento`),
   KEY `idx_instrumento_prefix` (`instrumento`(80))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_40_slides_atlas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -256,21 +265,21 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_40_slides_atlas` (
   `incluir_slide_unifilar` varchar(20) DEFAULT NULL,
   `incluir_slide_analises` varchar(20) DEFAULT NULL,
   `incluir_grafico_slide` varchar(20) DEFAULT NULL,
-  `situacao_geo` text DEFAULT NULL,
+  `situacao_geo` text,
   `incluir_mapa_gerencial` varchar(20) DEFAULT NULL,
   `fid_geo` varchar(50) DEFAULT NULL,
   `valor_total_geo` decimal(20,2) DEFAULT NULL,
   `valor_pago_geo` decimal(20,2) DEFAULT NULL,
   `perc_executada_geo` varchar(50) DEFAULT NULL,
   `nome_empreendimento_slides` varchar(255) DEFAULT NULL,
-  `texto_mapa_capa` text DEFAULT NULL,
+  `texto_mapa_capa` text,
   `cor_legenda_mapa` varchar(100) DEFAULT NULL,
   `status_empreendimento` varchar(100) DEFAULT NULL,
   `extensao_empreendimento` varchar(50) DEFAULT NULL,
-  `situacao_empreendimento_atlas` text DEFAULT NULL,
-  `importancia_slide` text DEFAULT NULL,
+  `situacao_empreendimento_atlas` text,
+  `importancia_slide` text,
   `nome_lote_slide` varchar(255) DEFAULT NULL,
-  `resumo_geral_lote` text DEFAULT NULL,
+  `resumo_geral_lote` text,
   `kmi` decimal(15,4) DEFAULT NULL,
   `kmf` decimal(15,4) DEFAULT NULL,
   `segmento` varchar(100) DEFAULT NULL,
@@ -280,22 +289,21 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_40_slides_atlas` (
   `valor_previsto_conclusao` decimal(20,2) DEFAULT NULL,
   `id_pac` varchar(50) DEFAULT NULL,
   `valor_sugerido_conclusao` decimal(20,2) DEFAULT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `criado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_id_pac` (`id_pac`),
   KEY `idx_fid_geo` (`fid_geo`),
   KEY `idx_estado_br` (`estado`,`br`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_log_importacao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `data_execucao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_execucao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total_registros` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
-  `mensagem` text DEFAULT NULL,
+  `mensagem` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- =============================================================
 -- PARTE 1.1: NOVAS TABELAS (ANÁLISE ORÇAMENTÁRIA E SIAC)
@@ -306,11 +314,11 @@ CREATE TABLE IF NOT EXISTS `analise_orc_estimativa` (
   `mes` date NOT NULL,
   `valor` decimal(15,2) NOT NULL,
   `valor_calculado` decimal(15,2) DEFAULT NULL,
-  `justificativa` text DEFAULT NULL,
+  `justificativa` text,
   `usuario` varchar(100) DEFAULT NULL,
-  `alterado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `alterado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`contrato`,`mes`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `analise_orc_planejado_analista` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -320,29 +328,29 @@ CREATE TABLE IF NOT EXISTS `analise_orc_planejado_analista` (
   `valor_calculado` decimal(15,2) DEFAULT 0.00,
   `usuario` varchar(100) DEFAULT NULL,
   `justificativa` varchar(500) DEFAULT NULL,
-  `alterado_em` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `alterado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_contrato_mes` (`contrato`,`mes`),
   KEY `idx_contrato` (`contrato`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `analise_orc_preferencia` (
   `contrato` varchar(50) NOT NULL,
   `campo_planejamento` enum('NPO','ANALISTA') NOT NULL DEFAULT 'NPO',
-  `alterado_em` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `alterado_em` datetime DEFAULT NULL,
   `usuario` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`contrato`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `extracao_historico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` varchar(100) NOT NULL,
-  `data_extracao` datetime DEFAULT current_timestamp(),
+  `data_extracao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `nome_arquivo` varchar(255) NOT NULL,
-  `parametros_json` text DEFAULT NULL COMMENT 'Filtros e colunas usados',
+  `parametros_json` text,
   `total_linhas` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `siac_contratos_dados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -359,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `siac_contratos_dados` (
   `tipo_licitacao` varchar(100) DEFAULT NULL,
   `edital` varchar(100) DEFAULT NULL,
   `tipo_intervencao` varchar(255) DEFAULT NULL,
-  `objeto` text DEFAULT NULL,
+  `objeto` text,
   `preco_inicial` decimal(18,2) DEFAULT NULL,
   `total_aditivos` decimal(18,2) DEFAULT NULL,
   `pi_vigente` decimal(18,2) DEFAULT NULL,
@@ -371,11 +379,11 @@ CREATE TABLE IF NOT EXISTS `siac_contratos_dados` (
   `termino_servicos` date DEFAULT NULL,
   `termino_vigencia` date DEFAULT NULL,
   `data_base` date DEFAULT NULL,
-  `criado_em` datetime DEFAULT current_timestamp(),
+  `criado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_contrato` (`contrato`),
   KEY `idx_importacao` (`importacao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `siac_empenhos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -389,7 +397,7 @@ CREATE TABLE IF NOT EXISTS `siac_empenhos` (
   `valor_ajustes` decimal(18,2) DEFAULT NULL,
   `valor_consumido` decimal(18,2) DEFAULT NULL,
   `saldo` decimal(18,2) DEFAULT NULL,
-  `criado_em` datetime DEFAULT current_timestamp(),
+  `criado_em` datetime DEFAULT NULL,
   `valor_empenho_total` decimal(18,2) DEFAULT NULL,
   `valor_ajustes_total` decimal(18,2) DEFAULT NULL,
   `valor_consumido_total` decimal(18,2) DEFAULT NULL,
@@ -398,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `siac_empenhos` (
   KEY `idx_contrato` (`contrato`),
   KEY `idx_documento` (`numero_documento`),
   KEY `idx_importacao` (`importacao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `siac_empenho_eventos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -409,12 +417,12 @@ CREATE TABLE IF NOT EXISTS `siac_empenho_eventos` (
   `evento` varchar(255) DEFAULT NULL,
   `valor_incluido` decimal(18,2) DEFAULT NULL,
   `valor_gasto` decimal(18,2) DEFAULT NULL,
-  `criado_em` datetime DEFAULT current_timestamp(),
+  `criado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_contrato` (`contrato`),
   KEY `idx_nota` (`nota_empenho`),
   KEY `idx_importacao` (`importacao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `siac_import_jobs` (
   `job_id` varchar(40) NOT NULL,
@@ -428,14 +436,14 @@ CREATE TABLE IF NOT EXISTS `siac_import_jobs` (
   `contrato_atual` varchar(60) DEFAULT NULL,
   `inseridos` int(11) NOT NULL DEFAULT 0,
   `contratos_afetados` int(11) NOT NULL DEFAULT 0,
-  `ignorados` mediumtext DEFAULT NULL,
-  `erro` text DEFAULT NULL,
+  `ignorados` mediumtext,
+  `erro` text,
   `usuario` varchar(100) DEFAULT NULL,
   `iniciado_em` datetime NOT NULL,
   `atualizado_em` datetime NOT NULL,
   `finalizado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `siac_medicoes` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -454,13 +462,13 @@ CREATE TABLE IF NOT EXISTS `siac_medicoes` (
   `reajustamento_acumulado_consolidado` decimal(15,2) DEFAULT NULL,
   `total_liquido` decimal(15,2) DEFAULT NULL,
   `total_acumulado` decimal(15,2) DEFAULT NULL,
-  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `importado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_contrato` (`contrato`),
   KEY `idx_mes` (`mes_referencia`),
   KEY `idx_contrato_mes` (`contrato`,`mes_referencia`),
   KEY `idx_import` (`importacao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_47_financeiro_orcamentario_atlas` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -529,8 +537,8 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_47_financeiro_orcamentario_atlas` (
   `ultimo_mes_medido` tinyint(4) DEFAULT NULL,
   `ultimo_mes_liquidado` tinyint(4) DEFAULT NULL,
   `soma_med_atrasadas_pagar_ano` decimal(15,2) DEFAULT NULL,
-  `sugestao_valor_previsto_ano` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sugestao_valor_previsto_ano` longtext CHARACTER SET utf8 COLLATE utf8_bin,
+  `importado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_ctr` (`contrato`),
   KEY `idx_acao` (`acao`),
@@ -538,124 +546,174 @@ CREATE TABLE IF NOT EXISTS `supra_dataset_47_financeiro_orcamentario_atlas` (
   KEY `idx_tipo` (`tipo_atlas`),
   KEY `idx_status` (`status_siac`),
   KEY `idx_acao_ano` (`acao`,`status_siac`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `supra_dataset_48_loa_janelas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uf` varchar(2) DEFAULT NULL,
   `acao` varchar(20) DEFAULT NULL,
-  `descritor` text DEFAULT NULL,
+  `descritor` text,
   `loa_sancionada` decimal(18,2) DEFAULT NULL,
-  `portarias` mediumtext DEFAULT NULL,
+  `portarias` mediumtext,
   `janela_1` decimal(18,2) DEFAULT NULL,
   `janela_2` decimal(18,2) DEFAULT NULL,
   `janela_3` decimal(18,2) DEFAULT NULL,
   `janela_4` decimal(18,2) DEFAULT NULL,
   `janela_extraordinaria` decimal(18,2) DEFAULT NULL,
   `loa_atualizada` decimal(18,2) DEFAULT NULL,
-  `importado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `importado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_uf_acao` (`uf`,`acao`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `rdci_notificacoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contrato_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  `notificado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `notificado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_contrato` (`contrato_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- =============================================================
 -- PARTE 2: ALTERAÇÕES EM TABELAS EXISTENTES
 -- =============================================================
 
--- 2.1) Ajuste da coluna subtrecho na tabela contratos_rdci
-UPDATE `contratos_rdci` SET `subtrecho` = '' WHERE `subtrecho` IS NULL;
-ALTER TABLE `contratos_rdci` MODIFY COLUMN `subtrecho` varchar(255) NOT NULL DEFAULT '';
+-- 2.1) subtrecho em contratos_rdci
+-- CUIDADO: se houver UNIQUE (instrumento, subtrecho), o UPDATE em massa
+-- quebra (NULL != '' no UNIQUE). Faremos condicionalmente.
+SET @tem_unique_subtrecho = (
+  SELECT COUNT(*) FROM information_schema.STATISTICS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME   = 'contratos_rdci'
+    AND COLUMN_NAME  = 'subtrecho'
+    AND NON_UNIQUE   = 0
+);
+SET @sql = IF(@tem_unique_subtrecho = 0,
+  'UPDATE `contratos_rdci` SET `subtrecho` = '''' WHERE `subtrecho` IS NULL',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
--- 2.2) Adicionar a nova coluna instrumento_atlas e seu índice (com verificação para MySQL 5.5)
--- MySQL 5.5 não suporta ADD COLUMN IF NOT EXISTS nativo, então usamos procedure dinâmica.
+SET @sql = IF(@tem_unique_subtrecho = 0,
+  'ALTER TABLE `contratos_rdci` MODIFY COLUMN `subtrecho` varchar(255) NOT NULL DEFAULT ''''',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 2.2) + 2.3) Colunas novas em tabelas antigas (MySQL 5.5 não tem
+-- ADD COLUMN IF NOT EXISTS — usamos procedure).
 DROP PROCEDURE IF EXISTS add_column_if_not_exists;
 DELIMITER //
 CREATE PROCEDURE add_column_if_not_exists(IN tbl VARCHAR(64), IN col VARCHAR(64), IN def TEXT)
 BEGIN
-    IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = tbl AND COLUMN_NAME = col) THEN
-        SET @s = CONCAT('ALTER TABLE ', tbl, ' ADD COLUMN ', col, ' ', def);
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = tbl AND COLUMN_NAME = col
+    ) THEN
+        SET @s = CONCAT('ALTER TABLE `', tbl, '` ADD COLUMN `', col, '` ', def);
         PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
     END IF;
 END //
 DELIMITER ;
+
 CALL add_column_if_not_exists('supra_dataset_16_base_controle_geo', 'instrumento_atlas', 'VARCHAR(100) DEFAULT NULL');
+CALL add_column_if_not_exists('siac_import_jobs', 'tipo', 'VARCHAR(20) DEFAULT ''medicoes''');
+
 DROP PROCEDURE IF EXISTS add_column_if_not_exists;
 
--- 2.3) Adicionar a coluna tipo na tabela siac_import_jobs
-DROP PROCEDURE IF EXISTS add_column_if_not_exists_2;
-DELIMITER //
-CREATE PROCEDURE add_column_if_not_exists_2(IN tbl VARCHAR(64), IN col VARCHAR(64), IN def TEXT)
-BEGIN
-    IF NOT EXISTS (SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = tbl AND COLUMN_NAME = col) THEN
-        SET @s = CONCAT('ALTER TABLE ', tbl, ' ADD COLUMN ', col, ' ', def);
-        PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-    END IF;
-END //
-DELIMITER ;
-CALL add_column_if_not_exists_2('siac_import_jobs', 'tipo', 'VARCHAR(20) DEFAULT ''medicoes''');
-DROP PROCEDURE IF EXISTS add_column_if_not_exists_2;
-
-
 -- =============================================================
--- PARTE 3: CRIAÇÃO DAS CHAVES ESTRANGEIRAS (FKs)
+-- PARTE 3: CRIAÇÃO DAS FKs (condicional)
+-- Requer que as tabelas referenciadas existam.
+-- Se houver linhas órfãs, o ALTER falha — limpar antes.
 -- =============================================================
+
+-- 3.0) FKs para `usuarios` (que agora não tem FK inline)
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND CONSTRAINT_NAME = 'usuarios_ibfk_1');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `usuarios` ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`equipe_id`) REFERENCES `equipes` (`id`) ON DELETE SET NULL',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- 3.0b) FKs para `usuario_setor`
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'usuario_setor' AND CONSTRAINT_NAME = 'usuario_setor_ibfk_1');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `usuario_setor` ADD CONSTRAINT `usuario_setor_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'usuario_setor' AND CONSTRAINT_NAME = 'usuario_setor_ibfk_2');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `usuario_setor` ADD CONSTRAINT `usuario_setor_ibfk_2` FOREIGN KEY (`setor_id`) REFERENCES `setores` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- 3.1) FKs na tabela comentarios
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'comentarios' AND CONSTRAINT_NAME = 'comentarios_ibfk_2');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE comentarios ADD CONSTRAINT comentarios_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'comentarios' AND CONSTRAINT_NAME = 'comentarios_ibfk_2');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `comentarios` ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- 3.2) FKs na tabela mensagens
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_1');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE mensagens ADD CONSTRAINT mensagens_ibfk_1 FOREIGN KEY (remetente_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_1');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `mensagens` ADD CONSTRAINT `mensagens_ibfk_1` FOREIGN KEY (`remetente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_2');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE mensagens ADD CONSTRAINT mensagens_ibfk_2 FOREIGN KEY (destinatario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'mensagens' AND CONSTRAINT_NAME = 'mensagens_ibfk_2');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `mensagens` ADD CONSTRAINT `mensagens_ibfk_2` FOREIGN KEY (`destinatario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- 3.3) FKs na tabela processos
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'fk_processos_criado_por');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE processos ADD CONSTRAINT fk_processos_criado_por FOREIGN KEY (criado_por) REFERENCES usuarios (id) ON DELETE SET NULL', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'fk_processos_criado_por');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `processos` ADD CONSTRAINT `fk_processos_criado_por` FOREIGN KEY (`criado_por`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'processos_ibfk_5');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE processos ADD CONSTRAINT processos_ibfk_5 FOREIGN KEY (tipo_id) REFERENCES tipos (id)', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'processos' AND CONSTRAINT_NAME = 'processos_ibfk_5');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `processos` ADD CONSTRAINT `processos_ibfk_5` FOREIGN KEY (`tipo_id`) REFERENCES `tipos` (`id`)',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- 3.4) FKs na tabela responsaveis
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'responsaveis' AND CONSTRAINT_NAME = 'fk_responsavel_usuario');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE responsaveis ADD CONSTRAINT fk_responsavel_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE SET NULL', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'responsaveis' AND CONSTRAINT_NAME = 'fk_responsavel_usuario');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `responsaveis` ADD CONSTRAINT `fk_responsavel_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 -- 3.5) FKs na tabela rdci_notificacoes
-SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rdci_notificacoes' AND CONSTRAINT_NAME = 'rdci_notificacoes_ibfk_2');
-SET @sql = IF(@fk_exists = 0, 'ALTER TABLE rdci_notificacoes ADD CONSTRAINT rdci_notificacoes_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE', 'SELECT 1');
+SET @fk_exists = (SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rdci_notificacoes' AND CONSTRAINT_NAME = 'rdci_notificacoes_ibfk_2');
+SET @sql = IF(@fk_exists = 0,
+  'ALTER TABLE `rdci_notificacoes` ADD CONSTRAINT `rdci_notificacoes_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE',
+  'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
-
 -- =============================================================
--- PARTE 4: ATUALIZAÇÃO DOS DADOS DE NOTIFICAÇÕES
+-- PARTE 4: DADOS DE NOTIFICAÇÕES (OPCIONAL)
+-- Por padrão NÃO executa (idempotência). Descomente e cole os
+-- INSERTs de produção se quiser migrar dados manualmente.
 -- =============================================================
-
--- Limpa a tabela atual para receber os novos dados da produção
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE `rdci_notificacoes`;
-SET FOREIGN_KEY_CHECKS = 1;
-
--- ⚠️ COLE AQUI OS INSERTS (INSERT INTO `rdci_notificacoes` ...) QUE VOCÊ TEM DA PRODUÇÃO, SE HOUVER.
--- Exemplo:
+--
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- TRUNCATE TABLE `rdci_notificacoes`;
+-- SET FOREIGN_KEY_CHECKS = 1;
+--
 -- INSERT INTO `rdci_notificacoes` (`id`, `contrato_id`, `usuario_id`, `notificado_em`) VALUES
 -- (1, 10, 5, '2026-11-13 10:00:00'),
 -- (2, 11, 5, '2026-11-13 10:05:00');

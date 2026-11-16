@@ -11,9 +11,10 @@ $usuario_nome = $_SESSION['usuario_nome'] ?? 'Usuário';
 $usuario_nivel = $_SESSION['usuario_nivel'] ?? 'usuario';
 
 // Contar pendentes (admin)
+// Correção: enum de usuarios.status é ('ativo','inativo','pendente') — não existe 'aguardando'
 $pendentes = 0;
 if (in_array($usuario_nivel, ['admin_premium', 'admin'])) {
-    $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE status = 'aguardando'");
+    $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE status = 'pendente'");
     $pendentes = $stmt->fetchColumn();
 }
 
@@ -89,15 +90,16 @@ if (!empty($filtro_status)) {
 }
 $ordem = "CASE WHEN p.prazo IS NULL THEN 1 ELSE 0 END, " . $ordem;
 
+// Correção: fonte é contratos_rdci (campo `instrumento`), não `contratos` (campo `numero`)
 $sql = "SELECT p.*, 
-               c.numero AS contrato_num,
+               c.instrumento AS contrato_num,
                e.nome AS equipe_nome,
                r.nome AS responsavel_nome,
                s.nome AS status_nome,
                t.nome AS tipo_nome,
                p.sei_criado_1
         FROM processos p
-        LEFT JOIN contratos c ON p.contrato_id = c.id
+        LEFT JOIN contratos_rdci c ON p.contrato_id = c.id
         LEFT JOIN equipes e ON p.equipe_id = e.id
         LEFT JOIN responsaveis r ON p.responsavel_id = r.id
         LEFT JOIN status_processo s ON p.status_id = s.id
@@ -130,7 +132,16 @@ foreach ($processos as $p) {
 $equipes = $pdo->query("SELECT id, nome FROM equipes ORDER BY nome")->fetchAll();
 $responsaveis = $pdo->query("SELECT id, nome FROM responsaveis ORDER BY nome")->fetchAll();
 $statuses = $pdo->query("SELECT id, nome FROM status_processo ORDER BY nome")->fetchAll();
-$contratos = $pdo->query("SELECT id, numero FROM contratos ORDER BY numero")->fetchAll();
+
+// Correção: usar contratos_rdci com DISTINCT por instrumento
+$contratos = $pdo->query("
+    SELECT MIN(id) AS id, instrumento AS numero
+    FROM contratos_rdci
+    WHERE instrumento IS NOT NULL AND instrumento != ''
+    GROUP BY instrumento
+    ORDER BY instrumento
+")->fetchAll();
+
 $tipos = $pdo->query("SELECT id, nome FROM tipos ORDER BY nome")->fetchAll();
 $ufs = $pdo->query("SELECT DISTINCT uf FROM processos ORDER BY uf")->fetchAll(PDO::FETCH_COLUMN);
 $brs = $pdo->query("SELECT DISTINCT br FROM processos ORDER BY br")->fetchAll(PDO::FETCH_COLUMN);

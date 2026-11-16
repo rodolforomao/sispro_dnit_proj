@@ -1,15 +1,5 @@
 <?php
 // app/public/importar_dados_contratos_isa.php
-//
-// Ações:
-//   ?acao=ambiente_check        → diagnóstico
-//   ?acao=setup_db              → cria tabelas necessárias (executar 1x)
-//   ?acao=executar  (POST)      → cria job, insere em siac_import_jobs, dispara script
-//   ?acao=status&job=X          → lê siac_import_jobs
-//   ?acao=historico             → últimos 10 jobs (prefixo dados_)
-//   ?acao=ultima_extracao       → último job (relógio da view)          ← NOVO
-//   ?acao=relatorio&job=X       → resumo + itens por contrato           ← NOVO
-//   ?acao=cancelar&job=X        → marca cancelado + mata processo        ← NOVO
 
 require_once __DIR__ . '/config.php';
 
@@ -49,7 +39,7 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void {
+function falha(int $code, string $msg) {
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
@@ -57,8 +47,9 @@ function falha(int $code, string $msg): void {
 
 // =============================================================
 // SETUP DB
+// MySQL 5.5: criado_em TIMESTAMP (não DATETIME); utf8 (não utf8mb4).
 // =============================================================
-function setupDb(PDO $pdo): void {
+function setupDb(PDO $pdo) {
     $criadas = [];
     try {
         $pdo->exec("
@@ -89,10 +80,10 @@ function setupDb(PDO $pdo): void {
                 termino_servicos DATE DEFAULT NULL,
                 termino_vigencia DATE DEFAULT NULL,
                 data_base DATE DEFAULT NULL,
-                criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 KEY idx_contrato (contrato),
                 KEY idx_importacao (importacao_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci
         ");
         $criadas[] = T_DADOS;
 
@@ -111,7 +102,7 @@ function setupDb(PDO $pdo): void {
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void {
+function ambienteCheck(PDO $pdo) {
     $tabelas = [];
     foreach ([T_DADOS, T_JOBS, T_DS38] as $t) {
         try { $tabelas[$t] = (bool)$pdo->query('SHOW TABLES LIKE ' . $pdo->quote($t))->fetchColumn(); }
@@ -143,7 +134,7 @@ function ambienteCheck(PDO $pdo): void {
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void {
+function executar(PDO $pdo) {
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
     $contratoUnico = trim((string)($_POST['contrato_unico'] ?? ''));
@@ -273,7 +264,7 @@ function executar(PDO $pdo): void {
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void {
+function status(PDO $pdo) {
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
 
@@ -324,7 +315,7 @@ function status(PDO $pdo): void {
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void {
+function historico(PDO $pdo) {
     try {
         $itens = $pdo->query("
             SELECT job_id, status, etapa, login_ok, total, processados, inseridos,
@@ -338,9 +329,9 @@ function historico(PDO $pdo): void {
 }
 
 // =============================================================
-// ÚLTIMA EXTRAÇÃO  (relógio da view)
+// ÚLTIMA EXTRAÇÃO
 // =============================================================
-function ultimaExtracao(PDO $pdo): void {
+function ultimaExtracao(PDO $pdo) {
     try {
         $st = $pdo->query("
             SELECT job_id, status, iniciado_em, finalizado_em, usuario, total, inseridos
@@ -372,13 +363,8 @@ function ultimaExtracao(PDO $pdo): void {
 
 // =============================================================
 // RELATÓRIO DO JOB
-//
-// Reconstrói os itens a partir de:
-//   • siac_contratos_dados  (WHERE importacao_id = job) → OK
-//   • siac_import_jobs.ignorados (JSON)                → IGNORADO
-//   • siac_import_jobs.erro      (string)              → ERRO agregado
 // =============================================================
-function relatorio(PDO $pdo): void {
+function relatorio(PDO $pdo) {
     $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($jobId === '') falha(422, 'job obrigatório');
 
@@ -393,7 +379,6 @@ function relatorio(PDO $pdo): void {
 
     $itens = [];
 
-    // --- Itens OK (a partir da tabela de dados) ---
     try {
         $st2 = $pdo->prepare("
             SELECT contrato, estado, empresa_executora, situacao, numero_contrato
@@ -416,10 +401,9 @@ function relatorio(PDO $pdo): void {
             ];
         }
     } catch (Throwable $e) {
-        // Se a tabela não existir ainda, segue sem os OK
+        // Sem tabela → segue sem os OK
     }
 
-    // --- Itens IGNORADOS (JSON da coluna ignorados) ---
     $ign = json_decode((string)($j['ignorados'] ?? ''), true);
     if (is_array($ign)) {
         foreach ($ign as $i) {
@@ -445,7 +429,6 @@ function relatorio(PDO $pdo): void {
         }
     }
 
-    // --- Erro geral do job (se houver) ---
     $erroGeral = trim((string)($j['erro'] ?? ''));
     if ($erroGeral !== '') {
         $itens[] = [
@@ -458,7 +441,6 @@ function relatorio(PDO $pdo): void {
         ];
     }
 
-    // --- Resumo ---
     $ok = 0; $ignCount = 0; $err = 0;
     foreach ($itens as $it) {
         if ($it['status'] === 'OK')             $ok++;
@@ -488,7 +470,7 @@ function relatorio(PDO $pdo): void {
 // =============================================================
 // CANCELAR
 // =============================================================
-function cancelar(PDO $pdo): void {
+function cancelar(PDO $pdo) {
     $jobId = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($jobId === '') falha(422, 'job obrigatório');
 

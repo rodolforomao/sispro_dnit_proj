@@ -2,6 +2,8 @@
 /**
  * Controller único do módulo Notificações de Obras.
  * Fonte: tabela supra_dataset_36_todos (Dataset 36 - ATLAS).
+ *
+ * PHP 7.0: sem fn() / sem ?Type no parâmetro nem no retorno.
  */
 
 class NotificacoesObrasController
@@ -78,7 +80,7 @@ class NotificacoesObrasController
         $instrumentos = array_keys($instrumentos); sort($instrumentos);
         $tipos = array_keys($tipos); sort($tipos);
 
-        // Filtros
+        // Filtros (PHP 7.0: closure com use() no lugar de fn())
         $contratos = array_values(array_filter($todos, function ($c) use ($filtros) {
             if ($filtros['uf'] !== ''            && ($c['uf'] ?? '')            !== $filtros['uf'])            return false;
             if ($filtros['tipo_contrato'] !== '' && ($c['tipo_contrato'] ?? '') !== $filtros['tipo_contrato']) return false;
@@ -100,11 +102,15 @@ class NotificacoesObrasController
 
         if ($filtros['status_cronograma'] !== '') {
             $contratos = array_values(array_filter($contratos,
-                fn($x) => $x['_status_crono']['categoria'] === $filtros['status_cronograma']));
+                function ($x) use ($filtros) {
+                    return $x['_status_crono']['categoria'] === $filtros['status_cronograma'];
+                }));
         }
         if ($filtros['status_notificacao'] !== '') {
             $contratos = array_values(array_filter($contratos,
-                fn($x) => $x['_status_notif']['categoria'] === $filtros['status_notificacao']));
+                function ($x) use ($filtros) {
+                    return $x['_status_notif']['categoria'] === $filtros['status_notificacao'];
+                }));
         }
 
         // ⚠️ Sem usort — mantém a ordem do banco (id ASC)
@@ -255,7 +261,6 @@ class NotificacoesObrasController
         $c['_status_notif'] = $this->calcStatusNotificacao($c);
         $c['comentarios']   = $_SESSION['obras_comentarios'][$id] ?? [];
 
-        // Garante que os valores vão para o front
         $c['valor_previsto']  = $c['valor_previsto']  ?? null;
         $c['valor_executado'] = $c['valor_executado'] ?? null;
 
@@ -283,7 +288,8 @@ class NotificacoesObrasController
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        $h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+        // PHP 7.0: closure no lugar de arrow function
+        $h = function ($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 
         echo '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
         echo '<head><meta charset="UTF-8">';
@@ -345,7 +351,6 @@ class NotificacoesObrasController
             return $this->cacheContratos;
         }
 
-        // ✅ ORDER BY id — mesma ordem que chega no banco
         $sql = "
             SELECT
                 d.id,
@@ -378,7 +383,6 @@ class NotificacoesObrasController
             $out[] = [
                 'id'                                  => (int)$r['id'],
                 'instrumento'                         => $r['instrumento'] ?? '',
-                // ✅ Tipo = tipo_execucao (valor bruto vindo do banco)
                 'tipo_contrato'                       => $r['tipo_execucao'] ?? '',
                 'br'                                  => $r['br'] ?? '',
                 'uf'                                  => $r['uf'] ?? '',
@@ -421,7 +425,8 @@ class NotificacoesObrasController
         return $base;
     }
 
-    private function buscarContrato(int $id): ?array
+    // PHP 7.0: sem ?array no retorno
+    private function buscarContrato(int $id)
     {
         foreach ($this->todosContratos() as $c) {
             if ((int)$c['id'] === $id) return $c;
@@ -432,7 +437,8 @@ class NotificacoesObrasController
     /* =====================================================
        REGRAS DE NEGÓCIO
        ===================================================== */
-    private function calcStatusCronograma(?string $sei, ?string $dataTermino): array
+    // PHP 7.0: parâmetros sem ?string (implicit nullable via empty())
+    private function calcStatusCronograma($sei, $dataTermino): array
     {
         $hoje = new DateTimeImmutable('today');
         if (empty($sei) && empty($dataTermino)) return $this->badge('sem_cronograma', 'Sem cronograma');
@@ -515,7 +521,8 @@ class NotificacoesObrasController
         return ['categoria' => $categoria, 'texto' => $texto, 'class' => $class];
     }
 
-    private function parseData(?string $data): ?DateTimeImmutable
+    // PHP 7.0: sem ?string e sem ?DateTimeImmutable
+    private function parseData($data)
     {
         if (empty($data)) return null;
         $dt = DateTimeImmutable::createFromFormat('Y-m-d', substr($data, 0, 10));

@@ -2,6 +2,9 @@
 // ============================================================
 // IMPORT DATASET 38 → supra_dataset_38_todos
 // Lista Todos Instrumentos
+//
+// PHP 7.0: sem fn(), sem foreach com destructuring curto.
+// MySQL 5.5: INSERT/DELETE/SELECT COUNT apenas.
 // ============================================================
 require_once 'config.php';
 
@@ -33,7 +36,8 @@ function normalizarChave($chave) {
 
 function tratarArray($valor) {
     if (is_array($valor)) {
-        return implode(' | ', array_filter($valor, fn($v) => $v !== '' && $v !== null));
+        // PHP 7.0: closure normal no lugar de arrow function
+        return implode(' | ', array_filter($valor, function($v) { return $v !== '' && $v !== null; }));
     }
     return $valor;
 }
@@ -90,8 +94,10 @@ $campos = [
     ['Saldo a Executar',                  'saldo_a_executar',     'decimal'],
 ];
 
+// PHP 7.0: foreach com list() no lugar de destructuring curto
 $colunasInsert = [];
-foreach ($campos as [$apiKey, $dbField, $tipo]) {
+foreach ($campos as $campoTuple) {
+    list($apiKey, $dbField, $tipo) = $campoTuple;
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -128,7 +134,10 @@ try {
         }
 
         $valoresPorColuna = [];
-        foreach ($campos as [$apiKey, $dbField, $tipo]) {
+        // PHP 7.0: foreach com list() no lugar de destructuring curto
+        foreach ($campos as $campoTuple) {
+            list($apiKey, $dbField, $tipo) = $campoTuple;
+
             if (isset($valoresPorColuna[$dbField]) && $valoresPorColuna[$dbField] !== null && $valoresPorColuna[$dbField] !== '') {
                 continue;
             }

@@ -1,6 +1,9 @@
 <?php
 // ============================================================
 // IMPORT DATASET 1 → supra_dataset_1_todos
+//
+// PHP 7.0: sem fn(), sem foreach com destructuring curto.
+// MySQL 5.5: INSERT/DELETE/SELECT COUNT apenas.
 // ============================================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -19,13 +22,16 @@ $token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3VwcmFfY2liX2FwaUBkb
 function normalizarChave($k) {
     return preg_replace('/\s+/', ' ', trim((string)$k));
 }
+
 function tratarValor($v) {
     if (is_array($v)) {
-        $limpos = array_filter($v, fn($x) => $x !== '' && $x !== null);
+        // PHP 7.0: closure normal no lugar de arrow function
+        $limpos = array_filter($v, function($x) { return $x !== '' && $x !== null; });
         return $limpos ? implode(' | ', $limpos) : null;
     }
     return $v;
 }
+
 function converterData($v) {
     if (empty($v)) return null;
     $v = trim((string)$v);
@@ -41,6 +47,7 @@ function converterData($v) {
     }
     return null;
 }
+
 function converterValor($v) {
     if ($v === null || $v === '') return null;
     if (is_numeric($v)) return (float)$v;
@@ -95,8 +102,10 @@ $mapa = [
 ];
 
 // Colunas únicas para o INSERT
+// PHP 7.0: foreach com list() no lugar de destructuring curto
 $colunasInsert = [];
-foreach ($mapa as [$apiKey, $dbField, $tipo]) {
+foreach ($mapa as $campoTuple) {
+    list($apiKey, $dbField, $tipo) = $campoTuple;
     if (!in_array($dbField, $colunasInsert, true)) {
         $colunasInsert[] = $dbField;
     }
@@ -162,7 +171,10 @@ try {
         $valores = [];
         $porColuna = [];
 
-        foreach ($mapa as [$apiKey, $dbField, $tipo]) {
+        // PHP 7.0: foreach com list() no lugar de destructuring curto
+        foreach ($mapa as $campoTuple) {
+            list($apiKey, $dbField, $tipo) = $campoTuple;
+
             if ($tipo === 'fallback' && !empty($porColuna[$dbField])) continue;
 
             $v = $itemNorm[normalizarChave($apiKey)] ?? null;

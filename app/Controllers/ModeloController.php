@@ -3,6 +3,21 @@
 
 require_once APP_PATH . '/Models/ModeloModel.php';
 
+// PHP 7.0: dataDefasada() era declarada dentro de index(), o que pode gerar
+// "Cannot redeclare dataDefasada()" em chamadas repetidas. Movida para o
+// nível do arquivo, com guarda function_exists() para blindar contra
+// múltiplos require do mesmo controller no mesmo request.
+if (!function_exists('dataDefasada')) {
+    function dataDefasada($data) {
+        if (empty($data)) return false;
+        $dataModelo = new DateTime($data);
+        $hoje       = new DateTime();
+        $diferenca  = $hoje->diff($dataModelo);
+        $meses      = ($diferenca->y * 12) + $diferenca->m;
+        return ($meses >= 4);
+    }
+}
+
 class ModeloController {
     private $model;
     private $pdo;
@@ -38,17 +53,8 @@ class ModeloController {
             'oficios' => 'badge-oficios'
         ];
 
-        // Função auxiliar para verificar data defasada (4 meses)
-        function dataDefasada($data) {
-            if (empty($data)) return false;
-            $dataModelo = new DateTime($data);
-            $hoje = new DateTime();
-            $diferenca = $hoje->diff($dataModelo);
-            $meses = ($diferenca->y * 12) + $diferenca->m;
-            return ($meses >= 4);
-        }
+        // dataDefasada() está no nível do arquivo — ver topo.
 
-        // Passa todas as variáveis para a view
         require_once APP_PATH . '/Views/modelos.php';
     }
 }

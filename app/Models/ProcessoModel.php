@@ -34,8 +34,9 @@ class ProcessoModel {
     private $logModel;
 
     // ✅ NOVO: constantes para contratos extras
-    private const OFFSET_EXTRA  = 99000000;
-    private const TABELA_EXTRAS = 'supra_dataset_36_todos';
+    // PHP 7.0: sem `private const` (só `const` no nível da classe).
+    const OFFSET_EXTRA  = 99000000;
+    const TABELA_EXTRAS = 'supra_dataset_36_todos';
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
@@ -132,8 +133,6 @@ class ProcessoModel {
 
     /**
      * ✅ Retorna a data de hoje com hora zerada (00:00:00).
-     *    Usado em comparações de prazo para não contar como atrasado
-     *    um processo que vence hoje.
      */
     private function hojeZerado() {
         $d = new DateTime();
@@ -264,13 +263,13 @@ class ProcessoModel {
         unset($p);
 
         // ============================================================
-        // ✅ CONTADORES — corrigidos para não marcar "vence hoje" como atrasado
+        // ✅ CONTADORES — não marca "vence hoje" como atrasado
         // ============================================================
         $totalProcessos  = count($processos);
         $contarFazer     = 0;
         $contarAtrasados = 0;
 
-        $hoje = $this->hojeZerado();   // ✅ 00:00:00
+        $hoje = $this->hojeZerado();
 
         foreach ($processos as $p) {
             // ---- A fazer ----
@@ -280,8 +279,8 @@ class ProcessoModel {
 
             // ---- Atrasados ----
             if (!empty($p['prazo']) && ($p['status_nome'] ?? '') != 'Assinado') {
-                $prazo = $this->dataZerada($p['prazo']);   // ✅ 00:00:00
-                if ($prazo < $hoje) {                      // só conta se for ANTES de hoje
+                $prazo = $this->dataZerada($p['prazo']);
+                if ($prazo < $hoje) {
                     $contarAtrasados++;
                 }
             }
@@ -375,6 +374,7 @@ class ProcessoModel {
     /**
      * ✅ FONTE: contratos_rdci + supra_dataset_36_todos (extras)
      *    DISTINCT por instrumento
+     *    PHP 7.0: closures normais no lugar de arrow functions.
      */
     public function getContratosPorUF($uf) {
         $where = '';
@@ -407,9 +407,13 @@ class ProcessoModel {
         $extras = $this->getContratosExtras();
         if (!empty($uf) && $uf !== '-') {
             if ($uf === 'GO/DF') {
-                $extras = array_filter($extras, fn($c) => in_array($c['uf'], ['GO','DF']));
+                $extras = array_filter($extras, function ($c) {
+                    return in_array($c['uf'], ['GO', 'DF']);
+                });
             } else {
-                $extras = array_filter($extras, fn($c) => $c['uf'] === $uf);
+                $extras = array_filter($extras, function ($c) use ($uf) {
+                    return $c['uf'] === $uf;
+                });
             }
         }
         $contratos = array_merge($contratos, array_values($extras));

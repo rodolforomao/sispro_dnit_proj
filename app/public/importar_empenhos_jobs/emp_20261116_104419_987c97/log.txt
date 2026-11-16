@@ -1,0 +1,26 @@
+[2026-11-16 10:44:19] INICIANDO JOB emp_20261116_104419_987c97
+[modo] TESTE (1 contrato: 00 00083/2017)
+[cmd] "C:\xampp\php\php.exe" "C:\xampp\htdocs\sispro_dnit_proj\app\public/script_empenhos_isa.php" --contratos="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261116_104419_987c97/contratos.json" --output-dir="C:\xampp\htdocs\sispro_dnit_proj\app\public/importar_empenhos_jobs/emp_20261116_104419_987c97/saida" --job="emp_20261116_104419_987c97" --config="C:\xampp\htdocs\sispro_dnit_proj\app\public/config.php"
+[2026-11-16 10:44:19] ----------------------------------------
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+
+Warning: Module "pdo_mysql" is already loaded in Unknown on line 0
+
+Warning: Module "mysqli" is already loaded in Unknown on line 0
+[10:44:19] [spawn] job emp_20261116_104419_987c97, 1 contratos (headless=NAO)
+[10:44:19] [driver] iniciando porta 4616
+[10:44:19] [driver] pronto
+[10:44:21] [sess] criada, headless=NAO
+[10:44:21] ══════════════════════════════════════
+[10:44:21] [login] iniciando (3 tentativas se necessario)
+[10:44:21] [login] --- tentativa 1/3 ---
+[10:44:26] [login]   JS pronto=SIM {"ready":true,"form":true,"encriptar":true}
+[10:44:27] [login]   encriptarEnviar: OK
+[10:44:28] [login]   OK (conteudo) em ~1s
+[10:44:28] ══════════════════════════════════════
+[10:44:28] [loop] iniciando 1 contratos
+[10:44:28] [0/1] 00 00083/2017 (S.R.E - AL - SUPERINTENDÊNCIA REGIONAL DO DNIT NO ESTADO DE ALAGOAS)
+[10:45:42]     -> 25 empenho(s), 165 evento(s) salvos. Totais: Emp=564187540.38, Aju=30230099.54, Cons=588374470.2, Sal=6043169.72
+[10:45:42] ══════════════════════════════════════
+[10:45:42] [fim] 25 empenhos, 165 eventos, 0 ignorados, 83s total

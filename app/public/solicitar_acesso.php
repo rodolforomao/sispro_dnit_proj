@@ -26,7 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->fetch()) {
             $erro = 'Este email já está cadastrado.';
         } else {
-            $senha_hash = md5($senha);
+            // Corrigido: password_hash (não md5) para alinhar com
+            // UsuarioModel::autenticar() e com a migração automática
+            // MD5 → password_hash que já existe no model.
+            $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("INSERT INTO usuarios (email, senha, nome, nivel, status) VALUES (?, ?, ?, 'usuario', 'pendente')");
             if ($stmt->execute([$email, $senha_hash, $nome])) {
                 $mensagem = 'Solicitação enviada! Aguarde a aprovação do administrador.';

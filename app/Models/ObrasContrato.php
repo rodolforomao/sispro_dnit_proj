@@ -1,17 +1,23 @@
 <?php
 // Model: obras_contratos
+//
+// PHP 7.0: sem propriedade tipada, sem ?array no retorno.
 
 class ObrasContrato
 {
-    private PDO $pdo;
+    // PHP 7.0: sem `private PDO $pdo;`
+    private $pdo;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    /** Busca um contrato pelo ID. */
-    public function buscarPorId(int $id): ?array
+    /**
+     * Busca um contrato pelo ID.
+     * PHP 7.0: sem `: ?array` no retorno (retorna null ou array).
+     */
+    public function buscarPorId(int $id)
     {
         $sql = "SELECT * FROM obras_contratos WHERE id = :id LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
@@ -20,7 +26,9 @@ class ObrasContrato
         return $row ?: null;
     }
 
-    /** Atualiza apenas status_acao/notificado/isento (controlados na tela). */
+    /**
+     * Atualiza apenas status_acao/notificado/isento (controlados na tela).
+     */
     public function atualizarAcao(int $id, string $statusAcao, int $notificado, int $isento): bool
     {
         $sql = "UPDATE obras_contratos
@@ -78,7 +86,9 @@ class ObrasContrato
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Lista apenas UF/instrumento distintos para popular Select2 (opcional). */
+    /**
+     * Lista apenas UF/instrumento distintos para popular Select2 (opcional).
+     */
     public function listarUFs(): array
     {
         $stmt = $this->pdo->query("SELECT DISTINCT uf FROM obras_contratos WHERE uf IS NOT NULL AND uf <> '' ORDER BY uf");

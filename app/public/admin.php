@@ -1,72 +1,94 @@
 <?php
 require_once 'config.php';
 
-// Proteger - apenas admin_premium e admin
-if (!isset($_SESSION['usuario_id']) || !in_array($_SESSION['usuario_nivel'], ['admin_premium', 'admin'])) {
-    header('Location: index.php');
+// ============================================================
+// Proteção de acesso
+// Alinhado com AdminController::index() — aceita desenvolvedor também.
+// Antes era ['admin_premium', 'admin'] e um usuário nível "desenvolvedor"
+// era indevidamente barrado por este arquivo, enquanto passava pelo
+// AdminController (divergência de comportamento entre os dois caminhos).
+// ============================================================
+if (
+    !isset($_SESSION['usuario_id']) ||
+    !in_array($_SESSION['usuario_nivel'] ?? '', ['desenvolvedor', 'admin', 'admin_premium'], true)
+) {
+    header('Location: index');
     exit;
 }
 
 // Mapeamentos para exibição amigável
 $niveis_map = [
+    'desenvolvedor' => 'Desenvolvedor',
     'admin_premium' => 'Admin Premium',
-    'admin' => 'Administrador',
-    'usuario' => 'Usuário',
-    'leitor' => 'Leitor'
+    'admin'         => 'Administrador',
+    'usuario'       => 'Usuário',
+    'leitor'        => 'Leitor',
 ];
 
 $status_map = [
-    'ativo' => 'Ativo',
-    'inativo' => 'Inativo',
-    'pendente' => 'Pendente'
+    'ativo'    => 'Ativo',
+    'inativo'  => 'Inativo',
+    'pendente' => 'Pendente',
 ];
 
+// ============================================================
 // Processar ações
+// ============================================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? 0;
+    $id     = $_POST['id']     ?? 0;
     $action = $_POST['action'] ?? '';
 
     if ($action === 'aprovar') {
         $stmt = $pdo->prepare("UPDATE usuarios SET status = 'ativo' WHERE id = ?");
         $stmt->execute([$id]);
+
     } elseif ($action === 'reprovar') {
         $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = ?");
         $stmt->execute([$id]);
+
     } elseif ($action === 'editar') {
-        $nome = trim($_POST['nome'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $nivel = $_POST['nivel'] ?? 'usuario';
+        $nome   = trim($_POST['nome']   ?? '');
+        $email  = trim($_POST['email']  ?? '');
+        $nivel  = $_POST['nivel']  ?? 'usuario';
         $status = $_POST['status'] ?? 'ativo';
-        $senha = trim($_POST['senha'] ?? '');
+        $senha  = trim($_POST['senha']  ?? '');
 
         if (!empty($nome) && !empty($email)) {
-            $sql = "UPDATE usuarios SET nome = ?, email = ?, nivel = ?, status = ?";
+            $sql    = "UPDATE usuarios SET nome = ?, email = ?, nivel = ?, status = ?";
             $params = [$nome, $email, $nivel, $status];
+
             if (!empty($senha)) {
-                $sql .= ", senha = ?";
-                $params[] = md5($senha);
+                // Corrigido: password_hash (não md5) para alinhar com
+                // UsuarioModel::autenticar() e com a migração automática
+                // MD5 → password_hash que já existe no model.
+                $sql     .= ", senha = ?";
+                $params[] = password_hash($senha, PASSWORD_DEFAULT);
             }
-            $sql .= " WHERE id = ?";
+
+            $sql     .= " WHERE id = ?";
             $params[] = $id;
+
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
         }
+
     } elseif ($action === 'excluir') {
         // Impede que o usuário exclua a si mesmo
         if ($id == $_SESSION['usuario_id']) {
-            header('Location: admin.php?erro=1');
+            header('Location: admin?erro=1');
             exit;
         }
         $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = ?");
         $stmt->execute([$id]);
     }
-    header('Location: admin.php');
+
+    header('Location: admin');
     exit;
 }
 
 // Buscar usuários
 $pendentes = $pdo->query("SELECT * FROM usuarios WHERE status = 'pendente' ORDER BY created_at ASC")->fetchAll();
-$todos = $pdo->query("SELECT * FROM usuarios ORDER BY created_at DESC")->fetchAll();
+$todos     = $pdo->query("SELECT * FROM usuarios ORDER BY created_at DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -93,7 +115,7 @@ $todos = $pdo->query("SELECT * FROM usuarios ORDER BY created_at DESC")->fetchAl
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-people"></i> Administração de Usuários</h2>
-        <a href="index.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+        <a href="index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
     </div>
 
     <!-- Exibir erro se tentou excluir a si mesmo -->
@@ -228,6 +250,7 @@ $todos = $pdo->query("SELECT * FROM usuarios ORDER BY created_at DESC")->fetchAl
                             <option value="usuario">Usuário</option>
                             <option value="admin">Administrador</option>
                             <option value="admin_premium">Admin Premium</option>
+                            <option value="desenvolvedor">Desenvolvedor</option>
                         </select>
                     </div>
                     <div class="mb-3">

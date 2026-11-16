@@ -37,7 +37,8 @@ try {
     falha(500, $e->getMessage());
 }
 
-function falha(int $code, string $msg): void {
+function falha(int $code, string $msg)
+{
     http_response_code($code);
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
@@ -45,8 +46,10 @@ function falha(int $code, string $msg): void {
 
 // =============================================================
 // SETUP DB
+// MySQL 5.5: criado_em TIMESTAMP (não DATETIME); utf8 (não utf8mb4).
 // =============================================================
-function setupDb(PDO $pdo): void {
+function setupDb(PDO $pdo)
+{
     try {
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS `" . T_EMP . "` (
@@ -65,14 +68,13 @@ function setupDb(PDO $pdo): void {
                 valor_ajustes_total DECIMAL(18,2) DEFAULT NULL,
                 valor_consumido_total DECIMAL(18,2) DEFAULT NULL,
                 saldo_total DECIMAL(18,2) DEFAULT NULL,
-                criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 KEY idx_contrato (contrato),
                 KEY idx_documento (numero_documento),
                 KEY idx_importacao (importacao_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci
         ");
 
-        // Garante que as colunas existam (caso a tabela já existisse sem elas)
         $novasColunas = ['valor_empenho_total', 'valor_ajustes_total', 'valor_consumido_total', 'saldo_total'];
         foreach ($novasColunas as $col) {
             $check = $pdo->query("SHOW COLUMNS FROM `" . T_EMP . "` LIKE '$col'")->fetch();
@@ -91,11 +93,11 @@ function setupDb(PDO $pdo): void {
                 evento VARCHAR(255) DEFAULT NULL,
                 valor_incluido DECIMAL(18,2) DEFAULT NULL,
                 valor_gasto DECIMAL(18,2) DEFAULT NULL,
-                criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 KEY idx_contrato (contrato),
                 KEY idx_nota (nota_empenho),
                 KEY idx_importacao (importacao_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci
         ");
 
         $col = $pdo->query("SHOW COLUMNS FROM `" . T_JOBS . "` LIKE 'tipo'")->fetch();
@@ -112,7 +114,8 @@ function setupDb(PDO $pdo): void {
 // =============================================================
 // AMBIENTE
 // =============================================================
-function ambienteCheck(PDO $pdo): void {
+function ambienteCheck(PDO $pdo)
+{
     $tabelas = [];
     foreach ([T_EMP, T_EVT, T_JOBS, T_DS38] as $t) {
         try { $tabelas[$t] = (bool)$pdo->query('SHOW TABLES LIKE ' . $pdo->quote($t))->fetchColumn(); }
@@ -144,7 +147,8 @@ function ambienteCheck(PDO $pdo): void {
 // =============================================================
 // EXECUTAR
 // =============================================================
-function executar(PDO $pdo): void {
+function executar(PDO $pdo)
+{
     $usuario       = trim((string)($_POST['usuario'] ?? ''));
     $senha         = (string)($_POST['senha']   ?? '');
     $contratoUnico = trim((string)($_POST['contrato_unico'] ?? ''));
@@ -274,7 +278,8 @@ function executar(PDO $pdo): void {
 // =============================================================
 // STATUS
 // =============================================================
-function status(PDO $pdo): void {
+function status(PDO $pdo)
+{
     $job = preg_replace('/[^A-Za-z0-9_\-]/', '', $_GET['job'] ?? '');
     if ($job === '') falha(422, 'job obrigatório');
 
@@ -325,7 +330,8 @@ function status(PDO $pdo): void {
 // =============================================================
 // HISTÓRICO
 // =============================================================
-function historico(PDO $pdo): void {
+function historico(PDO $pdo)
+{
     try {
         $itens = $pdo->query("
             SELECT job_id, status, etapa, login_ok, total, processados, inseridos,

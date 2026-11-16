@@ -8,9 +8,8 @@ require_once 'config.php';
 // ============================================================
 const DATASET_ID = 47;
 const TABELA     = 'supra_dataset_47_financeiro_orcamentario_atlas';
-const ANO_REF    = 2026;   // exercício embutido nos nomes das colunas
+const ANO_REF    = 2026;
 
-// Detecta AJAX (mesmo padrão do importador 36)
 $isAjax = (!empty($_GET['ajax']))
        || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 
@@ -24,7 +23,6 @@ if ($isAjax) {
 // ============================================================
 $url = "https://supra.dnit.gov.br/index_cgcont_common.php/cgcont/cib/exportBi/" . DATASET_ID;
 
-// ATENÇÃO: o token expira. Se começar a retornar 401, troque aqui.
 $token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3VwcmFfY2liX2FwaUBkbml0Lmdvdi5iciIsInBhc3MiOiJTdXByYUBDaWIxMjM0NUAifQ.GyejoRFofL3mMnN7jD64RBrr2JSB9hVpR_BWrfAtd3U";
 
 // ============================================================
@@ -56,13 +54,15 @@ function consumirApi(string $url, string $token): string
 function tratarArray($valor)
 {
     if (is_array($valor)) {
-        $filtrado = array_filter($valor, fn($v) => $v !== '' && $v !== null);
+        // PHP 7.0: closure no lugar de arrow function
+        $filtrado = array_filter($valor, function($v) { return $v !== '' && $v !== null; });
         return $filtrado ? implode(' | ', $filtrado) : null;
     }
     return $valor;
 }
 
-function converterData($valor): ?string
+// PHP 7.0: sem ?string no retorno
+function converterData($valor)
 {
     if ($valor === null || $valor === '') return null;
     $valor = trim((string)$valor);
@@ -70,7 +70,8 @@ function converterData($valor): ?string
 
     if (preg_match('/^\d{4}-\d{2}-\d{2}/', $valor)) return substr($valor, 0, 10);
     if (preg_match('#^\d{2}/\d{2}/\d{4}#', $valor)) {
-        [$d, $m, $a] = explode('/', substr($valor, 0, 10));
+        // PHP 7.0: list() no lugar de destructuring curto
+        list($d, $m, $a) = explode('/', substr($valor, 0, 10));
         return "$a-$m-$d";
     }
     if (preg_match('/^\d{4,5}$/', $valor)) {
@@ -79,7 +80,8 @@ function converterData($valor): ?string
     return null;
 }
 
-function converterValor($valor): ?float
+// PHP 7.0: sem ?float no retorno
+function converterValor($valor)
 {
     if ($valor === null) return null;
     if (is_int($valor) || is_float($valor)) return (float)$valor;
@@ -88,24 +90,20 @@ function converterValor($valor): ?float
     $s = trim((string)$valor);
     if ($s === '' || strtoupper($s) === 'N/A') return null;
 
-    // Remove R$, espaços e NBSP
     $s = preg_replace('/[R$\s\x{00A0}]/u', '', $s);
 
-    // Formato BR: 1.234.567,89
     if (preg_match('/^\d{1,3}(\.\d{3})*(,\d+)?$/', $s)) {
         return (float) str_replace(',', '.', str_replace('.', '', $s));
     }
-    // Formato US: 1,234,567.89
     if (preg_match('/^\d{1,3}(,\d{3})*(\.\d+)?$/', $s)) {
         return (float) str_replace(',', '', $s);
     }
-    // Última tentativa
     $s = str_replace(',', '.', $s);
     return is_numeric($s) ? (float)$s : null;
 }
 
-/** Converte inteiro "0" / "8" / 4 para ?int */
-function converterInt($valor): ?int
+// PHP 7.0: sem ?int no retorno
+function converterInt($valor)
 {
     if ($valor === null || $valor === '') return null;
     if (is_int($valor)) return $valor;
@@ -113,18 +111,18 @@ function converterInt($valor): ?int
     return null;
 }
 
-/** JSON array para a coluna `sugestao_valor_previsto_ano` */
-function converterJson($valor): ?string
+// PHP 7.0: sem ?string no retorno; closure no lugar de arrow function
+function converterJson($valor)
 {
     if ($valor === null) return null;
     if (is_array($valor)) {
-        $filtrado = array_values(array_filter($valor, fn($v) => $v !== null && $v !== ''));
+        $filtrado = array_values(array_filter($valor, function($v) { return $v !== null && $v !== ''; }));
         return $filtrado ? json_encode($filtrado, JSON_UNESCAPED_UNICODE) : null;
     }
     if (is_string($valor) && $valor !== '') {
         $dec = json_decode($valor, true);
         if (is_array($dec)) {
-            $filtrado = array_values(array_filter($dec, fn($v) => $v !== null && $v !== ''));
+            $filtrado = array_values(array_filter($dec, function($v) { return $v !== null && $v !== ''; }));
             return $filtrado ? json_encode($filtrado, JSON_UNESCAPED_UNICODE) : null;
         }
     }
@@ -134,13 +132,7 @@ function converterJson($valor): ?string
 // ============================================================
 // MAPEAMENTO: chave da API → coluna no banco
 // ============================================================
-// Nota: as chaves com ano (`/2026`) precisam acompanhar o $ANO_REF.
-// Quando rolar o ano, edite os 24 nomes abaixo (12 liquidado + 12 planejado)
-// ou re-genere este bloco. Os nomes de coluna em si continuam fixos — a
-// tabela precisaria ser recriada se o ano mudar.
-
 $mapa = [
-    // Identificação
     'Contrato'                                      => 'contrato',
     'Estado'                                        => 'estado',
     'BR'                                            => 'br',
@@ -151,12 +143,10 @@ $mapa = [
     'Incluir na lista/ficha?'                       => 'incluir_na_lista',
     'Status SIAC'                                   => 'status_siac',
 
-    // Datas
     'Término da Vigência'                           => 'termino_vigencia',
     'Data Base'                                     => 'data_base',
     'Data de referência da última medição'          => 'data_ref_ultima_medicao',
 
-    // Contratuais
     'Valor a PI (DNIT)'                             => 'valor_pi_dnit',
     'Valor Total de Aditivo'                        => 'valor_total_aditivo',
     'Reajuste'                                      => 'reajuste',
@@ -168,13 +158,11 @@ $mapa = [
     'Saldo RAP(por Ação)'                           => 'saldo_rap_acao',
     'Saldo Empenho(por Ação)'                       => 'saldo_empenho_acao',
 
-    // Medições
     'Última medição'                                => 'ultima_medicao',
     'Média das últ. 3 medições'                     => 'media_ult_3_medicoes',
     'Total Medido'                                  => 'total_medido',
     'Medido no ano'                                 => 'medido_no_ano',
 
-    // Liquidado (ano)
     'Total Liquidado'                               => 'total_liquidado',
     'Liquidado no ano'                              => 'liquidado_no_ano',
     'Liquidado janeiro/2026'                        => 'liquidado_janeiro_2026',
@@ -190,7 +178,6 @@ $mapa = [
     'Liquidado novembro/2026'                       => 'liquidado_novembro_2026',
     'Liquidado dezembro/2026'                       => 'liquidado_dezembro_2026',
 
-    // RAP + Planejado NPO (ano)
     'RAP inscrito(por ação NPO)'                    => 'rap_inscrito_npo',
     'Planejado NPO janeiro/2026'                    => 'planejado_npo_janeiro_2026',
     'Planejado NPO fevereiro/2026'                  => 'planejado_npo_fevereiro_2026',
@@ -205,7 +192,6 @@ $mapa = [
     'Planejado NPO novembro/2026'                   => 'planejado_npo_novembro_2026',
     'Planejado NPO dezembro/2026'                   => 'planejado_npo_dezembro_2026',
 
-    // Resumos
     'A Empenhar até o fim do contrato'              => 'a_empenhar_ate_fim_contrato',
     'Total medições atrasadas'                      => 'total_medicoes_atrasadas',
     'Somatório do Liquidado na Ação'                => 'somatorio_liquidado_acao',
@@ -214,18 +200,15 @@ $mapa = [
     'A medir até o fim do contrato'                 => 'a_medir_ate_fim_contrato',
     'A liquidar até o fim do contrato'              => 'a_liquidar_ate_fim_contrato',
 
-    // Reajustes / último estado
     'Número de reajustes'                           => 'numero_reajustes',
     'Prev Reajust'                                  => 'prev_reajust',
     'último mês medido'                             => 'ultimo_mes_medido',
     'Último mês liquidado'                          => 'ultimo_mes_liquidado',
     'Soma med atrasadas a pagar neste ano'          => 'soma_med_atrasadas_pagar_ano',
 
-    // Estrutura
     'Sugestão de valor previsto para conclusão do ano' => 'sugestao_valor_previsto_ano',
 ];
 
-// Grupos de conversão
 $camposData    = ['termino_vigencia', 'data_base', 'data_ref_ultima_medicao'];
 $camposInt     = ['ultima_medicao', 'total_medicoes_atrasadas', 'ultimo_mes_medido', 'ultimo_mes_liquidado'];
 $camposJson    = ['sugestao_valor_previsto_ano'];
@@ -264,7 +247,6 @@ $sqlInsert    = 'INSERT INTO `' . TABELA . '` (`' . implode('`,`', $colunas) . '
 try {
     $pdo->beginTransaction();
 
-    // Estratégia "full refresh": apaga tudo e reinsere (padrão do importador 36)
     $pdo->exec('DELETE FROM `' . TABELA . '`');
     $stmtInsert = $pdo->prepare($sqlInsert);
 
@@ -276,7 +258,6 @@ try {
         foreach ($mapa as $apiKey => $dbCol) {
             $raw = $item[$apiKey] ?? null;
 
-            // Conversões por tipo
             if (in_array($dbCol, $camposJson, true)) {
                 $valores[] = converterJson($raw);
             } elseif (in_array($dbCol, $camposData, true)) {
@@ -287,7 +268,6 @@ try {
                 $txt = tratarArray($raw);
                 $valores[] = ($txt === null || $txt === '') ? null : trim((string)$txt);
             } else {
-                // Tudo o que sobra é valor monetário/decimal
                 $valores[] = converterValor($raw);
             }
         }
@@ -296,7 +276,6 @@ try {
             $stmtInsert->execute($valores);
             $inseridos++;
         } catch (PDOException $e) {
-            // Se um registro falhar, não derruba o lote — registra e segue
             $erros[] = "Registro #$idx ({$item['Contrato']}): " . $e->getMessage();
             if (count($erros) >= 20) {
                 throw new Exception("Muitos erros de importação. Abortando.\n" . implode("\n", $erros));
@@ -306,7 +285,6 @@ try {
 
     $pdo->commit();
 
-    // Timestamp para o "Última sincronização" da view de notificações
     @file_put_contents(__DIR__ . '/.sync_ultima_execucao', date('Y-m-d H:i:s'));
 
     if ($isAjax) {

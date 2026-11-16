@@ -160,7 +160,6 @@ class RdciController {
 
     // ============================================================
     // PÁGINA DE ATUALIZAÇÃO DE CONTRATOS (SUPRA)
-    // ✅ Agora conta LINHAS e CONTRATOS (padrão da página Notificações)
     // ============================================================
     public function atualizacoes() {
         if (!isset($_SESSION['usuario_id'])) {
@@ -202,9 +201,6 @@ class RdciController {
         $stmt->execute($params);
         $contratos = $stmt->fetchAll();
 
-        // ============================================================
-        // ✅ CONTADORES — linhas totais e contratos únicos
-        // ============================================================
         $totalLinhas = count($contratos);
 
         $contratosUnicos = [];
@@ -215,7 +211,6 @@ class RdciController {
         $contratosList  = array_keys($contratosUnicos);
         sort($contratosList);
 
-        // Opções para os selects
         $ufs = $this->pdo->query("SELECT DISTINCT uf FROM contratos_rdci WHERE uf IS NOT NULL AND uf != '' ORDER BY uf")->fetchAll(PDO::FETCH_COLUMN);
         $brs = $this->pdo->query("SELECT DISTINCT br FROM contratos_rdci WHERE br IS NOT NULL AND br != '' ORDER BY br")->fetchAll(PDO::FETCH_COLUMN);
         $situacoesProjeto = $this->pdo->query("SELECT DISTINCT situacao_projeto FROM contratos_rdci WHERE situacao_projeto IS NOT NULL AND situacao_projeto != '' ORDER BY situacao_projeto")->fetchAll(PDO::FETCH_COLUMN);
@@ -239,7 +234,6 @@ class RdciController {
         $filtroBR    = $_GET['br']    ?? '';
         $filtroBusca = $_GET['busca'] ?? '';
 
-        // Normalização de instrumento (colapsa "00 00608/2024" → "608/2024")
         $normalizar = function($inst) {
             $inst = strtoupper(trim((string)$inst));
             $inst = preg_replace('/\s+/', ' ', $inst);
@@ -300,7 +294,6 @@ class RdciController {
         $base36    = array_values($base36Unicos);
         $totalBase = count($base36);
 
-        // Índices
         $index36 = [];
         foreach ($base36 as $b) {
             $chave = $normalizar($b['instrumento']);
@@ -313,7 +306,6 @@ class RdciController {
         $chavesBase36Unicas = [];
         foreach ($base36 as $b) $chavesBase36Unicas[$normalizar($b['instrumento'])] = true;
 
-        // Validação
         $validacao = [];
         foreach ($contratosRdci as $c) {
             $chave = $normalizar($c['instrumento']);
@@ -325,7 +317,6 @@ class RdciController {
             ];
         }
 
-        // Candidatos
         $tiposContratacaoPermitidos = ['DIRETA', 'PREV'];
         $tiposExecucaoBloqueados    = ['OBRA DELEGADA', 'SOMENTE EXECUCAO'];
 
@@ -348,7 +339,6 @@ class RdciController {
         }
         $totalCandidatos = count($candidatos);
 
-        // Totais por UF
         $totaisUf = [];
         foreach ($contratosRdci as $c) {
             $uf = !empty($c['uf']) ? $c['uf'] : '—';
@@ -362,7 +352,6 @@ class RdciController {
         }
         ksort($totaisUf);
 
-        // Totais por BR
         $totaisBr = [];
         foreach ($contratosRdci as $c) {
             $br = !empty($c['br']) ? $c['br'] : '—';
@@ -376,7 +365,6 @@ class RdciController {
         }
         uasort($totaisBr, function($a, $b) { return $b['base'] - $a['base']; });
 
-        // KPIs
         $presentes = 0;
         foreach ($chavesRdciUnicas as $chave => $_) {
             if (isset($chavesBase36Unicas[$chave])) $presentes++;
@@ -471,57 +459,75 @@ class RdciController {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * KPIs do portfólio — MySQL 5.5 (sem window functions).
+     *
+     * Original usava ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC)
+     * para pegar a última linha de cada instrumento. Reescrito com
+     * MAX(id) + INNER JOIN, que é semanticamente equivalente e roda em 5.5.
+     */
     private function dashKpisPortfolio(array $filtros) {
         $paramsBase = [];
         $whereBase  = $this->dashBuildWhere($filtros, $paramsBase);
         $whereSql   = $whereBase ? ($whereBase . ' AND 1=1') : 'WHERE 1=1';
 
-        $sql = "SELECT rotulo, COUNT(*) AS qtd FROM (
-                    SELECT instrumento, situacao_projeto AS rotulo,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1 AND rotulo IS NOT NULL AND TRIM(rotulo) <> ''
-                GROUP BY rotulo";
+        // ---- 1) Distribuição por situacao_projeto (última linha por instrumento) ----
+        $sql = "SELECT c.situacao_projeto AS rotulo, COUNT(*) AS qtd
+                  FROM contratos_rdci c
+                  INNER JOIN (
+                      SELECT instrumento, MAX(id) AS max_id
+                        FROM contratos_rdci
+                        $whereSql
+                       GROUP BY instrumento
+                  ) u ON u.max_id = c.id
+                 WHERE c.situacao_projeto IS NOT NULL
+                   AND TRIM(c.situacao_projeto) <> ''
+                 GROUP BY c.situacao_projeto";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($paramsBase);
         $situacao = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $sql2 = "SELECT rotulo, COUNT(*) AS qtd FROM (
-                    SELECT instrumento, situacao_cronograma AS rotulo,
-                           situacao_projeto,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1
-                  AND rotulo IS NOT NULL AND TRIM(rotulo) <> ''
-                  AND (situacao_projeto IS NULL OR UPPER(situacao_projeto) <> 'CONCLUÍDO')
-                GROUP BY rotulo";
+        // ---- 2) Distribuição por situacao_cronograma (excluindo CONCLUÍDO) ----
+        $sql2 = "SELECT c.situacao_cronograma AS rotulo, COUNT(*) AS qtd
+                   FROM contratos_rdci c
+                   INNER JOIN (
+                       SELECT instrumento, MAX(id) AS max_id
+                         FROM contratos_rdci
+                         $whereSql
+                        GROUP BY instrumento
+                   ) u ON u.max_id = c.id
+                  WHERE c.situacao_cronograma IS NOT NULL
+                    AND TRIM(c.situacao_cronograma) <> ''
+                    AND (c.situacao_projeto IS NULL
+                         OR UPPER(c.situacao_projeto) <> 'CONCLUÍDO')
+                  GROUP BY c.situacao_cronograma";
         $stmt = $this->pdo->prepare($sql2);
         $stmt->execute($paramsBase);
         $cronograma = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // ---- 3) Total de PAAR em aberto (já era 5.5 — mantido) ----
         $sql3 = "SELECT COUNT(*) FROM (
                     SELECT instrumento,
                            SUBSTRING_INDEX(GROUP_CONCAT(situacao_paar ORDER BY id DESC), ',', 1) AS sit
                     FROM contratos_rdci
                     $whereSql
                     GROUP BY instrumento
-                ) t WHERE sit = 'Aberto'";
+                 ) t WHERE sit = 'Aberto'";
         $stmt = $this->pdo->prepare($sql3);
         $stmt->execute($paramsBase);
         $paarTotal = (int)$stmt->fetchColumn();
 
-        $sql4 = "SELECT instrumento, uf, br, nome_usual, situacao_paar FROM (
-                    SELECT id, instrumento, uf, br, nome_usual, situacao_paar,
-                           ROW_NUMBER() OVER (PARTITION BY instrumento ORDER BY id DESC) AS rn
-                    FROM contratos_rdci
-                    $whereSql
-                ) t
-                WHERE rn = 1 AND situacao_paar = 'Aberto'
-                ORDER BY uf, br";
+        // ---- 4) Lista de PAAR em aberto (última linha por instrumento) ----
+        $sql4 = "SELECT c.instrumento, c.uf, c.br, c.nome_usual, c.situacao_paar
+                   FROM contratos_rdci c
+                   INNER JOIN (
+                       SELECT instrumento, MAX(id) AS max_id
+                         FROM contratos_rdci
+                         $whereSql
+                        GROUP BY instrumento
+                   ) u ON u.max_id = c.id
+                  WHERE c.situacao_paar = 'Aberto'
+                  ORDER BY c.uf, c.br";
         $stmt = $this->pdo->prepare($sql4);
         $stmt->execute($paramsBase);
         $paarLista = $stmt->fetchAll(PDO::FETCH_ASSOC);

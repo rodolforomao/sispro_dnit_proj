@@ -288,6 +288,5 @@ if ($usuario_id) {
 <!-- ✅ Modal Info Contrato (partial reutilizável) -->
 <?php include APP_PATH . '/Views/partials/modal_info_contrato.php'; ?>
 
-<?php include APP_PATH . '/public/chat_widget.php'; ?>
 </body>
 </html>

@@ -1,9 +1,5 @@
 <?php
 // app/public/script_dados_contratos_isa.php
-//
-// Worker: extrai dados cadastrais dos contratos (consulta_contrato.do)
-// Tabela destino: siac_contratos_dados
-// Baseado no scr_dados_paralelos.py
 
 @set_time_limit(0);
 @ini_set('max_execution_time', '0');
@@ -55,10 +51,10 @@ $inicio = time();
 // ============================================================
 // HELPERS
 // ============================================================
-function setStatus(string $file, array $data): void {
+function setStatus(string $file, array $data) {
     @file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }
-function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
+function dbUpdate(PDO $pdo, string $jobId, array $campos) {
     if (!$campos) return;
     $set = []; $p = [];
     foreach ($campos as $k => $v) { $set[] = "`$k` = ?"; $p[] = $v; }
@@ -69,7 +65,7 @@ function dbUpdate(PDO $pdo, string $jobId, array $campos): void {
             ->execute($p);
     } catch (Throwable $e) { fwrite(STDERR, "[dbUpdate] " . $e->getMessage() . "\n"); }
 }
-function logPhase(string $msg): void {
+function logPhase(string $msg) {
     fwrite(STDOUT, "[" . date('H:i:s') . "] $msg\n");
     @flush();
 }
@@ -151,24 +147,24 @@ function wdDelete($b,$p){return wdCall($b,'DELETE',$p);}
 
 const ELEM_KEY = 'element-6066-11e4-a52e-4f735466cecf';
 
-function findEl($b,$sid,$using,$value): ?string {
+function findEl($b,$sid,$using,$value) {
     $r = wdPost($b, "/session/{$sid}/element", ['using'=>$using,'value'=>$value]);
     return $r['value'][ELEM_KEY] ?? null;
 }
-function clickEl($b,$sid,$elId): void { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
+function clickEl($b,$sid,$elId) { wdPost($b, "/session/{$sid}/element/{$elId}/click", []); }
 function execJs($b,$sid,$script,$args=[]): array {
     return wdPost($b, "/session/{$sid}/execute/sync", ['script'=>$script,'args'=>$args]);
 }
-function navTo($b,$sid,$url): void { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
+function navTo($b,$sid,$url) { wdPost($b, "/session/{$sid}/url", ['url'=>$url]); }
 function currentUrl($b,$sid): string {
     $r = wdGet($b, "/session/{$sid}/url");
     return is_string($r['value'] ?? null) ? $r['value'] : '';
 }
-function saveScreenshot($b,$sid,$path): void {
+function saveScreenshot($b,$sid,$path) {
     $r = wdGet($b, "/session/{$sid}/screenshot");
     if (!empty($r['value']) && is_string($r['value'])) @file_put_contents($path, base64_decode($r['value']));
 }
-function pressKey($b,$sid,$key): void {
+function pressKey($b,$sid,$key) {
     $map = ['Enter'=>"\u{E007}", 'Tab'=>"\u{E004}", 'Escape'=>"\u{E00C}", 'Space'=>"\u{E00D}"];
     $code = $map[$key] ?? $key;
     wdPost($b, "/session/{$sid}/actions", ['actions'=>[[
@@ -182,7 +178,7 @@ function pressKey($b,$sid,$key): void {
 }
 
 // ============================================================
-// SELECT2 — fluxo idêntico ao script_siac_isabella.php
+// SELECT2
 // ============================================================
 function preencherSelect2(string $b, string $sid, string $selectId, string $texto, string $label): bool
 {
@@ -276,22 +272,19 @@ function extrairParesTabela($b, $sid, string $tabelaId): array {
     return json_decode((string)($r['value'] ?? '{}'), true) ?: [];
 }
 
-function extrairValorMonetario(?string $s): ?float {
+function extrairValorMonetario($s) {
     if ($s === null) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
-    // Remove "R$" e espaços
     $s = preg_replace('/[Rr]\$\s*/', '', $s);
-    // Se só tem dígitos com . e , no formato BR
     if (preg_match('/^-?\d{1,3}(\.\d{3})*(,\d+)?$/', $s)) {
         return (float)str_replace(',', '.', str_replace('.', '', $s));
     }
-    // Se já é numérico (formato US)
     if (is_numeric($s)) return (float)$s;
     return null;
 }
 
-function extrairData(?string $s): ?string {
+function extrairData($s) {
     if (!$s) return null;
     $s = trim($s);
     if ($s === '' || $s === '-' || strcasecmp($s, 'N/A') === 0) return null;
@@ -330,7 +323,7 @@ wdPost($driverUrl, "/session/{$sid}/chromium/send_command", [
 logPhase("[sess] criada, headless=" . ($headless ? 'SIM' : 'NAO'));
 
 // ============================================================
-// LOGIN (idêntico ao script_siac_isabella.php)
+// LOGIN
 // ============================================================
 logPhase("══════════════════════════════════════");
 logPhase("[login] iniciando (3 tentativas se necessario)");
@@ -401,8 +394,9 @@ for ($tentativa = 1; $tentativa <= 3 && !$loginOk; $tentativa++) {
         for ($i = 0; $i < 30; $i++) {
             usleep(500000);
             $path = parse_url(currentUrl($driverUrl, $sid), PHP_URL_PATH) ?? '';
+            // PHP 7.0: strpos === false no lugar de str_contains
             if ($path !== '/sisdnit/jsp/' && $path !== '/sisdnit/jsp/index.jsp'
-                && !str_contains($path, 'login.do')) {
+                && strpos($path, 'login.do') === false) {
                 $loginOk = true;
                 logPhase("[login]   OK (URL) em ~" . (($i + 1) * 0.5) . "s -> $path");
                 break;
@@ -499,7 +493,6 @@ foreach ($contratos as $i => $item) {
         navTo($driverUrl, $sid, $urlConsulta);
         sleep(1);
 
-        // Aguarda jQuery + select2
         $pronto = false;
         for ($j = 0; $j < 20; $j++) {
             $r = execJs($driverUrl, $sid, "
@@ -522,7 +515,6 @@ foreach ($contratos as $i => $item) {
             throw new Exception('Falha Contrato');
         }
 
-        // Verifica "No results found"
         usleep(500000);
         $body = execJs($driverUrl, $sid, "return document.body ? document.body.innerText : '';");
         if (stripos((string)($body['value'] ?? ''), 'No results found') !== false) {
@@ -530,14 +522,12 @@ foreach ($contratos as $i => $item) {
             continue;
         }
 
-        // Clica em Consultar
         $clickConsultar = execJs($driverUrl, $sid, "
             var botoes = document.querySelectorAll('form table tfoot input[type=button], form table tfoot input[type=submit]');
             for (var i = 0; i < botoes.length; i++) {
                 var v = (botoes[i].value || '').toLowerCase();
                 if (v.indexOf('consult') !== -1) { botoes[i].click(); return 'OK'; }
             }
-            // Fallback: primeiro input do tfoot
             var tfoot = document.querySelector('form table tfoot input');
             if (tfoot) { tfoot.click(); return 'OK'; }
             return 'NOT_FOUND';
@@ -545,7 +535,6 @@ foreach ($contratos as $i => $item) {
         if (($clickConsultar['value'] ?? '') !== 'OK') throw new Exception('Botao Consultar nao encontrado');
         usleep(1500000);
 
-        // Aguarda a linha do contrato aparecer
         $temLinha = false;
         for ($j = 0; $j < 20; $j++) {
             usleep(500000);
@@ -554,7 +543,6 @@ foreach ($contratos as $i => $item) {
         }
         if (!$temLinha) throw new Exception('Linha de resultado nao apareceu');
 
-        // Clica no link do contrato
         $clickLink = execJs($driverUrl, $sid, "
             var tds = document.querySelectorAll('td');
             for (var i = 0; i < tds.length; i++) {
@@ -566,7 +554,6 @@ foreach ($contratos as $i => $item) {
                     }
                 }
             }
-            // fallback
             var row = document.getElementById('row');
             if (row) { row.click(); return 'OK_FALLBACK'; }
             return 'NOT_FOUND';
@@ -574,7 +561,6 @@ foreach ($contratos as $i => $item) {
         if (strpos((string)($clickLink['value'] ?? ''), 'OK') !== 0) throw new Exception('Link do contrato nao encontrado');
         usleep(1500000);
 
-        // Aguarda página de detalhe
         $temContent = false;
         for ($j = 0; $j < 20; $j++) {
             usleep(500000);
@@ -583,7 +569,6 @@ foreach ($contratos as $i => $item) {
         }
         if (!$temContent) throw new Exception('Pagina de detalhe nao carregou');
 
-        // Extrai os 3 blocos
         $pares1     = extrairParesTabela($driverUrl, $sid, 'content');
         $pares2     = extrairParesTabela($driverUrl, $sid, 'divInformacoesBasicas');
         $paresValor = extrairParesTabela($driverUrl, $sid, 'divValoresContrato');

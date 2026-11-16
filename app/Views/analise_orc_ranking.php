@@ -2,6 +2,8 @@
 // ============================================================
 // View analise_orc_ranking.php
 // Ranking de contratos — Análise Orçamentária (Atlas)
+//
+// PHP 7.0: sem fn() (arrow function), sem ?Type, sem : void.
 // ============================================================
 if (session_status() === PHP_SESSION_NONE) @session_start();
 if (empty($_SESSION['usuario_id']) && empty($_SESSION['usuario_nivel'])) {
@@ -13,7 +15,8 @@ if (!isset($_SESSION['setor_slug'])) {
 
 /** @var array $acoes */
 $exercicio = (int)($exercicio ?? date('Y'));
-$h = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+// PHP 7.0: closure normal no lugar de arrow function
+$h = function($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -330,9 +333,9 @@ const $el = (s) => document.querySelector(s);
 const brl = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR', { style:'currency', currency:'BRL' }));
 const pct = (v) => (v == null ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits:2 }) + '%');
 
-let CONTRATOS = [];   // todos os contratos carregados
-let FILTRADOS = [];   // após filtros
-let ORDENACAO = { col: 'farol', dir: 'asc' }; // default = modo farol crítico
+let CONTRATOS = [];
+let FILTRADOS = [];
+let ORDENACAO = { col: 'farol', dir: 'asc' };
 
 let chartTipo, chartFarol, chartAcao;
 
@@ -430,7 +433,6 @@ async function carregarTudo() {
 
         CONTRATOS = Array.isArray(data.contratos) ? data.contratos : [];
 
-        // Preenche select de superintendências
         const supers = [...new Set(CONTRATOS.map(c => c.superintendencia).filter(Boolean))].sort();
         const selSup = $el('#r-super');
         selSup.innerHTML = '';
@@ -529,7 +531,6 @@ function renderResumo(lista) {
     $el('#sum-sem').textContent      = String(porFarol.SEM);
     $el('#sum-medido').textContent   = brl(somaMedido);
 
-    // tipos
     const tiposOrdem = ['OBRA','SUPERVISAO','MEIO_AMBIENTE','DESAPROPRIACAO','OUTROS'];
     let htmlTipos = '';
     tiposOrdem.forEach(t => {
@@ -539,7 +540,6 @@ function renderResumo(lista) {
     });
     $el('#sum-tipos').innerHTML = htmlTipos;
 
-    // top ações
     const acoesOrdenadas = Object.entries(porAcao).sort((a,b) => b[1] - a[1]).slice(0, 8);
     $el('#sum-acoes').innerHTML = acoesOrdenadas.length
         ? acoesOrdenadas.map(([nome, qtd]) =>
@@ -548,7 +548,6 @@ function renderResumo(lista) {
                 <strong>${qtd}</strong></div>`).join('')
         : '<span class="text-muted">—</span>';
 
-    // supers
     const supersOrdenadas = Object.entries(porSuper).sort((a,b) => b[1] - a[1]).slice(0, 8);
     $el('#sum-supers').innerHTML = supersOrdenadas.length
         ? supersOrdenadas.map(([nome, qtd]) =>
@@ -594,7 +593,6 @@ function valorParaOrdenacao(c, col) {
     if (col === 'tipo')        return String(c.tipo || '');
     if (col === 'superintendencia') return String(c.superintendencia || '');
 
-    // numéricos
     const v = c[col];
     return v == null ? Number.NEGATIVE_INFINITY : Number(v);
 }
@@ -612,7 +610,6 @@ function renderTabela() {
         const vb = valorParaOrdenacao(b, col);
         if (va < vb) return -1 * dir;
         if (va > vb) return  1 * dir;
-        // desempate por contrato
         return String(a.numero).localeCompare(String(b.numero), 'pt-BR');
     });
 
@@ -625,7 +622,6 @@ function renderTabela() {
         tb.innerHTML = ordenados.map((c, i) => rowHtml(c, i + 1)).join('');
     }
 
-    // Atualiza indicadores "sorted" no cabeçalho
     document.querySelectorAll('th.sortable').forEach(th => {
         th.classList.toggle('sorted', th.dataset.col === col);
         const icon = th.querySelector('.sort-icon');
@@ -720,7 +716,6 @@ function renderGraficos(lista) {
         }
     });
 
-    // Tipo
     if (chartTipo) chartTipo.destroy();
     chartTipo = new Chart($el('#chart-tipo'), {
         type: 'doughnut',
@@ -738,7 +733,6 @@ function renderGraficos(lista) {
         },
     });
 
-    // Farol
     if (chartFarol) chartFarol.destroy();
     chartFarol = new Chart($el('#chart-farol'), {
         type: 'bar',
@@ -757,7 +751,6 @@ function renderGraficos(lista) {
         },
     });
 
-    // Top ações
     const acoes = Object.entries(porAcao).sort((a,b) => b[1] - a[1]).slice(0, 8);
     if (chartAcao) chartAcao.destroy();
     chartAcao = new Chart($el('#chart-acao'), {
