@@ -140,7 +140,7 @@ foreach ($scripts as $i => $s) {
 }
 
 $tempoTotal = round(microtime(true) - $inicio, 1);
-$okCount    = count(array_filter($resultados, fn($r) => strpos($r, 'ok') === 0));
+$okCount    = count(array_filter($resultados, function($r) { return strpos($r, 'ok') === 0; }));
 $errCount   = count($resultados) - $okCount;
 
 logMsg('═══════════════════════════════════════════', $arquivoLog);

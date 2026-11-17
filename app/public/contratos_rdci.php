@@ -61,9 +61,7 @@ $sql = "SELECT id, instrumento, uf, br, regiao, lote, nome_usual, empresa, super
                valor_pi_a_r, valor_projetos, data_atualizacao
         FROM contratos_rdci $where
         ORDER BY instrumento ASC
-        LIMIT ? OFFSET ?";
-$params[] = $limit;
-$params[] = $offset;
+        LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);

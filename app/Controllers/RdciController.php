@@ -71,6 +71,9 @@ class RdciController {
         $stmt->execute($params);
         $total = (int)$stmt->fetchColumn();
 
+        // MySQL 5.5 + PDO emula prepared statements e cita LIMIT/OFFSET como string → erro 1064.
+        $limit  = max(1, min(500, $limit));
+        $offset = max(0, $offset);
         $sql = "SELECT id, instrumento, uf, br, regiao, lote, nome_usual, empresa, supervisora, 
                        fase, situacao_contrato_siac, situacao_projeto, 
                        data_termino_vigencia, data_termino_servico,
@@ -79,9 +82,7 @@ class RdciController {
                        valor_pi_a_r, valor_projetos, data_atualizacao
                 FROM contratos_rdci $where
                 ORDER BY instrumento ASC
-                LIMIT ? OFFSET ?";
-        $params[] = $limit;
-        $params[] = $offset;
+                LIMIT {$limit} OFFSET {$offset}";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $registros = $stmt->fetchAll();

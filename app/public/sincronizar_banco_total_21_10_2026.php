@@ -112,7 +112,7 @@ function tabelaExiste(PDO $pdo, string $t): bool
     return (bool)$st->fetchColumn();
 }
 
-function checksumBate(PDO $pdo, string $t, string $esperado): ?bool
+function checksumBate(PDO $pdo, string $t, string $esperado)
 {
     try {
         $rows = $pdo->query("SELECT * FROM `$t`")->fetchAll(PDO::FETCH_ASSOC);
@@ -193,7 +193,7 @@ if ($acao === 'import') {
         $backupDir = null;
         $backupInfo = [];
         if ($fazerBackup) {
-            [$backupDir, $backupInfo] = backupTabelas($pdo, $BACKUP_DIR, $ordem);
+            list($backupDir, $backupInfo) = backupTabelas($pdo, $BACKUP_DIR, $ordem);
         }
 
         // 2) Desabilita FKs (vale para a sessão inteira via PDO)
@@ -240,7 +240,7 @@ if ($acao === 'import') {
             'verificacao'  => $verificacao,
         ];
 
-        $okCount = count(array_filter($stats, fn($s) => !empty($s['ok'])));
+        $okCount = count(array_filter($stats, function($s) { return !empty($s['ok']); }));
         $tot     = count($ordem);
 
         if ($okCount === $tot) {

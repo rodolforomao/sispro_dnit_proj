@@ -420,9 +420,9 @@ $(function () {
     carregarTudo();
 });
 
-function debounce(fn, ms) {
+function debounce(callback, ms) {
     let t;
-    return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+    return (...a) => { clearTimeout(t); t = setTimeout(function(){ callback.apply(null, a); }, ms); };
 }
 
 async function carregarTudo() {

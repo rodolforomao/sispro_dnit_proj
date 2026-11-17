@@ -54,6 +54,16 @@ git push origin 0.00.006
 
 `FLUXO_BRANCH.md` fica fora do rsync, no mesmo critério de `DEPLOY.md`. O servidor não tem git; o que entra em produção é o `rsync` desse script.
 
+## Publicação 13/11/2026
+
+| Item | Valor |
+|------|--------|
+| Branch | `2026111301` |
+| Tag | `0.00.008` |
+| Base | `master` em `50db9b4` |
+
+Pacote restaurado do XAMPP adaptado a produção: PHP 7.0.32, MySQL 5.5.49, caminhos `/sispro/`, `config.local.php`, `SISPRO_VERSION` no login/home. Migration delta + `alerta_notificacao`. Correções de `LIMIT/OFFSET`, `array_key_first` e `sincronizar_banco.php` corrompido.
+
 ## Publicação 21/10/2026
 
 | Item | Valor |
