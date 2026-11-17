@@ -30,6 +30,7 @@ try {
         case 'setup_db':       setupDb($pdo);       break;
         case 'executar':       executar($pdo);      break;
         case 'status':         status($pdo);        break;
+        case 'ultima_extracao': ultimaExtracao($pdo); break;
         case 'historico':      historico($pdo);     break;
         default:               falha(400, 'Ação inválida');
     }
@@ -43,7 +44,49 @@ function falha(int $code, string $msg)
     echo json_encode(['ok' => false, 'erro' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
 }
+// =============================================================
+// ÚLTIMA EXTRAÇÃO DE EMPENHOS (para o relógio da tela)
+// =============================================================
+function ultimaExtracao(PDO $pdo)
+{
+    try {
+        $st = $pdo->query("
+            SELECT job_id, status, finalizado_em, inseridos,
+                   contratos_afetados, total, processados, usuario,
+                   contratos_afetados, ignorados
+              FROM `" . T_JOBS . "`
+             WHERE job_id LIKE 'emp\\_%'
+               AND status = 'concluido'
+               AND finalizado_em IS NOT NULL
+             ORDER BY finalizado_em DESC
+             LIMIT 1
+        ");
+        $j = $st->fetch(PDO::FETCH_ASSOC);
 
+        if (!$j) {
+            echo json_encode(['ok' => true, 'tem_dados' => false], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $ign = json_decode((string)($j['ignorados'] ?? ''), true);
+        $ign = is_array($ign) ? $ign : [];
+
+        echo json_encode([
+            'ok'                 => true,
+            'tem_dados'          => true,
+            'job_id'             => $j['job_id'],
+            'finalizado_em'      => $j['finalizado_em'],
+            'inseridos'          => (int)$j['inseridos'],
+            'contratos_afetados' => (int)$j['contratos_afetados'],
+            'contratos_ignorados'=> count($ign),
+            'total'              => (int)$j['total'],
+            'processados'        => (int)$j['processados'],
+            'usuario'            => $j['usuario'],
+        ], JSON_UNESCAPED_UNICODE);
+    } catch (Throwable $e) {
+        echo json_encode(['ok' => false, 'erro' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
+    }
+}
 // =============================================================
 // SETUP DB
 // MySQL 5.5: criado_em TIMESTAMP (não DATETIME); utf8 (não utf8mb4).
